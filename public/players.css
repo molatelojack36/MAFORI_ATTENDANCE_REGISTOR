@@ -1,0 +1,259 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    display:flex;
+    min-height:100vh;
+    background:#edf2f7;
+    overflow-x:hidden;
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+    width:260px;
+    background:#0b1f3a;
+    color:#fff;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    box-shadow:5px 0 25px rgba(0,0,0,.15);
+}
+
+.logo{
+    height:90px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    font-size:18px;
+    font-weight:700;
+    color:#FFD54F;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo i{
+    font-size:30px;
+}
+
+.sidebar ul{
+    list-style:none;
+    margin-top:20px;
+}
+
+.sidebar ul li{
+    transition:.3s;
+}
+
+.sidebar ul li a{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    color:white;
+    text-decoration:none;
+    padding:18px 30px;
+    font-size:17px;
+    font-weight:500;
+    transition:.3s;
+}
+
+.sidebar ul li:hover{
+    background:#ff9800;
+}
+
+.sidebar ul li.active{
+    background:#ff9800;
+}
+
+.sidebar ul li a i{
+    width:25px;
+    text-align:center;
+    font-size:18px;
+}
+
+/* ===========================
+   MAIN CONTENT
+=========================== */
+
+.main-content{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:45px;
+}
+
+.header{
+    margin-bottom:40px;
+    animation:fadeDown .8s ease;
+}
+
+.header h1{
+    font-size:42px;
+    color:#0b1f3a;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.header h1 i{
+    color:#ff9800;
+    margin-right:10px;
+}
+
+.header p{
+    font-size:18px;
+    color:#666;
+}
+
+/* ===========================
+   CARDS
+=========================== */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:40px 30px;
+    text-align:center;
+    text-decoration:none;
+    color:#222;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+    transition:.4s;
+    animation:fadeUp .8s ease;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 45px rgba(0,0,0,.18);
+}
+
+.card i{
+    font-size:60px;
+    color:#ff9800;
+    margin-bottom:20px;
+}
+
+.card h2{
+    font-size:24px;
+    margin-bottom:15px;
+    color:#0b1f3a;
+}
+
+.card p{
+    color:#666;
+    line-height:28px;
+    font-size:16px;
+}
+
+/* ===========================
+   ANIMATIONS
+=========================== */
+
+@keyframes fadeDown{
+
+    from{
+        opacity:0;
+        transform:translateY(-40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(50px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:900px){
+
+.sidebar{
+    width:80px;
+}
+
+.logo h2{
+    display:none;
+}
+
+.sidebar ul li a span{
+    display:none;
+}
+
+.main-content{
+    margin-left:80px;
+    width:calc(100% - 80px);
+    padding:25px;
+}
+
+.header h1{
+    font-size:32px;
+}
+
+}
+
+@media(max-width:600px){
+
+.main-content{
+    margin-left:0;
+    width:100%;
+    padding:20px;
+}
+
+.sidebar{
+    display:none;
+}
+
+.cards{
+    grid-template-columns:1fr;
+}
+
+.header h1{
+    font-size:28px;
+}
+
+.header p{
+    font-size:15px;
+}
+
+.card{
+    padding:30px 20px;
+}
+
+.card i{
+    font-size:50px;
+}
+
+.card h2{
+    font-size:22px;
+}
+
+}

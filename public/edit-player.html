@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Player</title>
+
+<link rel="stylesheet" href="edit-player.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Edit Player</h1>
+
+<p>Update player information.</p>
+
+<form id="editPlayerForm">
+
+<div class="input-group">
+<label>First Name</label>
+<input type="text" id="first_name" required>
+</div>
+
+<div class="input-group">
+<label>Last Name</label>
+<input type="text" id="last_name" required>
+</div>
+
+<div class="input-group">
+<label>Nickname</label>
+<input type="text" id="nickname">
+</div>
+
+<div class="input-group">
+<label>Position</label>
+
+<select id="position">
+
+<option>Goalkeeper</option>
+<option>Defender</option>
+<option>Midfielder</option>
+<option>Forward</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>Date of Birth</label>
+
+<input type="date" id="date_of_birth">
+
+</div>
+
+<div class="input-group">
+
+<label>Status</label>
+
+<select id="status">
+
+<option>Active</option>
+
+<option>Inactive</option>
+
+</select>
+
+</div>
+
+<button type="submit">
+
+Update Player
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="edit-player.js"></script>
+
+</body>
+
+</html>

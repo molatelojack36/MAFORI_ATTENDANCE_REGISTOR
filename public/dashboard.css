@@ -1,0 +1,260 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    display:flex;
+
+    background:#edf2f7;
+
+}
+
+/* Sidebar */
+
+.sidebar{
+
+    width:260px;
+
+    height:100vh;
+
+    background:#081b33;
+
+    color:white;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    padding-top:30px;
+
+    box-shadow:5px 0 15px rgba(0,0,0,.2);
+
+}
+
+.sidebar h2{
+
+    text-align:center;
+
+    color:#FFD54F;
+
+    margin-bottom:40px;
+
+}
+
+.sidebar ul{
+
+    list-style:none;
+
+}
+
+.sidebar li{
+
+    padding:18px 30px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-size:17px;
+
+}
+
+.sidebar li i{
+
+    margin-right:12px;
+
+}
+
+.sidebar li:hover{
+
+    background:#0d3d6e;
+
+    padding-left:40px;
+
+}
+
+.active{
+
+    background:#ff9800;
+
+}
+
+/* Main */
+
+.main{
+
+    margin-left:260px;
+
+    width:calc(100% - 260px);
+
+    padding:40px;
+
+}
+
+header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+header h1{
+
+    color:#081b33;
+
+    font-size:34px;
+
+}
+
+header p{
+
+    color:#666;
+
+    margin-top:5px;
+
+}
+
+/* Dashboard Cards */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+
+    gap:25px;
+
+}
+
+.card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.card i{
+
+    font-size:45px;
+
+    color:#ff9800;
+
+    margin-bottom:18px;
+
+}
+
+.card h2{
+
+    font-size:42px;
+
+    color:#081b33;
+
+    margin-bottom:10px;
+
+}
+
+.card p{
+
+    color:#666;
+
+    font-size:18px;
+
+}
+
+/* Welcome */
+
+.welcome{
+
+    margin-top:40px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:35px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.welcome h2{
+
+    color:#081b33;
+
+    margin-bottom:15px;
+
+}
+
+.welcome p{
+
+    color:#666;
+
+    font-size:18px;
+
+    line-height:30px;
+
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+.sidebar{
+
+    position:relative;
+
+    width:100%;
+
+    height:auto;
+
+}
+
+.main{
+
+    margin-left:0;
+
+    width:100%;
+
+}
+
+.cards{
+
+    grid-template-columns:1fr;
+
+}
+
+header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+}
+
+}

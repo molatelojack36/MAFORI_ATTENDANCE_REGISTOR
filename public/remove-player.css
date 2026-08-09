@@ -1,0 +1,305 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    background: #edf2f7;
+    min-height: 100vh;
+}
+
+
+/* ===============================
+   SIDEBAR
+================================ */
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+
+    background: #081b33;
+    color: white;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    padding-top: 30px;
+
+    box-shadow: 5px 0 15px rgba(0, 0, 0, .2);
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #FFD54F;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 18px 30px;
+    cursor: pointer;
+    transition: .3s;
+    font-size: 17px;
+}
+
+.sidebar li i {
+    margin-right: 15px;
+}
+
+.sidebar li:hover {
+    background: #0d3d6e;
+    padding-left: 40px;
+}
+
+
+/* ===============================
+   MAIN
+================================ */
+
+.main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    padding: 40px;
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #081b33;
+    font-size: 32px;
+}
+
+header p {
+    color: #666;
+    margin-top: 5px;
+}
+
+
+/* ===============================
+   BACK BUTTON
+================================ */
+
+.back-button {
+    border: none;
+
+    background: #081b33;
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    transition: .3s;
+}
+
+.back-button:hover {
+    background: #0d3d6e;
+}
+
+
+/* ===============================
+   SEARCH
+================================ */
+
+.search-box {
+    background: white;
+
+    padding: 15px 20px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+
+    display: flex;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.search-box i {
+    color: #777;
+    margin-right: 12px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+
+    width: 100%;
+
+    font-size: 15px;
+}
+
+
+/* ===============================
+   TABLE
+================================ */
+
+.table-container {
+    background: white;
+
+    border-radius: 15px;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #081b33;
+    color: white;
+}
+
+th,
+td {
+    padding: 16px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #eee;
+
+    white-space: nowrap;
+}
+
+th {
+    font-size: 14px;
+}
+
+td {
+    font-size: 14px;
+    color: #444;
+}
+
+tbody tr:hover {
+    background: #f7f9fc;
+}
+
+
+/* ===============================
+   STATUS
+================================ */
+
+.status-active {
+    color: #198754;
+    font-weight: 600;
+}
+
+.status-inactive {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+
+/* ===============================
+   REMOVE BUTTON
+================================ */
+
+.remove-button {
+    background: #dc3545;
+
+    color: white;
+
+    border: none;
+
+    padding: 9px 15px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    transition: .3s;
+}
+
+.remove-button:hover {
+    background: #b02a37;
+}
+
+.remove-button i {
+    margin-right: 5px;
+}
+
+
+/* ===============================
+   EMPTY MESSAGE
+================================ */
+
+.empty-message {
+    text-align: center;
+
+    padding: 40px;
+
+    color: #777;
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 210px;
+    }
+
+    .main {
+        margin-left: 210px;
+        width: calc(100% - 210px);
+        padding: 25px;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+}

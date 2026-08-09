@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Downloads | Mafori FC</title>
+
+    <link rel="stylesheet" href="downloads.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+</head>
+
+<body>
+
+    <!-- ===============================
+         SIDEBAR
+    ================================ -->
+
+    <div class="sidebar">
+
+        <h2>⚽ MAFORI FC</h2>
+
+        <ul>
+
+            <li onclick="location.href='dashboard.html'">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </li>
+
+            <li onclick="location.href='players.html'">
+                <i class="fa-solid fa-users"></i>
+                Players
+            </li>
+
+            <li onclick="location.href='attendance.html'">
+                <i class="fa-solid fa-calendar-check"></i>
+                Attendance
+            </li>
+
+            <li onclick="location.href='reports.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                Reports
+            </li>
+
+            <li class="active">
+                <i class="fa-solid fa-download"></i>
+                Download
+            </li>
+
+            <li onclick="location.href='settings.html'">
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </li>
+
+            <li onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- ===============================
+         MAIN CONTENT
+    ================================ -->
+
+    <div class="main">
+
+        <header>
+
+            <div>
+
+                <h1>Download Reports</h1>
+
+                <p>
+                    Download Mafori FC attendance registers and reports.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ===============================
+             DOWNLOAD CARD
+        ================================ -->
+
+        <div class="download-container">
+
+            <div class="download-card">
+
+                <div class="icon">
+
+                    <i class="fa-solid fa-file-pdf"></i>
+
+                </div>
+
+                <h2>Monthly Attendance Register</h2>
+
+                <p>
+                    Select a month and year to download the attendance
+                    register for Mafori FC.
+                </p>
+
+
+                <!-- MONTH -->
+
+                <div class="input-group">
+
+                    <label for="month">
+                        Month
+                    </label>
+
+                    <select id="month">
+
+                        <option value="">Select Month</option>
+
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- YEAR -->
+
+                <div class="input-group">
+
+                    <label for="year">
+                        Year
+                    </label>
+
+                    <select id="year">
+
+                        <option value="">Select Year</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DOWNLOAD BUTTON -->
+
+                <button
+                    id="downloadPdf"
+                    class="download-btn"
+                >
+
+                    <i class="fa-solid fa-download"></i>
+
+                    Download PDF
+
+                </button>
+
+            </div>
+
+
+            <!-- ===============================
+                 CSV DOWNLOAD
+            ================================ -->
+
+            <div class="download-card">
+
+                <div class="icon">
+
+                    <i class="fa-solid fa-file-csv"></i>
+
+                </div>
+
+                <h2>Attendance Data</h2>
+
+                <p>
+                    Download the attendance data in CSV format for
+                    further analysis.
+                </p>
+
+                <button
+                    id="downloadCsv"
+                    class="download-btn csv-btn"
+                >
+
+                    <i class="fa-solid fa-file-arrow-down"></i>
+
+                    Download CSV
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="downloads.js"></script>
+
+</body>
+
+</html>

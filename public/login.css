@@ -1,0 +1,214 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    background-image:
+        linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+        url("MAFORI_FC_LOGO.jpeg");
+
+    background-size:110%;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    animation:zoomBackground 20s ease-in-out infinite alternate;
+
+}
+
+.overlay{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+}
+
+.login-card{
+
+    width:430px;
+
+    padding:45px;
+
+    border-radius:25px;
+
+    backdrop-filter:blur(12px);
+
+    background:rgba(255,255,255,.10);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    color:white;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.5);
+
+    animation:
+        fadeIn 1s ease,
+        floating 5s ease-in-out infinite;
+
+}
+
+.login-card h1{
+
+    text-align:center;
+
+    color:#FFD54F;
+
+    margin-bottom:10px;
+
+    font-size:40px;
+
+}
+
+.login-card h3{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+.login-card input{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:10px;
+
+    margin-bottom:20px;
+
+    outline:none;
+
+    font-size:16px;
+
+}
+
+.password-box{
+
+    position:relative;
+
+}
+
+.password-box span{
+
+    position:absolute;
+
+    right:18px;
+
+    top:17px;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:linear-gradient(45deg,#ff9800,#ff6f00);
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.4s;
+
+}
+
+button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 35px rgba(255,152,0,.6);
+
+}
+
+/* Animations */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes floating{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes zoomBackground{
+
+    from{
+
+        background-size:100%;
+
+    }
+
+    to{
+
+        background-size:115%;
+
+    }
+
+}

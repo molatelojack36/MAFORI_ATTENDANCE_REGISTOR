@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance | Mafori FC</title>
+
+    <link rel="stylesheet" href="attendance.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+
+        <i class="fa-solid fa-futbol"></i>
+
+        <h2>MAFORI FC</h2>
+
+    </div>
+
+    <ul>
+
+        <li>
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="players.html">
+                <i class="fa-solid fa-users"></i>
+                Players
+            </a>
+        </li>
+
+        <li class="active">
+            <a href="attendance.html">
+                <i class="fa-solid fa-calendar-check"></i>
+                Attendance
+            </a>
+        </li>
+
+        <li>
+            <a href="reports.html">
+                <i class="fa-solid fa-chart-column"></i>
+                Reports
+            </a>
+        </li>
+
+        <li>
+            <a href="login.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="main-content">
+
+    <div class="header">
+
+        <h1>Training Attendance Register</h1>
+
+        <p id="todayDate"></p>
+
+    </div>
+
+    <div class="attendance-card">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchPlayer"
+                placeholder="Search player...">
+
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+                    <th>Player Name</th>
+                    <th>Position</th>
+                    <th>Present</th>
+                    <th>Absent</th>
+                    <th>Excused</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="attendanceTable">
+
+            </tbody>
+
+        </table>
+
+        <button id="saveAttendance">
+
+            Save Attendance
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="attendance.js"></script>
+
+</body>
+
+</html>

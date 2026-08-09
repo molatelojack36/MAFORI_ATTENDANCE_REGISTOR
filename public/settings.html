@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Mafori FC Settings</title>
+
+    <link rel="stylesheet"
+          href="settings.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ===============================
+     SIDEBAR
+================================ -->
+
+<div class="sidebar">
+
+    <h2>⚽ MAFORI FC</h2>
+
+    <ul>
+
+        <li onclick="location.href='dashboard.html'">
+
+            <i class="fa-solid fa-house"></i>
+
+            Dashboard
+
+        </li>
+
+
+        <li onclick="location.href='players.html'">
+
+            <i class="fa-solid fa-users"></i>
+
+            Players
+
+        </li>
+
+
+        <li onclick="location.href='attendance.html'">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+            Attendance
+
+        </li>
+
+
+        <li onclick="location.href='reports.html'">
+
+            <i class="fa-solid fa-chart-column"></i>
+
+            Reports
+
+        </li>
+
+
+        <li onclick="location.href='downloads.html'">
+
+            <i class="fa-solid fa-download"></i>
+
+            Downloads
+
+        </li>
+
+
+        <li class="active">
+
+            <i class="fa-solid fa-gear"></i>
+
+            Settings
+
+        </li>
+
+
+        <li onclick="logout()">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            Logout
+
+        </li>
+
+    </ul>
+
+</div>
+
+
+
+<!-- ===============================
+     MAIN CONTENT
+================================ -->
+
+<div class="main">
+
+
+    <header>
+
+        <div>
+
+            <h1>Settings</h1>
+
+            <p>
+                Manage your Mafori FC system settings.
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ===============================
+         PROFILE SETTINGS
+    ================================= -->
+
+    <div class="settings-card">
+
+        <div class="card-header">
+
+            <i class="fa-solid fa-user"></i>
+
+            <div>
+
+                <h2>Profile Settings</h2>
+
+                <p>
+                    Manage your administrator information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="profileForm">
+
+
+            <div class="input-group">
+
+                <label for="fullname">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullname"
+                    placeholder="Enter full name"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter username"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="role">
+                    Role
+                </label>
+
+                <input
+                    type="text"
+                    id="role"
+                    readonly>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-button">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                Save Profile
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+
+    <!-- ===============================
+         PASSWORD SETTINGS
+    ================================= -->
+
+    <div class="settings-card">
+
+        <div class="card-header">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <div>
+
+                <h2>Change Password</h2>
+
+                <p>
+                    Update your administrator password.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="passwordForm">
+
+
+            <div class="input-group">
+
+                <label for="currentPassword">
+                    Current Password
+                </label>
+
+                <input
+                    type="password"
+                    id="currentPassword"
+                    placeholder="Enter current password"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="newPassword">
+                    New Password
+                </label>
+
+                <input
+                    type="password"
+                    id="newPassword"
+                    placeholder="Enter new password"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="confirmPassword">
+                    Confirm New Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm new password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-button">
+
+                <i class="fa-solid fa-key"></i>
+
+                Change Password
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+
+    <!-- ===============================
+         CLUB SETTINGS
+    ================================= -->
+
+    <div class="settings-card">
+
+        <div class="card-header">
+
+            <i class="fa-solid fa-futbol"></i>
+
+            <div>
+
+                <h2>Club Settings</h2>
+
+                <p>
+                    Configure your club information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="clubForm">
+
+
+            <div class="input-group">
+
+                <label for="clubName">
+                    Club Name
+                </label>
+
+                <input
+                    type="text"
+                    id="clubName"
+                    value="Mafori Football Club"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="systemTitle">
+                    System Title
+                </label>
+
+                <input
+                    type="text"
+                    id="systemTitle"
+                    value="Player Training Attendance Register"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-button">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                Save Club Settings
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+
+    <!-- ===============================
+         SYSTEM INFORMATION
+    ================================= -->
+
+    <div class="settings-card system-info">
+
+        <div class="card-header">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            <div>
+
+                <h2>System Information</h2>
+
+                <p>
+                    Mafori FC Player Training Attendance Register
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>System</span>
+
+            <strong>
+                Mafori FC Attendance System
+            </strong>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>Version</span>
+
+            <strong>
+                1.0.0
+            </strong>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>Status</span>
+
+            <strong class="online">
+                <i class="fa-solid fa-circle"></i>
+                Online
+            </strong>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script src="settings.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+
+    <title>Mafori FC Dashboard</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <h2>⚽ MAFORI FC</h2>
+
+        <ul>
+            <li class="active"><i class="fa-solid fa-house"></i>Dashboard</li>        
+            <li onclick="location.href = 'players.html'"><i class = "fa-solid fa-users"></i>Players</li>
+            <li onclick="location.href = 'attendance.html'"><i class = "fa-solid fa-calender-check"></i>Attendance</li>
+            <li onclick="location.href = 'reports.html'"><i class = "fa-solid fa-chart-column"></i>Reports</li>
+            <li onclick="location.href = 'downloads.html'"><i class = "fa-solid fa-download"></i>Download</li>
+            <li onclick="location.href = 'settings.html'"><i class = "fa-solid fa-gear"></i>Settings</li>
+            <li onclick="logout()"><i class = "fa-solid fa-right-from-bracket"></i>Logout</li>
+        </ul>
+
+    </div>
+
+    <div class="main">
+
+        <header>
+
+            <h1>Admin Dashboard</h1>
+            <p id="today"></p>
+        </header>
+
+        
+        <div class="stat-card">
+            <h3>Total Players</h3>
+            <h1 id="totalPlayers">0</h1>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Present Today</h3>
+            <h1 id="presentToday">0</h1>
+        </div>
+
+        <div class="stat-card">
+            <h3>Absent Today</h3>
+            <h1 id="absentToday">0</h1>
+        </div>
+
+        <div class="stat-card">
+            <h3>Excused Today</h3>
+            <h1 id="excusedToday">0</h1>
+        </div>
+
+        <div class="stat-card">
+            <h3>Attendance Rate</h3>
+            <h1 id="attendanceRate">0%</h1>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-file-lines"></i>
+            <h2>12</h2>
+            <p>Monthly Reports</p>
+        </div>
+
+        <div class="welcome">
+            <h2>Welcome Administrator 👋</h2>
+            <p>Manage players, record attendance, generate reports and download monthly attendance registers.</p>
+        </div>
+        
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

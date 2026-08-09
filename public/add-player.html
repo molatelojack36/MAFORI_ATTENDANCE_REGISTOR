@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Player | Mafori FC</title>
+
+    <link rel="stylesheet" href="add-player.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+    <div class="logo">
+
+        <i class="fa-solid fa-futbol"></i>
+
+        <h2>MAFORI FC</h2>
+
+    </div>
+
+    <ul>
+        <li><a href="dashboard.html"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+        <li><a href="attendance.html"><i class="fa-solid fa-calendar-check"></i>Attendance</a></li>
+        <li><a href="reports.html"><i class="fa-solid fa-chart-column"></i>Reports</a></li>
+        <li><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+    </ul>    
+</div>
+    <div class="container">
+        <div class="card">
+
+            <h1>Add New Player</h1>
+            <p>Register a new Mafori FC Player.</p>
+
+            <form id="playerForm">
+
+                <div class="input-group">
+                    <label>First Name(Surname)</label>
+                    <input type="text" id="first_name" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Last Name</label>
+                    <input type="text" id="last_name" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Nickname (Optional)</label>
+                    <input type="text" id="nickname">
+                </div>
+
+                <div class="input-group">
+                    <label>Position</label>
+                    <select id="position" required>
+                        <option value="">Choose Position</option>
+                        <option>Goalkeeper</option>
+                        <option>Defender</option>
+                        <option>Midfielder</option>
+                        <option>Forward</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="date_of_birth" required>
+            </div>
+
+             <div class="input-group">
+                <label>Status</label>
+                <select id="status">
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+
+            <button type="submit">Save Player</button>
+            
+        </form>
+        </div>
+    </div>
+
+    <script src="add-player.js"></script>
+</body>
+</html>
