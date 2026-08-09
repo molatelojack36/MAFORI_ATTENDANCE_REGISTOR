@@ -4,86 +4,313 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Add Player | Mafori FC</title>
 
-    <link rel="stylesheet" href="add-player.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Poppins Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Add Player CSS -->
+    <link rel="stylesheet"
+          href="add-player.css">
 
 </head>
 
+
 <body>
+
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
 
     <div class="sidebar">
 
-    <div class="logo">
+        <div class="logo">
 
-        <i class="fa-solid fa-futbol"></i>
+            <i class="fa-solid fa-futbol"></i>
 
-        <h2>MAFORI FC</h2>
+            <h2>MAFORI FC</h2>
 
-    </div>
-
-    <ul>
-        <li><a href="dashboard.html"><i class="fa-solid fa-house"></i>Dashboard</a></li>
-        <li><a href="attendance.html"><i class="fa-solid fa-calendar-check"></i>Attendance</a></li>
-        <li><a href="reports.html"><i class="fa-solid fa-chart-column"></i>Reports</a></li>
-        <li><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
-    </ul>    
-</div>
-    <div class="container">
-        <div class="card">
-
-            <h1>Add New Player</h1>
-            <p>Register a new Mafori FC Player.</p>
-
-            <form id="playerForm">
-
-                <div class="input-group">
-                    <label>First Name(Surname)</label>
-                    <input type="text" id="first_name" required>
-                </div>
-
-                <div class="input-group">
-                    <label>Last Name</label>
-                    <input type="text" id="last_name" required>
-                </div>
-
-                <div class="input-group">
-                    <label>Nickname (Optional)</label>
-                    <input type="text" id="nickname">
-                </div>
-
-                <div class="input-group">
-                    <label>Position</label>
-                    <select id="position" required>
-                        <option value="">Choose Position</option>
-                        <option>Goalkeeper</option>
-                        <option>Defender</option>
-                        <option>Midfielder</option>
-                        <option>Forward</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Date of Birth</label>
-                    <input type="date" id="date_of_birth" required>
-            </div>
-
-             <div class="input-group">
-                <label>Status</label>
-                <select id="status">
-                    <option>Active</option>
-                    <option>Inactive</option>
-                </select>
-            </div>
-
-            <button type="submit">Save Player</button>
-            
-        </form>
         </div>
+
+
+        <ul>
+
+            <li>
+                <a href="dashboard.html">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    Dashboard
+
+                </a>
+            </li>
+
+
+            <li>
+                <a href="players.html">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    Players
+
+                </a>
+            </li>
+
+
+            <li>
+                <a href="attendance.html">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                    Attendance
+
+                </a>
+            </li>
+
+
+            <li>
+                <a href="reports.html">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    Reports
+
+                </a>
+            </li>
+
+
+            <li>
+                <a href="login.html">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Logout
+
+                </a>
+            </li>
+
+        </ul>
+
     </div>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <div class="main-content">
+
+
+        <!-- ======================================
+             BACK TO PLAYERS
+        ======================================= -->
+
+        <div class="back-button-container">
+
+            <button
+                type="button"
+                class="back-button"
+                onclick="location.href='players.html'">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Players
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ======================================
+             PAGE HEADER
+        ======================================= -->
+
+        <h1>
+            Add New Player
+        </h1>
+
+        <p>
+            Register a new Mafori FC Player.
+        </p>
+
+
+
+        <!-- ======================================
+             PLAYER FORM
+        ======================================= -->
+
+        <form id="playerForm">
+
+
+            <!-- FIRST NAME -->
+
+            <div class="input-group">
+
+                <label for="first_name">
+                    First Name(Surname)
+                </label>
+
+                <input
+                    type="text"
+                    id="first_name"
+                    required>
+
+            </div>
+
+
+
+            <!-- LAST NAME -->
+
+            <div class="input-group">
+
+                <label for="last_name">
+                    Last Name
+                </label>
+
+                <input
+                    type="text"
+                    id="last_name"
+                    required>
+
+            </div>
+
+
+
+            <!-- NICKNAME -->
+
+            <div class="input-group">
+
+                <label for="nickname">
+                    Nickname (Optional)
+                </label>
+
+                <input
+                    type="text"
+                    id="nickname">
+
+            </div>
+
+
+
+            <!-- POSITION -->
+
+            <div class="input-group">
+
+                <label for="position">
+                    Position
+                </label>
+
+                <select
+                    id="position"
+                    required>
+
+                    <option value="">
+                        Choose Position
+                    </option>
+
+                    <option value="Goalkeeper">
+                        Goalkeeper
+                    </option>
+
+                    <option value="Defender">
+                        Defender
+                    </option>
+
+                    <option value="Midfielder">
+                        Midfielder
+                    </option>
+
+                    <option value="Forward">
+                        Forward
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- DATE OF BIRTH -->
+
+            <div class="input-group">
+
+                <label for="date_of_birth">
+                    Date of Birth
+                </label>
+
+                <input
+                    type="date"
+                    id="date_of_birth"
+                    required>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="input-group">
+
+                <label for="status">
+                    Status
+                </label>
+
+                <select id="status">
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- SAVE BUTTON -->
+
+            <button
+                type="submit">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Save Player
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
 
     <script src="add-player.js"></script>
+
+
 </body>
+
 </html>

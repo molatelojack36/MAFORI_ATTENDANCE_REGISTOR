@@ -3,94 +3,218 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Edit Player</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="edit-player.css">
+    <title>Edit Player | Mafori FC</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="edit-player.css">
 
 </head>
 
+
 <body>
 
-<div class="container">
 
-<div class="card">
+    <div class="container">
 
-<h1>Edit Player</h1>
+        <div class="card">
 
-<p>Update player information.</p>
 
-<form id="editPlayerForm">
+            <!-- =====================================
+                 BACK TO PLAYERS
+            ====================================== -->
 
-<div class="input-group">
-<label>First Name</label>
-<input type="text" id="first_name" required>
-</div>
+            <div class="back-button-container">
 
-<div class="input-group">
-<label>Last Name</label>
-<input type="text" id="last_name" required>
-</div>
+                <button
+                    type="button"
+                    class="back-button"
+                    onclick="location.href='players.html'">
 
-<div class="input-group">
-<label>Nickname</label>
-<input type="text" id="nickname">
-</div>
+                    <i class="fa-solid fa-arrow-left"></i>
 
-<div class="input-group">
-<label>Position</label>
+                    Back to Players
 
-<select id="position">
+                </button>
 
-<option>Goalkeeper</option>
-<option>Defender</option>
-<option>Midfielder</option>
-<option>Forward</option>
+            </div>
 
-</select>
 
-</div>
+            <!-- =====================================
+                 PAGE TITLE
+            ====================================== -->
 
-<div class="input-group">
+            <h1>
+                Edit Player
+            </h1>
 
-<label>Date of Birth</label>
+            <p>
+                Update player information.
+            </p>
 
-<input type="date" id="date_of_birth">
 
-</div>
+            <!-- =====================================
+                 EDIT PLAYER FORM
+            ====================================== -->
 
-<div class="input-group">
+            <form id="editPlayerForm">
 
-<label>Status</label>
 
-<select id="status">
+                <!-- FIRST NAME -->
 
-<option>Active</option>
+                <div class="input-group">
 
-<option>Inactive</option>
+                    <label for="first_name">
+                        First Name
+                    </label>
 
-</select>
+                    <input
+                        type="text"
+                        id="first_name"
+                        required>
 
-</div>
+                </div>
 
-<button type="submit">
 
-Update Player
+                <!-- LAST NAME -->
 
-</button>
+                <div class="input-group">
 
-</form>
+                    <label for="last_name">
+                        Last Name
+                    </label>
 
-</div>
+                    <input
+                        type="text"
+                        id="last_name"
+                        required>
 
-</div>
+                </div>
 
-<script src="edit-player.js"></script>
+
+                <!-- NICKNAME -->
+
+                <div class="input-group">
+
+                    <label for="nickname">
+                        Nickname
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nickname">
+
+                </div>
+
+
+                <!-- POSITION -->
+
+                <div class="input-group">
+
+                    <label for="position">
+                        Position
+                    </label>
+
+                    <select id="position">
+
+                        <option value="Goalkeeper">
+                            Goalkeeper
+                        </option>
+
+                        <option value="Defender">
+                            Defender
+                        </option>
+
+                        <option value="Midfielder">
+                            Midfielder
+                        </option>
+
+                        <option value="Forward">
+                            Forward
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE OF BIRTH -->
+
+                <div class="input-group">
+
+                    <label for="date_of_birth">
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date_of_birth">
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="input-group">
+
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select id="status">
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- UPDATE BUTTON -->
+
+                <button type="submit">
+
+                    <i class="fa-solid fa-user-pen"></i>
+
+                    Update Player
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="edit-player.js"></script>
+
 
 </body>
 

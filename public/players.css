@@ -1,259 +1,568 @@
-/* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+/* ==========================================
+   MAFORI FC - PLAYER MANAGEMENT
+========================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+
+/* ==========================================
+   RESET
+========================================== */
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    font-family: "Poppins", sans-serif;
+
 }
 
-body{
-    display:flex;
-    min-height:100vh;
-    background:#edf2f7;
-    overflow-x:hidden;
+
+/* ==========================================
+   BODY
+========================================== */
+
+body {
+
+    min-height: 100vh;
+
+    background: #edf2f7;
+
+    display: flex;
+
 }
 
-/* ===========================
+
+/* ==========================================
    SIDEBAR
-=========================== */
+========================================== */
 
-.sidebar{
-    width:260px;
-    background:#0b1f3a;
-    color:#fff;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    box-shadow:5px 0 25px rgba(0,0,0,.15);
+.sidebar {
+
+    width: 260px;
+
+    height: 100vh;
+
+    position: fixed;
+
+    left: 0;
+
+    top: 0;
+
+    background: #0b1f3a;
+
+    color: white;
+
+    padding: 30px 20px;
+
+    z-index: 1000;
+
 }
 
-.logo{
-    height:90px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:12px;
-    font-size:18px;
-    font-weight:700;
-    color:#FFD54F;
-    border-bottom:1px solid rgba(255,255,255,.1);
+
+.sidebar h2 {
+
+    text-align: center;
+
+    font-size: 22px;
+
+    margin-bottom: 40px;
+
+    color: white;
+
 }
 
-.logo i{
-    font-size:30px;
+
+.sidebar ul {
+
+    list-style: none;
+
 }
 
-.sidebar ul{
-    list-style:none;
-    margin-top:20px;
+
+.sidebar ul li {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px 18px;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: all 0.3s ease;
+
 }
 
-.sidebar ul li{
-    transition:.3s;
+
+.sidebar ul li i {
+
+    width: 20px;
+
+    text-align: center;
+
 }
 
-.sidebar ul li a{
-    display:flex;
-    align-items:center;
-    gap:18px;
-    color:white;
-    text-decoration:none;
-    padding:18px 30px;
-    font-size:17px;
-    font-weight:500;
-    transition:.3s;
+
+.sidebar ul li:hover {
+
+    background: rgba(255, 255, 255, 0.12);
+
+    transform: translateX(4px);
+
 }
 
-.sidebar ul li:hover{
-    background:#ff9800;
+
+.sidebar ul li.active {
+
+    background: #ff6b00;
+
+    color: white;
+
 }
 
-.sidebar ul li.active{
-    background:#ff9800;
-}
 
-.sidebar ul li a i{
-    width:25px;
-    text-align:center;
-    font-size:18px;
-}
-
-/* ===========================
+/* ==========================================
    MAIN CONTENT
-=========================== */
+========================================== */
 
-.main-content{
-    margin-left:260px;
-    width:calc(100% - 260px);
-    padding:45px;
+.main-content {
+
+    margin-left: 260px;
+
+    width: calc(100% - 260px);
+
+    min-height: 100vh;
+
+    padding: 45px;
+
 }
 
-.header{
-    margin-bottom:40px;
-    animation:fadeDown .8s ease;
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
+
+.back-button-container {
+
+    margin-bottom: 25px;
+
 }
 
-.header h1{
-    font-size:42px;
-    color:#0b1f3a;
-    font-weight:700;
-    margin-bottom:10px;
+
+.back-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #0b1f3a;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+
+    transition: all 0.3s ease;
+
 }
 
-.header h1 i{
-    color:#ff9800;
-    margin-right:10px;
+
+.back-button i {
+
+    font-size: 14px;
+
 }
 
-.header p{
-    font-size:18px;
-    color:#666;
+
+.back-button:hover {
+
+    background: #ff6b00;
+
+    color: white;
+
+    transform: translateX(-4px);
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+
 }
 
-/* ===========================
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+
+    margin-bottom: 40px;
+
+}
+
+
+.header h1 {
+
+    font-size: 42px;
+
+    color: #0b1f3a;
+
+    margin-bottom: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.header h1 i {
+
+    color: #ff6b00;
+
+    margin-right: 10px;
+
+}
+
+
+.header p {
+
+    color: #667085;
+
+    font-size: 16px;
+
+}
+
+
+/* ==========================================
    CARDS
-=========================== */
+========================================== */
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:30px;
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(260px, 1fr)
+        );
+
+    gap: 30px;
+
 }
 
-.card{
-    background:white;
-    border-radius:20px;
-    padding:40px 30px;
-    text-align:center;
-    text-decoration:none;
-    color:#222;
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
-    transition:.4s;
-    animation:fadeUp .8s ease;
+
+/* ==========================================
+   CARD
+========================================== */
+
+.card {
+
+    background: white;
+
+    border-radius: 15px;
+
+    padding: 35px 30px;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    min-height: 230px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    box-shadow:
+        0 8px 25px rgba(
+            0,
+            0,
+            0,
+            0.08
+        );
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+
+    animation: fadeIn 0.5s ease;
+
 }
 
-.card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 25px 45px rgba(0,0,0,.18);
+
+.card > i {
+
+    font-size: 45px;
+
+    color: #ff6b00;
+
+    margin-bottom: 20px;
+
 }
 
-.card i{
-    font-size:60px;
-    color:#ff9800;
-    margin-bottom:20px;
+
+.card h2 {
+
+    color: #0b1f3a;
+
+    font-size: 22px;
+
+    margin-bottom: 10px;
+
 }
 
-.card h2{
-    font-size:24px;
-    margin-bottom:15px;
-    color:#0b1f3a;
+
+.card p {
+
+    color: #667085;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
 }
 
-.card p{
-    color:#666;
-    line-height:28px;
-    font-size:16px;
+
+/* ==========================================
+   CARD HOVER
+========================================== */
+
+.card:hover {
+
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 15px 35px rgba(
+            0,
+            0,
+            0,
+            0.14
+        );
+
 }
 
-/* ===========================
-   ANIMATIONS
-=========================== */
 
-@keyframes fadeDown{
+.card:hover > i {
 
-    from{
-        opacity:0;
-        transform:translateY(-40px);
+    transform: scale(1.1);
+
+    transition: 0.3s ease;
+
+}
+
+
+/* ==========================================
+   ANIMATION
+========================================== */
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
     }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
     }
 
 }
 
-@keyframes fadeUp{
 
-    from{
-        opacity:0;
-        transform:translateY(50px);
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+
+        width: 220px;
+
     }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
+
+    .main-content {
+
+        margin-left: 220px;
+
+        width: calc(100% - 220px);
+
+        padding: 30px;
+
+    }
+
+
+    .header h1 {
+
+        font-size: 34px;
+
+    }
+
+
+    .cards {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(220px, 1fr)
+            );
+
     }
 
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
 
-@media(max-width:900px){
+/* ==========================================
+   MOBILE
+========================================== */
 
-.sidebar{
-    width:80px;
-}
+@media (max-width: 600px) {
 
-.logo h2{
-    display:none;
-}
+    body {
 
-.sidebar ul li a span{
-    display:none;
-}
+        display: block;
 
-.main-content{
-    margin-left:80px;
-    width:calc(100% - 80px);
-    padding:25px;
-}
+    }
 
-.header h1{
-    font-size:32px;
-}
 
-}
+    .sidebar {
 
-@media(max-width:600px){
+        position: relative;
 
-.main-content{
-    margin-left:0;
-    width:100%;
-    padding:20px;
-}
+        width: 100%;
 
-.sidebar{
-    display:none;
-}
+        height: auto;
 
-.cards{
-    grid-template-columns:1fr;
-}
+        padding: 20px;
 
-.header h1{
-    font-size:28px;
-}
+    }
 
-.header p{
-    font-size:15px;
-}
 
-.card{
-    padding:30px 20px;
-}
+    .sidebar h2 {
 
-.card i{
-    font-size:50px;
-}
+        margin-bottom: 20px;
 
-.card h2{
-    font-size:22px;
-}
+    }
+
+
+    .sidebar ul {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 8px;
+
+    }
+
+
+    .sidebar ul li {
+
+        margin-bottom: 0;
+
+        padding: 10px 12px;
+
+        font-size: 13px;
+
+    }
+
+
+    .sidebar ul li i {
+
+        margin-right: 2px;
+
+    }
+
+
+    .main-content {
+
+        margin-left: 0;
+
+        width: 100%;
+
+        padding: 25px 20px;
+
+    }
+
+
+    .back-button-container {
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .header {
+
+        margin-bottom: 30px;
+
+    }
+
+
+    .header h1 {
+
+        font-size: 28px;
+
+    }
+
+
+    .header p {
+
+        font-size: 14px;
+
+    }
+
+
+    .cards {
+
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+
+    }
+
+
+    .card {
+
+        min-height: 200px;
+
+    }
 
 }

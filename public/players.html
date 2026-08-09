@@ -2,52 +2,229 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
     <title>Player Management | Mafori FC</title>
 
-    <link rel="stylesheet" href="players.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet"
+        href="players.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+    <div class="sidebar">
+
+        <h2>⚽ MAFORI FC</h2>
+
+        <ul>
+
+            <li onclick="location.href='dashboard.html'">
+
+                <i class="fa-solid fa-house"></i>
+
+                Dashboard
+
+            </li>
+
+            <li class="active">
+
+                <i class="fa-solid fa-users"></i>
+
+                Players
+
+            </li>
+
+            <li onclick="location.href='attendance.html'">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                Attendance
+
+            </li>
+
+            <li onclick="location.href='reports.html'">
+
+                <i class="fa-solid fa-chart-column"></i>
+
+                Reports
+
+            </li>
+
+            <li onclick="location.href='downloads.html'">
+
+                <i class="fa-solid fa-download"></i>
+
+                Downloads
+
+            </li>
+
+            <li onclick="location.href='settings.html'">
+
+                <i class="fa-solid fa-gear"></i>
+
+                Settings
+
+            </li>
+
+            <li onclick="location.href='login.html'">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
     <div class="main-content">
+
+
+        <!-- ======================================
+             BACK BUTTON
+        ======================================= -->
+
+        <div class="back-button-container">
+
+            <button
+                onclick="location.href='dashboard.html'"
+                class="back-button">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Dashboard
+
+            </button>
+
+        </div>
+
+
+        <!-- ======================================
+             HEADER
+        ======================================= -->
 
         <div class="header">
 
-            <h1><i class="fa-solid fa-users"></i>Player Management</h1>
-            <p>Manage all Mafori FC players from one place.</p>
+            <h1>
+
+                <i class="fa-solid fa-users"></i>
+
+                Player Management
+
+            </h1>
+
+            <p>
+                Manage all Mafori FC players from one place.
+            </p>
+
         </div>
 
+
+        <!-- ======================================
+             PLAYER MANAGEMENT CARDS
+        ======================================= -->
+
         <div class="cards">
-            <a href="add-player.html" class="card">
+
+
+            <!-- ADD PLAYER -->
+
+            <a
+                href="add-player.html"
+                class="card">
+
                 <i class="fa-solid fa-user-plus"></i>
-                <h2>Add Player</h2>
-                <p>Register a new player into the club database.</p>
+
+                <h2>
+                    Add Player
+                </h2>
+
+                <p>
+                    Register a new player into the club database.
+                </p>
+
             </a>
 
-            <a href="view-players.html" class="card">
+
+            <!-- VIEW PLAYERS -->
+
+            <a
+                href="view-players.html"
+                class="card">
+
                 <i class="fa-solid fa-address-book"></i>
-                <h2>View Players</h2>
-                <p>View all registered players and search the squad.</p>
+
+                <h2>
+                    View Players
+                </h2>
+
+                <p>
+                    View all registered players and search the squad.
+                </p>
+
             </a>
 
 
-            <a href="edit-player.html" class="card">
+            <!-- EDIT PLAYER -->
+
+            <a
+                href="edit-player.html"
+                class="card">
+
                 <i class="fa-solid fa-user-pen"></i>
-                <h2>Edit Player</h2>
-                <p>Update player information whenever changes occur.</p>
+
+                <h2>
+                    Edit Player
+                </h2>
+
+                <p>
+                    Update player information whenever changes occur.
+                </p>
+
             </a>
 
-            <a href="remove-player.html" class="card">
+
+            <!-- REMOVE PLAYER -->
+
+            <a
+                href="remove-player.html"
+                class="card">
+
                 <i class="fa-solid fa-user-minus"></i>
-                <h2>Remove Player</h2>
-                <p>Remove inactive or released players safely.</p>
+
+                <h2>
+                    Remove Player
+                </h2>
+
+                <p>
+                    Remove inactive or released players safely.
+                </p>
+
             </a>
+
 
         </div>
 
     </div>
+
 
 </body>
 

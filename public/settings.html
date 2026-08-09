@@ -25,9 +25,9 @@
 <body>
 
 
-<!-- ===============================
+<!-- ==========================================
      SIDEBAR
-================================ -->
+========================================== -->
 
 <div class="sidebar">
 
@@ -103,18 +103,25 @@
 
 
 
-<!-- ===============================
+<!-- ==========================================
      MAIN CONTENT
-================================ -->
+========================================== -->
 
 <div class="main">
 
+
+    <!-- ======================================
+         PAGE HEADER
+    ======================================= -->
 
     <header>
 
         <div>
 
-            <h1>Settings</h1>
+            <h1>
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </h1>
 
             <p>
                 Manage your Mafori FC system settings.
@@ -126,309 +133,384 @@
 
 
 
-    <!-- ===============================
-         PROFILE SETTINGS
-    ================================= -->
+    <!-- ======================================
+         SETTINGS GRID
+    ======================================= -->
 
-    <div class="settings-card">
+    <div class="settings-grid">
 
-        <div class="card-header">
 
-            <i class="fa-solid fa-user"></i>
+        <!-- ==================================
+             PROFILE SETTINGS
+        =================================== -->
 
-            <div>
+        <div class="settings-card profile-card">
 
-                <h2>Profile Settings</h2>
+            <div class="card-header">
 
-                <p>
-                    Manage your administrator information.
-                </p>
+                <div class="icon-box">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>Profile Settings</h2>
+
+                    <p>
+                        Administrator information
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="profileForm">
+
+
+                <div class="input-group">
+
+                    <label for="fullname">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullname"
+                        placeholder="Enter full name"
+                        required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Enter username"
+                        required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="role">
+                        Role
+                    </label>
+
+                    <input
+                        type="text"
+                        id="role"
+                        value="Administrator"
+                        readonly>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-button">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Profile
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- ==================================
+             PASSWORD SETTINGS
+        =================================== -->
+
+        <div class="settings-card password-card">
+
+            <div class="card-header">
+
+                <div class="icon-box">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>Change Password</h2>
+
+                    <p>
+                        Update your password
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="passwordForm">
+
+
+                <div class="input-group">
+
+                    <label for="currentPassword">
+                        Current Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="currentPassword"
+                        placeholder="Current password"
+                        required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="newPassword">
+                        New Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="newPassword"
+                        placeholder="New password"
+                        required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm password"
+                        required>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-button">
+
+                    <i class="fa-solid fa-key"></i>
+
+                    Change Password
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- ==================================
+             CLUB SETTINGS
+        =================================== -->
+
+        <div class="settings-card club-card">
+
+            <div class="card-header">
+
+                <div class="icon-box">
+
+                    <i class="fa-solid fa-futbol"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>Club Settings</h2>
+
+                    <p>
+                        Configure club information
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="clubForm">
+
+
+                <div class="input-group">
+
+                    <label for="clubName">
+                        Club Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="clubName"
+                        value="Mafori Football Club"
+                        required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="systemTitle">
+                        System Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="systemTitle"
+                        value="Player Training Attendance Register"
+                        required>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-button">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Club Settings
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- ==================================
+             SYSTEM INFORMATION
+        =================================== -->
+
+        <div class="settings-card system-card">
+
+            <div class="card-header">
+
+                <div class="icon-box">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>System Information</h2>
+
+                    <p>
+                        Mafori FC Attendance System
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="system-details">
+
+
+                <div class="info-row">
+
+                    <span>
+                        <i class="fa-solid fa-server"></i>
+                        System
+                    </span>
+
+                    <strong>
+                        Mafori FC Attendance
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        <i class="fa-solid fa-code-branch"></i>
+                        Version
+                    </span>
+
+                    <strong>
+                        1.0.0
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Status
+                    </span>
+
+                    <strong class="online">
+
+                        <i class="fa-solid fa-circle"></i>
+
+                        Online
+
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Access
+                    </span>
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="system-message">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <div>
+
+                    <strong>
+                        System Running Normally
+                    </strong>
+
+                    <p>
+                        All Mafori FC attendance services are operational.
+                    </p>
+
+                </div>
 
             </div>
 
         </div>
 
-
-        <form id="profileForm">
-
-
-            <div class="input-group">
-
-                <label for="fullname">
-                    Full Name
-                </label>
-
-                <input
-                    type="text"
-                    id="fullname"
-                    placeholder="Enter full name"
-                    required>
-
-            </div>
-
-
-            <div class="input-group">
-
-                <label for="username">
-                    Username
-                </label>
-
-                <input
-                    type="text"
-                    id="username"
-                    placeholder="Enter username"
-                    required>
-
-            </div>
-
-
-            <div class="input-group">
-
-                <label for="role">
-                    Role
-                </label>
-
-                <input
-                    type="text"
-                    id="role"
-                    readonly>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="save-button">
-
-                <i class="fa-solid fa-floppy-disk"></i>
-
-                Save Profile
-
-            </button>
-
-
-        </form>
-
-    </div>
-
-
-
-    <!-- ===============================
-         PASSWORD SETTINGS
-    ================================= -->
-
-    <div class="settings-card">
-
-        <div class="card-header">
-
-            <i class="fa-solid fa-lock"></i>
-
-            <div>
-
-                <h2>Change Password</h2>
-
-                <p>
-                    Update your administrator password.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <form id="passwordForm">
-
-
-            <div class="input-group">
-
-                <label for="currentPassword">
-                    Current Password
-                </label>
-
-                <input
-                    type="password"
-                    id="currentPassword"
-                    placeholder="Enter current password"
-                    required>
-
-            </div>
-
-
-            <div class="input-group">
-
-                <label for="newPassword">
-                    New Password
-                </label>
-
-                <input
-                    type="password"
-                    id="newPassword"
-                    placeholder="Enter new password"
-                    required>
-
-            </div>
-
-
-            <div class="input-group">
-
-                <label for="confirmPassword">
-                    Confirm New Password
-                </label>
-
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirm new password"
-                    required>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="save-button">
-
-                <i class="fa-solid fa-key"></i>
-
-                Change Password
-
-            </button>
-
-
-        </form>
-
-    </div>
-
-
-
-    <!-- ===============================
-         CLUB SETTINGS
-    ================================= -->
-
-    <div class="settings-card">
-
-        <div class="card-header">
-
-            <i class="fa-solid fa-futbol"></i>
-
-            <div>
-
-                <h2>Club Settings</h2>
-
-                <p>
-                    Configure your club information.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <form id="clubForm">
-
-
-            <div class="input-group">
-
-                <label for="clubName">
-                    Club Name
-                </label>
-
-                <input
-                    type="text"
-                    id="clubName"
-                    value="Mafori Football Club"
-                    required>
-
-            </div>
-
-
-            <div class="input-group">
-
-                <label for="systemTitle">
-                    System Title
-                </label>
-
-                <input
-                    type="text"
-                    id="systemTitle"
-                    value="Player Training Attendance Register"
-                    required>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="save-button">
-
-                <i class="fa-solid fa-floppy-disk"></i>
-
-                Save Club Settings
-
-            </button>
-
-
-        </form>
-
-    </div>
-
-
-
-    <!-- ===============================
-         SYSTEM INFORMATION
-    ================================= -->
-
-    <div class="settings-card system-info">
-
-        <div class="card-header">
-
-            <i class="fa-solid fa-circle-info"></i>
-
-            <div>
-
-                <h2>System Information</h2>
-
-                <p>
-                    Mafori FC Player Training Attendance Register
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="info-row">
-
-            <span>System</span>
-
-            <strong>
-                Mafori FC Attendance System
-            </strong>
-
-        </div>
-
-
-        <div class="info-row">
-
-            <span>Version</span>
-
-            <strong>
-                1.0.0
-            </strong>
-
-        </div>
-
-
-        <div class="info-row">
-
-            <span>Status</span>
-
-            <strong class="online">
-                <i class="fa-solid fa-circle"></i>
-                Online
-            </strong>
-
-        </div>
 
     </div>
 
