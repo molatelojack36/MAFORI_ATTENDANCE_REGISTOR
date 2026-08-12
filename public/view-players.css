@@ -1,251 +1,555 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+
+/* =====================================
+   RESET
+===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
-    display:flex;
-    min-height:100vh;
-    background:#f4f7fc;
+
+/* =====================================
+   BODY
+===================================== */
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f7fc;
+
+    /* Prevent the whole page from scrolling */
+    overflow: hidden;
 }
 
-/* Sidebar */
 
-.sidebar{
-    width:260px;
-    background:#071a35;
-    color:white;
-    position:fixed;
-    top:0;
-    left:0;
-    bottom:0;
+/* =====================================
+   SIDEBAR
+===================================== */
+
+.sidebar {
+    width: 260px;
+
+    background: #071a35;
+    color: white;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    overflow-y: auto;
 }
 
-.logo{
-    height:90px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-    color:#FFD54F;
-    border-bottom:1px solid rgba(255,255,255,.1);
+
+/* =====================================
+   LOGO
+===================================== */
+
+.logo {
+    height: 90px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+
+    color: #FFD54F;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
 }
 
-.logo i{
-    font-size:30px;
+.logo i {
+    font-size: 30px;
 }
 
-.sidebar ul{
-    list-style:none;
-    margin-top:20px;
+
+/* =====================================
+   SIDEBAR MENU
+===================================== */
+
+.sidebar ul {
+    list-style: none;
+
+    margin-top: 20px;
 }
 
-.sidebar li a{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    color:white;
-    text-decoration:none;
-    padding:18px 25px;
-    transition:.3s;
+.sidebar li a {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 18px 25px;
+
+    transition: .3s;
 }
 
 .sidebar li:hover,
-.sidebar .active{
-    background:#ff9800;
+.sidebar .active {
+    background: #ff9800;
 }
 
-/* Main */
 
-.main-content{
-    margin-left:260px;
-    width:calc(100% - 260px);
-    padding:40px;
+/* =====================================
+   MAIN CONTENT
+===================================== */
+
+.main-content {
+    margin-left: 260px;
+
+    width: calc(100% - 260px);
+
+    height: 100vh;
+
+    padding: 40px;
+
+    overflow: hidden;
 }
 
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
+
+/* =====================================
+   HEADER
+===================================== */
+
+.header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
 }
 
-.header h1{
-    color:#071a35;
-    font-size:36px;
+.header h1 {
+    color: #071a35;
+
+    font-size: 36px;
 }
 
-.search-box{
-    position:relative;
+.header p {
+    color: #666;
+
+    margin-top: 5px;
 }
 
-.search-box input{
 
-    width:320px;
-    padding:14px 18px 14px 45px;
+/* =====================================
+   ADD PLAYER BUTTON
+===================================== */
 
-    border:none;
-    outline:none;
+.add-btn {
+    display: inline-flex;
 
-    border-radius:40px;
+    align-items: center;
 
-    background:white;
+    gap: 8px;
 
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    background: #ff9800;
 
+    color: white;
+
+    text-decoration: none;
+
+    padding: 13px 20px;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+
+    transition: .3s;
 }
 
-.search-box i{
+.add-btn:hover {
+    background: #e68900;
 
-    position:absolute;
-    left:18px;
-    top:15px;
-    color:#666;
-
+    transform: translateY(-2px);
 }
 
-/* Table */
 
-table{
+/* =====================================
+   TABLE CARD
+===================================== */
 
-    width:100%;
+.table-card {
+    background: white;
 
-    border-collapse:collapse;
+    border-radius: 15px;
 
-    background:white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
 
-    border-radius:15px;
-
-    overflow:hidden;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-
+    overflow: hidden;
 }
 
-thead{
 
-    background:#071a35;
-    color:white;
+/* =====================================
+   TABLE HEADER / SEARCH AREA
+===================================== */
 
+.table-header {
+    padding: 20px;
+
+    background: white;
+
+    border-bottom: 1px solid #eee;
 }
 
-th{
+.table-header input {
+    width: 100%;
 
-    padding:18px;
-    text-align:left;
+    max-width: 400px;
 
+    padding: 13px 18px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 30px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition: .3s;
 }
 
-td{
+.table-header input:focus {
+    border-color: #ff9800;
 
-    padding:16px;
-    border-bottom:1px solid #eee;
-
+    box-shadow: 0 0 0 3px rgba(255, 152, 0, .12);
 }
 
-tbody tr:hover{
 
-    background:#f8f8f8;
+/* =====================================
+   SCROLLABLE PLAYER LIST
+===================================== */
 
+.table-scroll {
+    /*
+       The player table gets its own
+       scrolling area.
+    */
+
+    max-height: calc(100vh - 300px);
+
+    overflow-y: auto;
+
+    overflow-x: auto;
 }
 
-.status{
 
-    padding:5px 12px;
+/* =====================================
+   TABLE
+===================================== */
 
-    border-radius:20px;
+table {
+    width: 100%;
 
-    color:white;
+    border-collapse: collapse;
 
-    font-size:13px;
+    background: white;
 
+    min-width: 950px;
 }
 
-.active-status{
 
-    background:#28a745;
+/* =====================================
+   TABLE HEADER
+===================================== */
 
+thead {
+    background: #071a35;
+
+    color: white;
 }
 
-.inactive-status{
 
-    background:#dc3545;
+/*
+   Keep the column headings visible
+   while the player list scrolls.
+*/
 
+thead th {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 5;
+
+    background: #071a35;
+
+    color: white;
 }
 
-.action-btn{
+th {
+    padding: 18px;
 
-    border:none;
+    text-align: left;
 
-    padding:8px 12px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    margin-right:8px;
-
-    color:white;
-
+    white-space: nowrap;
 }
 
-.edit{
 
-    background:#2196F3;
+/* =====================================
+   TABLE CELLS
+===================================== */
 
+td {
+    padding: 16px;
+
+    border-bottom: 1px solid #eee;
+
+    white-space: nowrap;
 }
 
-.delete{
 
-    background:#e53935;
+/* =====================================
+   ROW HOVER
+===================================== */
 
+tbody tr:hover {
+    background: #f8f8f8;
 }
 
-.action-btn:hover{
 
-    opacity:.85;
+/* =====================================
+   STATUS
+===================================== */
 
+.status {
+    display: inline-block;
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    color: white;
+
+    font-size: 13px;
 }
 
-.no-data{
 
-    text-align:center;
+/* =====================================
+   ACTIVE STATUS
+===================================== */
 
-    padding:40px;
-
-    color:#777;
-
+.active-status {
+    background: #28a745;
 }
 
-@media(max-width:900px){
 
-.sidebar{
+/* =====================================
+   INACTIVE STATUS
+===================================== */
 
-    width:80px;
-
+.inactive-status {
+    background: #dc3545;
 }
 
-.logo h2{
 
-    display:none;
+/* =====================================
+   ACTION BUTTONS
+===================================== */
 
+.action-btn {
+    border: none;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    margin-right: 8px;
+
+    color: white;
+
+    font-size: 13px;
+
+    transition: .3s;
 }
 
-.main-content{
 
-    margin-left:80px;
-    width:calc(100% - 80px);
+/* =====================================
+   EDIT BUTTON
+===================================== */
 
+.edit {
+    background: #2196F3;
 }
 
-.search-box input{
 
-    width:220px;
+/* =====================================
+   DELETE BUTTON
+===================================== */
 
+.delete {
+    background: #e53935;
 }
 
+
+/* =====================================
+   ACTION BUTTON HOVER
+===================================== */
+
+.action-btn:hover {
+    opacity: .85;
+
+    transform: translateY(-1px);
+}
+
+
+/* =====================================
+   NO DATA
+===================================== */
+
+.no-data {
+    text-align: center;
+
+    padding: 40px;
+
+    color: #777;
+}
+
+
+/* =====================================
+   TABLE SCROLLBAR
+===================================== */
+
+.table-scroll::-webkit-scrollbar {
+    width: 9px;
+
+    height: 9px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+    background: #071a35;
+
+    border-radius: 10px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover {
+    background: #ff9800;
+}
+
+
+/* =====================================
+   SIDEBAR SCROLLBAR
+===================================== */
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #071a35;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #334b6d;
+
+    border-radius: 10px;
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 80px;
+    }
+
+    .logo h2 {
+        display: none;
+    }
+
+    .logo {
+        gap: 0;
+    }
+
+    .sidebar li a {
+        justify-content: center;
+
+        padding: 18px 10px;
+    }
+
+    .sidebar li a i {
+        font-size: 20px;
+    }
+
+    .main-content {
+        margin-left: 80px;
+
+        width: calc(100% - 80px);
+
+        padding: 25px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .header {
+        gap: 15px;
+    }
+
+    .add-btn {
+        padding: 11px 15px;
+    }
+
+    .table-scroll {
+        max-height: calc(100vh - 270px);
+    }
+}
+
+
+/* =====================================
+   SMALL MOBILE SCREENS
+===================================== */
+
+@media (max-width: 600px) {
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .header h1 {
+        font-size: 25px;
+    }
+
+    .add-btn {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .table-header input {
+        max-width: 100%;
+    }
+
+    .table-scroll {
+        max-height: calc(100vh - 340px);
+    }
 }

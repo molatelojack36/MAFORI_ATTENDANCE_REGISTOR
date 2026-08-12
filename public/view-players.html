@@ -4,81 +4,170 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>View Players | Mafori FC</title>
 
-    <link rel="stylesheet" href="view-players.css">
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- View Players CSS -->
+
+    <link
+        rel="stylesheet"
+        href="view-players.css"
+    >
+
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
 </head>
 
+
 <body>
+
+
+<!-- =====================================
+     SIDEBAR
+===================================== -->
 
 <div class="sidebar">
 
+
     <div class="logo">
+
         <i class="fa-solid fa-futbol"></i>
+
         <h2>MAFORI FC</h2>
+
     </div>
+
 
     <ul>
 
+
+        <!-- Dashboard -->
+
         <li>
+
             <a href="dashboard.html">
+
                 <i class="fa-solid fa-house"></i>
+
                 Dashboard
+
             </a>
+
         </li>
+
+
+        <!-- Players -->
 
         <li class="active">
+
             <a href="players.html">
+
                 <i class="fa-solid fa-users"></i>
+
                 Players
+
             </a>
+
         </li>
 
+
+        <!-- Attendance -->
+
         <li>
+
             <a href="attendance.html">
+
                 <i class="fa-solid fa-calendar-check"></i>
+
                 Attendance
+
             </a>
+
         </li>
 
+
+        <!-- Reports -->
+
         <li>
+
             <a href="reports.html">
+
                 <i class="fa-solid fa-chart-column"></i>
+
                 Reports
+
             </a>
+
         </li>
 
+
+        <!-- Logout -->
+
         <li>
+
             <a href="login.html">
+
                 <i class="fa-solid fa-right-from-bracket"></i>
+
                 Logout
+
             </a>
+
         </li>
+
 
     </ul>
+
 
 </div>
 
 
+
+<!-- =====================================
+     MAIN CONTENT
+===================================== -->
+
 <div class="main-content">
+
+
+    <!-- =================================
+         PAGE HEADER
+    ================================== -->
 
     <div class="header">
 
+
         <div>
 
-            <h1>Player Management</h1>
+            <h1>
+                Player Management
+            </h1>
 
-            <p>View, search, edit and remove Mafori FC players.</p>
+            <p>
+                View, search, edit and remove Mafori FC players.
+            </p>
 
         </div>
 
-        <a href="add-player.html" class="add-btn">
+
+        <!-- Add Player -->
+
+        <a
+            href="add-player.html"
+            class="add-btn"
+        >
 
             <i class="fa-solid fa-plus"></i>
 
@@ -86,51 +175,119 @@
 
         </a>
 
+
     </div>
 
 
+
+    <!-- =================================
+         PLAYER TABLE CARD
+    ================================== -->
+
     <div class="table-card">
+
+
+        <!-- =================================
+             SEARCH
+        ================================== -->
 
         <div class="table-header">
 
             <input
                 type="text"
                 id="searchInput"
-                placeholder="Search player...">
+                placeholder="Search player..."
+                autocomplete="off"
+            >
 
         </div>
 
 
-        <table>
 
-            <thead>
+        <!-- =================================
+             SCROLLABLE TABLE
+        ================================== -->
 
-                <tr>
+        <div class="table-scroll">
 
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Nickname</th>
-                    <th>Position</th>
-                    <th>Date of Birth</th>
-                    <th>Status</th>
-                    <th>Actions</th>
 
-                </tr>
+            <table>
 
-            </thead>
 
-            <tbody id="playersTable">
+                <!-- TABLE HEAD -->
 
-            </tbody>
+                <thead>
 
-        </table>
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            First Name
+                        </th>
+
+                        <th>
+                            Last Name
+                        </th>
+
+                        <th>
+                            Nickname
+                        </th>
+
+                        <th>
+                            Position
+                        </th>
+
+                        <th>
+                            Date of Birth
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <!-- TABLE BODY -->
+
+                <tbody id="playersTable">
+
+                    <!--
+                        Players will be loaded
+                        here by view-players.js
+                    -->
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
 
     </div>
 
+
 </div>
 
+
+
+<!-- =====================================
+     JAVASCRIPT
+===================================== -->
+
 <script src="view-players.js"></script>
+
 
 </body>
 
