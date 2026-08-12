@@ -2152,6 +2152,143 @@ app.put(
 );
 
 /* =====================================
+   CHANGE USER PASSWORD API
+===================================== */
+
+app.put("/api/change-password", async (req, res) => {
+
+    const {
+        user_id,
+        current_password,
+        new_password
+    } = req.body;
+
+
+    if (
+        !user_id ||
+        !current_password ||
+        !new_password
+    ) {
+
+        return res.status(400).json({
+
+            success: false,
+
+            message:
+                "All password fields are required."
+
+        });
+
+    }
+
+
+    try {
+
+        /* ================================
+           CHECK CURRENT PASSWORD
+        ================================= */
+
+        const {
+            data: user,
+            error: findError
+        } = await supabase
+
+            .from("users")
+
+            .select("*")
+
+            .eq("id", user_id)
+
+            .eq("password", current_password)
+
+            .single();
+
+
+        if (findError || !user) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message:
+                    "Current password is incorrect."
+
+            });
+
+        }
+
+
+        /* ================================
+           UPDATE PASSWORD
+        ================================= */
+
+        const {
+            error: updateError
+        } = await supabase
+
+            .from("users")
+
+            .update({
+
+                password: new_password
+
+            })
+
+            .eq("id", user_id);
+
+
+        if (updateError) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    updateError.message
+
+            });
+
+        }
+
+
+        /* ================================
+           SUCCESS
+        ================================= */
+
+        res.json({
+
+            success: true,
+
+            message:
+                "Password changed successfully."
+
+        });
+
+    }
+
+
+    catch (err) {
+
+        console.error(
+            "Password Change Error:",
+            err
+        );
+
+
+        res.status(500).json({
+
+            success: false,
+
+            message:
+                "Server Error"
+
+        });
+
+    }
+
+});
+
+/* =====================================
    START SERVER
 ===================================== */
 
