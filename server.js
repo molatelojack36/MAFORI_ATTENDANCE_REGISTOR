@@ -22,12 +22,12 @@ app.use(
     })
 );
 
-// Serve frontend files
 app.use(
     express.static(
         path.join(__dirname, "public")
     )
 );
+
 
 /* =====================================
    SUPABASE CONNECTION
@@ -37,6 +37,7 @@ const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_ANON_KEY
 );
+
 
 /* =====================================
    HOME PAGE
@@ -54,6 +55,7 @@ app.get("/", (req, res) => {
 
 });
 
+
 /* =====================================
    LOGIN API
 ===================================== */
@@ -66,6 +68,20 @@ app.post("/api/login", async (req, res) => {
     } = req.body;
 
     try {
+
+        if (!username || !password) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Username and password are required."
+
+            });
+
+        }
+
 
         const {
             data,
@@ -80,10 +96,29 @@ app.post("/api/login", async (req, res) => {
 
             .eq("password", password)
 
-            .single();
+            .maybeSingle();
 
 
-        if (error || !data) {
+        if (error) {
+
+            console.error(
+                "Login database error:",
+                error
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Database error during login."
+
+            });
+
+        }
+
+
+        if (!data) {
 
             return res.status(401).json({
 
@@ -97,6 +132,16 @@ app.post("/api/login", async (req, res) => {
         }
 
 
+        /*
+        IMPORTANT:
+
+        Your database uses full_name.
+        Your frontend uses fullname.
+
+        So we convert full_name -> fullname
+        before storing the user in localStorage.
+        */
+
         res.json({
 
             success: true,
@@ -106,13 +151,17 @@ app.post("/api/login", async (req, res) => {
 
             user: {
 
-                id: data.id,
+                id:
+                    data.id,
+
+                username:
+                    data.username,
 
                 fullname:
-                    data.fullname,
+                    data.full_name || "",
 
                 role:
-                    data.role
+                    data.role || "Admin"
 
             }
 
@@ -122,7 +171,10 @@ app.post("/api/login", async (req, res) => {
 
     catch (err) {
 
-        console.error(err);
+        console.error(
+            "Login error:",
+            err
+        );
 
         res.status(500).json({
 
@@ -136,6 +188,504 @@ app.post("/api/login", async (req, res) => {
     }
 
 });
+
+
+/* =====================================
+   GET SINGLE USER
+===================================== */
+
+app.get("/api/users/:id", async (req, res) => {
+
+    const id =
+        req.params.id;
+
+    try {
+
+        const {
+            data,
+            error
+        } = await supabase
+
+            .from("users")
+
+            .select(
+                "id, username, full_name, role"
+            )
+
+            .eq(
+                "id",
+                id
+            )
+
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "Get user error:",
+                error
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    error.message
+
+            });
+
+        }
+
+
+        if (!data) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "User not found."
+
+            });
+
+        }
+
+
+        res.json({
+
+            success: true,
+
+            user: {
+
+                id:
+                    data.id,
+
+                username:
+                    data.username,
+
+                fullname:
+                    data.full_name || "",
+
+                role:
+                    data.role || "Admin"
+
+            }
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.error(
+            "Get user error:",
+            err
+        );
+
+        res.status(500).json({
+
+            success: false,
+
+            message:
+                "Server Error"
+
+        });
+
+    }
+
+});
+
+
+/* =====================================
+   UPDATE USER PROFILE
+===================================== */
+
+app.put("/api/users/:id", async (req, res) => {
+
+    const id =
+        req.params.id;
+
+    const {
+        fullname,
+        username
+    } = req.body;
+
+
+    if (!fullname || !username) {
+
+        return res.status(400).json({
+
+            success: false,
+
+            message:
+                "Full name and username are required."
+
+        });
+
+    }
+
+
+    try {
+
+        /*
+        Check whether another user
+        already uses this username.
+        */
+
+        const {
+            data: existingUser,
+            error: existingError
+        } = await supabase
+
+            .from("users")
+
+            .select("id")
+
+            .eq(
+                "username",
+                username
+            )
+            .neq(
+                "id",
+                id
+            )
+            .maybeSingle();
+
+
+        if (existingError) {
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    existingError.message
+
+            });
+
+        }
+
+
+        if (existingUser) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "That username is already being used."
+
+            });
+
+        }
+
+
+        /*
+        IMPORTANT:
+
+        Database column = full_name
+        */
+
+        const {
+            data,
+            error
+        } = await supabase
+
+            .from("users")
+
+            .update({
+
+                full_name:
+                    fullname,
+
+                username:
+                    username
+
+            })
+
+            .eq(
+                "id",
+                id
+            )
+
+            .select(
+                "id, username, full_name, role"
+            )
+            .single();
+
+
+        if (error) {
+
+            console.error(
+                "Update profile error:",
+                error
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    error.message
+
+            });
+
+        }
+
+
+        res.json({
+
+            success: true,
+
+            message:
+                "Profile updated successfully.",
+
+            user: {
+
+                id:
+                    data.id,
+
+                username:
+                    data.username,
+
+                fullname:
+                    data.full_name || "",
+
+                role:
+                    data.role || "Admin"
+
+            }
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.error(
+            "Profile update error:",
+            err
+        );
+
+        res.status(500).json({
+
+            success: false,
+
+            message:
+                "Server Error"
+
+        });
+
+    }
+
+});
+
+
+/* =====================================
+   CHANGE USER PASSWORD API
+===================================== */
+
+app.put("/api/change-password", async (req, res) => {
+
+    const {
+        user_id,
+        current_password,
+        new_password
+    } = req.body;
+
+
+    if (
+        !user_id ||
+        !current_password ||
+        !new_password
+    ) {
+
+        return res.status(400).json({
+
+            success: false,
+
+            message:
+                "All password fields are required."
+
+        });
+
+    }
+
+
+    if (
+        new_password.length < 6
+    ) {
+
+        return res.status(400).json({
+
+            success: false,
+
+            message:
+                "New password must be at least 6 characters long."
+
+        });
+
+    }
+
+
+    try {
+
+        /* =================================
+           CHECK CURRENT PASSWORD
+        ================================= */
+
+        const {
+            data: user,
+            error: findError
+        } = await supabase
+
+            .from("users")
+
+            .select(
+                "id, username, password, full_name, role"
+            )
+
+            .eq(
+                "id",
+                user_id
+            )
+
+            .maybeSingle();
+
+
+        if (findError) {
+
+            console.error(
+                "Find user error:",
+                findError
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    findError.message
+
+            });
+
+        }
+
+
+        if (!user) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "User account not found."
+
+            });
+
+        }
+
+
+        /* =================================
+           VERIFY CURRENT PASSWORD
+        ================================= */
+
+        if (
+            user.password !==
+            current_password
+        ) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message:
+                    "Current password is incorrect."
+
+            });
+
+        }
+
+
+        /* =================================
+           UPDATE PASSWORD
+        ================================= */
+
+        const {
+            error: updateError
+        } = await supabase
+
+            .from("users")
+
+            .update({
+
+                password:
+                    new_password
+
+            })
+
+            .eq(
+                "id",
+                user_id
+            );
+
+
+        if (updateError) {
+
+            console.error(
+                "Password update error:",
+                updateError
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    updateError.message
+
+            });
+
+        }
+
+
+        /* =================================
+           SUCCESS
+        ================================= */
+
+        res.json({
+
+            success: true,
+
+            message:
+                "Password changed successfully."
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.error(
+            "Password Change Error:",
+            err
+        );
+
+        res.status(500).json({
+
+            success: false,
+
+            message:
+                "Server Error"
+
+        });
+
+    }
+
+});
+
 
 /* =====================================
    ADD PLAYER API
@@ -223,6 +773,7 @@ app.post("/api/players", async (req, res) => {
 
 });
 
+
 /* =====================================
    VIEW ALL PLAYERS API
 ===================================== */
@@ -240,9 +791,12 @@ app.get("/api/players", async (req, res) => {
 
             .select("*")
 
-            .order("id", {
-                ascending: true
-            });
+            .order(
+                "id",
+                {
+                    ascending: true
+                }
+            );
 
 
         if (error) {
@@ -280,8 +834,9 @@ app.get("/api/players", async (req, res) => {
 
 });
 
+
 /* =====================================
-   GET SINGLE PLAYER API
+   GET SINGLE PLAYER
 ===================================== */
 
 app.get("/api/players/:id", async (req, res) => {
@@ -301,7 +856,10 @@ app.get("/api/players/:id", async (req, res) => {
 
             .select("*")
 
-            .eq("id", id)
+            .eq(
+                "id",
+                id
+            )
 
             .single();
 
@@ -341,8 +899,9 @@ app.get("/api/players/:id", async (req, res) => {
 
 });
 
+
 /* =====================================
-   UPDATE PLAYER API
+   UPDATE PLAYER
 ===================================== */
 
 app.put("/api/players/:id", async (req, res) => {
@@ -361,7 +920,10 @@ app.put("/api/players/:id", async (req, res) => {
 
             .update(req.body)
 
-            .eq("id", id);
+            .eq(
+                "id",
+                id
+            );
 
 
         if (error) {
@@ -406,8 +968,9 @@ app.put("/api/players/:id", async (req, res) => {
 
 });
 
+
 /* =====================================
-   DELETE PLAYER API
+   DELETE PLAYER
 ===================================== */
 
 app.delete("/api/players/:id", async (req, res) => {
@@ -426,7 +989,10 @@ app.delete("/api/players/:id", async (req, res) => {
 
             .delete()
 
-            .eq("id", id);
+            .eq(
+                "id",
+                id
+            );
 
 
         if (error) {
@@ -471,6 +1037,7 @@ app.delete("/api/players/:id", async (req, res) => {
 
 });
 
+
 /* =====================================
    SAVE ATTENDANCE
 ===================================== */
@@ -509,10 +1076,6 @@ app.post("/api/attendance", async (req, res) => {
                 .split("T")[0];
 
 
-        /* ============================
-           CHECK SESSION
-        ============================ */
-
         let {
 
             data: session,
@@ -545,10 +1108,6 @@ app.post("/api/attendance", async (req, res) => {
 
         }
 
-
-        /* ============================
-           CREATE SESSION
-        ============================ */
 
         if (!session) {
 
@@ -596,10 +1155,6 @@ app.post("/api/attendance", async (req, res) => {
 
         }
 
-
-        /* ============================
-           SAVE ATTENDANCE
-        ============================ */
 
         for (
             const player
@@ -670,10 +1225,6 @@ app.post("/api/attendance", async (req, res) => {
 
         }
 
-
-        /* ============================
-           DASHBOARD STATISTICS
-        ============================ */
 
         const {
             count: totalPlayers
@@ -832,8 +1383,9 @@ app.post("/api/attendance", async (req, res) => {
 
 });
 
+
 /* =====================================
-   DASHBOARD STATISTICS API
+   DASHBOARD STATISTICS
 ===================================== */
 
 app.get(
@@ -847,10 +1399,6 @@ app.get(
                     .toISOString()
                     .split("T")[0];
 
-
-            /* ============================
-               TOTAL ACTIVE PLAYERS
-            ============================ */
 
             const {
                 count: totalPlayers
@@ -873,10 +1421,6 @@ app.get(
                     "Active"
                 );
 
-
-            /* ============================
-               TODAY'S SESSION
-            ============================ */
 
             const {
                 data: session
@@ -1049,6 +1593,7 @@ app.get(
     }
 );
 
+
 /* =====================================
    MONTHLY REPORT DATA
 ===================================== */
@@ -1057,10 +1602,6 @@ async function getMonthlyReportData(
     month,
     year
 ) {
-
-    /* ============================
-       GET SESSIONS
-    ============================ */
 
     const {
         data: sessions,
@@ -1097,10 +1638,6 @@ async function getMonthlyReportData(
     }
 
 
-    /* ============================
-       GET PLAYERS
-    ============================ */
-
     const {
         data: players,
         error: playerError
@@ -1131,10 +1668,6 @@ async function getMonthlyReportData(
     }
 
 
-    /* ============================
-       GET ATTENDANCE
-    ============================ */
-
     const sessionIds =
         sessions.map(
             session =>
@@ -1145,7 +1678,9 @@ async function getMonthlyReportData(
     let attendance = [];
 
 
-    if (sessionIds.length > 0) {
+    if (
+        sessionIds.length > 0
+    ) {
 
         const {
             data,
@@ -1187,8 +1722,9 @@ async function getMonthlyReportData(
 
 }
 
+
 /* =====================================
-   MONTHLY REPORT JSON API
+   MONTHLY REPORT JSON
 ===================================== */
 
 app.get(
@@ -1255,8 +1791,9 @@ app.get(
     }
 );
 
+
 /* =====================================
-   DOWNLOAD MONTHLY CSV
+   DOWNLOAD CSV
 ===================================== */
 
 app.get(
@@ -1335,12 +1872,14 @@ app.get(
                                     item =>
                                         Number(
                                             item.player_id
-                                        ) === Number(
+                                        ) ===
+                                        Number(
                                             player.id
                                         ) &&
                                         Number(
                                             item.session_id
-                                        ) === Number(
+                                        ) ===
+                                        Number(
                                             session.id
                                         )
                                 );
@@ -1456,6 +1995,7 @@ app.get(
     }
 );
 
+
 /* =====================================
    DOWNLOAD MONTHLY PDF
 ===================================== */
@@ -1545,10 +2085,6 @@ app.get(
             doc.pipe(res);
 
 
-            /* ============================
-               TITLE
-            ============================ */
-
             doc
                 .fontSize(22)
                 .font("Helvetica-Bold")
@@ -1588,10 +2124,6 @@ app.get(
 
             doc.moveDown(1);
 
-
-            /* ============================
-               SUMMARY
-            ============================ */
 
             let totalPresent = 0;
 
@@ -1660,10 +2192,6 @@ app.get(
 
             doc.moveDown(1);
 
-
-            /* ============================
-               TABLE
-            ============================ */
 
             const startX = 40;
 
@@ -1789,12 +2317,14 @@ app.get(
                                     item =>
                                         Number(
                                             item.player_id
-                                        ) === Number(
+                                        ) ===
+                                        Number(
                                             player.id
                                         ) &&
                                         Number(
                                             item.session_id
-                                        ) === Number(
+                                        ) ===
+                                        Number(
                                             session.id
                                         )
                                 );
@@ -1859,9 +2389,6 @@ app.get(
             );
 
 
-            // Only send JSON if headers have not
-            // already been sent by the PDF stream.
-
             if (!res.headersSent) {
 
                 res.status(500).json({
@@ -1880,24 +2407,6 @@ app.get(
     }
 );
 
-/* =====================================
-   SETTINGS API
-===================================== */
-
-/*
-   These settings are stored in the
-   "settings" table in Supabase.
-
-   Expected columns:
-
-   id
-   club_name
-   club_email
-   club_phone
-   club_address
-   training_time
-   training_days
-*/
 
 /* =====================================
    GET SETTINGS
@@ -1919,6 +2428,7 @@ app.get(
                 .select("*")
 
                 .limit(1)
+
                 .maybeSingle();
 
 
@@ -1969,6 +2479,7 @@ app.get(
     }
 );
 
+
 /* =====================================
    SAVE / UPDATE SETTINGS
 ===================================== */
@@ -1991,10 +2502,6 @@ app.put(
             } = req.body;
 
 
-            /* ============================
-               CHECK EXISTING SETTINGS
-            ============================ */
-
             const {
                 data: existing,
                 error: findError
@@ -2005,6 +2512,7 @@ app.put(
                 .select("id")
 
                 .limit(1)
+
                 .maybeSingle();
 
 
@@ -2026,10 +2534,6 @@ app.put(
 
             let error;
 
-
-            /* ============================
-               UPDATE EXISTING SETTINGS
-            ============================ */
 
             if (existing) {
 
@@ -2065,10 +2569,6 @@ app.put(
                     result.error;
 
             }
-
-            /* ============================
-               CREATE SETTINGS
-            ============================ */
 
             else {
 
@@ -2151,142 +2651,6 @@ app.put(
     }
 );
 
-/* =====================================
-   CHANGE USER PASSWORD API
-===================================== */
-
-app.put("/api/change-password", async (req, res) => {
-
-    const {
-        user_id,
-        current_password,
-        new_password
-    } = req.body;
-
-
-    if (
-        !user_id ||
-        !current_password ||
-        !new_password
-    ) {
-
-        return res.status(400).json({
-
-            success: false,
-
-            message:
-                "All password fields are required."
-
-        });
-
-    }
-
-
-    try {
-
-        /* ================================
-           CHECK CURRENT PASSWORD
-        ================================= */
-
-        const {
-            data: user,
-            error: findError
-        } = await supabase
-
-            .from("users")
-
-            .select("*")
-
-            .eq("id", user_id)
-
-            .eq("password", current_password)
-
-            .single();
-
-
-        if (findError || !user) {
-
-            return res.status(401).json({
-
-                success: false,
-
-                message:
-                    "Current password is incorrect."
-
-            });
-
-        }
-
-
-        /* ================================
-           UPDATE PASSWORD
-        ================================= */
-
-        const {
-            error: updateError
-        } = await supabase
-
-            .from("users")
-
-            .update({
-
-                password: new_password
-
-            })
-
-            .eq("id", user_id);
-
-
-        if (updateError) {
-
-            return res.status(400).json({
-
-                success: false,
-
-                message:
-                    updateError.message
-
-            });
-
-        }
-
-
-        /* ================================
-           SUCCESS
-        ================================= */
-
-        res.json({
-
-            success: true,
-
-            message:
-                "Password changed successfully."
-
-        });
-
-    }
-
-
-    catch (err) {
-
-        console.error(
-            "Password Change Error:",
-            err
-        );
-
-
-        res.status(500).json({
-
-            success: false,
-
-            message:
-                "Server Error"
-
-        });
-
-    }
-
-});
 
 /* =====================================
    START SERVER
@@ -2296,18 +2660,21 @@ const PORT =
     process.env.PORT || 3000;
 
 
-app.listen(PORT, () => {
+app.listen(
+    PORT,
+    () => {
 
-    console.log(
-        "====================================="
-    );
+        console.log(
+            "====================================="
+        );
 
-    console.log(
-        `🚀 Server running on http://localhost:${PORT}`
-    );
+        console.log(
+            `🚀 Server running on port ${PORT}`
+        );
 
-    console.log(
-        "====================================="
-    );
+        console.log(
+            "====================================="
+        );
 
-});
+    }
+);
