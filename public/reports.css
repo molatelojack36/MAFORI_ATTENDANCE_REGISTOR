@@ -30,22 +30,7 @@ body {
 ========================================== */
 
 body {
-    background:
-
-        linear-gradient(
-            rgba(245, 247, 250, 0.97),
-            rgba(245, 247, 250, 0.97)
-        ),
-
-        url("MAFORI_FC_LOGO.jpeg");
-
-    background-size: cover;
-
-    background-position: center;
-
-    background-repeat: no-repeat;
-
-    background-attachment: fixed;
+    background: #f4f7fa;
 
     color: #1f2937;
 
@@ -67,7 +52,6 @@ body {
     height: 100vh;
 
     background:
-
         linear-gradient(
             180deg,
             #08182f 0%,
@@ -196,12 +180,11 @@ body {
 
 
 /* ==========================================
-   ACTIVE
+   ACTIVE MENU
 ========================================== */
 
 .sidebar li.active {
     background:
-
         linear-gradient(
             135deg,
             rgba(
@@ -267,9 +250,12 @@ body {
 
 /* ==========================================
    MAIN CONTENT
+   MAFORI FC BACKGROUND
 ========================================== */
 
 .main {
+    position: relative;
+
     margin-left: 260px;
 
     width:
@@ -288,6 +274,31 @@ body {
     flex-direction: column;
 
     overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(
+                7,
+                26,
+                53,
+                0.68
+            ),
+            rgba(
+                7,
+                26,
+                53,
+                0.80
+            )
+        ),
+        url("MAFORI_FC_LOGO.jpeg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    background-attachment: fixed;
 }
 
 
@@ -303,20 +314,38 @@ header {
 
 
 header h1 {
-    color: #0f172a;
+    color: #ffffff;
 
     font-size: 30px;
 
     font-weight: 800;
 
     margin-bottom: 5px;
+
+    text-shadow:
+        0 3px 12px
+        rgba(
+            0,
+            0,
+            0,
+            0.35
+        );
 }
 
 
 header p {
-    color: #64748b;
+    color: #e2e8f0;
 
     font-size: 14px;
+
+    text-shadow:
+        0 2px 8px
+        rgba(
+            0,
+            0,
+            0,
+            0.30
+        );
 }
 
 
@@ -338,7 +367,7 @@ header p {
             255,
             255,
             255,
-            0.97
+            0.96
         );
 
     padding: 20px;
@@ -347,18 +376,33 @@ header p {
 
     border:
         1px solid
-        #e8edf3;
+        rgba(
+            255,
+            255,
+            255,
+            0.75
+        );
 
     box-shadow:
-        0 10px 30px
+        0 12px 32px
         rgba(
-            15,
-            23,
-            42,
-            0.06
+            0,
+            0,
+            0,
+            0.15
         );
 
     margin-bottom: 20px;
+
+    backdrop-filter:
+        blur(
+            10px
+        );
+
+    -webkit-backdrop-filter:
+        blur(
+            10px
+        );
 }
 
 
@@ -415,7 +459,14 @@ header p {
 
     transition:
         border-color 0.25s ease,
+        background 0.25s ease,
         box-shadow 0.25s ease;
+}
+
+
+.filter-group select:hover,
+.filter-group input:hover {
+    border-color: #cbd5e1;
 }
 
 
@@ -437,7 +488,7 @@ header p {
 
 
 /* ==========================================
-   GENERATE BUTTON
+   GENERATE REPORT BUTTON
 ========================================== */
 
 #generateReport {
@@ -452,7 +503,6 @@ header p {
     border-radius: 9px;
 
     background:
-
         linear-gradient(
             135deg,
             #ff8a00,
@@ -478,7 +528,8 @@ header p {
 
     transition:
         transform 0.25s ease,
-        box-shadow 0.25s ease;
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
 }
 
 
@@ -496,6 +547,16 @@ header p {
             0,
             0.27
         );
+
+    filter: brightness(1.04);
+}
+
+
+#generateReport:active {
+    transform:
+        translateY(
+            0
+        );
 }
 
 
@@ -507,11 +568,13 @@ header p {
     transform: none;
 
     box-shadow: none;
+
+    filter: none;
 }
 
 
 /* ==========================================
-   STATS
+   STATISTICS
 ========================================== */
 
 .stats {
@@ -538,7 +601,13 @@ header p {
 .stat-card {
     position: relative;
 
-    background: white;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.96
+        );
 
     padding:
         16px
@@ -548,20 +617,60 @@ header p {
 
     border:
         1px solid
-        #e8edf3;
+        rgba(
+            255,
+            255,
+            255,
+            0.75
+        );
 
     box-shadow:
-        0 8px 22px
+        0 10px 28px
         rgba(
-            15,
-            23,
-            42,
-            0.06
+            0,
+            0,
+            0,
+            0.13
         );
 
     text-align: center;
+
+    backdrop-filter:
+        blur(
+            10px
+        );
+
+    -webkit-backdrop-filter:
+        blur(
+            10px
+        );
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
+
+.stat-card:hover {
+    transform:
+        translateY(
+            -3px
+        );
+
+    box-shadow:
+        0 15px 32px
+        rgba(
+            0,
+            0,
+            0,
+            0.17
+        );
+}
+
+
+/* ==========================================
+   STAT ICON
+========================================== */
 
 .stat-icon {
     width: 34px;
@@ -627,6 +736,7 @@ header p {
 
 /* ==========================================
    TABLE CONTAINER
+   ONLY THIS AREA SCROLLS
 ========================================== */
 
 .table-container {
@@ -638,24 +748,45 @@ header p {
 
     overflow-x: auto;
 
-    background: white;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.97
+        );
 
     border-radius: 12px;
 
     border:
         1px solid
-        #e8edf3;
+        rgba(
+            255,
+            255,
+            255,
+            0.75
+        );
 
     box-shadow:
-        0 8px 25px
+        0 15px 35px
         rgba(
-            15,
-            23,
-            42,
-            0.06
+            0,
+            0,
+            0,
+            0.16
         );
 
     position: relative;
+
+    backdrop-filter:
+        blur(
+            8px
+        );
+
+    -webkit-backdrop-filter:
+        blur(
+            8px
+        );
 }
 
 
@@ -669,8 +800,20 @@ header p {
     min-width: 700px;
 
     border-collapse: collapse;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.95
+        );
 }
 
+
+/* ==========================================
+   TABLE HEADER
+========================================== */
 
 .table-container thead {
     position: sticky;
@@ -682,6 +825,10 @@ header p {
 
 
 .table-container th {
+    position: sticky;
+
+    top: 0;
+
     background: #0b1f3a;
 
     color: white;
@@ -695,8 +842,16 @@ header p {
     font-size: 13px;
 
     font-weight: 600;
+
+    white-space: nowrap;
+
+    z-index: 10;
 }
 
+
+/* ==========================================
+   TABLE CELLS
+========================================== */
 
 .table-container td {
     padding:
@@ -710,6 +865,14 @@ header p {
     font-size: 13px;
 
     color: #374151;
+
+    white-space: nowrap;
+}
+
+
+.table-container tbody tr {
+    transition:
+        background 0.2s ease;
 }
 
 
@@ -779,15 +942,17 @@ header p {
 
     transition:
         transform 0.25s ease,
-        box-shadow 0.25s ease;
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
 }
 
 
-/* PDF */
+/* ==========================================
+   PDF BUTTON
+========================================== */
 
 #downloadPDF {
     background:
-
         linear-gradient(
             135deg,
             #ef4444,
@@ -810,14 +975,17 @@ header p {
             38,
             0.25
         );
+
+    filter: brightness(1.04);
 }
 
 
-/* CSV */
+/* ==========================================
+   CSV BUTTON
+========================================== */
 
 #downloadExcel {
     background:
-
         linear-gradient(
             135deg,
             #22c55e,
@@ -840,11 +1008,13 @@ header p {
             74,
             0.24
         );
+
+    filter: brightness(1.04);
 }
 
 
 /* ==========================================
-   SWEETALERT
+   SWEETALERT GENERAL
 ========================================== */
 
 .swal2-popup {
@@ -882,25 +1052,39 @@ header p {
 }
 
 
+.swal2-html-container {
+    font-family:
+        "Poppins",
+        sans-serif !important;
+}
+
+
 .swal2-confirm,
 .swal2-cancel {
-    border-radius: 10px !important;
+    border-radius:
+        10px !important;
 
     padding:
         11px
         19px !important;
 
-    font-size: 13px !important;
+    font-family:
+        "Poppins",
+        sans-serif !important;
 
-    font-weight: 600 !important;
+    font-size:
+        13px !important;
 
-    box-shadow: none !important;
+    font-weight:
+        600 !important;
+
+    box-shadow:
+        none !important;
 }
 
 
 .swal2-timer-progress-bar {
     background:
-
         linear-gradient(
             90deg,
             #ff8a00,
@@ -934,7 +1118,6 @@ header p {
     border-radius: 18px;
 
     background:
-
         linear-gradient(
             135deg,
             #fff7ed,
@@ -964,6 +1147,8 @@ header p {
     color: #94a3b8;
 
     font-size: 12px;
+
+    line-height: 1.6;
 }
 
 
@@ -992,7 +1177,6 @@ header p {
     border-radius: 50%;
 
     background:
-
         linear-gradient(
             135deg,
             #ff8a00,
@@ -1008,6 +1192,13 @@ header p {
         0.8s
         linear
         infinite;
+}
+
+
+.reports-logout-loading p {
+    color: #64748b;
+
+    font-size: 13px;
 }
 
 
@@ -1083,7 +1274,7 @@ header p {
 
 
 /* ==========================================
-   ANIMATIONS
+   POPUP ANIMATIONS
 ========================================== */
 
 @keyframes reportsBallSpin {
@@ -1094,7 +1285,6 @@ header p {
                 0deg
             );
     }
-
 
     to {
         transform:
@@ -1120,7 +1310,6 @@ header p {
             );
     }
 
-
     to {
         opacity: 1;
 
@@ -1140,8 +1329,12 @@ header p {
 
     from {
         opacity: 1;
-    }
 
+        transform:
+            scale(
+                1
+            );
+    }
 
     to {
         opacity: 0;
@@ -1172,7 +1365,7 @@ header p {
 
 
 /* ==========================================
-   SCROLLBAR
+   TABLE SCROLLBAR
 ========================================== */
 
 .table-container::-webkit-scrollbar {
@@ -1184,13 +1377,46 @@ header p {
 
 .table-container::-webkit-scrollbar-track {
     background: #f1f5f9;
+
+    border-radius: 10px;
 }
 
 
 .table-container::-webkit-scrollbar-thumb {
-    background: #9ca3af;
+    background: #64748b;
 
     border-radius: 10px;
+}
+
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #ff8a00;
+}
+
+
+/* ==========================================
+   SIDEBAR SCROLLBAR
+========================================== */
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.sidebar::-webkit-scrollbar-track {
+    background: #08182f;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #334b6d;
+
+    border-radius: 10px;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #ff8a00;
 }
 
 
@@ -1208,7 +1434,7 @@ header p {
 
 
 /* ==========================================
-   RESPONSIVE
+   RESPONSIVE - SMALL LAPTOP
 ========================================== */
 
 @media (
@@ -1291,6 +1517,31 @@ header p {
             20px;
 
         overflow: visible;
+
+        background:
+            linear-gradient(
+                rgba(
+                    7,
+                    26,
+                    53,
+                    0.72
+                ),
+                rgba(
+                    7,
+                    26,
+                    53,
+                    0.82
+                )
+            ),
+            url("MAFORI_FC_LOGO.jpeg");
+
+        background-size: cover;
+
+        background-position: center;
+
+        background-repeat: no-repeat;
+
+        background-attachment: scroll;
     }
 
 

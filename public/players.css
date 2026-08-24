@@ -33,17 +33,7 @@ body {
 
     display: flex;
 
-    background:
-        linear-gradient(
-            rgba(245, 247, 250, 0.97),
-            rgba(245, 247, 250, 0.97)
-        ),
-        url("MAFORI_FC_LOGO.jpeg");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background: #f4f7fa;
 
     color: #1e293b;
 }
@@ -335,9 +325,12 @@ body {
 
 /* =====================================================
    MAIN CONTENT
+   MAFORI FC LOGO BACKGROUND
 ===================================================== */
 
 .main-content {
+    position: relative;
+
     margin-left: 260px;
 
     width:
@@ -351,6 +344,31 @@ body {
         42px
         50px
         60px;
+
+    background:
+        linear-gradient(
+            rgba(
+                7,
+                26,
+                53,
+                0.68
+            ),
+            rgba(
+                7,
+                26,
+                53,
+                0.78
+            )
+        ),
+        url("MAFORI_FC_LOGO.jpeg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    background-attachment: fixed;
 }
 
 
@@ -376,11 +394,22 @@ body {
 
     border:
         1px solid
-        #e2e8f0;
+        rgba(
+            255,
+            255,
+            255,
+            0.18
+        );
 
     border-radius: 10px;
 
-    background: #ffffff;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.94
+        );
 
     color: #0b1f3a;
 
@@ -396,7 +425,17 @@ body {
             15,
             23,
             42,
-            0.06
+            0.10
+        );
+
+    backdrop-filter:
+        blur(
+            7px
+        );
+
+    -webkit-backdrop-filter:
+        blur(
+            7px
         );
 
     transition:
@@ -451,7 +490,7 @@ body {
 
 
 .header h1 {
-    color: #0f172a;
+    color: #ffffff;
 
     font-size: 34px;
 
@@ -461,11 +500,20 @@ body {
         -0.4px;
 
     margin-bottom: 8px;
+
+    text-shadow:
+        0 3px 12px
+        rgba(
+            0,
+            0,
+            0,
+            0.35
+        );
 }
 
 
 .header h1 i {
-    color: #ff7a00;
+    color: #ff8a00;
 
     margin-right: 9px;
 }
@@ -474,11 +522,20 @@ body {
 .header p {
     max-width: 720px;
 
-    color: #64748b;
+    color: #e2e8f0;
 
     font-size: 14px;
 
     line-height: 1.7;
+
+    text-shadow:
+        0 2px 8px
+        rgba(
+            0,
+            0,
+            0,
+            0.30
+        );
 }
 
 
@@ -532,20 +589,35 @@ body {
             255,
             255,
             255,
-            0.97
+            0.94
         );
 
     border:
         1px solid
-        #e8edf3;
+        rgba(
+            255,
+            255,
+            255,
+            0.75
+        );
 
     box-shadow:
-        0 16px 38px
+        0 18px 42px
         rgba(
-            15,
-            23,
-            42,
-            0.07
+            0,
+            0,
+            0,
+            0.16
+        );
+
+    backdrop-filter:
+        blur(
+            9px
+        );
+
+    -webkit-backdrop-filter:
+        blur(
+            9px
         );
 
     overflow: hidden;
@@ -666,16 +738,16 @@ body {
             255,
             138,
             0,
-            0.24
+            0.38
         );
 
     box-shadow:
-        0 22px 48px
+        0 24px 52px
         rgba(
-            15,
-            23,
-            42,
-            0.11
+            0,
+            0,
+            0,
+            0.22
         );
 }
 
@@ -1041,6 +1113,32 @@ body {
 
 
 /* =====================================================
+   SIDEBAR SCROLLBAR
+===================================================== */
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.sidebar::-webkit-scrollbar-track {
+    background: #08182f;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #334b6d;
+
+    border-radius: 10px;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #ff8a00;
+}
+
+
+/* =====================================================
    TABLET
 ===================================================== */
 
@@ -1065,6 +1163,8 @@ body {
             35px
             28px
             50px;
+
+        background-position: center;
     }
 
 
@@ -1166,10 +1266,37 @@ body {
 
         width: 100%;
 
+        min-height: 100vh;
+
         padding:
             28px
             18px
             40px;
+
+        background:
+            linear-gradient(
+                rgba(
+                    7,
+                    26,
+                    53,
+                    0.70
+                ),
+                rgba(
+                    7,
+                    26,
+                    53,
+                    0.80
+                )
+            ),
+            url("MAFORI_FC_LOGO.jpeg");
+
+        background-size: cover;
+
+        background-position: center;
+
+        background-repeat: no-repeat;
+
+        background-attachment: scroll;
     }
 
 
@@ -1195,17 +1322,14 @@ body {
     max-width: 520px
 ) {
 
-    body {
-        background-attachment:
-            scroll;
-    }
-
-
     .main-content {
         padding:
             23px
             13px
             35px;
+
+        background-position:
+            center;
     }
 
 
@@ -1233,6 +1357,14 @@ body {
         padding: 23px;
 
         border-radius: 15px;
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                0.95
+            );
     }
 
 

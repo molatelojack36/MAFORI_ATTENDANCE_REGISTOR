@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +16,9 @@
     </title>
 
 
-    <!-- GOOGLE FONT -->
+    <!-- ==========================================
+         GOOGLE FONT
+    =========================================== -->
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
@@ -23,7 +26,9 @@
     >
 
 
-    <!-- FONT AWESOME -->
+    <!-- ==========================================
+         FONT AWESOME
+    =========================================== -->
 
     <link
         rel="stylesheet"
@@ -31,12 +36,23 @@
     >
 
 
-    <!-- PLAYERS CSS -->
+    <!-- ==========================================
+         PLAYERS CSS
+    =========================================== -->
 
     <link
         rel="stylesheet"
         href="players.css"
     >
+
+
+    <!-- ==========================================
+         SWEETALERT
+    =========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
 
 </head>
 
@@ -51,10 +67,18 @@
     <aside class="sidebar">
 
 
+        <!-- ======================================
+             SIDEBAR TITLE
+        ======================================= -->
+
         <h2>
             MAFORI FC
         </h2>
 
+
+        <!-- ======================================
+             NAVIGATION
+        ======================================= -->
 
         <ul>
 
@@ -155,6 +179,7 @@
 
                 <a
                     href="#"
+                    id="logoutLink"
                     onclick="logout(); return false;"
                 >
 
@@ -189,7 +214,7 @@
             <button
                 type="button"
                 class="back-button"
-                onclick="location.href='dashboard.html'"
+                onclick="window.location.href='dashboard.html'"
             >
 
                 <i class="fa-solid fa-arrow-left"></i>
@@ -208,21 +233,25 @@
 
         <div class="header">
 
-            <h1>
+            <div>
 
-                <i class="fa-solid fa-users"></i>
+                <h1>
 
-                Player Management
+                    <i class="fa-solid fa-users"></i>
 
-            </h1>
+                    Player Management
+
+                </h1>
 
 
-            <p>
+                <p>
 
-                Add, view, edit, search and manage
-                Mafori FC players.
+                    Add, view, edit, search and manage
+                    Mafori FC players.
 
-            </p>
+                </p>
+
+            </div>
 
         </div>
 
@@ -283,7 +312,7 @@
 
 
 
-            <!-- SEARCH PLAYERS -->
+            <!-- SEARCH PLAYER -->
 
             <a
                 href="view-players.html"
@@ -307,7 +336,7 @@
 
 
 
-            <!-- EDIT PLAYERS -->
+            <!-- EDIT PLAYER -->
 
             <a
                 href="view-players.html"
@@ -334,7 +363,7 @@
             <!-- REMOVE PLAYER -->
 
             <a
-                href="view-players.html"
+                href="remove-player.html"
                 class="card"
             >
 
@@ -362,16 +391,7 @@
 
 
     <!-- ==========================================
-         SWEETALERT
-    =========================================== -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
-    ></script>
-
-
-    <!-- ==========================================
-         PLAYERS JS
+         PLAYERS JAVASCRIPT
     =========================================== -->
 
     <script src="players.js"></script>

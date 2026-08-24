@@ -19,6 +19,11 @@
 }
 
 
+html {
+    scroll-behavior: smooth;
+}
+
+
 /* =====================================================
    BODY
 ===================================================== */
@@ -28,17 +33,7 @@ body {
 
     display: flex;
 
-    background:
-        linear-gradient(
-            rgba(245, 247, 250, 0.97),
-            rgba(245, 247, 250, 0.97)
-        ),
-        url("MAFORI_FC_LOGO.jpeg");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background: #f4f7fa;
 
     color: #1e293b;
 }
@@ -323,9 +318,12 @@ body {
 
 /* =====================================================
    MAIN CONTENT
+   MAFORI FC BACKGROUND
 ===================================================== */
 
 .main {
+    position: relative;
+
     margin-left: 260px;
 
     width:
@@ -339,6 +337,38 @@ body {
         42px
         50px
         60px;
+
+    /*
+       Mafori FC logo is now used only
+       on the content area.
+
+       Sidebar remains dark blue.
+    */
+
+    background:
+        linear-gradient(
+            rgba(
+                245,
+                247,
+                250,
+                0.86
+            ),
+            rgba(
+                245,
+                247,
+                250,
+                0.86
+            )
+        ),
+        url("MAFORI_FC_LOGO.jpeg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    background-attachment: fixed;
 }
 
 
@@ -347,6 +377,10 @@ body {
 ===================================================== */
 
 header {
+    position: relative;
+
+    z-index: 2;
+
     display: flex;
 
     justify-content: space-between;
@@ -371,7 +405,7 @@ header h1 {
 
 
 header p {
-    color: #64748b;
+    color: #475569;
 
     margin-top: 6px;
 
@@ -386,6 +420,10 @@ header p {
 ===================================================== */
 
 .cards {
+    position: relative;
+
+    z-index: 2;
+
     display: grid;
 
     grid-template-columns:
@@ -417,12 +455,17 @@ header p {
             255,
             255,
             255,
-            0.97
+            0.94
         );
 
     border:
         1px solid
-        #e8edf3;
+        rgba(
+            226,
+            232,
+            240,
+            0.92
+        );
 
     border-radius: 17px;
 
@@ -436,8 +479,14 @@ header p {
             15,
             23,
             42,
-            0.07
+            0.09
         );
+
+    backdrop-filter:
+        blur(8px);
+
+    -webkit-backdrop-filter:
+        blur(8px);
 
     transition:
         transform 0.25s ease,
@@ -484,7 +533,7 @@ header p {
             255,
             138,
             0,
-            0.25
+            0.30
         );
 
     box-shadow:
@@ -493,7 +542,7 @@ header p {
             15,
             23,
             42,
-            0.11
+            0.14
         );
 }
 
@@ -570,6 +619,8 @@ header p {
 .welcome {
     position: relative;
 
+    z-index: 2;
+
     margin-top: 28px;
 
     background:
@@ -577,12 +628,17 @@ header p {
             255,
             255,
             255,
-            0.97
+            0.94
         );
 
     border:
         1px solid
-        #e8edf3;
+        rgba(
+            226,
+            232,
+            240,
+            0.92
+        );
 
     border-radius: 18px;
 
@@ -594,8 +650,14 @@ header p {
             15,
             23,
             42,
-            0.07
+            0.09
         );
+
+    backdrop-filter:
+        blur(8px);
+
+    -webkit-backdrop-filter:
+        blur(8px);
 
     overflow: hidden;
 
@@ -885,7 +947,6 @@ header p {
             );
     }
 
-
     to {
         opacity: 1;
 
@@ -894,7 +955,6 @@ header p {
                 0
             );
     }
-
 }
 
 
@@ -916,7 +976,6 @@ header p {
             );
     }
 
-
     65% {
         opacity: 1;
 
@@ -929,7 +988,6 @@ header p {
             );
     }
 
-
     100% {
         opacity: 1;
 
@@ -941,7 +999,6 @@ header p {
                 1
             );
     }
-
 }
 
 
@@ -960,7 +1017,6 @@ header p {
             );
     }
 
-
     to {
         opacity: 0;
 
@@ -969,7 +1025,6 @@ header p {
                 0.94
             );
     }
-
 }
 
 
@@ -986,14 +1041,12 @@ header p {
             );
     }
 
-
     to {
         transform:
             rotate(
                 360deg
             );
     }
-
 }
 
 
@@ -1038,6 +1091,10 @@ header p {
             35px
             28px
             50px;
+
+        background-size: cover;
+
+        background-position: center;
     }
 
 
@@ -1051,7 +1108,6 @@ header p {
                 )
             );
     }
-
 }
 
 
@@ -1135,10 +1191,37 @@ header p {
 
         width: 100%;
 
+        min-height: 100vh;
+
         padding:
             28px
             18px
             40px;
+
+        background:
+            linear-gradient(
+                rgba(
+                    245,
+                    247,
+                    250,
+                    0.88
+                ),
+                rgba(
+                    245,
+                    247,
+                    250,
+                    0.88
+                )
+            ),
+            url("MAFORI_FC_LOGO.jpeg");
+
+        background-size: cover;
+
+        background-position: center;
+
+        background-repeat: no-repeat;
+
+        background-attachment: scroll;
     }
 
 
@@ -1159,7 +1242,6 @@ header p {
                 )
             );
     }
-
 }
 
 
@@ -1171,17 +1253,15 @@ header p {
     max-width: 520px
 ) {
 
-    body {
-        background-attachment:
-            scroll;
-    }
-
-
     .main {
         padding:
             23px
             13px
             35px;
+
+        background-position: center;
+
+        background-size: cover;
     }
 
 
@@ -1209,6 +1289,14 @@ header p {
         padding: 22px;
 
         border-radius: 15px;
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                0.94
+            );
     }
 
 
@@ -1240,6 +1328,14 @@ header p {
             20px;
 
         border-radius: 15px;
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                0.94
+            );
     }
 
 
@@ -1259,5 +1355,4 @@ header p {
                 100% - 24px
             ) !important;
     }
-
 }

@@ -17,6 +17,15 @@
 
 
 /* ==========================================
+   HTML
+========================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* ==========================================
    BODY
 ========================================== */
 
@@ -90,6 +99,8 @@ body {
         );
 
     z-index: 1000;
+
+    overflow-y: auto;
 }
 
 
@@ -229,6 +240,44 @@ body {
 
 
 /* ==========================================
+   SIDEBAR SCROLLBAR
+========================================== */
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.sidebar::-webkit-scrollbar-track {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.04
+        );
+}
+
+
+.sidebar::-webkit-scrollbar-thumb {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.20
+        );
+
+    border-radius: 20px;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #ff9800;
+}
+
+
+/* ==========================================
    MAIN CONTENT
 ========================================== */
 
@@ -242,8 +291,7 @@ body {
 
     min-height: 100vh;
 
-    padding:
-        40px;
+    padding: 40px;
 }
 
 
@@ -690,6 +738,8 @@ body {
     color: #8491a4;
 
     font-size: 14px;
+
+    pointer-events: none;
 }
 
 
@@ -750,11 +800,29 @@ body {
 
 /* ==========================================
    TABLE WRAPPER
+
+   IMPORTANT:
+   THE PLAYER LIST NOW SCROLLS ON ITS OWN
 ========================================== */
 
 .table-wrapper {
     width: 100%;
 
+    /*
+       Controls the height of the visible
+       player list before scrolling begins.
+    */
+    max-height: 430px;
+
+    /*
+       Vertical scrolling for players.
+    */
+    overflow-y: auto;
+
+    /*
+       Horizontal scrolling for smaller
+       screens / wide table.
+    */
     overflow-x: auto;
 
     border-radius: 14px;
@@ -767,6 +835,50 @@ body {
             0,
             0.16
         );
+
+    position: relative;
+
+    background: #ffffff;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #0b1f3a
+        #f1f5f9;
+}
+
+
+/* ==========================================
+   PLAYER LIST SCROLLBAR
+========================================== */
+
+.table-wrapper::-webkit-scrollbar {
+    width: 9px;
+
+    height: 9px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #f1f5f9;
+
+    border-radius: 10px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #0b1f3a;
+
+    border-radius: 10px;
+
+    border:
+        2px solid
+        #f1f5f9;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #ff9800;
 }
 
 
@@ -779,7 +891,9 @@ table {
 
     min-width: 950px;
 
-    border-collapse: collapse;
+    border-collapse: separate;
+
+    border-spacing: 0;
 
     background: #ffffff;
 
@@ -787,7 +901,28 @@ table {
 }
 
 
+/* ==========================================
+   TABLE HEADER
+========================================== */
+
 thead {
+    color: #ffffff;
+}
+
+
+/*
+   IMPORTANT:
+   Table headings remain visible while
+   the player list scrolls.
+*/
+
+.table-wrapper thead th {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 20;
+
     background:
         linear-gradient(
             135deg,
@@ -796,6 +931,15 @@ thead {
         );
 
     color: #ffffff;
+
+    box-shadow:
+        0 2px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.06
+        );
 }
 
 
@@ -814,6 +958,10 @@ th {
 }
 
 
+/* ==========================================
+   TABLE BODY
+========================================== */
+
 td {
     padding:
         14px
@@ -826,6 +974,8 @@ td {
     border-bottom:
         1px solid
         #edf0f4;
+
+    background: #ffffff;
 }
 
 
@@ -835,12 +985,12 @@ tbody tr {
 }
 
 
-tbody tr:nth-child(even) {
+tbody tr:nth-child(even) td {
     background: #f8fafc;
 }
 
 
-tbody tr:hover {
+tbody tr:hover td {
     background: #fff5e8;
 }
 
@@ -1657,6 +1807,16 @@ input[type="radio"] {
         flex: 1;
     }
 
+
+    /*
+       Slightly smaller scrolling
+       player area on tablets.
+    */
+
+    .table-wrapper {
+        max-height: 400px;
+    }
+
 }
 
 
@@ -1769,6 +1929,16 @@ input[type="radio"] {
     }
 
 
+    /*
+       Player list keeps its own
+       scrolling area on mobile.
+    */
+
+    .table-wrapper {
+        max-height: 380px;
+    }
+
+
     .attendance-legend {
         gap: 13px;
     }
@@ -1843,6 +2013,18 @@ input[type="radio"] {
         height: 46px;
 
         font-size: 12px;
+    }
+
+
+    /*
+       Independent player scrolling
+       area for small phones.
+    */
+
+    .table-wrapper {
+        max-height: 330px;
+
+        border-radius: 11px;
     }
 
 
