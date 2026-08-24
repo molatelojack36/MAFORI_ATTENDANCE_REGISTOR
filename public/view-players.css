@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 
-/* =====================================
+/* =====================================================
    RESET
-===================================== */
+===================================================== */
 
 * {
     margin: 0;
@@ -11,148 +11,133 @@
     box-sizing: border-box;
 
     font-family:
-        'Poppins',
+        "Poppins",
         sans-serif;
 }
 
 
-/* =====================================
+/* =====================================================
    BODY
-===================================== */
+===================================================== */
 
 body {
     display: flex;
 
     min-height: 100vh;
 
-    background: #f4f7fc;
-
-    overflow: hidden;
+    background: #071a35;
 
     color: #1f2937;
+
+    overflow: hidden;
 }
 
 
-/* =====================================
+/* =====================================================
    SIDEBAR
-===================================== */
+===================================================== */
 
 .sidebar {
-    width: 260px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #071a35 0%,
-            #0b1f3a 100%
-        );
-
-    color: white;
-
     position: fixed;
 
     top: 0;
     left: 0;
     bottom: 0;
 
-    overflow-y: auto;
+    width: 260px;
+
+    padding:
+        24px
+        14px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #08182f 0%,
+            #0b1f3a 100%
+        );
+
+    color: #ffffff;
 
     box-shadow:
         8px 0 30px
-        rgba(
-            15,
-            23,
-            42,
-            0.16
-        );
+        rgba(15, 23, 42, 0.12);
+
+    overflow-y: auto;
 
     z-index: 1000;
 }
 
 
-/* =====================================
+/* =====================================================
    LOGO
-===================================== */
+===================================================== */
 
 .logo {
-    height: 90px;
+    min-height: 90px;
 
     display: flex;
 
-    justify-content: center;
-
     align-items: center;
+    justify-content: center;
 
     gap: 10px;
 
-    color: #FFD54F;
+    margin-bottom: 20px;
+
+    padding-bottom: 20px;
 
     border-bottom:
         1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.08
-        );
+        rgba(255, 255, 255, 0.08);
 }
-
 
 .logo i {
-    font-size: 30px;
+    color: #ff8a00;
 
-    color: #ff9800;
+    font-size: 29px;
 }
-
 
 .logo h2 {
-    font-size: 21px;
-
-    font-weight: 800;
-
     color: #ffffff;
+
+    font-size: 21px;
+    font-weight: 800;
 }
 
 
-/* =====================================
+/* =====================================================
    SIDEBAR MENU
-===================================== */
+===================================================== */
 
 .sidebar ul {
     list-style: none;
-
-    margin-top: 20px;
-
-    padding:
-        0
-        14px;
 }
-
 
 .sidebar li {
     margin-bottom: 7px;
 }
-
 
 .sidebar li a {
     display: flex;
 
     align-items: center;
 
-    gap: 15px;
+    gap: 12px;
+
+    width: 100%;
+
+    padding:
+        13px
+        15px;
+
+    border-radius: 10px;
 
     color: #cbd5e1;
 
     text-decoration: none;
 
-    padding:
-        14px
-        16px;
-
-    border-radius: 10px;
-
     font-size: 14px;
-
     font-weight: 500;
 
     transition:
@@ -160,7 +145,6 @@ body {
         color 0.25s ease,
         transform 0.25s ease;
 }
-
 
 .sidebar li a i {
     width: 20px;
@@ -172,96 +156,66 @@ body {
     font-size: 16px;
 }
 
-
 .sidebar li a:hover {
     background:
-        rgba(
-            255,
-            152,
-            0,
-            0.13
-        );
+        rgba(255, 138, 0, 0.12);
 
     color: #ffffff;
 
-    transform:
-        translateX(
-            3px
-        );
+    transform: translateX(3px);
 }
-
 
 .sidebar li a:hover i {
-    color: #ff9800;
+    color: #ff8a00;
 }
 
 
-/* =====================================
+/* =====================================================
    ACTIVE MENU
-===================================== */
+===================================================== */
 
 .sidebar li.active a {
     background:
         linear-gradient(
             135deg,
-            #ff9800,
-            #ff6f00
+            rgba(255, 138, 0, 0.18),
+            rgba(255, 106, 0, 0.10)
         );
+
+    border-left:
+        3px solid #ff8a00;
 
     color: #ffffff;
-
-    box-shadow:
-        0 8px 20px
-        rgba(
-            255,
-            111,
-            0,
-            0.22
-        );
 }
-
 
 .sidebar li.active a i {
-    color: #ffffff;
+    color: #ff8a00;
 }
 
 
-/* =====================================
-   LOGOUT MENU
-===================================== */
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 .sidebar li:last-child a {
     color: #fca5a5;
 }
 
-
 .sidebar li:last-child a i {
     color: #f87171;
 }
 
-
 .sidebar li:last-child a:hover {
     background:
-        rgba(
-            239,
-            68,
-            68,
-            0.12
-        );
+        rgba(239, 68, 68, 0.12);
 
     color: #ffffff;
 }
 
 
-.sidebar li:last-child a:hover i {
-    color: #ff9800;
-}
-
-
-/* =====================================
+/* =====================================================
    MAIN CONTENT
-   MAFORI FC LOGO BACKGROUND
-===================================== */
+===================================================== */
 
 .main-content {
     position: relative;
@@ -269,105 +223,81 @@ body {
     margin-left: 260px;
 
     width:
-        calc(
-            100% - 260px
-        );
+        calc(100% - 260px);
 
     height: 100vh;
 
-    padding: 40px;
+    padding:
+        40px
+        50px;
 
     overflow: hidden;
 
     background:
         linear-gradient(
-            rgba(
-                244,
-                247,
-                252,
-                0.90
-            ),
-            rgba(
-                244,
-                247,
-                252,
-                0.94
-            )
+            rgba(7, 26, 53, 0.68),
+            rgba(7, 26, 53, 0.78)
         ),
         url("MAFORI_FC_LOGO.jpeg");
 
     background-size: cover;
-
     background-position: center;
-
     background-repeat: no-repeat;
-
     background-attachment: fixed;
 }
 
 
-/* =====================================
+/* =====================================================
    HEADER
-===================================== */
+===================================================== */
 
 .header {
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
+    justify-content: space-between;
 
     gap: 20px;
 
     margin-bottom: 30px;
 }
 
-
 .header h1 {
-    color: #071a35;
+    color: #ffffff;
 
-    font-size: 36px;
-
+    font-size: 34px;
     font-weight: 800;
 
-    letter-spacing: -0.5px;
+    text-shadow:
+        0 3px 12px
+        rgba(0, 0, 0, 0.35);
 }
-
 
 .header p {
-    color: #64748b;
-
     margin-top: 5px;
 
-    font-size: 14px;
+    color: #e2e8f0;
 
+    font-size: 14px;
     line-height: 1.6;
+
+    text-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.30);
 }
 
 
-/* =====================================
-   ADD PLAYER BUTTON
-===================================== */
+/* =====================================================
+   ADD PLAYER
+===================================================== */
 
 .add-btn {
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 8px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff9800,
-            #ff6f00
-        );
-
-    color: white;
-
-    text-decoration: none;
 
     padding:
         13px
@@ -375,113 +305,79 @@ body {
 
     border-radius: 10px;
 
-    font-size: 14px;
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
 
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
     font-weight: 700;
 
     box-shadow:
         0 9px 20px
-        rgba(
-            255,
-            111,
-            0,
-            0.22
-        );
+        rgba(255, 106, 0, 0.22);
 
     transition:
         transform 0.25s ease,
-        box-shadow 0.25s ease,
-        filter 0.25s ease;
+        box-shadow 0.25s ease;
 }
 
-
 .add-btn:hover {
-    transform:
-        translateY(
-            -2px
-        );
+    transform: translateY(-2px);
 
     box-shadow:
         0 13px 27px
-        rgba(
-            255,
-            111,
-            0,
-            0.30
-        );
-
-    filter:
-        brightness(
-            1.04
-        );
+        rgba(255, 106, 0, 0.30);
 }
 
 
-/* =====================================
+/* =====================================================
    TABLE CARD
-===================================== */
+===================================================== */
 
 .table-card {
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.96
-        );
+        rgba(255, 255, 255, 0.94);
 
     border:
         1px solid
-        rgba(
-            232,
-            237,
-            243,
-            0.95
-        );
+        rgba(255, 255, 255, 0.75);
 
-    border-radius: 16px;
+    border-radius: 18px;
 
     box-shadow:
-        0 14px 35px
-        rgba(
-            15,
-            23,
-            42,
-            0.10
-        );
+        0 18px 42px
+        rgba(0, 0, 0, 0.16);
+
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
 
     overflow: hidden;
-
-    backdrop-filter: blur(8px);
-
-    -webkit-backdrop-filter: blur(8px);
 }
 
 
-/* =====================================
-   TABLE HEADER / SEARCH AREA
-===================================== */
+/* =====================================================
+   SEARCH
+===================================================== */
 
 .table-header {
     padding: 20px;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.96
-        );
+        rgba(255, 255, 255, 0.96);
 
     border-bottom:
-        1px solid
-        #eef2f6;
+        1px solid #eef2f6;
 }
-
 
 .table-header input {
     width: 100%;
-
     max-width: 420px;
 
     padding:
@@ -489,59 +385,39 @@ body {
         18px;
 
     border:
-        1px solid
-        #dbe3ec;
+        1px solid #dbe3ec;
 
     border-radius: 30px;
 
-    outline: none;
-
     background: #f8fafc;
 
-    color: #071a35;
+    color: #0f172a;
+
+    outline: none;
 
     font-size: 14px;
-
-    transition:
-        border-color 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
 }
-
-
-.table-header input::placeholder {
-    color: #94a3b8;
-}
-
 
 .table-header input:focus {
-    border-color: #ff9800;
+    border-color: #ff8a00;
 
     background: #ffffff;
 
     box-shadow:
         0 0 0 3px
-        rgba(
-            255,
-            152,
-            0,
-            0.12
-        );
+        rgba(255, 138, 0, 0.12);
 }
 
 
-/* =====================================
-   SCROLLABLE PLAYER LIST
-===================================== */
+/* =====================================================
+   INDEPENDENT TABLE SCROLL
+===================================================== */
 
 .table-scroll {
     max-height:
-        calc(
-            100vh - 300px
-        );
+        calc(100vh - 300px);
 
     overflow-y: auto;
-
     overflow-x: auto;
 
     scrollbar-width: thin;
@@ -552,9 +428,9 @@ body {
 }
 
 
-/* =====================================
+/* =====================================================
    TABLE
-===================================== */
+===================================================== */
 
 table {
     width: 100%;
@@ -564,25 +440,14 @@ table {
     border-collapse: collapse;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.97
-        );
+        rgba(255, 255, 255, 0.97);
 }
-
-
-/* =====================================
-   TABLE HEADER
-===================================== */
 
 thead {
     background: #071a35;
 
-    color: white;
+    color: #ffffff;
 }
-
 
 thead th {
     position: sticky;
@@ -593,9 +458,8 @@ thead th {
 
     background: #071a35;
 
-    color: white;
+    color: #ffffff;
 }
-
 
 th {
     padding: 16px;
@@ -605,21 +469,16 @@ th {
     white-space: nowrap;
 
     font-size: 13px;
-
     font-weight: 600;
 }
 
-
-/* =====================================
-   TABLE CELLS
-===================================== */
-
 td {
-    padding: 15px 16px;
+    padding:
+        15px
+        16px;
 
     border-bottom:
-        1px solid
-        #eef2f6;
+        1px solid #eef2f6;
 
     white-space: nowrap;
 
@@ -628,42 +487,24 @@ td {
     font-size: 13px;
 }
 
-
-/* =====================================
-   ROW HOVER
-===================================== */
-
-tbody tr {
-    transition:
-        background 0.2s ease;
-}
-
-
 tbody tr:nth-child(even) {
     background:
-        rgba(
-            250,
-            251,
-            252,
-            0.94
-        );
+        rgba(250, 251, 252, 0.94);
 }
-
 
 tbody tr:hover {
     background: #fff7ed;
 }
 
 
-/* =====================================
+/* =====================================================
    STATUS
-===================================== */
+===================================================== */
 
 .status {
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
     min-width: 76px;
@@ -674,17 +515,11 @@ tbody tr:hover {
 
     border-radius: 20px;
 
-    color: white;
+    color: #ffffff;
 
     font-size: 11px;
-
     font-weight: 600;
 }
-
-
-/* =====================================
-   ACTIVE STATUS
-===================================== */
 
 .active-status {
     background:
@@ -693,21 +528,7 @@ tbody tr:hover {
             #22c55e,
             #16a34a
         );
-
-    box-shadow:
-        0 5px 12px
-        rgba(
-            22,
-            163,
-            74,
-            0.17
-        );
 }
-
-
-/* =====================================
-   INACTIVE STATUS
-===================================== */
 
 .inactive-status {
     background:
@@ -716,54 +537,36 @@ tbody tr:hover {
             #ef4444,
             #dc2626
         );
-
-    box-shadow:
-        0 5px 12px
-        rgba(
-            220,
-            38,
-            38,
-            0.17
-        );
 }
 
 
-/* =====================================
+/* =====================================================
    ACTION BUTTONS
-===================================== */
+===================================================== */
 
 .action-btn {
-    border: none;
-
     width: 36px;
     height: 36px;
 
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
-
-    border-radius: 9px;
-
-    cursor: pointer;
 
     margin-right: 7px;
 
-    color: white;
+    border: none;
 
-    font-size: 13px;
+    border-radius: 9px;
+
+    color: #ffffff;
+
+    cursor: pointer;
 
     transition:
         transform 0.25s ease,
-        box-shadow 0.25s ease,
-        opacity 0.25s ease;
+        box-shadow 0.25s ease;
 }
-
-
-/* =====================================
-   EDIT BUTTON
-===================================== */
 
 .edit {
     background:
@@ -772,21 +575,7 @@ tbody tr:hover {
             #3b82f6,
             #2563eb
         );
-
-    box-shadow:
-        0 6px 14px
-        rgba(
-            37,
-            99,
-            235,
-            0.20
-        );
 }
-
-
-/* =====================================
-   DELETE BUTTON
-===================================== */
 
 .delete {
     background:
@@ -795,95 +584,39 @@ tbody tr:hover {
             #ef4444,
             #dc2626
         );
-
-    box-shadow:
-        0 6px 14px
-        rgba(
-            220,
-            38,
-            38,
-            0.20
-        );
 }
-
-
-/* =====================================
-   ACTION BUTTON HOVER
-===================================== */
 
 .action-btn:hover {
-    transform:
-        translateY(
-            -2px
-        );
-
-    opacity: 0.92;
+    transform: translateY(-2px);
 }
 
 
-.edit:hover {
-    box-shadow:
-        0 9px 19px
-        rgba(
-            37,
-            99,
-            235,
-            0.28
-        );
-}
-
-
-.delete:hover {
-    box-shadow:
-        0 9px 19px
-        rgba(
-            220,
-            38,
-            38,
-            0.28
-        );
-}
-
-
-/* =====================================
-   NO DATA
-===================================== */
+/* =====================================================
+   EMPTY
+===================================================== */
 
 .no-data {
     text-align: center;
 
-    padding: 40px !important;
+    padding:
+        40px !important;
 
     color: #64748b;
-
-    font-size: 14px;
 }
 
 
-.no-data i {
-    color: #ff9800;
-
-    margin-right: 7px;
-}
-
-
-/* =====================================
-   TABLE SCROLLBAR
-===================================== */
+/* =====================================================
+   SCROLLBAR
+===================================================== */
 
 .table-scroll::-webkit-scrollbar {
     width: 9px;
-
     height: 9px;
 }
 
-
 .table-scroll::-webkit-scrollbar-track {
     background: #f1f5f9;
-
-    border-radius: 10px;
 }
-
 
 .table-scroll::-webkit-scrollbar-thumb {
     background: #071a35;
@@ -891,36 +624,14 @@ tbody tr:hover {
     border-radius: 10px;
 }
 
-
 .table-scroll::-webkit-scrollbar-thumb:hover {
-    background: #ff9800;
+    background: #ff8a00;
 }
 
 
-/* =====================================
-   SIDEBAR SCROLLBAR
-===================================== */
-
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-
-
-.sidebar::-webkit-scrollbar-track {
-    background: #071a35;
-}
-
-
-.sidebar::-webkit-scrollbar-thumb {
-    background: #334b6d;
-
-    border-radius: 10px;
-}
-
-
-/* =====================================
-   SWEETALERT GLOBAL
-===================================== */
+/* =====================================================
+   SWEETALERT
+===================================================== */
 
 .swal2-popup {
     font-family:
@@ -936,24 +647,16 @@ tbody tr:hover {
 
     box-shadow:
         0 30px 80px
-        rgba(
-            7,
-            26,
-            53,
-            0.24
-        ) !important;
+        rgba(7, 26, 53, 0.24) !important;
 }
-
 
 .swal2-popup.mafori-popup {
     padding:
         30px !important;
 }
 
-
 .swal2-title {
-    color:
-        #071a35 !important;
+    color: #0f172a !important;
 
     font-size:
         24px !important;
@@ -962,20 +665,8 @@ tbody tr:hover {
         800 !important;
 }
 
-
-.swal2-html-container {
-    font-family:
-        "Poppins",
-        sans-serif !important;
-}
-
-
 .swal2-confirm,
 .swal2-cancel {
-    font-family:
-        "Poppins",
-        sans-serif !important;
-
     border-radius:
         10px !important;
 
@@ -991,39 +682,30 @@ tbody tr:hover {
 
     box-shadow:
         none !important;
-
-    transition:
-        transform 0.2s ease !important;
 }
-
-
-.swal2-confirm:hover,
-.swal2-cancel:hover {
-    transform:
-        translateY(
-            -2px
-        );
-}
-
 
 .swal2-timer-progress-bar {
     background:
         linear-gradient(
             90deg,
-            #ff9800,
-            #ff6f00
+            #ff8a00,
+            #ff6a00
         ) !important;
 }
 
 
-/* =====================================
-   DELETE PLAYER POPUP
-===================================== */
+/* =====================================================
+   DELETE POPUP
+===================================================== */
 
-.delete-player-popup {
+.delete-player-popup,
+.delete-success-popup,
+.deleting-player-popup,
+.error-player-popup,
+.logout-popup,
+.logout-loading-popup {
     text-align: center;
 }
-
 
 .delete-player-icon {
     width: 62px;
@@ -1036,7 +718,6 @@ tbody tr:hover {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border-radius: 18px;
@@ -1046,51 +727,23 @@ tbody tr:hover {
     color: #dc3545;
 
     font-size: 25px;
-
-    box-shadow:
-        inset
-        0 0 0 1px
-        rgba(
-            220,
-            53,
-            69,
-            0.08
-        );
 }
-
 
 .delete-player-popup p {
     color: #64748b;
-
     font-size: 14px;
-
-    margin-bottom: 5px;
 }
-
 
 .delete-player-popup strong {
     display: block;
 
-    color: #071a35;
+    color: #0f172a;
 
     font-size: 19px;
-
     font-weight: 800;
 
     margin-bottom: 8px;
 }
-
-
-.delete-player-popup span {
-    display: block;
-
-    color: #94a3b8;
-
-    font-size: 12px;
-
-    line-height: 1.7;
-}
-
 
 .delete-warning {
     display: inline-flex;
@@ -1112,19 +765,13 @@ tbody tr:hover {
     color: #dc3545;
 
     font-size: 11px;
-
     font-weight: 600;
 }
 
 
-/* =====================================
-   DELETE SUCCESS
-===================================== */
-
-.delete-success-popup {
-    text-align: center;
-}
-
+/* =====================================================
+   SUCCESS POPUP
+===================================================== */
 
 .delete-success-name {
     display: inline-flex;
@@ -1143,92 +790,45 @@ tbody tr:hover {
 
     color: #16a34a;
 
-    font-weight: 700;
-
     font-size: 14px;
+    font-weight: 700;
 }
 
-
 .delete-success-popup p {
-    color: #64748b;
-
-    font-size: 13px;
-
-    line-height: 1.7;
-
     margin:
         16px
         0;
+
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.7;
 }
 
 
-.delete-success-popup > span {
-    display: inline-flex;
+/* =====================================================
+   LOADING
+===================================================== */
 
-    align-items: center;
-
-    gap: 6px;
-
-    padding:
-        8px
-        13px;
-
-    border-radius: 30px;
-
-    background: #fff7ed;
-
-    color: #ff9800;
-
-    font-size: 11px;
-
-    font-weight: 600;
-}
-
-
-/* =====================================
-   DELETING PLAYER
-===================================== */
-
-.deleting-player-popup {
-    text-align: center;
-}
-
-
-.deleting-icon {
+.deleting-icon,
+.logout-loading-ball {
     width: 65px;
     height: 65px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
 
     margin:
         5px auto
         18px;
 
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
     border-radius: 50%;
 
-    background:
-        linear-gradient(
-            135deg,
-            #dc3545,
-            #b91c1c
-        );
-
-    color: white;
+    color: #ffffff;
 
     font-size: 28px;
-
-    box-shadow:
-        0 12px 28px
-        rgba(
-            220,
-            53,
-            69,
-            0.25
-        );
 
     animation:
         playerBallSpin
@@ -1237,72 +837,41 @@ tbody tr:hover {
         infinite;
 }
 
+.deleting-icon {
+    background:
+        linear-gradient(
+            135deg,
+            #dc3545,
+            #b91c1c
+        );
+}
 
-.deleting-player-popup p {
-    color: #64748b;
-
-    font-size: 13px;
-
-    line-height: 1.7;
+.logout-loading-ball {
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
 }
 
 
-.deleting-player-popup strong {
-    color: #071a35;
-}
-
-
-/* =====================================
-   ERROR POPUP
-===================================== */
-
-.error-player-popup {
-    text-align: center;
-}
-
-
-.error-player-popup p {
-    color: #475569;
-
-    font-size: 13px;
-
-    line-height: 1.7;
-}
-
-
-.error-player-popup span {
-    display: block;
-
-    margin-top: 8px;
-
-    color: #94a3b8;
-
-    font-size: 12px;
-}
-
-
-/* =====================================
-   LOGOUT POPUP
-===================================== */
-
-.logout-popup {
-    text-align: center;
-}
-
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 .logout-popup-icon {
     width: 62px;
     height: 62px;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
     margin:
         0 auto
         17px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     border-radius: 18px;
 
@@ -1313,156 +882,60 @@ tbody tr:hover {
             #ffedd5
         );
 
-    color: #ff9800;
+    color: #ff8a00;
 
     font-size: 27px;
-
-    box-shadow:
-        inset
-        0 0 0 1px
-        rgba(
-            255,
-            152,
-            0,
-            0.10
-        );
 }
-
 
 .logout-popup p {
     color: #334155;
 
     font-size: 14px;
-
-    font-weight: 500;
-
-    margin-bottom: 8px;
 }
 
-
 .logout-popup span {
-    display: block;
-
     color: #94a3b8;
 
     font-size: 12px;
-
-    line-height: 1.7;
 }
 
 
-/* =====================================
-   LOGOUT LOADING
-===================================== */
-
-.logout-loading-popup {
-    text-align: center;
-}
-
-
-.logout-loading-ball {
-    width: 65px;
-    height: 65px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin:
-        5px auto
-        18px;
-
-    border-radius: 50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff9800,
-            #e68900
-        );
-
-    color: white;
-
-    font-size: 28px;
-
-    box-shadow:
-        0 12px 28px
-        rgba(
-            255,
-            152,
-            0,
-            0.28
-        );
-
-    animation:
-        playerBallSpin
-        0.8s
-        linear
-        infinite;
-}
-
-
-.logout-loading-popup p {
-    color: #64748b;
-
-    font-size: 13px;
-}
-
-
-/* =====================================
-   BALL ANIMATION
-===================================== */
+/* =====================================================
+   ANIMATION
+===================================================== */
 
 @keyframes playerBallSpin {
 
     from {
-        transform:
-            rotate(
-                0deg
-            );
+        transform: rotate(0deg);
     }
 
     to {
-        transform:
-            rotate(
-                360deg
-            );
+        transform: rotate(360deg);
     }
 
 }
 
 
-/* =====================================
-   TABLET
-===================================== */
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
-@media (
-    max-width: 900px
-) {
+@media (max-width: 900px) {
 
     .sidebar {
         width: 80px;
     }
 
-
     .logo h2 {
         display: none;
     }
-
-
-    .logo {
-        gap: 0;
-    }
-
 
     .sidebar ul {
         padding:
             0
             8px;
     }
-
 
     .sidebar li a {
         justify-content: center;
@@ -1474,90 +947,49 @@ tbody tr:hover {
         font-size: 0;
     }
 
-
     .sidebar li a i {
-        font-size: 20px;
-
         width: auto;
-    }
 
+        font-size: 20px;
+    }
 
     .main-content {
         margin-left: 80px;
 
         width:
-            calc(
-                100% - 80px
-            );
+            calc(100% - 80px);
 
         padding: 25px;
     }
-
 
     .header h1 {
         font-size: 28px;
     }
 
-
-    .header {
-        gap: 15px;
-    }
-
-
-    .add-btn {
-        padding:
-            11px
-            15px;
-    }
-
-
     .table-scroll {
         max-height:
-            calc(
-                100vh - 270px
-            );
+            calc(100vh - 270px);
     }
 
 }
 
-
-/* =====================================
-   SMALL MOBILE SCREENS
-===================================== */
-
-@media (
-    max-width: 600px
-) {
+@media (max-width: 600px) {
 
     .main-content {
         padding: 20px;
 
         background:
             linear-gradient(
-                rgba(
-                    244,
-                    247,
-                    252,
-                    0.92
-                ),
-                rgba(
-                    244,
-                    247,
-                    252,
-                    0.96
-                )
+                rgba(7, 26, 53, 0.70),
+                rgba(7, 26, 53, 0.80)
             ),
             url("MAFORI_FC_LOGO.jpeg");
 
         background-size: cover;
-
         background-position: center;
-
         background-repeat: no-repeat;
-
         background-attachment: scroll;
     }
-
 
     .header {
         flex-direction: column;
@@ -1565,16 +997,9 @@ tbody tr:hover {
         align-items: flex-start;
     }
 
-
     .header h1 {
         font-size: 25px;
     }
-
-
-    .header p {
-        font-size: 13px;
-    }
-
 
     .add-btn {
         width: 100%;
@@ -1582,52 +1007,9 @@ tbody tr:hover {
         justify-content: center;
     }
 
-
-    .table-header {
-        padding:
-            16px;
-    }
-
-
-    .table-header input {
-        max-width: 100%;
-    }
-
-
     .table-scroll {
         max-height:
-            calc(
-                100vh - 340px
-            );
-    }
-
-
-    .swal2-popup.mafori-popup {
-        width:
-            calc(
-                100% - 24px
-            ) !important;
-
-        padding:
-            24px
-            18px !important;
-    }
-
-
-    .swal2-title {
-        font-size:
-            21px !important;
-    }
-
-
-    .swal2-confirm,
-    .swal2-cancel {
-        font-size:
-            12px !important;
-
-        padding:
-            10px
-            13px !important;
+            calc(100vh - 340px);
     }
 
 }

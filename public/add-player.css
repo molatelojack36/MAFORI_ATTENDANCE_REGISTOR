@@ -1,12 +1,7 @@
 /* =====================================================
    MAFORI FC ATTENDANCE REGISTER
-   ADD PLAYER PAGE
-   MATCH PLAYERS.CSS DESIGN
-===================================================== */
-
-
-/* =====================================================
-   RESET
+   ADD PLAYER
+   SAME DESIGN AS PLAYERS PAGE
 ===================================================== */
 
 * {
@@ -16,21 +11,15 @@
     font-family: "Poppins", sans-serif;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
 
-
 body {
     display: flex;
-
     min-height: 100vh;
-
-    background: #f4f7fc;
-
+    background: #071a35;
     color: #1e293b;
-
     overflow-x: hidden;
 }
 
@@ -40,17 +29,28 @@ body {
 ===================================================== */
 
 .sidebar {
-    width: 260px;
-
-    background: #071a35;
-
-    color: #ffffff;
-
     position: fixed;
-
     top: 0;
     left: 0;
     bottom: 0;
+
+    width: 260px;
+    height: 100vh;
+
+    padding: 24px 14px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #08182f 0%,
+            #0b1f3a 100%
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        8px 0 30px
+        rgba(15, 23, 42, 0.12);
 
     z-index: 1000;
 
@@ -63,33 +63,32 @@ body {
 ===================================================== */
 
 .logo {
-    height: 90px;
+    min-height: 90px;
 
     display: flex;
-
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     gap: 10px;
 
-    color: #FFD54F;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 
     border-bottom:
-        1px solid rgba(255, 255, 255, 0.1);
+        1px solid
+        rgba(255, 255, 255, 0.08);
 }
-
 
 .logo i {
-    font-size: 30px;
+    color: #ff8a00;
+    font-size: 29px;
 }
 
-
 .logo h2 {
-    color: #FFD54F;
+    color: #ffffff;
 
     font-size: 21px;
-
-    font-weight: 700;
+    font-weight: 800;
 
     letter-spacing: 0.5px;
 }
@@ -101,59 +100,81 @@ body {
 
 .sidebar ul {
     list-style: none;
-
-    margin-top: 20px;
 }
-
 
 .sidebar li {
-    width: 100%;
+    margin-bottom: 7px;
 }
-
 
 .sidebar li a {
     display: flex;
-
     align-items: center;
 
-    gap: 15px;
+    gap: 12px;
 
     width: 100%;
 
-    color: #ffffff;
+    padding: 13px 15px;
+
+    border-radius: 10px;
+
+    color: #cbd5e1;
 
     text-decoration: none;
 
-    padding: 18px 25px;
-
     font-size: 14px;
-
     font-weight: 500;
 
     transition:
-        background 0.3s ease,
-        color 0.3s ease,
-        padding-left 0.3s ease;
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
 }
-
 
 .sidebar li a i {
     width: 20px;
 
     text-align: center;
 
+    color: #94a3b8;
+
     font-size: 16px;
 }
 
+.sidebar li a:hover {
+    background:
+        rgba(255, 138, 0, 0.12);
 
-.sidebar li:hover,
-.sidebar li.active {
-    background: #ff9800;
+    color: #ffffff;
+
+    transform: translateX(3px);
+}
+
+.sidebar li a:hover i {
+    color: #ff8a00;
 }
 
 
-.sidebar li:hover a {
-    padding-left: 30px;
+/* =====================================================
+   ACTIVE MENU
+===================================================== */
+
+.sidebar li.active a {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 138, 0, 0.18),
+            rgba(255, 106, 0, 0.10)
+        );
+
+    border-left:
+        3px solid #ff8a00;
+
+    color: #ffffff;
+}
+
+.sidebar li.active a i {
+    color: #ff8a00;
 }
 
 
@@ -162,18 +183,31 @@ body {
 ===================================================== */
 
 .logout-menu-item {
-    margin-top: 8px;
+    margin-top: 12px;
 }
 
+.logout-menu-item a {
+    color: #fca5a5 !important;
+}
+
+.logout-menu-item a i {
+    color: #f87171 !important;
+}
 
 .logout-menu-item a:hover {
-    background: #dc3545;
+    background:
+        rgba(239, 68, 68, 0.12);
+
+    color: #ffffff !important;
+}
+
+.logout-menu-item a:hover i {
+    color: #ff8a00 !important;
 }
 
 
 /* =====================================================
    MAIN CONTENT
-   MAFORI FC LOGO BACKGROUND
 ===================================================== */
 
 .main-content {
@@ -181,25 +215,26 @@ body {
 
     margin-left: 260px;
 
-    width: calc(100% - 260px);
+    width:
+        calc(100% - 260px);
 
     min-height: 100vh;
 
-    padding: 40px;
+    padding:
+        42px
+        50px
+        60px;
 
     background:
         linear-gradient(
-            rgba(244, 247, 252, 0.87),
-            rgba(244, 247, 252, 0.87)
+            rgba(7, 26, 53, 0.68),
+            rgba(7, 26, 53, 0.78)
         ),
         url("MAFORI_FC_LOGO.jpeg");
 
     background-size: cover;
-
     background-position: center;
-
     background-repeat: no-repeat;
-
     background-attachment: fixed;
 }
 
@@ -209,104 +244,107 @@ body {
 ===================================================== */
 
 .back-button-container {
-    margin-bottom: 25px;
+    margin-bottom: 24px;
 }
-
 
 .back-button {
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
 
-    gap: 8px;
+    gap: 9px;
 
-    padding: 11px 17px;
+    padding: 10px 17px;
 
-    border: none;
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
 
     border-radius: 10px;
 
-    background: #071a35;
+    background:
+        rgba(255, 255, 255, 0.94);
 
-    color: #ffffff;
-
-    font-family: "Poppins", sans-serif;
+    color: #0b1f3a;
 
     font-size: 13px;
-
     font-weight: 600;
 
     cursor: pointer;
 
     box-shadow:
-        0 7px 18px rgba(7, 26, 53, 0.16);
+        0 5px 18px
+        rgba(15, 23, 42, 0.10);
 
     transition:
-        background 0.3s ease,
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+        transform 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
 }
-
-
-.back-button i {
-    font-size: 13px;
-}
-
 
 .back-button:hover {
-    background: #ff9800;
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    border-color: transparent;
 
     transform: translateX(-3px);
 
     box-shadow:
-        0 10px 24px rgba(255, 152, 0, 0.24);
+        0 10px 22px
+        rgba(255, 106, 0, 0.20);
 }
 
 
 /* =====================================================
-   PAGE HEADER
+   HEADER
 ===================================================== */
 
 .header {
     margin-bottom: 30px;
 }
 
-
 .header h1,
 .main-content > h1 {
-    color: #071a35;
+    color: #ffffff;
 
-    font-size: 36px;
-
+    font-size: 34px;
     font-weight: 800;
 
-    line-height: 1.2;
+    margin-bottom: 8px;
 
-    margin-bottom: 7px;
+    text-shadow:
+        0 3px 12px
+        rgba(0, 0, 0, 0.35);
 }
-
 
 .header h1 i,
 .main-content > h1 i {
-    color: #ff9800;
-
-    margin-right: 8px;
+    color: #ff8a00;
+    margin-right: 9px;
 }
-
 
 .header p,
 .main-content > p {
-    max-width: 700px;
+    max-width: 720px;
 
-    color: #666666;
+    color: #e2e8f0;
 
     font-size: 14px;
-
     line-height: 1.7;
 
     margin-bottom: 30px;
+
+    text-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.30);
 }
 
 
@@ -318,33 +356,33 @@ body {
     position: relative;
 
     width: 100%;
-
     max-width: 760px;
 
     padding: 34px;
 
     background:
-        rgba(255, 255, 255, 0.96);
+        rgba(255, 255, 255, 0.94);
 
     border:
-        1px solid rgba(255, 255, 255, 0.90);
+        1px solid
+        rgba(255, 255, 255, 0.75);
 
-    border-radius: 15px;
+    border-radius: 18px;
 
     box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.08);
+        0 18px 42px
+        rgba(0, 0, 0, 0.16);
 
-    backdrop-filter: blur(10px);
-
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
 
     overflow: hidden;
+
+    animation:
+        addPlayerFade
+        0.45s
+        ease;
 }
-
-
-/* =====================================================
-   FORM ORANGE ACCENT
-===================================================== */
 
 #playerForm::before {
     content: "";
@@ -355,95 +393,83 @@ body {
     left: 0;
 
     width: 100%;
-
     height: 4px;
 
     background:
         linear-gradient(
             90deg,
-            #ff9800,
+            #ff8a00,
             #ff6a00
         );
 }
 
 
 /* =====================================================
-   INPUT GROUP
+   FORM INPUTS
 ===================================================== */
 
 .input-group {
     margin-bottom: 20px;
 }
 
-
 .input-group label {
     display: block;
 
     margin-bottom: 8px;
 
-    color: #071a35;
+    color: #334155;
 
     font-size: 13px;
-
-    font-weight: 600;
+    font-weight: 700;
 }
-
-
-/* =====================================================
-   INPUTS AND SELECTS
-===================================================== */
 
 .input-group input,
 .input-group select {
     width: 100%;
-
     height: 48px;
 
-    padding: 0 15px;
+    padding:
+        0
+        14px;
 
-    border: 1px solid #dddddd;
+    border:
+        1px solid #dbe3ec;
 
     border-radius: 10px;
 
+    background: #f8fafc;
+
+    color: #0f172a;
+
     outline: none;
-
-    background:
-        rgba(255, 255, 255, 0.96);
-
-    color: #1e293b;
-
-    font-family: "Poppins", sans-serif;
 
     font-size: 14px;
 
     transition:
-        border-color 0.3s ease,
-        box-shadow 0.3s ease,
-        background 0.3s ease;
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
 }
-
 
 .input-group input:hover,
 .input-group select:hover {
     border-color: #cbd5e1;
 }
 
-
 .input-group input:focus,
 .input-group select:focus {
-    border-color: #ff9800;
+    border-color: #ff8a00;
 
     background: #ffffff;
 
     box-shadow:
-        0 0 0 3px rgba(255, 152, 0, 0.12);
+        0 0 0 3px
+        rgba(255, 138, 0, 0.12);
 }
-
 
 .input-group input::placeholder {
     color: #94a3b8;
 }
-
 
 .input-group select,
 .input-group input[type="date"] {
@@ -468,47 +494,47 @@ body {
 
     border-radius: 10px;
 
-    background: #ff9800;
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
 
     color: #ffffff;
 
-    font-family: "Poppins", sans-serif;
-
     font-size: 14px;
-
     font-weight: 700;
 
     cursor: pointer;
 
     box-shadow:
-        0 8px 20px rgba(255, 152, 0, 0.22);
+        0 9px 20px
+        rgba(255, 106, 0, 0.22);
 
     transition:
-        background 0.3s ease,
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
 }
-
 
 #playerForm button[type="submit"] i {
     margin-right: 8px;
 }
 
-
 #playerForm button[type="submit"]:hover {
-    background: #e68900;
-
     transform: translateY(-2px);
 
     box-shadow:
-        0 12px 25px rgba(255, 152, 0, 0.30);
-}
+        0 13px 27px
+        rgba(255, 106, 0, 0.30);
 
+    filter: brightness(1.04);
+}
 
 #playerForm button[type="submit"]:active {
     transform: translateY(0);
 }
-
 
 #playerForm button[type="submit"]:disabled {
     background: #94a3b8;
@@ -522,7 +548,7 @@ body {
 
 
 /* =====================================================
-   SWEETALERT GENERAL
+   SWEETALERT
 ===================================================== */
 
 .swal2-popup {
@@ -537,17 +563,16 @@ body {
         2em !important;
 
     border:
-        1px solid #edf0f4 !important;
+        1px solid
+        #edf0f4 !important;
 
     box-shadow:
         0 30px 80px
         rgba(15, 23, 42, 0.24) !important;
 }
 
-
 .swal2-title {
-    color:
-        #071a35 !important;
+    color: #0f172a !important;
 
     font-size:
         24px !important;
@@ -556,25 +581,14 @@ body {
         800 !important;
 }
 
-
-.swal2-html-container {
-    font-family:
-        "Poppins",
-        sans-serif !important;
-}
-
-
 .swal2-confirm,
 .swal2-cancel {
     border-radius:
         10px !important;
 
     padding:
-        11px 19px !important;
-
-    font-family:
-        "Poppins",
-        sans-serif !important;
+        11px
+        19px !important;
 
     font-size:
         13px !important;
@@ -586,61 +600,53 @@ body {
         none !important;
 }
 
-
 .swal2-timer-progress-bar {
     background:
         linear-gradient(
             90deg,
-            #ff9800,
+            #ff8a00,
             #ff6a00
         ) !important;
 }
 
 
 /* =====================================================
-   PLAYER ADDED SUCCESS POPUP
+   SUCCESS POPUP
 ===================================================== */
 
 .player-success-popup {
     text-align: center;
 }
 
-
 .player-success-icon {
     width: 62px;
-
     height: 62px;
 
     margin:
-        0 auto 16px;
+        0 auto
+        16px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 18px;
 
     background: #ecfdf5;
-
     color: #16a34a;
 
     font-size: 27px;
 }
 
-
 .player-success-popup p {
     color: #64748b;
 
     font-size: 13px;
-
     line-height: 1.7;
 }
 
-
 .player-success-popup strong {
-    color: #071a35;
+    color: #0f172a;
 }
 
 
@@ -648,23 +654,21 @@ body {
    LOGOUT POPUP
 ===================================================== */
 
-.players-logout-popup {
+.players-logout-popup,
+.players-logout-loading {
     text-align: center;
 }
 
-
 .logout-ball {
     width: 60px;
-
     height: 60px;
 
     margin:
-        0 auto 17px;
+        0 auto
+        17px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 18px;
@@ -676,22 +680,19 @@ body {
             #ffedd5
         );
 
-    color: #ff9800;
+    color: #ff8a00;
 
     font-size: 26px;
 }
-
 
 .players-logout-popup p {
     color: #334155;
 
     font-size: 14px;
-
     line-height: 1.7;
 
     margin-bottom: 8px;
 }
-
 
 .players-logout-popup span {
     display: block;
@@ -699,32 +700,19 @@ body {
     color: #94a3b8;
 
     font-size: 12px;
-
     line-height: 1.6;
 }
 
-
-/* =====================================================
-   LOGOUT LOADING
-===================================================== */
-
-.players-logout-loading {
-    text-align: center;
-}
-
-
 .logout-spinner-ball {
     width: 64px;
-
     height: 64px;
 
     margin:
-        5px auto 18px;
+        5px auto
+        18px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 50%;
@@ -732,7 +720,7 @@ body {
     background:
         linear-gradient(
             135deg,
-            #ff9800,
+            #ff8a00,
             #ff6a00
         );
 
@@ -741,123 +729,58 @@ body {
     font-size: 28px;
 
     animation:
-        playerSpin
+        addPlayerSpin
         0.8s
         linear
         infinite;
 }
 
-
 .players-logout-loading p {
     color: #64748b;
-
     font-size: 13px;
 }
 
 
 /* =====================================================
-   POPUP ANIMATION
+   ANIMATIONS
 ===================================================== */
 
-@keyframes playerPopupIn {
+@keyframes addPlayerFade {
 
     from {
         opacity: 0;
-
-        transform:
-            translateY(25px)
-            scale(0.94);
+        transform: translateY(16px);
     }
 
     to {
         opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
+        transform: translateY(0);
     }
 
 }
 
-
-@keyframes playerPopupOut {
+@keyframes addPlayerSpin {
 
     from {
-        opacity: 1;
-
-        transform:
-            scale(1);
+        transform: rotate(0deg);
     }
 
     to {
-        opacity: 0;
-
-        transform:
-            scale(0.95);
+        transform: rotate(360deg);
     }
 
 }
-
-
-@keyframes playerSpin {
-
-    from {
-        transform:
-            rotate(0deg);
-    }
-
-    to {
-        transform:
-            rotate(360deg);
-    }
-
-}
-
 
 .players-popup-in {
     animation:
-        playerPopupIn
+        addPlayerFade
         0.38s
         ease-out !important;
 }
 
 
-.players-popup-out {
-    animation:
-        playerPopupOut
-        0.24s
-        ease-in !important;
-}
-
-
 /* =====================================================
-   SIDEBAR SCROLLBAR
-===================================================== */
-
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-
-
-.sidebar::-webkit-scrollbar-track {
-    background: #071a35;
-}
-
-
-.sidebar::-webkit-scrollbar-thumb {
-    background: #334b6d;
-
-    border-radius: 10px;
-}
-
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: #ff9800;
-}
-
-
-/* =====================================================
-   TABLET
+   RESPONSIVE
 ===================================================== */
 
 @media (max-width: 900px) {
@@ -866,78 +789,44 @@ body {
         width: 80px;
     }
 
-
     .logo h2 {
         display: none;
     }
-
-
-    .logo {
-        gap: 0;
-    }
-
 
     .sidebar li a {
         justify-content: center;
 
         padding:
-            18px
+            16px
             10px;
-    }
 
-
-    .sidebar li a i {
-        width: auto;
-
-        font-size: 20px;
-    }
-
-
-    /*
-       Hide sidebar menu text while
-       keeping icons visible.
-    */
-
-    .sidebar li a {
         font-size: 0;
     }
 
-
-    .sidebar li a:hover {
-        padding-left: 10px;
+    .sidebar li a i {
+        width: auto;
+        font-size: 20px;
     }
-
 
     .main-content {
         margin-left: 80px;
 
         width:
-            calc(
-                100% - 80px
-            );
+            calc(100% - 80px);
 
         padding: 25px;
 
         background:
             linear-gradient(
-                rgba(244, 247, 252, 0.89),
-                rgba(244, 247, 252, 0.89)
+                rgba(7, 26, 53, 0.70),
+                rgba(7, 26, 53, 0.80)
             ),
             url("MAFORI_FC_LOGO.jpeg");
 
         background-size: cover;
-
         background-position: center;
-
         background-repeat: no-repeat;
     }
-
-
-    .header h1,
-    .main-content > h1 {
-        font-size: 28px;
-    }
-
 
     #playerForm {
         max-width: 100%;
@@ -945,17 +834,7 @@ body {
 
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
 @media (max-width: 600px) {
-
-    body {
-        overflow-y: auto;
-    }
-
 
     .main-content {
         padding: 20px;
@@ -963,64 +842,23 @@ body {
         background-attachment: scroll;
     }
 
-
     .header h1,
     .main-content > h1 {
         font-size: 25px;
     }
 
-
     .header p,
     .main-content > p {
         font-size: 13px;
-
-        margin-bottom: 24px;
     }
-
 
     #playerForm {
         padding:
             26px
             20px;
-
-        border-radius: 14px;
-    }
-
-
-    .back-button {
-        padding:
-            10px
-            14px;
-
-        font-size: 12px;
-    }
-
-
-    .input-group {
-        margin-bottom: 18px;
-    }
-
-
-    .input-group input,
-    .input-group select {
-        height: 46px;
-
-        font-size: 13px;
-    }
-
-
-    #playerForm button[type="submit"] {
-        min-height: 48px;
-
-        font-size: 13px;
     }
 
 }
-
-
-/* =====================================================
-   VERY SMALL PHONES
-===================================================== */
 
 @media (max-width: 400px) {
 
@@ -1028,49 +866,17 @@ body {
         width: 68px;
     }
 
-
-    .logo i {
-        font-size: 25px;
-    }
-
-
-    .sidebar li a {
-        padding:
-            16px
-            8px;
-    }
-
-
-    .sidebar li a:hover {
-        padding-left: 8px;
-    }
-
-
-    .sidebar li a i {
-        font-size: 18px;
-    }
-
-
     .main-content {
         margin-left: 68px;
 
         width:
-            calc(
-                100% - 68px
-            );
+            calc(100% - 68px);
 
         padding:
             17px
             12px
             30px;
     }
-
-
-    .header h1,
-    .main-content > h1 {
-        font-size: 22px;
-    }
-
 
     #playerForm {
         padding:

@@ -1,12 +1,7 @@
 /* =====================================================
    MAFORI FC ATTENDANCE REGISTER
-   EDIT PLAYER PAGE
-   MATCH PLAYERS.CSS DESIGN
-===================================================== */
-
-
-/* =====================================================
-   RESET
+   EDIT PLAYER
+   SAME DESIGN AS PLAYERS PAGE
 ===================================================== */
 
 * {
@@ -19,20 +14,14 @@
         sans-serif;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
 
-
-/* =====================================================
-   BODY
-===================================================== */
-
 body {
     min-height: 100vh;
 
-    background: #f4f7fc;
+    background: #071a35;
 
     color: #1e293b;
 
@@ -41,7 +30,7 @@ body {
 
 
 /* =====================================================
-   MAIN CONTAINER
+   MAIN BACKGROUND
 ===================================================== */
 
 .container {
@@ -49,9 +38,8 @@ body {
 
     display: flex;
 
-    justify-content: center;
-
     align-items: center;
+    justify-content: center;
 
     padding:
         40px
@@ -59,40 +47,26 @@ body {
 
     background:
         linear-gradient(
-            rgba(
-                244,
-                247,
-                252,
-                0.90
-            ),
-            rgba(
-                244,
-                247,
-                252,
-                0.94
-            )
+            rgba(7, 26, 53, 0.68),
+            rgba(7, 26, 53, 0.78)
         ),
         url("MAFORI_FC_LOGO.jpeg");
 
     background-size: cover;
-
     background-position: center;
-
     background-repeat: no-repeat;
-
     background-attachment: fixed;
 }
 
 
 /* =====================================================
-   EDIT PLAYER CARD
+   CARD
 ===================================================== */
 
 .card {
     position: relative;
 
     width: 100%;
-
     max-width: 680px;
 
     padding: 38px;
@@ -100,49 +74,26 @@ body {
     border-radius: 18px;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.96
-        );
+        rgba(255, 255, 255, 0.94);
 
     border:
         1px solid
-        rgba(
-            232,
-            237,
-            243,
-            0.95
-        );
+        rgba(255, 255, 255, 0.75);
 
     box-shadow:
-        0 14px 35px
-        rgba(
-            15,
-            23,
-            42,
-            0.10
-        );
+        0 18px 42px
+        rgba(0, 0, 0, 0.18);
 
-    backdrop-filter:
-        blur(8px);
-
-    -webkit-backdrop-filter:
-        blur(8px);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
 
     overflow: hidden;
 
     animation:
-        pageFadeIn
+        editPageFade
         0.55s
         ease;
 }
-
-
-/* =====================================================
-   TOP ORANGE ACCENT
-===================================================== */
 
 .card::before {
     content: "";
@@ -153,27 +104,25 @@ body {
     left: 0;
 
     width: 100%;
-
     height: 4px;
 
     background:
         linear-gradient(
             90deg,
-            #ff9800,
-            #ff6f00
+            #ff8a00,
+            #ff6a00
         );
 }
 
 
 /* =====================================================
-   TOP ACTION BUTTONS
+   ACTION BAR
 ===================================================== */
 
 .back-button-container {
     display: flex;
 
     align-items: center;
-
     justify-content: space-between;
 
     gap: 12px;
@@ -190,7 +139,6 @@ body {
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 9px;
@@ -200,29 +148,18 @@ body {
         16px;
 
     border:
-        1px solid
-        #dbe3ec;
+        1px solid #dbe3ec;
 
     border-radius: 10px;
 
     background: #ffffff;
 
-    color: #071a35;
+    color: #0b1f3a;
 
     font-size: 13px;
-
     font-weight: 600;
 
     cursor: pointer;
-
-    box-shadow:
-        0 5px 16px
-        rgba(
-            15,
-            23,
-            42,
-            0.05
-        );
 
     transition:
         transform 0.25s ease,
@@ -231,37 +168,23 @@ body {
         box-shadow 0.25s ease;
 }
 
-
-.back-button i {
-    font-size: 13px;
-}
-
-
 .back-button:hover {
     background:
         linear-gradient(
             135deg,
-            #ff9800,
-            #ff6f00
+            #ff8a00,
+            #ff6a00
         );
 
     color: #ffffff;
 
     border-color: transparent;
 
-    transform:
-        translateX(
-            -3px
-        );
+    transform: translateX(-3px);
 
     box-shadow:
         0 10px 22px
-        rgba(
-            255,
-            111,
-            0,
-            0.22
-        );
+        rgba(255, 106, 0, 0.22);
 }
 
 
@@ -273,7 +196,6 @@ body {
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 8px;
@@ -283,56 +205,36 @@ body {
         16px;
 
     border:
-        1px solid
-        #fee2e2;
+        1px solid #fee2e2;
 
     border-radius: 10px;
 
-    background:
-        #fff7f7;
+    background: #fff7f7;
 
-    color:
-        #dc2626;
+    color: #dc2626;
 
     font-size: 13px;
-
     font-weight: 600;
 
     cursor: pointer;
 
     transition:
-        background 0.25s ease,
-        color 0.25s ease,
         transform 0.25s ease,
-        box-shadow 0.25s ease;
+        background 0.25s ease,
+        color 0.25s ease;
 }
-
 
 .logout-button:hover {
     background:
         linear-gradient(
             135deg,
-            #ff9800,
-            #ff6f00
+            #ef4444,
+            #dc2626
         );
 
     color: #ffffff;
 
-    border-color: transparent;
-
-    transform:
-        translateY(
-            -2px
-        );
-
-    box-shadow:
-        0 10px 22px
-        rgba(
-            255,
-            111,
-            0,
-            0.22
-        );
+    transform: translateY(-2px);
 }
 
 
@@ -350,75 +252,38 @@ body {
     margin-bottom: 30px;
 }
 
-
-/* =====================================================
-   HEADING ICON
-===================================================== */
-
 .heading-icon {
     width: 55px;
-
     height: 55px;
 
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 16px;
 
-    background:
-        #fff7ed;
+    background: #fff7ed;
 
-    color:
-        #ff9800;
+    color: #ff8a00;
 
     font-size: 22px;
-
-    box-shadow:
-        inset
-        0 0 0 1px
-        rgba(
-            255,
-            152,
-            0,
-            0.10
-        );
 }
 
-
-/* =====================================================
-   TITLE
-===================================================== */
-
 .page-heading h1 {
-    color:
-        #071a35;
+    color: #0f172a;
 
     font-size: 31px;
-
     font-weight: 800;
-
-    letter-spacing:
-        -0.4px;
 
     margin-bottom: 5px;
 }
 
-
-/* =====================================================
-   DESCRIPTION
-===================================================== */
-
 .page-heading p {
-    color:
-        #64748b;
+    color: #64748b;
 
     font-size: 13px;
-
     line-height: 1.6;
 }
 
@@ -431,19 +296,9 @@ body {
     width: 100%;
 }
 
-
-/* =====================================================
-   INPUT GROUP
-===================================================== */
-
 .input-group {
     margin-bottom: 20px;
 }
-
-
-/* =====================================================
-   LABEL
-===================================================== */
 
 .input-group label {
     display: flex;
@@ -454,33 +309,23 @@ body {
 
     margin-bottom: 8px;
 
-    color:
-        #334155;
+    color: #334155;
 
     font-size: 13px;
-
     font-weight: 700;
 }
-
 
 .input-group label i {
     width: 16px;
 
-    color:
-        #ff9800;
+    color: #ff8a00;
 
     text-align: center;
 }
 
-
-/* =====================================================
-   INPUTS + SELECTS
-===================================================== */
-
 .input-group input,
 .input-group select {
     width: 100%;
-
     height: 48px;
 
     padding:
@@ -488,20 +333,17 @@ body {
         14px;
 
     border:
-        1px solid
-        #dbe3ec;
+        1px solid #dbe3ec;
 
     border-radius: 10px;
 
-    background:
-        #f8fafc;
+    background: #f8fafc;
 
-    color:
-        #071a35;
-
-    font-size: 14px;
+    color: #0f172a;
 
     outline: none;
+
+    font-size: 14px;
 
     transition:
         border-color 0.25s ease,
@@ -509,77 +351,41 @@ body {
         box-shadow 0.25s ease;
 }
 
-
-/* =====================================================
-   INPUT HOVER
-===================================================== */
-
 .input-group input:hover,
 .input-group select:hover {
-    border-color:
-        #cbd5e1;
+    border-color: #cbd5e1;
 }
-
-
-/* =====================================================
-   INPUT FOCUS
-===================================================== */
 
 .input-group input:focus,
 .input-group select:focus {
-    border-color:
-        #ff9800;
+    border-color: #ff8a00;
 
-    background:
-        #ffffff;
+    background: #ffffff;
 
     box-shadow:
         0 0 0 3px
-        rgba(
-            255,
-            152,
-            0,
-            0.12
-        );
+        rgba(255, 138, 0, 0.12);
 }
-
-
-/* =====================================================
-   PLACEHOLDER
-===================================================== */
 
 .input-group input::placeholder {
-    color:
-        #94a3b8;
+    color: #94a3b8;
 }
 
-
-/* =====================================================
-   SELECT
-===================================================== */
-
-.input-group select {
-    cursor: pointer;
-}
-
-
-/* =====================================================
-   DATE INPUT
-===================================================== */
-
+.input-group select,
 .input-group input[type="date"] {
     cursor: pointer;
 }
 
 
 /* =====================================================
-   UPDATE PLAYER BUTTON
+   UPDATE BUTTON
 ===================================================== */
 
-.update-player-button {
+.update-player-button,
+#editPlayerForm button[type="submit"] {
     width: 100%;
 
-    height: 50px;
+    min-height: 50px;
 
     margin-top: 7px;
 
@@ -590,30 +396,20 @@ body {
     background:
         linear-gradient(
             135deg,
-            #ff9800,
-            #ff6f00
+            #ff8a00,
+            #ff6a00
         );
 
-    color:
-        #ffffff;
+    color: #ffffff;
 
     font-size: 14px;
-
     font-weight: 700;
-
-    letter-spacing:
-        0.2px;
 
     cursor: pointer;
 
     box-shadow:
         0 9px 20px
-        rgba(
-            255,
-            111,
-            0,
-            0.22
-        );
+        rgba(255, 106, 0, 0.22);
 
     transition:
         transform 0.25s ease,
@@ -621,59 +417,30 @@ body {
         filter 0.25s ease;
 }
 
-
-.update-player-button i {
-    margin-right: 8px;
-}
-
-
-.update-player-button:hover {
-    transform:
-        translateY(
-            -2px
-        );
+.update-player-button:hover,
+#editPlayerForm button[type="submit"]:hover {
+    transform: translateY(-2px);
 
     box-shadow:
         0 13px 27px
-        rgba(
-            255,
-            111,
-            0,
-            0.30
-        );
+        rgba(255, 106, 0, 0.30);
 
-    filter:
-        brightness(
-            1.04
-        );
+    filter: brightness(1.04);
 }
 
+.update-player-button:disabled,
+#editPlayerForm button[type="submit"]:disabled {
+    background: #94a3b8;
 
-.update-player-button:active {
-    transform:
-        translateY(
-            0
-        );
-}
-
-
-.update-player-button:disabled {
-    background:
-        #94a3b8;
-
-    cursor:
-        not-allowed;
+    cursor: not-allowed;
 
     transform: none;
-
     box-shadow: none;
-
-    filter: none;
 }
 
 
 /* =====================================================
-   SWEETALERT GENERAL
+   SWEETALERT
 ===================================================== */
 
 .swal2-popup {
@@ -693,18 +460,11 @@ body {
 
     box-shadow:
         0 30px 80px
-        rgba(
-            7,
-            26,
-            53,
-            0.24
-        ) !important;
+        rgba(7, 26, 53, 0.24) !important;
 }
 
-
 .swal2-title {
-    color:
-        #071a35 !important;
+    color: #0f172a !important;
 
     font-size:
         24px !important;
@@ -712,14 +472,6 @@ body {
     font-weight:
         800 !important;
 }
-
-
-.swal2-html-container {
-    font-family:
-        "Poppins",
-        sans-serif !important;
-}
-
 
 .swal2-confirm,
 .swal2-cancel {
@@ -730,10 +482,6 @@ body {
         11px
         19px !important;
 
-    font-family:
-        "Poppins",
-        sans-serif !important;
-
     font-size:
         13px !important;
 
@@ -742,29 +490,14 @@ body {
 
     box-shadow:
         none !important;
-
-    transition:
-        transform
-        0.2s
-        ease !important;
 }
-
-
-.swal2-confirm:hover,
-.swal2-cancel:hover {
-    transform:
-        translateY(
-            -2px
-        );
-}
-
 
 .swal2-timer-progress-bar {
     background:
         linear-gradient(
             90deg,
-            #ff9800,
-            #ff6f00
+            #ff8a00,
+            #ff6a00
         ) !important;
 }
 
@@ -773,14 +506,15 @@ body {
    EDIT CONFIRM POPUP
 ===================================================== */
 
-.edit-confirm-popup {
+.edit-confirm-popup,
+.edit-success-popup,
+.edit-logout-popup,
+.edit-logout-loading {
     text-align: center;
 }
 
-
 .edit-player-icon {
     width: 58px;
-
     height: 58px;
 
     margin:
@@ -788,63 +522,44 @@ body {
         16px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 17px;
 
-    background:
-        #fff7ed;
+    background: #fff7ed;
 
-    color:
-        #ff9800;
+    color: #ff8a00;
 
     font-size: 24px;
 }
 
-
 .edit-confirm-popup p {
-    margin-bottom: 6px;
-
-    color:
-        #64748b;
-
+    color: #64748b;
     font-size: 13px;
 }
-
 
 .edit-confirm-popup strong {
     display: block;
 
-    color:
-        #071a35;
+    color: #0f172a;
 
     font-size: 18px;
 }
-
 
 .edit-confirm-popup span {
     display: block;
 
     margin-top: 6px;
 
-    color:
-        #94a3b8;
-
+    color: #94a3b8;
     font-size: 12px;
 }
 
 
 /* =====================================================
-   EDIT SUCCESS POPUP
+   SUCCESS
 ===================================================== */
-
-.edit-success-popup {
-    text-align: center;
-}
-
 
 .edit-success-name {
     display: inline-flex;
@@ -859,31 +574,24 @@ body {
 
     border-radius: 30px;
 
-    background:
-        #fff7ed;
+    background: #fff7ed;
 
-    color:
-        #ff9800;
+    color: #ff8a00;
 
     font-size: 14px;
-
     font-weight: 700;
 }
-
 
 .edit-success-popup p {
     margin:
         15px
         0;
 
-    color:
-        #64748b;
+    color: #64748b;
 
     font-size: 13px;
-
     line-height: 1.7;
 }
-
 
 .edit-success-popup > span {
     display: inline-flex;
@@ -898,30 +606,21 @@ body {
 
     border-radius: 30px;
 
-    background:
-        #ecfdf5;
+    background: #ecfdf5;
 
-    color:
-        #16a34a;
+    color: #16a34a;
 
     font-size: 12px;
-
     font-weight: 600;
 }
 
 
 /* =====================================================
-   LOGOUT POPUP
+   LOGOUT
 ===================================================== */
-
-.edit-logout-popup {
-    text-align: center;
-}
-
 
 .logout-ball {
     width: 58px;
-
     height: 58px;
 
     margin:
@@ -929,10 +628,8 @@ body {
         18px;
 
     display: flex;
-
-    justify-content: center;
-
     align-items: center;
+    justify-content: center;
 
     border-radius: 18px;
 
@@ -943,47 +640,28 @@ body {
             #ffedd5
         );
 
-    color:
-        #ff9800;
+    color: #ff8a00;
 
     font-size: 25px;
 }
 
-
 .edit-logout-popup p {
     margin-bottom: 9px;
 
-    color:
-        #334155;
+    color: #334155;
 
     font-size: 14px;
-
-    line-height: 1.7;
 }
 
-
 .edit-logout-popup span {
-    color:
-        #94a3b8;
+    color: #94a3b8;
 
     font-size: 12px;
-
     line-height: 1.6;
 }
 
-
-/* =====================================================
-   LOGGING OUT POPUP
-===================================================== */
-
-.edit-logout-loading {
-    text-align: center;
-}
-
-
 .logout-spinner-ball {
     width: 64px;
-
     height: 64px;
 
     margin:
@@ -991,9 +669,7 @@ body {
         18px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 50%;
@@ -1001,23 +677,13 @@ body {
     background:
         linear-gradient(
             135deg,
-            #ff9800,
-            #ff6f00
+            #ff8a00,
+            #ff6a00
         );
 
-    color:
-        #ffffff;
+    color: #ffffff;
 
     font-size: 28px;
-
-    box-shadow:
-        0 13px 30px
-        rgba(
-            255,
-            111,
-            0,
-            0.28
-        );
 
     animation:
         editBallSpin
@@ -1026,127 +692,94 @@ body {
         infinite;
 }
 
-
 .edit-logout-loading p {
-    color:
-        #64748b;
-
+    color: #64748b;
     font-size: 13px;
 }
 
 
 /* =====================================================
-   PAGE ANIMATION
+   ANIMATIONS
 ===================================================== */
 
-@keyframes pageFadeIn {
+@keyframes editPageFade {
 
     from {
         opacity: 0;
 
         transform:
-            translateY(
-                18px
-            );
+            translateY(18px);
     }
 
     to {
         opacity: 1;
 
         transform:
-            translateY(
-                0
-            );
+            translateY(0);
     }
 
 }
-
-
-/* =====================================================
-   BALL ANIMATION
-===================================================== */
 
 @keyframes editBallSpin {
 
     from {
-        transform:
-            rotate(
-                0deg
-            );
+        transform: rotate(0deg);
     }
 
     to {
-        transform:
-            rotate(
-                360deg
-            );
+        transform: rotate(360deg);
     }
 
 }
 
 
 /* =====================================================
-   TABLET
+   RESPONSIVE
 ===================================================== */
 
-@media (
-    max-width: 700px
-) {
+@media (max-width: 700px) {
 
     .container {
         padding:
             28px
             18px;
 
-        align-items:
-            flex-start;
+        align-items: flex-start;
     }
-
 
     .card {
         margin-top: 18px;
 
         padding: 30px;
-
-        border-radius: 16px;
-    }
-
-
-    .page-heading h1 {
-        font-size: 27px;
     }
 
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (
-    max-width: 480px
-) {
+@media (max-width: 480px) {
 
     .container {
         padding:
             18px
             12px;
 
-        background-attachment:
-            scroll;
+        background:
+            linear-gradient(
+                rgba(7, 26, 53, 0.70),
+                rgba(7, 26, 53, 0.80)
+            ),
+            url("MAFORI_FC_LOGO.jpeg");
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
     }
 
-
     .card {
-        margin-top: 8px;
-
         padding:
             24px
             18px;
-
-        border-radius: 15px;
     }
-
 
     .back-button-container {
         flex-direction: column;
@@ -1154,50 +787,14 @@ body {
         align-items: stretch;
     }
 
-
     .back-button,
     .logout-button {
         width: 100%;
     }
 
-
-    .page-heading {
-        align-items: flex-start;
-
-        gap: 12px;
-    }
-
-
-    .heading-icon {
-        width: 48px;
-
-        height: 48px;
-
-        border-radius: 14px;
-
-        font-size: 19px;
-    }
-
-
     .page-heading h1 {
         font-size: 24px;
     }
-
-
-    .page-heading p {
-        font-size: 12px;
-    }
-
-
-    .input-group {
-        margin-bottom: 18px;
-    }
-
-
-    .input-group label {
-        font-size: 13px;
-    }
-
 
     .input-group input,
     .input-group select {
@@ -1206,51 +803,9 @@ body {
         font-size: 13px;
     }
 
-
-    .update-player-button {
-        height: 48px;
-
-        font-size: 13px;
-    }
-
-
     .swal2-popup {
         width:
-            calc(
-                100% - 24px
-            ) !important;
-
-        padding:
-            1.5em !important;
-    }
-
-}
-
-
-/* =====================================================
-   VERY SMALL PHONES
-===================================================== */
-
-@media (
-    max-width: 360px
-) {
-
-    .container {
-        padding:
-            14px
-            8px;
-    }
-
-
-    .card {
-        padding:
-            21px
-            15px;
-    }
-
-
-    .page-heading h1 {
-        font-size: 22px;
+            calc(100% - 24px) !important;
     }
 
 }
