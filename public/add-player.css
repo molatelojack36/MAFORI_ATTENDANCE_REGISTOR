@@ -1,37 +1,37 @@
 /* =====================================================
    MAFORI FC ATTENDANCE REGISTER
    ADD PLAYER PAGE
-   MAFORI FC BACKGROUND STYLE
+   MATCH PLAYERS.CSS DESIGN
 ===================================================== */
 
 
 /* =====================================================
-   GLOBAL RESET
+   RESET
 ===================================================== */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
+
 
 html {
     scroll-behavior: smooth;
 }
 
 
-/* =====================================================
-   BODY
-===================================================== */
-
 body {
-    font-family: "Poppins", sans-serif;
+    display: flex;
 
     min-height: 100vh;
 
-    background: #f4f7fa;
+    background: #f4f7fc;
 
     color: #1e293b;
+
+    overflow-x: hidden;
 }
 
 
@@ -40,27 +40,17 @@ body {
 ===================================================== */
 
 .sidebar {
+    width: 260px;
+
+    background: #071a35;
+
+    color: #ffffff;
+
     position: fixed;
 
     top: 0;
     left: 0;
-
-    width: 260px;
-    height: 100vh;
-
-    background:
-        linear-gradient(
-            180deg,
-            #08182f 0%,
-            #0b1f3a 100%
-        );
-
-    color: #ffffff;
-
-    padding: 24px 0;
-
-    box-shadow:
-        8px 0 30px rgba(15, 23, 42, 0.12);
+    bottom: 0;
 
     z-index: 1000;
 
@@ -69,60 +59,39 @@ body {
 
 
 /* =====================================================
-   LOGO AREA
+   LOGO
 ===================================================== */
 
 .logo {
+    height: 90px;
+
     display: flex;
 
+    justify-content: center;
     align-items: center;
 
-    gap: 13px;
+    gap: 10px;
 
-    padding: 0 24px 28px;
+    color: #FFD54F;
 
     border-bottom:
-        1px solid rgba(255, 255, 255, 0.08);
-
-    margin-bottom: 18px;
+        1px solid rgba(255, 255, 255, 0.1);
 }
 
 
 .logo i {
-    width: 46px;
-    height: 46px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff8a00,
-            #ff6a00
-        );
-
-    color: #ffffff;
-
-    font-size: 23px;
-
-    box-shadow:
-        0 10px 24px rgba(255, 106, 0, 0.28);
+    font-size: 30px;
 }
 
 
 .logo h2 {
-    color: #ffffff;
+    color: #FFD54F;
 
-    font-size: 20px;
+    font-size: 21px;
 
-    font-weight: 800;
+    font-weight: 700;
 
-    letter-spacing: 0.7px;
+    letter-spacing: 0.5px;
 }
 
 
@@ -133,90 +102,72 @@ body {
 .sidebar ul {
     list-style: none;
 
-    padding: 0 14px;
+    margin-top: 20px;
 }
 
 
-.sidebar ul li {
-    margin-bottom: 7px;
+.sidebar li {
+    width: 100%;
 }
 
 
-.sidebar ul li a {
+.sidebar li a {
     display: flex;
 
     align-items: center;
 
-    gap: 13px;
+    gap: 15px;
 
     width: 100%;
 
-    padding: 13px 15px;
-
-    border-radius: 10px;
-
-    color: #cbd5e1;
+    color: #ffffff;
 
     text-decoration: none;
+
+    padding: 18px 25px;
 
     font-size: 14px;
 
     font-weight: 500;
 
     transition:
-        background 0.25s ease,
-        color 0.25s ease,
-        transform 0.25s ease;
+        background 0.3s ease,
+        color 0.3s ease,
+        padding-left 0.3s ease;
 }
 
 
-.sidebar ul li a i {
+.sidebar li a i {
     width: 20px;
 
     text-align: center;
 
-    color: #94a3b8;
-
     font-size: 16px;
-
-    transition: color 0.25s ease;
 }
 
 
-.sidebar ul li a:hover {
-    background: rgba(255, 138, 0, 0.12);
-
-    color: #ffffff;
-
-    transform: translateX(3px);
+.sidebar li:hover,
+.sidebar li.active {
+    background: #ff9800;
 }
 
 
-.sidebar ul li a:hover i {
-    color: #ff8a00;
+.sidebar li:hover a {
+    padding-left: 30px;
 }
 
 
 /* =====================================================
-   ACTIVE SIDEBAR LINK
+   LOGOUT
 ===================================================== */
 
-.sidebar ul li a.active {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 138, 0, 0.18),
-            rgba(255, 106, 0, 0.10)
-        );
-
-    color: #ffffff;
-
-    border-left: 3px solid #ff8a00;
+.logout-menu-item {
+    margin-top: 8px;
 }
 
 
-.sidebar ul li a.active i {
-    color: #ff8a00;
+.logout-menu-item a:hover {
+    background: #dc3545;
 }
 
 
@@ -234,12 +185,12 @@ body {
 
     min-height: 100vh;
 
-    padding: 42px 55px 60px;
+    padding: 40px;
 
     background:
         linear-gradient(
-            rgba(245, 247, 250, 0.86),
-            rgba(245, 247, 250, 0.86)
+            rgba(244, 247, 252, 0.87),
+            rgba(244, 247, 252, 0.87)
         ),
         url("MAFORI_FC_LOGO.jpeg");
 
@@ -258,7 +209,7 @@ body {
 ===================================================== */
 
 .back-button-container {
-    margin-bottom: 24px;
+    margin-bottom: 25px;
 }
 
 
@@ -269,17 +220,17 @@ body {
 
     justify-content: center;
 
-    gap: 9px;
+    gap: 8px;
 
-    padding: 10px 17px;
+    padding: 11px 17px;
 
-    border: 1px solid rgba(226, 232, 240, 0.95);
+    border: none;
 
     border-radius: 10px;
 
-    background: rgba(255, 255, 255, 0.92);
+    background: #071a35;
 
-    color: #0b1f3a;
+    color: #ffffff;
 
     font-family: "Poppins", sans-serif;
 
@@ -290,17 +241,12 @@ body {
     cursor: pointer;
 
     box-shadow:
-        0 5px 18px rgba(15, 23, 42, 0.06);
-
-    backdrop-filter: blur(8px);
-
-    -webkit-backdrop-filter: blur(8px);
+        0 7px 18px rgba(7, 26, 53, 0.16);
 
     transition:
-        transform 0.25s ease,
-        background 0.25s ease,
-        color 0.25s ease,
-        box-shadow 0.25s ease;
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 
@@ -310,21 +256,12 @@ body {
 
 
 .back-button:hover {
-    background:
-        linear-gradient(
-            135deg,
-            #ff8a00,
-            #ff6a00
-        );
-
-    color: #ffffff;
-
-    border-color: transparent;
+    background: #ff9800;
 
     transform: translateX(-3px);
 
     box-shadow:
-        0 10px 22px rgba(255, 106, 0, 0.22);
+        0 10px 24px rgba(255, 152, 0, 0.24);
 }
 
 
@@ -332,39 +269,49 @@ body {
    PAGE HEADER
 ===================================================== */
 
-.main-content h1 {
-    color: #0f172a;
-
-    font-size: 32px;
-
-    font-weight: 800;
-
-    letter-spacing: -0.4px;
-
-    margin-bottom: 8px;
-
-    text-shadow:
-        0 1px 2px rgba(255, 255, 255, 0.75);
+.header {
+    margin-bottom: 30px;
 }
 
 
-.main-content > p {
-    max-width: 680px;
+.header h1,
+.main-content > h1 {
+    color: #071a35;
 
-    color: #475569;
+    font-size: 36px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    margin-bottom: 7px;
+}
+
+
+.header h1 i,
+.main-content > h1 i {
+    color: #ff9800;
+
+    margin-right: 8px;
+}
+
+
+.header p,
+.main-content > p {
+    max-width: 700px;
+
+    color: #666666;
 
     font-size: 14px;
 
     line-height: 1.7;
 
     margin-bottom: 30px;
-
-    font-weight: 500;
 }
 
 
 /* =====================================================
-   FORM CARD
+   PLAYER FORM
 ===================================================== */
 
 #playerForm {
@@ -376,16 +323,16 @@ body {
 
     padding: 34px;
 
-    border:
-        1px solid rgba(255, 255, 255, 0.75);
-
-    border-radius: 18px;
-
     background:
-        rgba(255, 255, 255, 0.94);
+        rgba(255, 255, 255, 0.96);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.90);
+
+    border-radius: 15px;
 
     box-shadow:
-        0 18px 45px rgba(15, 23, 42, 0.12);
+        0 10px 30px rgba(0, 0, 0, 0.08);
 
     backdrop-filter: blur(10px);
 
@@ -396,7 +343,7 @@ body {
 
 
 /* =====================================================
-   ORANGE FORM ACCENT
+   FORM ORANGE ACCENT
 ===================================================== */
 
 #playerForm::before {
@@ -408,12 +355,13 @@ body {
     left: 0;
 
     width: 100%;
+
     height: 4px;
 
     background:
         linear-gradient(
             90deg,
-            #ff8a00,
+            #ff9800,
             #ff6a00
         );
 }
@@ -424,7 +372,7 @@ body {
 ===================================================== */
 
 .input-group {
-    margin-bottom: 21px;
+    margin-bottom: 20px;
 }
 
 
@@ -433,43 +381,45 @@ body {
 
     margin-bottom: 8px;
 
-    color: #334155;
+    color: #071a35;
 
     font-size: 13px;
 
-    font-weight: 700;
+    font-weight: 600;
 }
 
 
 /* =====================================================
-   INPUTS + SELECTS
+   INPUTS AND SELECTS
 ===================================================== */
 
 .input-group input,
 .input-group select {
     width: 100%;
 
-    padding: 14px 15px;
+    height: 48px;
 
-    border: 1px solid #dbe3ec;
+    padding: 0 15px;
+
+    border: 1px solid #dddddd;
 
     border-radius: 10px;
 
-    background: rgba(248, 250, 252, 0.95);
+    outline: none;
 
-    color: #0f172a;
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    color: #1e293b;
 
     font-family: "Poppins", sans-serif;
 
     font-size: 14px;
 
-    outline: none;
-
     transition:
-        border-color 0.25s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease,
-        transform 0.25s ease;
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
 }
 
 
@@ -481,38 +431,22 @@ body {
 
 .input-group input:focus,
 .input-group select:focus {
-    border-color: #ff8a00;
+    border-color: #ff9800;
 
     background: #ffffff;
 
     box-shadow:
-        0 0 0 3px rgba(255, 138, 0, 0.10);
+        0 0 0 3px rgba(255, 152, 0, 0.12);
 }
 
-
-/* =====================================================
-   PLACEHOLDERS
-===================================================== */
 
 .input-group input::placeholder {
     color: #94a3b8;
 }
 
 
-/* =====================================================
-   DATE INPUT
-===================================================== */
-
+.input-group select,
 .input-group input[type="date"] {
-    cursor: pointer;
-}
-
-
-/* =====================================================
-   SELECT
-===================================================== */
-
-.input-group select {
     cursor: pointer;
 }
 
@@ -524,20 +458,17 @@ body {
 #playerForm button[type="submit"] {
     width: 100%;
 
-    padding: 14px 20px;
+    min-height: 50px;
 
-    margin-top: 6px;
+    margin-top: 7px;
+
+    padding: 13px 20px;
 
     border: none;
 
     border-radius: 10px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ff8a00,
-            #ff6a00
-        );
+    background: #ff9800;
 
     color: #ffffff;
 
@@ -547,32 +478,15 @@ body {
 
     font-weight: 700;
 
-    letter-spacing: 0.2px;
-
     cursor: pointer;
 
     box-shadow:
-        0 10px 25px rgba(255, 106, 0, 0.20);
+        0 8px 20px rgba(255, 152, 0, 0.22);
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        filter 0.25s ease;
-}
-
-
-#playerForm button[type="submit"]:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 14px 30px rgba(255, 106, 0, 0.28);
-
-    filter: brightness(1.04);
-}
-
-
-#playerForm button[type="submit"]:active {
-    transform: translateY(0);
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 
@@ -581,9 +495,20 @@ body {
 }
 
 
-/* =====================================================
-   DISABLED BUTTON
-===================================================== */
+#playerForm button[type="submit"]:hover {
+    background: #e68900;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(255, 152, 0, 0.30);
+}
+
+
+#playerForm button[type="submit"]:active {
+    transform: translateY(0);
+}
+
 
 #playerForm button[type="submit"]:disabled {
     background: #94a3b8;
@@ -593,13 +518,11 @@ body {
     transform: none;
 
     box-shadow: none;
-
-    filter: none;
 }
 
 
 /* =====================================================
-   SWEETALERT STYLE
+   SWEETALERT GENERAL
 ===================================================== */
 
 .swal2-popup {
@@ -608,46 +531,302 @@ body {
         sans-serif !important;
 
     border-radius:
-        18px !important;
+        22px !important;
+
+    padding:
+        2em !important;
+
+    border:
+        1px solid #edf0f4 !important;
 
     box-shadow:
-        0 25px 70px
-        rgba(15, 23, 42, 0.20) !important;
+        0 30px 80px
+        rgba(15, 23, 42, 0.24) !important;
 }
 
 
 .swal2-title {
     color:
-        #0b1f3a !important;
+        #071a35 !important;
+
+    font-size:
+        24px !important;
 
     font-weight:
         800 !important;
 }
 
 
-.swal2-confirm {
-    border-radius:
-        9px !important;
-
+.swal2-html-container {
     font-family:
         "Poppins",
         sans-serif !important;
-
-    font-weight:
-        600 !important;
 }
 
 
+.swal2-confirm,
 .swal2-cancel {
     border-radius:
-        9px !important;
+        10px !important;
+
+    padding:
+        11px 19px !important;
 
     font-family:
         "Poppins",
         sans-serif !important;
 
+    font-size:
+        13px !important;
+
     font-weight:
         600 !important;
+
+    box-shadow:
+        none !important;
+}
+
+
+.swal2-timer-progress-bar {
+    background:
+        linear-gradient(
+            90deg,
+            #ff9800,
+            #ff6a00
+        ) !important;
+}
+
+
+/* =====================================================
+   PLAYER ADDED SUCCESS POPUP
+===================================================== */
+
+.player-success-popup {
+    text-align: center;
+}
+
+
+.player-success-icon {
+    width: 62px;
+
+    height: 62px;
+
+    margin:
+        0 auto 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background: #ecfdf5;
+
+    color: #16a34a;
+
+    font-size: 27px;
+}
+
+
+.player-success-popup p {
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+.player-success-popup strong {
+    color: #071a35;
+}
+
+
+/* =====================================================
+   LOGOUT POPUP
+===================================================== */
+
+.players-logout-popup {
+    text-align: center;
+}
+
+
+.logout-ball {
+    width: 60px;
+
+    height: 60px;
+
+    margin:
+        0 auto 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    color: #ff9800;
+
+    font-size: 26px;
+}
+
+
+.players-logout-popup p {
+    color: #334155;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    margin-bottom: 8px;
+}
+
+
+.players-logout-popup span {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   LOGOUT LOADING
+===================================================== */
+
+.players-logout-loading {
+    text-align: center;
+}
+
+
+.logout-spinner-ball {
+    width: 64px;
+
+    height: 64px;
+
+    margin:
+        5px auto 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff9800,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    animation:
+        playerSpin
+        0.8s
+        linear
+        infinite;
+}
+
+
+.players-logout-loading p {
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   POPUP ANIMATION
+===================================================== */
+
+@keyframes playerPopupIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+
+@keyframes playerPopupOut {
+
+    from {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+
+    to {
+        opacity: 0;
+
+        transform:
+            scale(0.95);
+    }
+
+}
+
+
+@keyframes playerSpin {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+.players-popup-in {
+    animation:
+        playerPopupIn
+        0.38s
+        ease-out !important;
+}
+
+
+.players-popup-out {
+    animation:
+        playerPopupOut
+        0.24s
+        ease-in !important;
 }
 
 
@@ -661,7 +840,7 @@ body {
 
 
 .sidebar::-webkit-scrollbar-track {
-    background: #08182f;
+    background: #071a35;
 }
 
 
@@ -673,39 +852,7 @@ body {
 
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #ff8a00;
-}
-
-
-/* =====================================================
-   RESPONSIVE - SMALL DESKTOP
-===================================================== */
-
-@media (max-width: 1000px) {
-
-    .sidebar {
-        width: 220px;
-    }
-
-
-    .main-content {
-        margin-left: 220px;
-
-        width: calc(100% - 220px);
-
-        padding:
-            36px
-            32px
-            50px;
-    }
-
-
-    .logo {
-        padding-left: 18px;
-
-        padding-right: 18px;
-    }
-
+    background: #ff9800;
 }
 
 
@@ -713,87 +860,68 @@ body {
    TABLET
 ===================================================== */
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
 
-    body {
-        display: block;
+    .sidebar {
+        width: 80px;
     }
 
 
-    .sidebar {
-        position: relative;
-
-        width: 100%;
-
-        height: auto;
-
-        padding: 16px 0;
+    .logo h2 {
+        display: none;
     }
 
 
     .logo {
+        gap: 0;
+    }
+
+
+    .sidebar li a {
         justify-content: center;
-
-        border-bottom: none;
-
-        margin-bottom: 10px;
-
-        padding-bottom: 12px;
-    }
-
-
-    .sidebar ul {
-        display: flex;
-
-        justify-content: center;
-
-        flex-wrap: wrap;
-
-        gap: 7px;
-    }
-
-
-    .sidebar ul li {
-        margin: 0;
-    }
-
-
-    .sidebar ul li a {
-        width: auto;
 
         padding:
-            10px
-            12px;
-
-        font-size: 12px;
-
-        border-radius: 9px;
-
-        gap: 7px;
+            18px
+            10px;
     }
 
 
-    .sidebar ul li a:hover {
-        transform: none;
+    .sidebar li a i {
+        width: auto;
+
+        font-size: 20px;
+    }
+
+
+    /*
+       Hide sidebar menu text while
+       keeping icons visible.
+    */
+
+    .sidebar li a {
+        font-size: 0;
+    }
+
+
+    .sidebar li a:hover {
+        padding-left: 10px;
     }
 
 
     .main-content {
-        margin-left: 0;
+        margin-left: 80px;
 
-        width: 100%;
+        width:
+            calc(
+                100% - 80px
+            );
 
-        min-height: 100vh;
-
-        padding:
-            28px
-            20px
-            40px;
+        padding: 25px;
 
         background:
             linear-gradient(
-                rgba(245, 247, 250, 0.88),
-                rgba(245, 247, 250, 0.88)
+                rgba(244, 247, 252, 0.89),
+                rgba(244, 247, 252, 0.89)
             ),
             url("MAFORI_FC_LOGO.jpeg");
 
@@ -802,15 +930,17 @@ body {
         background-position: center;
 
         background-repeat: no-repeat;
+    }
 
-        background-attachment: scroll;
+
+    .header h1,
+    .main-content > h1 {
+        font-size: 28px;
     }
 
 
     #playerForm {
         max-width: 100%;
-
-        padding: 27px;
     }
 
 }
@@ -820,51 +950,27 @@ body {
    MOBILE
 ===================================================== */
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
 
-    .logo h2 {
-        font-size: 18px;
-    }
-
-
-    .logo i {
-        width: 40px;
-
-        height: 40px;
-
-        font-size: 20px;
-    }
-
-
-    .sidebar ul li a {
-        padding:
-            8px
-            10px;
-
-        font-size: 11px;
-    }
-
-
-    .sidebar ul li a i {
-        font-size: 13px;
+    body {
+        overflow-y: auto;
     }
 
 
     .main-content {
-        padding:
-            23px
-            14px
-            35px;
+        padding: 20px;
 
-        background-position: center;
+        background-attachment: scroll;
     }
 
 
-    .main-content h1 {
-        font-size: 26px;
+    .header h1,
+    .main-content > h1 {
+        font-size: 25px;
     }
 
 
+    .header p,
     .main-content > p {
         font-size: 13px;
 
@@ -874,20 +980,17 @@ body {
 
     #playerForm {
         padding:
-            24px
-            18px;
+            26px
+            20px;
 
-        border-radius: 15px;
-
-        background:
-            rgba(255, 255, 255, 0.95);
+        border-radius: 14px;
     }
 
 
     .back-button {
         padding:
-            9px
-            13px;
+            10px
+            14px;
 
         font-size: 12px;
     }
@@ -900,14 +1003,14 @@ body {
 
     .input-group input,
     .input-group select {
-        padding: 13px;
+        height: 46px;
 
         font-size: 13px;
     }
 
 
     #playerForm button[type="submit"] {
-        padding: 13px;
+        min-height: 48px;
 
         font-size: 13px;
     }
@@ -916,42 +1019,63 @@ body {
 
 
 /* =====================================================
-   VERY SMALL MOBILE
+   VERY SMALL PHONES
 ===================================================== */
 
-@media (max-width: 360px) {
+@media (max-width: 400px) {
+
+    .sidebar {
+        width: 68px;
+    }
+
+
+    .logo i {
+        font-size: 25px;
+    }
+
+
+    .sidebar li a {
+        padding:
+            16px
+            8px;
+    }
+
+
+    .sidebar li a:hover {
+        padding-left: 8px;
+    }
+
+
+    .sidebar li a i {
+        font-size: 18px;
+    }
+
 
     .main-content {
+        margin-left: 68px;
+
+        width:
+            calc(
+                100% - 68px
+            );
+
         padding:
-            18px
-            10px
+            17px
+            12px
             30px;
+    }
+
+
+    .header h1,
+    .main-content > h1 {
+        font-size: 22px;
     }
 
 
     #playerForm {
         padding:
-            21px
+            22px
             15px;
-    }
-
-
-    .main-content h1 {
-        font-size: 23px;
-    }
-
-
-    .sidebar ul {
-        gap: 4px;
-    }
-
-
-    .sidebar ul li a {
-        padding:
-            7px
-            8px;
-
-        font-size: 10px;
     }
 
 }
