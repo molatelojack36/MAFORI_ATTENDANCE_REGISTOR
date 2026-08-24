@@ -1,133 +1,317 @@
-// =====================================
+// ==========================================
+// MAFORI FC ATTENDANCE REGISTER
 // DOWNLOADS.JS
-// MAFORI FC
-// =====================================
+// ==========================================
 
 
-// =====================================
-// LOGOUT
-// =====================================
+/* ==========================================
+   LOGOUT
+========================================== */
 
 function logout() {
 
-    const confirmLogout = confirm(
-        "Are you sure you want to logout?"
-    );
+    const confirmLogout =
+        confirm(
+            "Are you sure you want to logout?"
+        );
 
-    if (confirmLogout) {
 
-        window.location.href = "login.html";
+    if (
+        confirmLogout
+    ) {
+
+        window.location.href =
+            "login.html";
 
     }
 
 }
 
 
-// =====================================
-// POPULATE YEAR DROPDOWN
-// =====================================
+/* ==========================================
+   POPULATE YEAR DROPDOWN
+========================================== */
 
 function loadYears() {
 
-    const yearSelect = document.getElementById("year");
+    const yearSelect =
+        document.getElementById(
+            "year"
+        );
 
-    const currentYear = new Date().getFullYear();
 
-    // Add the previous 5 years
-    // and the next year
+    if (!yearSelect) {
 
-    for (
-        let year = currentYear + 1;
-        year >= currentYear - 5;
-        year--
-    ) {
-
-        const option = document.createElement("option");
-
-        option.value = year;
-
-        option.textContent = year;
-
-        yearSelect.appendChild(option);
+        return;
 
     }
 
-    // Automatically select current year
 
-    yearSelect.value = currentYear;
+    const currentYear =
+        new Date().getFullYear();
+
+
+    /*
+        Clear existing dynamically-added
+        options where necessary.
+    */
+
+    const existingValues =
+        Array.from(
+            yearSelect.options
+        ).map(
+            option =>
+                String(
+                    option.value
+                )
+        );
+
+
+    /*
+        Current year + next year +
+        previous five years.
+    */
+
+    for (
+        let year =
+            currentYear + 1;
+
+        year >=
+        currentYear - 5;
+
+        year--
+    ) {
+
+        if (
+            existingValues.includes(
+                String(year)
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            year;
+
+
+        option.textContent =
+            year;
+
+
+        yearSelect.appendChild(
+            option
+        );
+
+    }
+
+
+    yearSelect.value =
+        currentYear;
 
 }
 
 
-// =====================================
-// SELECT CURRENT MONTH
-// =====================================
+/* ==========================================
+   SELECT CURRENT MONTH
+========================================== */
 
 function loadCurrentMonth() {
 
     const monthSelect =
-        document.getElementById("month");
+        document.getElementById(
+            "month"
+        );
+
+
+    if (!monthSelect) {
+
+        return;
+
+    }
+
 
     const currentMonth =
         new Date().getMonth() + 1;
 
-    monthSelect.value = currentMonth;
+
+    monthSelect.value =
+        currentMonth;
 
 }
 
 
-// =====================================
-// DOWNLOAD PDF
-// =====================================
+/* ==========================================
+   FILE DOWNLOAD HELPER
+========================================== */
 
-document
-    .getElementById("downloadPdf")
-    .addEventListener("click", async function () {
+async function downloadReportFile(
+    url,
+    filename,
+    defaultErrorMessage
+) {
 
-        const month =
-            document.getElementById("month").value;
+    try {
 
-        const year =
-            document.getElementById("year").value;
-
-
-        // Check month
-
-        if (!month) {
-
-            alert("Please select a month.");
-
-            return;
-
-        }
-
-
-        // Check year
-
-        if (!year) {
-
-            alert("Please select a year.");
-
-            return;
-
-        }
-
-
-        try {
-
-            const response = await fetch(
-                `/api/reports/monthly?month=${month}&year=${year}`
+        const response =
+            await fetch(
+                url
             );
 
 
-            if (!response.ok) {
+        if (!response.ok) {
+
+            let message =
+                defaultErrorMessage;
+
+
+            try {
 
                 const error =
                     await response.json();
 
-                alert(
+
+                message =
                     error.message ||
-                    "Unable to generate report."
+                    message;
+
+            }
+
+            catch (_) {
+
+                // Response may not be JSON.
+
+            }
+
+
+            throw new Error(
+                message
+            );
+
+        }
+
+
+        const blob =
+            await response.blob();
+
+
+        const objectUrl =
+            window.URL.createObjectURL(
+                blob
+            );
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+            objectUrl;
+
+
+        link.download =
+            filename;
+
+
+        document.body.appendChild(
+            link
+        );
+
+
+        link.click();
+
+
+        link.remove();
+
+
+        window.URL.revokeObjectURL(
+            objectUrl
+        );
+
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Download Error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            defaultErrorMessage
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+/* ==========================================
+   DOWNLOAD PDF
+========================================== */
+
+const downloadPdfButton =
+    document.getElementById(
+        "downloadPdf"
+    );
+
+
+if (downloadPdfButton) {
+
+    downloadPdfButton.addEventListener(
+        "click",
+        async function () {
+
+            const monthElement =
+                document.getElementById(
+                    "month"
+                );
+
+
+            const yearElement =
+                document.getElementById(
+                    "year"
+                );
+
+
+            const month =
+                monthElement
+                    ? monthElement.value
+                    : "";
+
+
+            const year =
+                yearElement
+                    ? yearElement.value
+                    : "";
+
+
+            /* ======================================
+               VALIDATE MONTH
+            ====================================== */
+
+            if (!month) {
+
+                alert(
+                    "Please select a month."
                 );
 
                 return;
@@ -135,105 +319,111 @@ document
             }
 
 
-            const blob =
-                await response.blob();
+            /* ======================================
+               VALIDATE YEAR
+            ====================================== */
+
+            if (!year) {
+
+                alert(
+                    "Please select a year."
+                );
+
+                return;
+
+            }
 
 
-            // Create temporary download URL
-
-            const url =
-                window.URL.createObjectURL(blob);
+            const originalHTML =
+                downloadPdfButton.innerHTML;
 
 
-            const link =
-                document.createElement("a");
+            downloadPdfButton.disabled =
+                true;
 
 
-            link.href = url;
-
-            link.download =
-                `Mafori_FC_Attendance_${month}_${year}.pdf`;
-
-
-            document.body.appendChild(link);
-
-            link.click();
-
-            link.remove();
+            downloadPdfButton.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Preparing PDF...
+            `;
 
 
-            window.URL.revokeObjectURL(url);
+            await downloadReportFile(
 
-        }
+                `/api/reports/monthly?month=${encodeURIComponent(
+                    month
+                )}&year=${encodeURIComponent(
+                    year
+                )}`,
 
-        catch (error) {
+                `Mafori_FC_Attendance_${month}_${year}.pdf`,
 
-            console.error(
-                "PDF Download Error:",
-                error
-            );
-
-            alert(
                 "Failed to download the PDF report."
-            );
 
-        }
-
-    });
-
-
-// =====================================
-// DOWNLOAD CSV
-// =====================================
-
-document
-    .getElementById("downloadCsv")
-    .addEventListener("click", async function () {
-
-        const month =
-            document.getElementById("month").value;
-
-        const year =
-            document.getElementById("year").value;
-
-
-        // Check month
-
-        if (!month) {
-
-            alert("Please select a month.");
-
-            return;
-
-        }
-
-
-        // Check year
-
-        if (!year) {
-
-            alert("Please select a year.");
-
-            return;
-
-        }
-
-
-        try {
-
-            const response = await fetch(
-                `/api/reports/monthly/csv?month=${month}&year=${year}`
             );
 
 
-            if (!response.ok) {
+            downloadPdfButton.disabled =
+                false;
 
-                const error =
-                    await response.json();
+
+            downloadPdfButton.innerHTML =
+                originalHTML;
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   DOWNLOAD CSV
+========================================== */
+
+const downloadCsvButton =
+    document.getElementById(
+        "downloadCsv"
+    );
+
+
+if (downloadCsvButton) {
+
+    downloadCsvButton.addEventListener(
+        "click",
+        async function () {
+
+            const monthElement =
+                document.getElementById(
+                    "month"
+                );
+
+
+            const yearElement =
+                document.getElementById(
+                    "year"
+                );
+
+
+            const month =
+                monthElement
+                    ? monthElement.value
+                    : "";
+
+
+            const year =
+                yearElement
+                    ? yearElement.value
+                    : "";
+
+
+            /* ======================================
+               VALIDATE MONTH
+            ====================================== */
+
+            if (!month) {
 
                 alert(
-                    error.message ||
-                    "Unable to generate CSV."
+                    "Please select a month."
                 );
 
                 return;
@@ -241,56 +431,66 @@ document
             }
 
 
-            const blob =
-                await response.blob();
+            /* ======================================
+               VALIDATE YEAR
+            ====================================== */
+
+            if (!year) {
+
+                alert(
+                    "Please select a year."
+                );
+
+                return;
+
+            }
 
 
-            // Create temporary download URL
-
-            const url =
-                window.URL.createObjectURL(blob);
+            const originalHTML =
+                downloadCsvButton.innerHTML;
 
 
-            const link =
-                document.createElement("a");
+            downloadCsvButton.disabled =
+                true;
 
 
-            link.href = url;
-
-            link.download =
-                `Mafori_FC_Attendance_${month}_${year}.csv`;
-
-
-            document.body.appendChild(link);
-
-            link.click();
-
-            link.remove();
+            downloadCsvButton.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Preparing File...
+            `;
 
 
-            window.URL.revokeObjectURL(url);
+            await downloadReportFile(
 
-        }
+                `/api/reports/monthly/csv?month=${encodeURIComponent(
+                    month
+                )}&year=${encodeURIComponent(
+                    year
+                )}`,
 
-        catch (error) {
+                `Mafori_FC_Attendance_${month}_${year}.csv`,
 
-            console.error(
-                "CSV Download Error:",
-                error
+                "Failed to download the attendance spreadsheet."
+
             );
 
-            alert(
-                "Failed to download the CSV file."
-            );
+
+            downloadCsvButton.disabled =
+                false;
+
+
+            downloadCsvButton.innerHTML =
+                originalHTML;
 
         }
+    );
 
-    });
+}
 
 
-// =====================================
-// INITIALIZE PAGE
-// =====================================
+/* ==========================================
+   INITIALIZE PAGE
+========================================== */
 
 document.addEventListener(
     "DOMContentLoaded",

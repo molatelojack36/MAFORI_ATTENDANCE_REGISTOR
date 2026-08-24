@@ -1,511 +1,1091 @@
 // ==========================================
 // MAFORI FC REPORTS
+// REPORTS.JS
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    const monthSelect = document.getElementById("month");
-    const yearInput = document.getElementById("year");
+        /* ==========================================
+           ELEMENTS
+        ========================================== */
 
-    const generateButton =
-        document.getElementById("generateReport");
+        const monthSelect =
+            document.getElementById("month");
 
-    const downloadPDF =
-        document.getElementById("downloadPDF");
+        const yearInput =
+            document.getElementById("year");
 
-    const downloadCSV =
-        document.getElementById("downloadExcel");
+        const generateButton =
+            document.getElementById(
+                "generateReport"
+            );
 
-    const reportTable =
-        document.getElementById("reportTable");
+        const downloadPDF =
+            document.getElementById(
+                "downloadPDF"
+            );
 
-    const totalPlayers =
-        document.getElementById("totalPlayers");
+        const downloadCSV =
+            document.getElementById(
+                "downloadExcel"
+            );
 
-    const presentPlayers =
-        document.getElementById("presentPlayers");
+        const reportTable =
+            document.getElementById(
+                "reportTable"
+            );
 
-    const absentPlayers =
-        document.getElementById("absentPlayers");
+        const totalPlayers =
+            document.getElementById(
+                "totalPlayers"
+            );
 
-    const excusedPlayers =
-        document.getElementById("excusedPlayers");
+        const presentPlayers =
+            document.getElementById(
+                "presentPlayers"
+            );
 
-    const attendanceRate =
-        document.getElementById("attendanceRate");
+        const absentPlayers =
+            document.getElementById(
+                "absentPlayers"
+            );
 
+        const excusedPlayers =
+            document.getElementById(
+                "excusedPlayers"
+            );
 
-    // ==========================================
-    // CURRENT MONTH / YEAR
-    // ==========================================
-
-    const today = new Date();
-
-    monthSelect.value =
-        today.getMonth() + 1;
-
-    yearInput.value =
-        today.getFullYear();
-
-
-    // ==========================================
-    // GENERATE REPORT
-    // ==========================================
-
-    generateButton.addEventListener(
-        "click",
-        generateReport
-    );
-
-
-    async function generateReport() {
-
-        const month =
-            monthSelect.value;
-
-        const year =
-            yearInput.value;
+        const attendanceRate =
+            document.getElementById(
+                "attendanceRate"
+            );
 
 
-        if (!year) {
+        /* ==========================================
+           MONTH NAMES
+        ========================================== */
 
-            alert("Please enter a year.");
+        const monthNames = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
 
-            return;
+
+        /* ==========================================
+           CURRENT MONTH / YEAR
+        ========================================== */
+
+        const today =
+            new Date();
+
+
+        if (monthSelect) {
+
+            monthSelect.value =
+                today.getMonth() + 1;
 
         }
 
 
-        generateButton.disabled = true;
+        if (yearInput) {
 
-        generateButton.innerHTML = `
-            <i class="fa-solid fa-spinner fa-spin"></i>
-            Generating...
-        `;
+            yearInput.value =
+                today.getFullYear();
 
-
-        try {
-
-            console.log(
-                "Generating report:",
-                month,
-                year
-            );
+        }
 
 
-            // IMPORTANT:
-            // This endpoint returns JSON,
-            // NOT the PDF.
+        /* ==========================================
+           HELPER
+           FORMAT DATE
+        ========================================== */
 
-            const response = await fetch(
-                `/api/reports/monthly/data?month=${month}&year=${year}`
-            );
+        function formatDate(
+            dateValue
+        ) {
 
+            if (!dateValue) {
 
-            const result =
-                await response.json();
-
-
-            console.log(
-                "Report response:",
-                result
-            );
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    result.message ||
-                    "Unable to generate report."
-                );
+                return "-";
 
             }
 
 
-            if (!result.success) {
-
-                throw new Error(
-                    result.message ||
-                    "Unable to generate report."
+            const date =
+                new Date(
+                    dateValue +
+                    "T00:00:00"
                 );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return dateValue;
 
             }
 
 
-            const report =
-                result.report;
+            return date.toLocaleDateString(
+                "en-ZA",
+                {
+                    day:
+                        "2-digit",
+
+                    month:
+                        "short",
+
+                    year:
+                        "numeric"
+                }
+            );
+
+        }
 
 
-            const players =
-                report.players || [];
+        /* ==========================================
+           HELPER
+           GET STATUS CLASS
+        ========================================== */
 
-            const sessions =
-                report.sessions || [];
+        function getStatusClass(
+            status
+        ) {
 
-            const attendance =
-                report.attendance || [];
+            if (
+                status ===
+                "Present"
+            ) {
 
+                return "present";
 
-            // ==========================================
-            // TOTAL PLAYERS
-            // ==========================================
-
-            totalPlayers.textContent =
-                players.length;
-
-
-            // ==========================================
-            // STATISTICS
-            // ==========================================
-
-            let present = 0;
-            let absent = 0;
-            let excused = 0;
+            }
 
 
-            attendance.forEach(record => {
+            if (
+                status ===
+                "Absent"
+            ) {
 
-                if (
-                    record.attendance_status ===
-                    "Present"
-                ) {
+                return "absent";
 
-                    present++;
+            }
+
+
+            if (
+                status ===
+                "Excused"
+            ) {
+
+                return "excused";
+
+            }
+
+
+            return "";
+
+        }
+
+
+        /* ==========================================
+           HELPER
+           SAFE FILE DOWNLOAD
+        ========================================== */
+
+        async function downloadFile(
+            url,
+            filename,
+            errorMessage
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        url
+                    );
+
+
+                if (!response.ok) {
+
+                    let message =
+                        errorMessage;
+
+
+                    try {
+
+                        const result =
+                            await response.json();
+
+
+                        message =
+                            result.message ||
+                            message;
+
+                    }
+
+                    catch (_) {
+
+                        // Response was not JSON.
+
+                    }
+
+
+                    throw new Error(
+                        message
+                    );
 
                 }
 
-                else if (
-                    record.attendance_status ===
-                    "Absent"
-                ) {
 
-                    absent++;
-
-                }
-
-                else if (
-                    record.attendance_status ===
-                    "Excused"
-                ) {
-
-                    excused++;
-
-                }
-
-            });
+                const blob =
+                    await response.blob();
 
 
-            presentPlayers.textContent =
-                present;
-
-            absentPlayers.textContent =
-                absent;
-
-            excusedPlayers.textContent =
-                excused;
+                const objectUrl =
+                    window.URL.createObjectURL(
+                        blob
+                    );
 
 
-            const totalRecords =
-                present +
-                absent +
-                excused;
+                const link =
+                    document.createElement(
+                        "a"
+                    );
 
 
-            const rate =
-                totalRecords > 0
-                    ? (
-                        (present /
-                            totalRecords) *
-                        100
-                    ).toFixed(1)
-                    : "0.0";
+                link.href =
+                    objectUrl;
 
 
-            attendanceRate.textContent =
-                rate + "%";
+                link.download =
+                    filename;
 
 
-            // ==========================================
-            // CLEAR TABLE
-            // ==========================================
-
-            reportTable.innerHTML = "";
+                document.body.appendChild(
+                    link
+                );
 
 
-            if (players.length === 0) {
+                link.click();
 
-                reportTable.innerHTML = `
-                    <tr>
-                        <td colspan="5">
-                            No active players found
-                            for this report.
-                        </td>
-                    </tr>
-                `;
+
+                link.remove();
+
+
+                window.URL.revokeObjectURL(
+                    objectUrl
+                );
+
+
+                return true;
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Download error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    errorMessage
+                );
+
+
+                return false;
+
+            }
+
+        }
+
+
+        /* ==========================================
+           GENERATE REPORT BUTTON
+        ========================================== */
+
+        if (generateButton) {
+
+            generateButton.addEventListener(
+                "click",
+                generateReport
+            );
+
+        }
+
+
+        /* ==========================================
+           GENERATE REPORT
+        ========================================== */
+
+        async function generateReport() {
+
+            const month =
+                monthSelect
+                    ? monthSelect.value
+                    : "";
+
+
+            const year =
+                yearInput
+                    ? yearInput.value
+                    : "";
+
+
+            /* ======================================
+               VALIDATION
+            ====================================== */
+
+            if (!month) {
+
+                alert(
+                    "Please select a month."
+                );
 
                 return;
 
             }
 
 
-            // ==========================================
-            // CREATE TABLE
-            // ==========================================
+            if (!year) {
 
-            let rowNumber = 1;
+                alert(
+                    "Please enter a year."
+                );
+
+                return;
+
+            }
 
 
-            players.forEach(player => {
+            if (generateButton) {
 
-                const playerRecords =
-                    attendance.filter(
-                        record =>
-                            Number(record.player_id) ===
-                            Number(player.id)
+                generateButton.disabled =
+                    true;
+
+
+                generateButton.innerHTML = `
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    Generating...
+                `;
+
+            }
+
+
+            try {
+
+                console.log(
+                    "Generating report:",
+                    month,
+                    year
+                );
+
+
+                /* ======================================
+                   LOAD MONTHLY DATA
+                ====================================== */
+
+                const response =
+                    await fetch(
+                        `/api/reports/monthly/data?month=${encodeURIComponent(
+                            month
+                        )}&year=${encodeURIComponent(
+                            year
+                        )}`
                     );
 
 
-                // ======================================
-                // NO ATTENDANCE
-                // ======================================
-
-                if (
-                    playerRecords.length === 0
-                ) {
-
-                    const row =
-                        document.createElement("tr");
+                let result;
 
 
-                    row.innerHTML = `
+                try {
 
-                        <td>
-                            ${rowNumber++}
-                        </td>
+                    result =
+                        await response.json();
 
-                        <td>
-                            ${player.first_name || ""}
-                            ${player.last_name || ""}
-                        </td>
+                }
 
-                        <td>
-                            ${player.position || "-"}
-                        </td>
+                catch (parseError) {
 
-                        <td>
-                            -
-                        </td>
+                    throw new Error(
+                        "The server returned an invalid report response."
+                    );
 
-                        <td>
-                            -
-                        </td>
-
-                    `;
+                }
 
 
-                    reportTable.appendChild(row);
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to generate report."
+                    );
+
+                }
+
+
+                if (!result.success) {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to generate report."
+                    );
+
+                }
+
+
+                const report =
+                    result.report || {};
+
+
+                const players =
+                    Array.isArray(
+                        report.players
+                    )
+                        ? report.players
+                        : [];
+
+
+                const sessions =
+                    Array.isArray(
+                        report.sessions
+                    )
+                        ? report.sessions
+                        : [];
+
+
+                const attendance =
+                    Array.isArray(
+                        report.attendance
+                    )
+                        ? report.attendance
+                        : [];
+
+
+                /* ======================================
+                   TOTAL PLAYERS
+                ====================================== */
+
+                if (totalPlayers) {
+
+                    totalPlayers.textContent =
+                        players.length;
+
+                }
+
+
+                /* ======================================
+                   ATTENDANCE STATISTICS
+                ====================================== */
+
+                let present = 0;
+
+                let absent = 0;
+
+                let excused = 0;
+
+
+                attendance.forEach(
+                    record => {
+
+                        const status =
+                            record.attendance_status;
+
+
+                        if (
+                            status ===
+                            "Present"
+                        ) {
+
+                            present++;
+
+                        }
+
+                        else if (
+                            status ===
+                            "Absent"
+                        ) {
+
+                            absent++;
+
+                        }
+
+                        else if (
+                            status ===
+                            "Excused"
+                        ) {
+
+                            excused++;
+
+                        }
+
+                    }
+                );
+
+
+                if (presentPlayers) {
+
+                    presentPlayers.textContent =
+                        present;
+
+                }
+
+
+                if (absentPlayers) {
+
+                    absentPlayers.textContent =
+                        absent;
+
+                }
+
+
+                if (excusedPlayers) {
+
+                    excusedPlayers.textContent =
+                        excused;
+
+                }
+
+
+                const totalRecords =
+                    present +
+                    absent +
+                    excused;
+
+
+                const rate =
+                    totalRecords > 0
+
+                        ? (
+                            (
+                                present /
+                                totalRecords
+                            ) *
+                            100
+                        ).toFixed(1)
+
+                        : "0.0";
+
+
+                if (attendanceRate) {
+
+                    attendanceRate.textContent =
+                        rate + "%";
+
+                }
+
+
+                /* ======================================
+                   CLEAR TABLE
+                ====================================== */
+
+                if (!reportTable) {
 
                     return;
 
                 }
 
 
-                // ======================================
-                // ATTENDANCE RECORDS
-                // ======================================
-
-                playerRecords.forEach(record => {
-
-                    const session =
-                        sessions.find(
-                            session =>
-                                Number(session.id) ===
-                                Number(record.session_id)
-                        );
+                reportTable.innerHTML =
+                    "";
 
 
-                    const row =
-                        document.createElement("tr");
+                /* ======================================
+                   NO PLAYERS
+                ====================================== */
 
+                if (
+                    players.length ===
+                    0
+                ) {
 
-                    let statusClass = "";
-
-
-                    if (
-                        record.attendance_status ===
-                        "Present"
-                    ) {
-
-                        statusClass = "present";
-
-                    }
-
-                    else if (
-                        record.attendance_status ===
-                        "Absent"
-                    ) {
-
-                        statusClass = "absent";
-
-                    }
-
-                    else if (
-                        record.attendance_status ===
-                        "Excused"
-                    ) {
-
-                        statusClass = "excused";
-
-                    }
-
-
-                    row.innerHTML = `
-
-                        <td>
-                            ${rowNumber++}
-                        </td>
-
-                        <td>
-                            ${player.first_name || ""}
-                            ${player.last_name || ""}
-                        </td>
-
-                        <td>
-                            ${player.position || "-"}
-                        </td>
-
-                        <td class="${statusClass}">
-                            ${record.attendance_status || "-"}
-                        </td>
-
-                        <td>
-                            ${
-                                session
-                                    ? session.session_date
-                                    : "-"
-                            }
-                        </td>
-
+                    reportTable.innerHTML = `
+                        <tr>
+                            <td colspan="5">
+                                No active players found
+                                for this report.
+                            </td>
+                        </tr>
                     `;
 
 
-                    reportTable.appendChild(row);
+                    return;
 
-                });
-
-            });
+                }
 
 
-            console.log(
-                "Report generated successfully."
+                /* ======================================
+                   CREATE REPORT TABLE
+                ====================================== */
+
+                let rowNumber =
+                    1;
+
+
+                players.forEach(
+                    player => {
+
+                        const playerRecords =
+                            attendance.filter(
+                                record =>
+                                    Number(
+                                        record.player_id
+                                    ) ===
+                                    Number(
+                                        player.id
+                                    )
+                            );
+
+
+                        /* ==================================
+                           PLAYER HAS NO ATTENDANCE
+                        ================================== */
+
+                        if (
+                            playerRecords.length ===
+                            0
+                        ) {
+
+                            const row =
+                                document.createElement(
+                                    "tr"
+                                );
+
+
+                            row.innerHTML = `
+
+                                <td>
+                                    ${rowNumber++}
+                                </td>
+
+                                <td>
+                                    ${
+                                        player.first_name ||
+                                        ""
+                                    }
+                                    ${
+                                        player.last_name ||
+                                        ""
+                                    }
+                                </td>
+
+                                <td>
+                                    ${
+                                        player.position ||
+                                        "-"
+                                    }
+                                </td>
+
+                                <td>
+                                    -
+                                </td>
+
+                                <td>
+                                    -
+                                </td>
+
+                            `;
+
+
+                            reportTable.appendChild(
+                                row
+                            );
+
+
+                            return;
+
+                        }
+
+
+                        /* ==================================
+                           SORT PLAYER RECORDS BY DATE
+                        ================================== */
+
+                        const sortedRecords =
+                            [...playerRecords]
+                                .sort(
+                                    (
+                                        recordA,
+                                        recordB
+                                    ) => {
+
+                                        const sessionA =
+                                            sessions.find(
+                                                session =>
+                                                    Number(
+                                                        session.id
+                                                    ) ===
+                                                    Number(
+                                                        recordA.session_id
+                                                    )
+                                            );
+
+
+                                        const sessionB =
+                                            sessions.find(
+                                                session =>
+                                                    Number(
+                                                        session.id
+                                                    ) ===
+                                                    Number(
+                                                        recordB.session_id
+                                                    )
+                                            );
+
+
+                                        const dateA =
+                                            sessionA
+                                                ? sessionA.session_date
+                                                : "";
+
+
+                                        const dateB =
+                                            sessionB
+                                                ? sessionB.session_date
+                                                : "";
+
+
+                                        return String(
+                                            dateA
+                                        ).localeCompare(
+                                            String(
+                                                dateB
+                                            )
+                                        );
+
+                                    }
+                                );
+
+
+                        /* ==================================
+                           CREATE ATTENDANCE ROWS
+                        ================================== */
+
+                        sortedRecords.forEach(
+                            record => {
+
+                                const session =
+                                    sessions.find(
+                                        session =>
+                                            Number(
+                                                session.id
+                                            ) ===
+                                            Number(
+                                                record.session_id
+                                            )
+                                    );
+
+
+                                const row =
+                                    document.createElement(
+                                        "tr"
+                                    );
+
+
+                                const status =
+                                    record.attendance_status ||
+                                    "-";
+
+
+                                const statusClass =
+                                    getStatusClass(
+                                        status
+                                    );
+
+
+                                row.innerHTML = `
+
+                                    <td>
+                                        ${rowNumber++}
+                                    </td>
+
+                                    <td>
+                                        ${
+                                            player.first_name ||
+                                            ""
+                                        }
+                                        ${
+                                            player.last_name ||
+                                            ""
+                                        }
+                                    </td>
+
+                                    <td>
+                                        ${
+                                            player.position ||
+                                            "-"
+                                        }
+                                    </td>
+
+                                    <td class="${statusClass}">
+                                        ${status}
+                                    </td>
+
+                                    <td>
+                                        ${
+                                            session
+                                                ? formatDate(
+                                                    session.session_date
+                                                )
+                                                : "-"
+                                        }
+                                    </td>
+
+                                `;
+
+
+                                reportTable.appendChild(
+                                    row
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                console.log(
+                    "Report generated successfully.",
+                    {
+                        players:
+                            players.length,
+
+                        sessions:
+                            sessions.length,
+
+                        records:
+                            attendance.length
+                    }
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "REPORT ERROR:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to generate the report.\n\n" +
+                    error.message
+                );
+
+            }
+
+            finally {
+
+                if (generateButton) {
+
+                    generateButton.disabled =
+                        false;
+
+
+                    generateButton.innerHTML = `
+                        <i class="fa-solid fa-chart-line"></i>
+                        Generate Report
+                    `;
+
+                }
+
+            }
+
+        }
+
+
+        /* ==========================================
+           DOWNLOAD PDF
+        ========================================== */
+
+        if (downloadPDF) {
+
+            downloadPDF.addEventListener(
+                "click",
+                async () => {
+
+                    const month =
+                        monthSelect
+                            ? monthSelect.value
+                            : "";
+
+
+                    const year =
+                        yearInput
+                            ? yearInput.value
+                            : "";
+
+
+                    if (
+                        !month ||
+                        !year
+                    ) {
+
+                        alert(
+                            "Please select a month and year."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const originalHTML =
+                        downloadPDF.innerHTML;
+
+
+                    downloadPDF.disabled =
+                        true;
+
+
+                    downloadPDF.innerHTML = `
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        Downloading PDF...
+                    `;
+
+
+                    const success =
+                        await downloadFile(
+
+                            `/api/reports/monthly?month=${encodeURIComponent(
+                                month
+                            )}&year=${encodeURIComponent(
+                                year
+                            )}`,
+
+                            `Mafori_FC_Attendance_${month}_${year}.pdf`,
+
+                            "Unable to download the PDF report."
+
+                        );
+
+
+                    downloadPDF.disabled =
+                        false;
+
+
+                    downloadPDF.innerHTML =
+                        originalHTML;
+
+
+                    if (success) {
+
+                        console.log(
+                            "PDF downloaded successfully."
+                        );
+
+                    }
+
+                }
             );
 
         }
 
-        catch (error) {
 
-            console.error(
-                "REPORT ERROR:",
-                error
-            );
+        /* ==========================================
+           DOWNLOAD CSV
+           CURRENT SERVER STILL RETURNS CSV
+        ========================================== */
+
+        if (downloadCSV) {
+
+            downloadCSV.addEventListener(
+                "click",
+                async () => {
+
+                    const month =
+                        monthSelect
+                            ? monthSelect.value
+                            : "";
 
 
-            alert(
-                "Unable to generate the report.\n\n" +
-                error.message
+                    const year =
+                        yearInput
+                            ? yearInput.value
+                            : "";
+
+
+                    if (
+                        !month ||
+                        !year
+                    ) {
+
+                        alert(
+                            "Please select a month and year."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const originalHTML =
+                        downloadCSV.innerHTML;
+
+
+                    downloadCSV.disabled =
+                        true;
+
+
+                    downloadCSV.innerHTML = `
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        Downloading...
+                    `;
+
+
+                    await downloadFile(
+
+                        `/api/reports/monthly/csv?month=${encodeURIComponent(
+                            month
+                        )}&year=${encodeURIComponent(
+                            year
+                        )}`,
+
+                        `Mafori_FC_Attendance_${month}_${year}.csv`,
+
+                        "Unable to download the attendance spreadsheet."
+
+                    );
+
+
+                    downloadCSV.disabled =
+                        false;
+
+
+                    downloadCSV.innerHTML =
+                        originalHTML;
+
+                }
             );
 
         }
 
-        finally {
 
-            generateButton.disabled =
-                false;
+        /* ==========================================
+           AUTO LOAD CURRENT REPORT
+        ========================================== */
 
-            generateButton.innerHTML = `
-                <i class="fa-solid fa-chart-line"></i>
-                Generate Report
-            `;
-
-        }
+        generateReport();
 
     }
-
-
-    // ==========================================
-    // DOWNLOAD PDF
-    // ==========================================
-
-    downloadPDF.addEventListener(
-        "click",
-        () => {
-
-            const month =
-                monthSelect.value;
-
-            const year =
-                yearInput.value;
-
-
-            if (!month || !year) {
-
-                alert(
-                    "Please select a month and year."
-                );
-
-                return;
-
-            }
-
-
-            window.open(
-                `/api/reports/monthly?month=${month}&year=${year}`,
-                "_blank"
-            );
-
-        }
-    );
-
-
-    // ==========================================
-    // DOWNLOAD CSV
-    // ==========================================
-
-    downloadCSV.addEventListener(
-        "click",
-        () => {
-
-            const month =
-                monthSelect.value;
-
-            const year =
-                yearInput.value;
-
-
-            if (!month || !year) {
-
-                alert(
-                    "Please select a month and year."
-                );
-
-                return;
-
-            }
-
-
-            window.open(
-                `/api/reports/monthly/csv?month=${month}&year=${year}`,
-                "_blank"
-            );
-
-        }
-    );
-
-
-    // ==========================================
-    // LOAD CURRENT MONTH AUTOMATICALLY
-    // ==========================================
-
-    generateReport();
-
-});
+);

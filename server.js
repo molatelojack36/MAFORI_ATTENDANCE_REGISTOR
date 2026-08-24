@@ -8,6 +8,13 @@ const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 
+const clubLogoPath = path.join(
+    __dirname,
+    "public",
+    "MAFORI_FC_LOGO.jpeg"
+);
+
+
 /* =====================================
    MIDDLEWARE
 ===================================== */
@@ -24,9 +31,13 @@ app.use(
 
 app.use(
     express.static(
-        path.join(__dirname, "public")
+        path.join(
+            __dirname,
+            "public"
+        )
     )
 );
+
 
 /* =====================================
    SUPABASE CONNECTION
@@ -36,6 +47,7 @@ const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_ANON_KEY
 );
+
 
 /* =====================================
    HOME PAGE
@@ -53,141 +65,148 @@ app.get("/", (req, res) => {
 
 });
 
+
 /* =====================================
    LOGIN API
 ===================================== */
 
-app.post("/api/login", async (req, res) => {
-
-    const {
-        username,
-        password
-    } = req.body;
-
-    try {
-
-        if (!username || !password) {
-
-            return res.status(400).json({
-
-                success: false,
-
-                message:
-                    "Username and password are required."
-
-            });
-
-        }
+app.post(
+    "/api/login",
+    async (req, res) => {
 
         const {
-            data,
-            error
-        } = await supabase
+            username,
+            password
+        } = req.body;
 
-            .from("users")
+        try {
 
-            .select("*")
+            if (!username || !password) {
 
-            .eq(
-                "username",
-                username
-            )
+                return res
+                    .status(400)
+                    .json({
 
-            .eq(
-                "password",
-                password
-            )
+                        success: false,
 
-            .maybeSingle();
+                        message:
+                            "Username and password are required."
 
-        if (error) {
-
-            console.error(
-                "Login database error:",
-                error
-            );
-
-            return res.status(500).json({
-
-                success: false,
-
-                message:
-                    "Database error during login."
-
-            });
-
-        }
-
-        if (!data) {
-
-            return res.status(401).json({
-
-                success: false,
-
-                message:
-                    "Invalid username or password."
-
-            });
-
-        }
-
-        /*
-        DATABASE COLUMN:
-        fullname
-
-        FRONTEND PROPERTY:
-        fullname
-
-        Therefore we use:
-        data.fullname
-        */
-
-        res.json({
-
-            success: true,
-
-            message:
-                "Login Successful",
-
-            user: {
-
-                id:
-                    data.id,
-
-                username:
-                    data.username,
-
-                fullname:
-                    data.fullname || "",
-
-                role:
-                    data.role || "Admin"
+                    });
 
             }
 
-        });
+
+            const {
+                data,
+                error
+            } =
+                await supabase
+
+                    .from("users")
+
+                    .select("*")
+
+                    .eq(
+                        "username",
+                        username
+                    )
+
+                    .eq(
+                        "password",
+                        password
+                    )
+
+                    .maybeSingle();
+
+
+            if (error) {
+
+                console.error(
+                    "Login database error:",
+                    error
+                );
+
+                return res
+                    .status(500)
+                    .json({
+
+                        success: false,
+
+                        message:
+                            "Database error during login."
+
+                    });
+
+            }
+
+
+            if (!data) {
+
+                return res
+                    .status(401)
+                    .json({
+
+                        success: false,
+
+                        message:
+                            "Invalid username or password."
+
+                    });
+
+            }
+
+
+            return res.json({
+
+                success: true,
+
+                message:
+                    "Login Successful",
+
+                user: {
+
+                    id:
+                        data.id,
+
+                    username:
+                        data.username,
+
+                    fullname:
+                        data.fullname || "",
+
+                    role:
+                        data.role || "Admin"
+
+                }
+
+            });
+
+        }
+
+        catch (err) {
+
+            console.error(
+                "Login error:",
+                err
+            );
+
+            return res
+                .status(500)
+                .json({
+
+                    success: false,
+
+                    message:
+                        "Server Error"
+
+                });
+
+        }
 
     }
+);
 
-    catch (err) {
-
-        console.error(
-            "Login error:",
-            err
-        );
-
-        res.status(500).json({
-
-            success: false,
-
-            message:
-                "Server Error"
-
-        });
-
-    }
-
-});
 
 /* =====================================
    GET SINGLE USER
@@ -205,20 +224,22 @@ app.get(
             const {
                 data,
                 error
-            } = await supabase
+            } =
+                await supabase
 
-                .from("users")
+                    .from("users")
 
-                .select(
-                    "id, username, fullname, role"
-                )
+                    .select(
+                        "id, username, fullname, role"
+                    )
 
-                .eq(
-                    "id",
-                    id
-                )
+                    .eq(
+                        "id",
+                        id
+                    )
 
-                .maybeSingle();
+                    .maybeSingle();
+
 
             if (error) {
 
@@ -227,31 +248,37 @@ app.get(
                     error
                 );
 
-                return res.status(500).json({
+                return res
+                    .status(500)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
+
 
             if (!data) {
 
-                return res.status(404).json({
+                return res
+                    .status(404)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        "User not found."
+                        message:
+                            "User not found."
 
-                });
+                    });
 
             }
 
-            res.json({
+
+            return res.json({
 
                 success: true,
 
@@ -282,19 +309,22 @@ app.get(
                 err
             );
 
-            res.status(500).json({
+            return res
+                .status(500)
+                .json({
 
-                success: false,
+                    success: false,
 
-                message:
-                    "Server Error"
+                    message:
+                        "Server Error"
 
-            });
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    UPDATE USER PROFILE
@@ -312,46 +342,47 @@ app.put(
             username
         } = req.body;
 
+
         if (!fullname || !username) {
 
-            return res.status(400).json({
+            return res
+                .status(400)
+                .json({
 
-                success: false,
+                    success: false,
 
-                message:
-                    "Full name and username are required."
+                    message:
+                        "Full name and username are required."
 
-            });
+                });
 
         }
 
-        try {
 
-            /*
-            Check whether another user
-            already uses this username.
-            */
+        try {
 
             const {
                 data: existingUser,
                 error: existingError
-            } = await supabase
+            } =
+                await supabase
 
-                .from("users")
+                    .from("users")
 
-                .select("id")
+                    .select("id")
 
-                .eq(
-                    "username",
-                    username
-                )
+                    .eq(
+                        "username",
+                        username
+                    )
 
-                .neq(
-                    "id",
-                    id
-                )
+                    .neq(
+                        "id",
+                        id
+                    )
 
-                .maybeSingle();
+                    .maybeSingle();
+
 
             if (existingError) {
 
@@ -360,63 +391,65 @@ app.put(
                     existingError
                 );
 
-                return res.status(500).json({
+                return res
+                    .status(500)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        existingError.message
+                        message:
+                            existingError.message
 
-                });
+                    });
 
             }
+
 
             if (existingUser) {
 
-                return res.status(400).json({
+                return res
+                    .status(400)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        "That username is already being used."
+                        message:
+                            "That username is already being used."
 
-                });
+                    });
 
             }
 
-            /*
-            IMPORTANT:
-
-            Actual database column = fullname
-            */
 
             const {
                 data,
                 error
-            } = await supabase
+            } =
+                await supabase
 
-                .from("users")
+                    .from("users")
 
-                .update({
+                    .update({
 
-                    fullname:
-                        fullname,
+                        fullname:
+                            fullname,
 
-                    username:
-                        username
+                        username:
+                            username
 
-                })
+                    })
 
-                .eq(
-                    "id",
-                    id
-                )
+                    .eq(
+                        "id",
+                        id
+                    )
 
-                .select(
-                    "id, username, fullname, role"
-                )
+                    .select(
+                        "id, username, fullname, role"
+                    )
 
-                .single();
+                    .single();
+
 
             if (error) {
 
@@ -425,18 +458,21 @@ app.put(
                     error
                 );
 
-                return res.status(400).json({
+                return res
+                    .status(400)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
 
-            res.json({
+
+            return res.json({
 
                 success: true,
 
@@ -470,19 +506,22 @@ app.put(
                 err
             );
 
-            res.status(500).json({
+            return res
+                .status(500)
+                .json({
 
-                success: false,
+                    success: false,
 
-                message:
-                    "Server Error"
+                    message:
+                        "Server Error"
 
-            });
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    CHANGE USER PASSWORD API
@@ -498,37 +537,44 @@ app.put(
             new_password
         } = req.body;
 
+
         if (
             !user_id ||
             !current_password ||
             !new_password
         ) {
 
-            return res.status(400).json({
+            return res
+                .status(400)
+                .json({
 
-                success: false,
+                    success: false,
 
-                message:
-                    "All password fields are required."
+                    message:
+                        "All password fields are required."
 
-            });
+                });
 
         }
+
 
         if (
             new_password.length < 6
         ) {
 
-            return res.status(400).json({
+            return res
+                .status(400)
+                .json({
 
-                success: false,
+                    success: false,
 
-                message:
-                    "New password must be at least 6 characters long."
+                    message:
+                        "New password must be at least 6 characters long."
 
-            });
+                });
 
         }
+
 
         try {
 
@@ -539,20 +585,22 @@ app.put(
             const {
                 data: user,
                 error: findError
-            } = await supabase
+            } =
+                await supabase
 
-                .from("users")
+                    .from("users")
 
-                .select(
-                    "id, username, password, fullname, role"
-                )
+                    .select(
+                        "id, username, password, fullname, role"
+                    )
 
-                .eq(
-                    "id",
-                    user_id
-                )
+                    .eq(
+                        "id",
+                        user_id
+                    )
 
-                .maybeSingle();
+                    .maybeSingle();
+
 
             if (findError) {
 
@@ -561,29 +609,36 @@ app.put(
                     findError
                 );
 
-                return res.status(500).json({
 
-                    success: false,
+                return res
+                    .status(500)
+                    .json({
 
-                    message:
-                        findError.message
+                        success: false,
 
-                });
+                        message:
+                            findError.message
+
+                    });
 
             }
+
 
             if (!user) {
 
-                return res.status(404).json({
+                return res
+                    .status(404)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        "User account not found."
+                        message:
+                            "User account not found."
 
-                });
+                    });
 
             }
+
 
             /* =================================
                VERIFY CURRENT PASSWORD
@@ -594,16 +649,19 @@ app.put(
                 current_password
             ) {
 
-                return res.status(401).json({
+                return res
+                    .status(401)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        "Current password is incorrect."
+                        message:
+                            "Current password is incorrect."
 
-                });
+                    });
 
             }
+
 
             /* =================================
                UPDATE PASSWORD
@@ -611,21 +669,23 @@ app.put(
 
             const {
                 error: updateError
-            } = await supabase
+            } =
+                await supabase
 
-                .from("users")
+                    .from("users")
 
-                .update({
+                    .update({
 
-                    password:
-                        new_password
+                        password:
+                            new_password
 
-                })
+                    })
 
-                .eq(
-                    "id",
-                    user_id
-                );
+                    .eq(
+                        "id",
+                        user_id
+                    );
+
 
             if (updateError) {
 
@@ -634,22 +694,22 @@ app.put(
                     updateError
                 );
 
-                return res.status(400).json({
 
-                    success: false,
+                return res
+                    .status(400)
+                    .json({
 
-                    message:
-                        updateError.message
+                        success: false,
 
-                });
+                        message:
+                            updateError.message
+
+                    });
 
             }
 
-            /* =================================
-               SUCCESS
-            ================================= */
 
-            res.json({
+            return res.json({
 
                 success: true,
 
@@ -667,19 +727,23 @@ app.put(
                 err
             );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    "Server Error"
+                    success: false,
 
-            });
+                    message:
+                        "Server Error"
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    ADD PLAYER API
@@ -690,82 +754,101 @@ app.post(
     async (req, res) => {
 
         const {
-
             first_name,
             last_name,
             nickname,
             position,
             date_of_birth,
             status
-
         } = req.body;
+
 
         try {
 
             const {
                 data,
                 error
-            } = await supabase
+            } =
+                await supabase
 
-                .from("players")
+                    .from("players")
 
-                .insert([{
+                    .insert([{
 
-                    first_name,
-                    last_name,
-                    nickname,
-                    position,
-                    date_of_birth,
-                    status
+                        first_name,
 
-                }])
+                        last_name,
 
-                .select();
+                        nickname,
+
+                        position,
+
+                        date_of_birth,
+
+                        status:
+                            status || "Active"
+
+                    }])
+
+                    .select();
+
 
             if (error) {
 
-                return res.status(400).json({
+                return res
+                    .status(400)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
 
-            res.status(201).json({
 
-                success: true,
+            return res
+                .status(201)
+                .json({
 
-                message:
-                    "Player added successfully.",
+                    success: true,
 
-                player:
-                    data[0]
+                    message:
+                        "Player added successfully.",
 
-            });
+                    player:
+                        data[0]
+
+                });
 
         }
 
         catch (err) {
 
-            console.error(err);
+            console.error(
+                "Add player error:",
+                err
+            );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    "Server Error"
+                    success: false,
 
-            });
+                    message:
+                        "Server Error"
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    VIEW ALL PLAYERS API
@@ -780,53 +863,67 @@ app.get(
             const {
                 data,
                 error
-            } = await supabase
+            } =
+                await supabase
 
-                .from("players")
+                    .from("players")
 
-                .select("*")
+                    .select("*")
 
-                .order(
-                    "id",
-                    {
-                        ascending: true
-                    }
-                );
+                    .order(
+                        "id",
+                        {
+                            ascending: true
+                        }
+                    );
+
 
             if (error) {
 
-                return res.status(500).json({
+                return res
+                    .status(500)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
 
-            res.json(data);
+
+            return res.json(
+                data || []
+            );
 
         }
 
         catch (err) {
 
-            console.error(err);
+            console.error(
+                "Get players error:",
+                err
+            );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    GET SINGLE PLAYER
@@ -839,58 +936,73 @@ app.get(
         const id =
             req.params.id;
 
+
         try {
 
             const {
                 data,
                 error
-            } = await supabase
+            } =
+                await supabase
 
-                .from("players")
+                    .from("players")
 
-                .select("*")
+                    .select("*")
 
-                .eq(
-                    "id",
-                    id
-                )
+                    .eq(
+                        "id",
+                        id
+                    )
 
-                .single();
+                    .single();
+
 
             if (error) {
 
-                return res.status(404).json({
+                return res
+                    .status(404)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
 
-            res.json(data);
+
+            return res.json(
+                data
+            );
 
         }
 
         catch (err) {
 
-            console.error(err);
+            console.error(
+                "Get player error:",
+                err
+            );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    UPDATE PLAYER
@@ -903,35 +1015,43 @@ app.put(
         const id =
             req.params.id;
 
+
         try {
 
             const {
                 error
-            } = await supabase
+            } =
+                await supabase
 
-                .from("players")
+                    .from("players")
 
-                .update(req.body)
+                    .update(
+                        req.body
+                    )
 
-                .eq(
-                    "id",
-                    id
-                );
+                    .eq(
+                        "id",
+                        id
+                    );
+
 
             if (error) {
 
-                return res.status(400).json({
+                return res
+                    .status(400)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
 
-            res.json({
+
+            return res.json({
 
                 success: true,
 
@@ -944,21 +1064,28 @@ app.put(
 
         catch (err) {
 
-            console.error(err);
+            console.error(
+                "Update player error:",
+                err
+            );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    DELETE PLAYER
@@ -971,35 +1098,41 @@ app.delete(
         const id =
             req.params.id;
 
+
         try {
 
             const {
                 error
-            } = await supabase
+            } =
+                await supabase
 
-                .from("players")
+                    .from("players")
 
-                .delete()
+                    .delete()
 
-                .eq(
-                    "id",
-                    id
-                );
+                    .eq(
+                        "id",
+                        id
+                    );
+
 
             if (error) {
 
-                return res.status(400).json({
+                return res
+                    .status(400)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
 
-            res.json({
+
+            return res.json({
 
                 success: true,
 
@@ -1012,21 +1145,28 @@ app.delete(
 
         catch (err) {
 
-            console.error(err);
+            console.error(
+                "Delete player error:",
+                err
+            );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    "Server Error"
+                    success: false,
 
-            });
+                    message:
+                        "Server Error"
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    SAVE ATTENDANCE
@@ -1039,106 +1179,133 @@ app.post(
         const attendance =
             req.body.attendance;
 
+
         if (
             !attendance ||
             attendance.length === 0
         ) {
 
-            return res.status(400).json({
+            return res
+                .status(400)
+                .json({
 
-                success: false,
+                    success: false,
 
-                message:
-                    "No attendance data received."
+                    message:
+                        "No attendance data received."
 
-            });
+                });
 
         }
+
 
         try {
 
             const today =
                 new Date();
 
+
             const todayDate =
                 today
                     .toISOString()
                     .split("T")[0];
 
-            let {
 
+            /* =====================================
+               FIND TODAY'S TRAINING SESSION
+            ===================================== */
+
+            let {
                 data: session,
                 error: sessionError
+            } =
+                await supabase
 
-            } = await supabase
+                    .from("training_sessions")
 
-                .from("training_sessions")
+                    .select("*")
 
-                .select("*")
+                    .eq(
+                        "session_date",
+                        todayDate
+                    )
 
-                .eq(
-                    "session_date",
-                    todayDate
-                )
+                    .maybeSingle();
 
-                .maybeSingle();
 
             if (sessionError) {
 
-                return res.status(500).json({
+                return res
+                    .status(500)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        sessionError.message
+                        message:
+                            sessionError.message
 
-                });
+                    });
 
             }
+
+
+            /* =====================================
+               CREATE SESSION IF IT DOES NOT EXIST
+            ===================================== */
 
             if (!session) {
 
                 const {
                     data,
                     error
-                } = await supabase
+                } =
+                    await supabase
 
-                    .from("training_sessions")
+                        .from("training_sessions")
 
-                    .insert([{
+                        .insert([{
 
-                        session_date:
-                            todayDate,
+                            session_date:
+                                todayDate,
 
-                        month:
-                            today.getMonth() + 1,
+                            month:
+                                today.getMonth() + 1,
 
-                        year:
-                            today.getFullYear()
+                            year:
+                                today.getFullYear()
 
-                    }])
+                        }])
 
-                    .select()
+                        .select()
 
-                    .single();
+                        .single();
+
 
                 if (error) {
 
-                    return res.status(500).json({
+                    return res
+                        .status(500)
+                        .json({
 
-                        success: false,
+                            success: false,
 
-                        message:
-                            error.message
+                            message:
+                                error.message
 
-                    });
+                        });
 
                 }
+
 
                 session =
                     data;
 
             }
+
+
+            /* =====================================
+               SAVE EACH PLAYER ATTENDANCE
+            ===================================== */
 
             for (
                 const player
@@ -1146,16 +1313,210 @@ app.post(
             ) {
 
                 const {
-                    data: existing
-                } = await supabase
+                    data: existing,
+                    error: existingError
+                } =
+                    await supabase
+
+                        .from("attendance")
+
+                        .select("id")
+
+                        .eq(
+                            "player_id",
+                            player.player_id
+                        )
+
+                        .eq(
+                            "session_id",
+                            session.id
+                        )
+
+                        .maybeSingle();
+
+
+                if (existingError) {
+
+                    console.error(
+                        "Attendance lookup error:",
+                        existingError
+                    );
+
+                    return res
+                        .status(500)
+                        .json({
+
+                            success: false,
+
+                            message:
+                                existingError.message
+
+                        });
+
+                }
+
+
+                /* =================================
+                   UPDATE EXISTING ATTENDANCE
+                ================================= */
+
+                if (existing) {
+
+                    const {
+                        error: updateError
+                    } =
+                        await supabase
+
+                            .from("attendance")
+
+                            .update({
+
+                                attendance_status:
+                                    player.attendance_status
+
+                            })
+
+                            .eq(
+                                "id",
+                                existing.id
+                            );
+
+
+                    if (updateError) {
+
+                        console.error(
+                            "Attendance update error:",
+                            updateError
+                        );
+
+                        return res
+                            .status(500)
+                            .json({
+
+                                success: false,
+
+                                message:
+                                    updateError.message
+
+                            });
+
+                    }
+
+                }
+
+
+                /* =================================
+                   INSERT NEW ATTENDANCE
+                ================================= */
+
+                else {
+
+                    const {
+                        error: insertError
+                    } =
+                        await supabase
+
+                            .from("attendance")
+
+                            .insert([{
+
+                                player_id:
+                                    player.player_id,
+
+                                session_id:
+                                    session.id,
+
+                                attendance_status:
+                                    player.attendance_status
+
+                            }]);
+
+
+                    if (insertError) {
+
+                        console.error(
+                            "Attendance insert error:",
+                            insertError
+                        );
+
+                        return res
+                            .status(500)
+                            .json({
+
+                                success: false,
+
+                                message:
+                                    insertError.message
+
+                            });
+
+                    }
+
+                }
+
+            }
+
+
+            /* =====================================
+               TOTAL ACTIVE PLAYERS
+            ===================================== */
+
+            const {
+                count: totalPlayers,
+                error: totalPlayersError
+            } =
+                await supabase
+
+                    .from("players")
+
+                    .select(
+                        "*",
+                        {
+                            count:
+                                "exact",
+
+                            head:
+                                true
+                        }
+                    )
+
+                    .eq(
+                        "status",
+                        "Active"
+                    );
+
+
+            if (totalPlayersError) {
+
+                console.error(
+                    "Total players error:",
+                    totalPlayersError
+                );
+
+            }
+
+
+            /* =====================================
+               PRESENT COUNT
+            ===================================== */
+
+            const {
+                count: present,
+                error: presentError
+            } =
+                await supabase
 
                     .from("attendance")
 
-                    .select("id")
+                    .select(
+                        "*",
+                        {
+                            count:
+                                "exact",
 
-                    .eq(
-                        "player_id",
-                        player.player_id
+                            head:
+                                true
+                        }
                     )
 
                     .eq(
@@ -1163,162 +1524,149 @@ app.post(
                         session.id
                     )
 
-                    .maybeSingle();
+                    .eq(
+                        "attendance_status",
+                        "Present"
+                    );
 
-                if (existing) {
 
-                    await supabase
+            if (presentError) {
 
-                        .from("attendance")
-
-                        .update({
-
-                            attendance_status:
-                                player.attendance_status
-
-                        })
-
-                        .eq(
-                            "id",
-                            existing.id
-                        );
-
-                }
-
-                else {
-
-                    await supabase
-
-                        .from("attendance")
-
-                        .insert([{
-
-                            player_id:
-                                player.player_id,
-
-                            session_id:
-                                session.id,
-
-                            attendance_status:
-                                player.attendance_status
-
-                        }]);
-
-                }
+                console.error(
+                    "Present count error:",
+                    presentError
+                );
 
             }
 
-            const {
-                count: totalPlayers
-            } = await supabase
 
-                .from("players")
-
-                .select("*", {
-
-                    count:
-                        "exact",
-
-                    head:
-                        true
-
-                })
-
-                .eq(
-                    "status",
-                    "Active"
-                );
+            /* =====================================
+               ABSENT COUNT
+            ===================================== */
 
             const {
-                count: present
-            } = await supabase
+                count: absent,
+                error: absentError
+            } =
+                await supabase
 
-                .from("attendance")
+                    .from("attendance")
 
-                .select("*", {
+                    .select(
+                        "*",
+                        {
+                            count:
+                                "exact",
 
-                    count:
-                        "exact",
+                            head:
+                                true
+                        }
+                    )
 
-                    head:
-                        true
+                    .eq(
+                        "session_id",
+                        session.id
+                    )
 
-                })
+                    .eq(
+                        "attendance_status",
+                        "Absent"
+                    );
 
-                .eq(
-                    "session_id",
-                    session.id
-                )
 
-                .eq(
-                    "attendance_status",
-                    "Present"
+            if (absentError) {
+
+                console.error(
+                    "Absent count error:",
+                    absentError
                 );
+
+            }
+
+
+            /* =====================================
+               EXCUSED COUNT
+            ===================================== */
 
             const {
-                count: absent
-            } = await supabase
+                count: excused,
+                error: excusedError
+            } =
+                await supabase
 
-                .from("attendance")
+                    .from("attendance")
 
-                .select("*", {
+                    .select(
+                        "*",
+                        {
+                            count:
+                                "exact",
 
-                    count:
-                        "exact",
+                            head:
+                                true
+                        }
+                    )
 
-                    head:
-                        true
+                    .eq(
+                        "session_id",
+                        session.id
+                    )
 
-                })
+                    .eq(
+                        "attendance_status",
+                        "Excused"
+                    );
 
-                .eq(
-                    "session_id",
-                    session.id
-                )
 
-                .eq(
-                    "attendance_status",
-                    "Absent"
+            if (excusedError) {
+
+                console.error(
+                    "Excused count error:",
+                    excusedError
                 );
 
-            const {
-                count: excused
-            } = await supabase
+            }
 
-                .from("attendance")
 
-                .select("*", {
+            /* =====================================
+               ATTENDANCE RATE
+            ===================================== */
 
-                    count:
-                        "exact",
+            const safeTotalPlayers =
+                totalPlayers || 0;
 
-                    head:
-                        true
 
-                })
+            const safePresent =
+                present || 0;
 
-                .eq(
-                    "session_id",
-                    session.id
-                )
 
-                .eq(
-                    "attendance_status",
-                    "Excused"
-                );
+            const safeAbsent =
+                absent || 0;
+
+
+            const safeExcused =
+                excused || 0;
+
 
             const attendanceRate =
-                totalPlayers > 0
+                safeTotalPlayers > 0
 
                     ? (
-                        (present /
-                            totalPlayers) *
+                        (
+                            safePresent /
+                            safeTotalPlayers
+                        ) *
                         100
                     ).toFixed(1)
 
                     : "0.0";
 
-            res.json({
+
+            /* =====================================
+               RESPONSE
+            ===================================== */
+
+            return res.json({
 
                 success: true,
 
@@ -1327,15 +1675,20 @@ app.post(
 
                 statistics: {
 
-                    totalPlayers,
+                    totalPlayers:
+                        safeTotalPlayers,
 
-                    present,
+                    present:
+                        safePresent,
 
-                    absent,
+                    absent:
+                        safeAbsent,
 
-                    excused,
+                    excused:
+                        safeExcused,
 
-                    attendanceRate
+                    attendanceRate:
+                        attendanceRate
 
                 }
 
@@ -1345,21 +1698,28 @@ app.post(
 
         catch (err) {
 
-            console.error(err);
+            console.error(
+                "Attendance save error:",
+                err
+            );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    DASHBOARD STATISTICS
@@ -1376,41 +1736,99 @@ app.get(
                     .toISOString()
                     .split("T")[0];
 
+
+            /* =====================================
+               TOTAL ACTIVE PLAYERS
+            ===================================== */
+
             const {
-                count: totalPlayers
-            } = await supabase
+                count: totalPlayers,
+                error: playersError
+            } =
+                await supabase
 
-                .from("players")
+                    .from("players")
 
-                .select("*", {
+                    .select(
+                        "*",
+                        {
+                            count:
+                                "exact",
 
-                    count:
-                        "exact",
+                            head:
+                                true
+                        }
+                    )
 
-                    head:
-                        true
+                    .eq(
+                        "status",
+                        "Active"
+                    );
 
-                })
 
-                .eq(
-                    "status",
-                    "Active"
+            if (playersError) {
+
+                console.error(
+                    "Dashboard players error:",
+                    playersError
                 );
 
+                return res
+                    .status(500)
+                    .json({
+
+                        success: false,
+
+                        message:
+                            playersError.message
+
+                    });
+
+            }
+
+
+            /* =====================================
+               FIND TODAY'S SESSION
+            ===================================== */
+
             const {
-                data: session
-            } = await supabase
+                data: session,
+                error: sessionError
+            } =
+                await supabase
 
-                .from("training_sessions")
+                    .from("training_sessions")
 
-                .select("id")
+                    .select("id")
 
-                .eq(
-                    "session_date",
-                    today
-                )
+                    .eq(
+                        "session_date",
+                        today
+                    )
 
-                .maybeSingle();
+                    .maybeSingle();
+
+
+            if (sessionError) {
+
+                console.error(
+                    "Dashboard session error:",
+                    sessionError
+                );
+
+                return res
+                    .status(500)
+                    .json({
+
+                        success: false,
+
+                        message:
+                            sessionError.message
+
+                    });
+
+            }
+
 
             let present = 0;
 
@@ -1418,124 +1836,193 @@ app.get(
 
             let excused = 0;
 
+
+            /* =====================================
+               LOAD TODAY'S ATTENDANCE COUNTS
+            ===================================== */
+
             if (session) {
 
                 const {
-                    count: presentCount
-                } = await supabase
+                    count: presentCount,
+                    error: presentError
+                } =
+                    await supabase
 
-                    .from("attendance")
+                        .from("attendance")
 
-                    .select("*", {
+                        .select(
+                            "*",
+                            {
+                                count:
+                                    "exact",
 
-                        count:
-                            "exact",
+                                head:
+                                    true
+                            }
+                        )
 
-                        head:
-                            true
+                        .eq(
+                            "session_id",
+                            session.id
+                        )
 
-                    })
+                        .eq(
+                            "attendance_status",
+                            "Present"
+                        );
 
-                    .eq(
-                        "session_id",
-                        session.id
-                    )
 
-                    .eq(
-                        "attendance_status",
-                        "Present"
+                if (presentError) {
+
+                    console.error(
+                        "Dashboard present error:",
+                        presentError
                     );
+
+                }
+
 
                 const {
-                    count: absentCount
-                } = await supabase
+                    count: absentCount,
+                    error: absentError
+                } =
+                    await supabase
 
-                    .from("attendance")
+                        .from("attendance")
 
-                    .select("*", {
+                        .select(
+                            "*",
+                            {
+                                count:
+                                    "exact",
 
-                        count:
-                            "exact",
+                                head:
+                                    true
+                            }
+                        )
 
-                        head:
-                            true
+                        .eq(
+                            "session_id",
+                            session.id
+                        )
 
-                    })
+                        .eq(
+                            "attendance_status",
+                            "Absent"
+                        );
 
-                    .eq(
-                        "session_id",
-                        session.id
-                    )
 
-                    .eq(
-                        "attendance_status",
-                        "Absent"
+                if (absentError) {
+
+                    console.error(
+                        "Dashboard absent error:",
+                        absentError
                     );
+
+                }
+
 
                 const {
-                    count: excusedCount
-                } = await supabase
+                    count: excusedCount,
+                    error: excusedError
+                } =
+                    await supabase
 
-                    .from("attendance")
+                        .from("attendance")
 
-                    .select("*", {
+                        .select(
+                            "*",
+                            {
+                                count:
+                                    "exact",
 
-                        count:
-                            "exact",
+                                head:
+                                    true
+                            }
+                        )
 
-                        head:
-                            true
+                        .eq(
+                            "session_id",
+                            session.id
+                        )
 
-                    })
+                        .eq(
+                            "attendance_status",
+                            "Excused"
+                        );
 
-                    .eq(
-                        "session_id",
-                        session.id
-                    )
 
-                    .eq(
-                        "attendance_status",
-                        "Excused"
+                if (excusedError) {
+
+                    console.error(
+                        "Dashboard excused error:",
+                        excusedError
                     );
+
+                }
+
 
                 present =
                     presentCount || 0;
 
+
                 absent =
                     absentCount || 0;
+
 
                 excused =
                     excusedCount || 0;
 
             }
 
+
+            /* =====================================
+               ATTENDANCE RATE
+            ===================================== */
+
+            const safeTotalPlayers =
+                totalPlayers || 0;
+
+
             const attendanceRate =
-                totalPlayers > 0
+                safeTotalPlayers > 0
 
                     ? (
-                        (present /
-                            totalPlayers) *
+                        (
+                            present /
+                            safeTotalPlayers
+                        ) *
                         100
                     ).toFixed(1)
 
                     : "0.0";
 
-            res.json({
+
+            /* =====================================
+               RESPONSE
+            ===================================== */
+
+            return res.json({
 
                 success: true,
 
                 statistics: {
 
                     totalPlayers:
-                        totalPlayers || 0,
+                        safeTotalPlayers,
 
-                    present,
+                    present:
+                        present,
 
-                    absent,
+                    absent:
+                        absent,
 
-                    excused,
+                    excused:
+                        excused,
 
-                    attendanceRate
+                    attendanceRate:
+                        attendanceRate
 
                 }
 
@@ -1545,16 +2032,22 @@ app.get(
 
         catch (err) {
 
-            console.error(err);
+            console.error(
+                "Dashboard statistics error:",
+                err
+            );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
@@ -1573,29 +2066,30 @@ async function getMonthlyReportData(
     const {
         data: sessions,
         error: sessionError
-    } = await supabase
+    } =
+        await supabase
 
-        .from("training_sessions")
+            .from("training_sessions")
 
-        .select("*")
+            .select("*")
 
-        .eq(
-            "month",
-            Number(month)
-        )
+            .eq(
+                "month",
+                Number(month)
+            )
 
-        .eq(
-            "year",
-            Number(year)
-        )
+            .eq(
+                "year",
+                Number(year)
+            )
 
-        .order(
-            "session_date",
-            {
-                ascending:
-                    true
-            }
-        );
+            .order(
+                "session_date",
+                {
+                    ascending: true
+                }
+            );
+
 
     if (sessionError) {
 
@@ -1603,27 +2097,29 @@ async function getMonthlyReportData(
 
     }
 
+
     const {
         data: players,
         error: playerError
-    } = await supabase
+    } =
+        await supabase
 
-        .from("players")
+            .from("players")
 
-        .select("*")
+            .select("*")
 
-        .eq(
-            "status",
-            "Active"
-        )
+            .eq(
+                "status",
+                "Active"
+            )
 
-        .order(
-            "id",
-            {
-                ascending:
-                    true
-            }
-        );
+            .order(
+                "id",
+                {
+                    ascending: true
+                }
+            );
+
 
     if (playerError) {
 
@@ -1631,13 +2127,24 @@ async function getMonthlyReportData(
 
     }
 
+
+    const safeSessions =
+        sessions || [];
+
+
+    const safePlayers =
+        players || [];
+
+
     const sessionIds =
-        sessions.map(
+        safeSessions.map(
             session =>
                 session.id
         );
 
+
     let attendance = [];
+
 
     if (
         sessionIds.length > 0
@@ -1646,16 +2153,18 @@ async function getMonthlyReportData(
         const {
             data,
             error
-        } = await supabase
+        } =
+            await supabase
 
-            .from("attendance")
+                .from("attendance")
 
-            .select("*")
+                .select("*")
 
-            .in(
-                "session_id",
-                sessionIds
-            );
+                .in(
+                    "session_id",
+                    sessionIds
+                );
+
 
         if (error) {
 
@@ -1663,22 +2172,28 @@ async function getMonthlyReportData(
 
         }
 
+
         attendance =
             data || [];
 
     }
 
+
     return {
 
-        sessions,
+        sessions:
+            safeSessions,
 
-        players,
+        players:
+            safePlayers,
 
-        attendance
+        attendance:
+            attendance
 
     };
 
 }
+
 
 /* =====================================
    MONTHLY REPORT JSON
@@ -1695,18 +2210,25 @@ app.get(
                 year
             } = req.query;
 
-            if (!month || !year) {
 
-                return res.status(400).json({
+            if (
+                !month ||
+                !year
+            ) {
 
-                    success: false,
+                return res
+                    .status(400)
+                    .json({
 
-                    message:
-                        "Month and year are required."
+                        success: false,
 
-                });
+                        message:
+                            "Month and year are required."
+
+                    });
 
             }
+
 
             const report =
                 await getMonthlyReportData(
@@ -1714,11 +2236,13 @@ app.get(
                     year
                 );
 
-            res.json({
+
+            return res.json({
 
                 success: true,
 
-                report
+                report:
+                    report
 
             });
 
@@ -1731,19 +2255,23 @@ app.get(
                 err
             );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    DOWNLOAD CSV
@@ -1760,18 +2288,25 @@ app.get(
                 year
             } = req.query;
 
-            if (!month || !year) {
 
-                return res.status(400).json({
+            if (
+                !month ||
+                !year
+            ) {
 
-                    success: false,
+                return res
+                    .status(400)
+                    .json({
 
-                    message:
-                        "Month and year are required."
+                        success: false,
 
-                });
+                        message:
+                            "Month and year are required."
+
+                    });
 
             }
+
 
             const report =
                 await getMonthlyReportData(
@@ -1779,8 +2314,14 @@ app.get(
                     year
                 );
 
+
+            /* =====================================
+               CSV HEADER
+            ===================================== */
+
             let csv =
                 "Player ID,First Name,Last Name,Position";
+
 
             report.sessions.forEach(
                 session => {
@@ -1791,8 +2332,14 @@ app.get(
                 }
             );
 
+
             csv +=
                 ",Present,Absent,Excused,Attendance Rate\n";
+
+
+            /* =====================================
+               PLAYER ROWS
+            ===================================== */
 
             report.players.forEach(
                 player => {
@@ -1803,11 +2350,28 @@ app.get(
 
                     let excused = 0;
 
+
                     let row =
                         `${player.id},` +
-                        `"${player.first_name || ""}",` +
-                        `"${player.last_name || ""}",` +
-                        `"${player.position || ""}"`;
+                        `"${String(
+                            player.first_name || ""
+                        ).replaceAll(
+                            '"',
+                            '""'
+                        )}",` +
+                        `"${String(
+                            player.last_name || ""
+                        ).replaceAll(
+                            '"',
+                            '""'
+                        )}",` +
+                        `"${String(
+                            player.position || ""
+                        ).replaceAll(
+                            '"',
+                            '""'
+                        )}"`;
+
 
                     report.sessions.forEach(
                         session => {
@@ -1829,13 +2393,16 @@ app.get(
                                         )
                                 );
 
+
                             const status =
                                 record
                                     ? record.attendance_status
                                     : "-";
 
+
                             row +=
                                 `,"${status}"`;
+
 
                             if (
                                 status ===
@@ -1867,21 +2434,30 @@ app.get(
                         }
                     );
 
+
+                    /* =================================
+                       ATTENDANCE RATE
+                    ================================= */
+
                     const total =
                         present +
                         absent +
                         excused;
 
+
                     const rate =
                         total > 0
 
                             ? (
-                                (present /
-                                    total) *
+                                (
+                                    present /
+                                    total
+                                ) *
                                 100
                             ).toFixed(1)
 
                             : "0.0";
+
 
                     row +=
                         `,${present}` +
@@ -1889,22 +2465,38 @@ app.get(
                         `,${excused}` +
                         `,${rate}%\n`;
 
+
                     csv += row;
 
                 }
             );
+
+
+            /* =====================================
+               SEND CSV FILE
+            ===================================== */
 
             res.setHeader(
                 "Content-Type",
                 "text/csv; charset=utf-8"
             );
 
+
             res.setHeader(
                 "Content-Disposition",
                 `attachment; filename="Mafori_FC_Attendance_${month}_${year}.csv"`
             );
 
-            res.send(csv);
+
+            /*
+                UTF-8 BOM helps Excel display
+                names and special characters
+                correctly.
+            */
+
+            return res.send(
+                "\uFEFF" + csv
+            );
 
         }
 
@@ -1915,14 +2507,17 @@ app.get(
                 err
             );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
@@ -1944,24 +2539,32 @@ app.get(
                 year
             } = req.query;
 
-            if (!month || !year) {
 
-                return res.status(400).json({
+            if (
+                !month ||
+                !year
+            ) {
 
-                    success: false,
+                return res
+                    .status(400)
+                    .json({
 
-                    message:
-                        "Month and year are required."
+                        success: false,
 
-                });
+                        message:
+                            "Month and year are required."
+
+                    });
 
             }
+
 
             const report =
                 await getMonthlyReportData(
                     month,
                     year
                 );
+
 
             const monthNames = [
 
@@ -1980,76 +2583,133 @@ app.get(
 
             ];
 
+
             const monthName =
                 monthNames[
                     Number(month) - 1
                 ];
 
+
+            /* =====================================
+               CREATE PDF
+            ===================================== */
+
             const doc =
                 new PDFDocument({
-
-                    margin: 40,
 
                     size: "A4",
 
                     layout:
-                        "landscape"
+                        "landscape",
+
+                    margin:
+                        30
 
                 });
+
 
             res.setHeader(
                 "Content-Type",
                 "application/pdf"
             );
 
+
             res.setHeader(
                 "Content-Disposition",
                 `attachment; filename="Mafori_FC_Attendance_${month}_${year}.pdf"`
             );
 
+
             doc.pipe(res);
 
-            doc
-                .fontSize(22)
-                .font("Helvetica-Bold")
-                .text(
-                    "MAFORI FOOTBALL CLUB",
-                    {
-                        align:
-                            "center"
-                    }
+
+            /* =====================================
+               PAGE DIMENSIONS
+            ===================================== */
+
+            const pageWidth =
+                doc.page.width;
+
+
+            const pageHeight =
+                doc.page.height;
+
+
+            const margin =
+                30;
+
+
+            const usableWidth =
+                pageWidth -
+                (
+                    margin *
+                    2
                 );
 
-            doc
-                .moveDown(0.5)
-                .fontSize(16)
-                .font("Helvetica")
-                .text(
-                    "Monthly Attendance Register",
-                    {
-                        align:
-                            "center"
-                    }
-                );
 
-            doc
-                .moveDown(0.3)
-                .fontSize(13)
-                .text(
-                    `${monthName} ${year}`,
-                    {
-                        align:
-                            "center"
-                    }
-                );
+            /* =====================================
+               TABLE COLUMN WIDTHS
+            ===================================== */
 
-            doc.moveDown(1);
+            const numberWidth =
+                28;
+
+
+            const playerWidth =
+                150;
+
+
+            const positionWidth =
+                80;
+
+
+            const fixedWidth =
+                numberWidth +
+                playerWidth +
+                positionWidth;
+
+
+            const availableSessionWidth =
+                usableWidth -
+                fixedWidth;
+
+
+            /*
+                Maximum number of training dates
+                displayed on one horizontal page.
+
+                If there are more than 8 sessions,
+                the remaining dates continue on
+                another PDF page.
+            */
+
+            const sessionsPerPage =
+                8;
+
+
+            const sessionWidth =
+                availableSessionWidth /
+                sessionsPerPage;
+
+
+            const rowHeight =
+                22;
+
+
+            const headerHeight =
+                32;
+
+
+            /* =====================================
+               REPORT TOTALS
+            ===================================== */
 
             let totalPresent = 0;
 
             let totalAbsent = 0;
 
             let totalExcused = 0;
+
 
             report.attendance.forEach(
                 record => {
@@ -2084,195 +2744,1145 @@ app.get(
                 }
             );
 
-            doc
-                .fontSize(10)
-                .font("Helvetica")
-                .text(
-                    `Active Players: ${report.players.length}`
-                );
 
-            doc.text(
-                `Training Sessions: ${report.sessions.length}`
-            );
+            /* =====================================
+               ADD LOGO WATERMARK
+            ===================================== */
 
-            doc.text(
-                `Present Records: ${totalPresent}`
-            );
+            function addWatermark() {
 
-            doc.text(
-                `Absent Records: ${totalAbsent}`
-            );
+                try {
 
-            doc.text(
-                `Excused Records: ${totalExcused}`
-            );
+                    doc.save();
 
-            doc.moveDown(1);
 
-            const startX = 40;
+                    doc.opacity(
+                        0.06
+                    );
 
-            let y = doc.y;
 
-            const playerWidth = 170;
+                    const logoSize =
+                        330;
 
-            const positionWidth = 90;
 
-            const sessionWidth = 70;
+                    doc.image(
+                        clubLogoPath,
 
-            doc
-                .font("Helvetica-Bold")
-                .fontSize(8);
+                        (
+                            pageWidth -
+                            logoSize
+                        ) / 2,
 
-            doc.text(
-                "Player",
-                startX,
-                y,
-                {
-                    width:
-                        playerWidth
-                }
-            );
+                        (
+                            pageHeight -
+                            logoSize
+                        ) / 2,
 
-            doc.text(
-                "Position",
-                startX +
-                playerWidth,
-                y,
-                {
-                    width:
-                        positionWidth
-                }
-            );
-
-            let currentX =
-                startX +
-                playerWidth +
-                positionWidth;
-
-            report.sessions.forEach(
-                session => {
-
-                    doc.text(
-                        session.session_date,
-                        currentX,
-                        y,
                         {
-                            width:
-                                sessionWidth
+
+                            fit: [
+                                logoSize,
+                                logoSize
+                            ],
+
+                            align:
+                                "center",
+
+                            valign:
+                                "center"
+
                         }
                     );
 
-                    currentX +=
-                        sessionWidth;
+
+                    doc.opacity(
+                        1
+                    );
+
+
+                    doc.restore();
 
                 }
-            );
 
-            y += 25;
+                catch (error) {
 
-            doc.font("Helvetica");
+                    console.log(
+                        "Logo watermark could not be loaded:",
+                        error.message
+                    );
 
-            report.players.forEach(
-                player => {
+                }
 
-                    if (y > 520) {
+            }
 
-                        doc.addPage();
 
-                        y = 40;
+            /* =====================================
+               DRAW PAGE HEADER
+            ===================================== */
+
+            function drawPageHeader(
+                sessionGroup,
+                pageGroupNumber,
+                totalGroups
+            ) {
+
+                addWatermark();
+
+
+                /* =================================
+                   CLUB NAME
+                ================================= */
+
+                doc
+                    .fillColor(
+                        "#0b1f3a"
+                    )
+
+                    .font(
+                        "Helvetica-Bold"
+                    )
+
+                    .fontSize(
+                        21
+                    )
+
+                    .text(
+                        "MAFORI FOOTBALL CLUB",
+
+                        margin,
+
+                        28,
+
+                        {
+
+                            width:
+                                usableWidth,
+
+                            align:
+                                "center"
+
+                        }
+                    );
+
+
+                /* =================================
+                   ORANGE DIVIDER
+                ================================= */
+
+                doc
+                    .moveTo(
+                        margin,
+                        58
+                    )
+
+                    .lineTo(
+                        pageWidth -
+                        margin,
+                        58
+                    )
+
+                    .lineWidth(
+                        2
+                    )
+
+                    .strokeColor(
+                        "#ff7a00"
+                    )
+
+                    .stroke();
+
+
+                /* =================================
+                   REPORT TITLE
+                ================================= */
+
+                doc
+                    .fillColor(
+                        "#333333"
+                    )
+
+                    .font(
+                        "Helvetica-Bold"
+                    )
+
+                    .fontSize(
+                        14
+                    )
+
+                    .text(
+                        "MONTHLY ATTENDANCE REGISTER",
+
+                        margin,
+
+                        68,
+
+                        {
+
+                            width:
+                                usableWidth,
+
+                            align:
+                                "center"
+
+                        }
+                    );
+
+
+                /* =================================
+                   MONTH + YEAR
+                ================================= */
+
+                doc
+                    .font(
+                        "Helvetica"
+                    )
+
+                    .fontSize(
+                        11
+                    )
+
+                    .text(
+                        `${monthName} ${year}`,
+
+                        margin,
+
+                        89,
+
+                        {
+
+                            width:
+                                usableWidth,
+
+                            align:
+                                "center"
+
+                        }
+                    );
+
+
+                /* =================================
+                   REPORT SUMMARY
+                ================================= */
+
+                doc
+                    .fontSize(
+                        8
+                    )
+
+                    .fillColor(
+                        "#475569"
+                    )
+
+                    .text(
+
+                        `Players: ${report.players.length}     ` +
+                        `Sessions: ${report.sessions.length}     ` +
+                        `Present: ${totalPresent}     ` +
+                        `Absent: ${totalAbsent}     ` +
+                        `Excused: ${totalExcused}`,
+
+                        margin,
+
+                        110,
+
+                        {
+
+                            width:
+                                usableWidth,
+
+                            align:
+                                "center"
+
+                        }
+
+                    );
+
+
+                /* =================================
+                   DATE PAGE NUMBER
+                ================================= */
+
+                if (
+                    totalGroups > 1
+                ) {
+
+                    doc
+                        .fontSize(
+                            7
+                        )
+
+                        .fillColor(
+                            "#64748b"
+                        )
+
+                        .text(
+
+                            `Attendance dates ${pageGroupNumber} of ${totalGroups}`,
+
+                            margin,
+
+                            124,
+
+                            {
+
+                                width:
+                                    usableWidth,
+
+                                align:
+                                    "center"
+
+                            }
+
+                        );
+
+                }
+
+
+                /* =================================
+                   TABLE HEADER
+                ================================= */
+
+                const tableY =
+                    145;
+
+
+                doc
+                    .rect(
+                        margin,
+                        tableY,
+                        usableWidth,
+                        headerHeight
+                    )
+
+                    .fill(
+                        "#0b1f3a"
+                    );
+
+
+                let x =
+                    margin;
+
+
+                doc
+                    .fillColor(
+                        "#ffffff"
+                    )
+
+                    .font(
+                        "Helvetica-Bold"
+                    )
+
+                    .fontSize(
+                        7
+                    );
+
+
+                /* NUMBER */
+
+                doc.text(
+
+                    "#",
+
+                    x,
+
+                    tableY + 10,
+
+                    {
+
+                        width:
+                            numberWidth,
+
+                        align:
+                            "center"
 
                     }
 
-                    const fullName =
-                        `${player.first_name || ""} ${player.last_name || ""}`;
+                );
 
-                    doc.text(
-                        fullName,
-                        startX,
-                        y,
-                        {
-                            width:
-                                playerWidth
-                        }
-                    );
 
-                    doc.text(
-                        player.position || "-",
-                        startX +
-                        playerWidth,
-                        y,
-                        {
-                            width:
-                                positionWidth
-                        }
-                    );
+                x +=
+                    numberWidth;
 
-                    let x =
-                        startX +
-                        playerWidth +
-                        positionWidth;
 
-                    report.sessions.forEach(
-                        session => {
+                /* PLAYER */
 
-                            const record =
-                                report.attendance.find(
-                                    item =>
-                                        Number(
-                                            item.player_id
-                                        ) ===
-                                        Number(
-                                            player.id
-                                        ) &&
-                                        Number(
-                                            item.session_id
-                                        ) ===
-                                        Number(
-                                            session.id
-                                        )
-                                );
+                doc.text(
 
-                            const status =
-                                record
-                                    ? record.attendance_status
-                                    : "-";
+                    "PLAYER",
 
-                            doc.text(
-                                status,
-                                x,
-                                y,
+                    x + 5,
+
+                    tableY + 10,
+
+                    {
+
+                        width:
+                            playerWidth -
+                            10
+
+                    }
+
+                );
+
+
+                x +=
+                    playerWidth;
+
+
+                /* POSITION */
+
+                doc.text(
+
+                    "POSITION",
+
+                    x,
+
+                    tableY + 10,
+
+                    {
+
+                        width:
+                            positionWidth,
+
+                        align:
+                            "center"
+
+                    }
+
+                );
+
+
+                x +=
+                    positionWidth;
+
+
+                /* =================================
+                   TRAINING DATES
+                ================================= */
+
+                sessionGroup.forEach(
+                    session => {
+
+                        const date =
+                            new Date(
+                                session.session_date +
+                                "T00:00:00"
+                            );
+
+
+                        const day =
+                            String(
+                                date.getDate()
+                            ).padStart(
+                                2,
+                                "0"
+                            );
+
+
+                        const shortMonth =
+                            date.toLocaleString(
+                                "en-US",
                                 {
-                                    width:
-                                        sessionWidth
+                                    month:
+                                        "short"
                                 }
                             );
 
-                            x +=
-                                sessionWidth;
 
-                        }
-                    );
+                        doc.text(
 
-                    y += 22;
+                            `${day}\n${shortMonth}`,
 
-                }
-            );
+                            x,
 
-            doc
-                .fontSize(8)
-                .font("Helvetica")
-                .text(
-                    "Generated by Mafori FC Player Training Attendance Register",
-                    40,
-                    560,
-                    {
-                        align:
-                            "center",
+                            tableY + 5,
 
-                        width:
-                            760
+                            {
+
+                                width:
+                                    sessionWidth,
+
+                                align:
+                                    "center"
+
+                            }
+
+                        );
+
+
+                        x +=
+                            sessionWidth;
+
                     }
                 );
+
+
+                return (
+                    tableY +
+                    headerHeight
+                );
+
+            }
+
+
+            /* =====================================
+               DRAW PLAYER ROW
+            ===================================== */
+
+            function drawPlayerRow(
+                player,
+                playerNumber,
+                sessionGroup,
+                y
+            ) {
+
+                let x =
+                    margin;
+
+
+                /* =================================
+                   ALTERNATING ROW BACKGROUND
+                ================================= */
+
+                if (
+                    playerNumber %
+                    2 ===
+                    0
+                ) {
+
+                    doc
+                        .rect(
+                            margin,
+                            y,
+                            usableWidth,
+                            rowHeight
+                        )
+
+                        .fill(
+                            "#f8fafc"
+                        );
+
+                }
+
+
+                /* =================================
+                   ROW BORDER
+                ================================= */
+
+                doc
+                    .rect(
+                        margin,
+                        y,
+                        usableWidth,
+                        rowHeight
+                    )
+
+                    .lineWidth(
+                        0.3
+                    )
+
+                    .strokeColor(
+                        "#d8dee7"
+                    )
+
+                    .stroke();
+
+
+                doc
+                    .fillColor(
+                        "#1e293b"
+                    )
+
+                    .font(
+                        "Helvetica"
+                    )
+
+                    .fontSize(
+                        7
+                    );
+
+
+                /* =================================
+                   ROW NUMBER
+                ================================= */
+
+                doc.text(
+
+                    String(
+                        playerNumber
+                    ),
+
+                    x,
+
+                    y + 7,
+
+                    {
+
+                        width:
+                            numberWidth,
+
+                        align:
+                            "center"
+
+                    }
+
+                );
+
+
+                x +=
+                    numberWidth;
+
+
+                /* =================================
+                   PLAYER NAME
+                ================================= */
+
+                const fullName =
+                    `${player.first_name || ""} ${player.last_name || ""}`
+                        .trim();
+
+
+                doc
+                    .font(
+                        "Helvetica-Bold"
+                    )
+
+                    .text(
+
+                        fullName,
+
+                        x + 5,
+
+                        y + 7,
+
+                        {
+
+                            width:
+                                playerWidth -
+                                10,
+
+                            ellipsis:
+                                true
+
+                        }
+
+                    );
+
+
+                x +=
+                    playerWidth;
+
+
+                /* =================================
+                   POSITION
+                ================================= */
+
+                doc
+                    .font(
+                        "Helvetica"
+                    )
+
+                    .text(
+
+                        player.position ||
+                        "-",
+
+                        x,
+
+                        y + 7,
+
+                        {
+
+                            width:
+                                positionWidth,
+
+                            align:
+                                "center",
+
+                            ellipsis:
+                                true
+
+                        }
+
+                    );
+
+
+                x +=
+                    positionWidth;
+
+
+                /* =================================
+                   ATTENDANCE CELLS
+                ================================= */
+
+                sessionGroup.forEach(
+                    session => {
+
+                        const record =
+                            report.attendance.find(
+
+                                item =>
+
+                                    Number(
+                                        item.player_id
+                                    ) ===
+
+                                    Number(
+                                        player.id
+                                    )
+
+                                    &&
+
+                                    Number(
+                                        item.session_id
+                                    ) ===
+
+                                    Number(
+                                        session.id
+                                    )
+
+                            );
+
+
+                        const status =
+                            record
+
+                                ? record.attendance_status
+
+                                : "-";
+
+
+                        let shortStatus =
+                            "-";
+
+
+                        /* PRESENT */
+
+                        if (
+                            status ===
+                            "Present"
+                        ) {
+
+                            shortStatus =
+                                "P";
+
+
+                            doc.fillColor(
+                                "#15803d"
+                            );
+
+                        }
+
+
+                        /* ABSENT */
+
+                        else if (
+                            status ===
+                            "Absent"
+                        ) {
+
+                            shortStatus =
+                                "A";
+
+
+                            doc.fillColor(
+                                "#dc2626"
+                            );
+
+                        }
+
+
+                        /* EXCUSED */
+
+                        else if (
+                            status ===
+                            "Excused"
+                        ) {
+
+                            shortStatus =
+                                "E";
+
+
+                            doc.fillColor(
+                                "#d97706"
+                            );
+
+                        }
+
+
+                        else {
+
+                            doc.fillColor(
+                                "#64748b"
+                            );
+
+                        }
+
+
+                        doc
+                            .font(
+                                "Helvetica-Bold"
+                            )
+
+                            .fontSize(
+                                8
+                            )
+
+                            .text(
+
+                                shortStatus,
+
+                                x,
+
+                                y + 7,
+
+                                {
+
+                                    width:
+                                        sessionWidth,
+
+                                    align:
+                                        "center"
+
+                                }
+
+                            );
+
+
+                        x +=
+                            sessionWidth;
+
+                    }
+                );
+
+
+                /* =================================
+                   COLUMN DIVIDERS
+                ================================= */
+
+                let lineX =
+                    margin +
+                    numberWidth;
+
+
+                doc
+                    .moveTo(
+                        lineX,
+                        y
+                    )
+
+                    .lineTo(
+                        lineX,
+                        y +
+                        rowHeight
+                    )
+
+                    .strokeColor(
+                        "#e2e8f0"
+                    )
+
+                    .stroke();
+
+
+                lineX +=
+                    playerWidth;
+
+
+                doc
+                    .moveTo(
+                        lineX,
+                        y
+                    )
+
+                    .lineTo(
+                        lineX,
+                        y +
+                        rowHeight
+                    )
+
+                    .stroke();
+
+
+                lineX +=
+                    positionWidth;
+
+
+                doc
+                    .moveTo(
+                        lineX,
+                        y
+                    )
+
+                    .lineTo(
+                        lineX,
+                        y +
+                        rowHeight
+                    )
+
+                    .stroke();
+
+
+                return (
+                    y +
+                    rowHeight
+                );
+
+            }
+
+
+            /* =====================================
+               FOOTER
+            ===================================== */
+
+            function drawFooter() {
+
+                const footerY =
+                    pageHeight -
+                    27;
+
+
+                doc
+                    .moveTo(
+                        margin,
+                        footerY -
+                        7
+                    )
+
+                    .lineTo(
+                        pageWidth -
+                        margin,
+                        footerY -
+                        7
+                    )
+
+                    .lineWidth(
+                        0.5
+                    )
+
+                    .strokeColor(
+                        "#cbd5e1"
+                    )
+
+                    .stroke();
+
+
+                doc
+                    .fillColor(
+                        "#64748b"
+                    )
+
+                    .font(
+                        "Helvetica"
+                    )
+
+                    .fontSize(
+                        7
+                    )
+
+                    .text(
+
+                        "P = Present     A = Absent     E = Excused",
+
+                        margin,
+
+                        footerY,
+
+                        {
+
+                            width:
+                                usableWidth /
+                                2
+
+                        }
+
+                    );
+
+
+                doc.text(
+
+                    "Generated by Mafori FC Player Training Attendance Register",
+
+                    margin +
+                    (
+                        usableWidth /
+                        2
+                    ),
+
+                    footerY,
+
+                    {
+
+                        width:
+                            usableWidth /
+                            2,
+
+                        align:
+                            "right"
+
+                    }
+
+                );
+
+            }
+
+
+            /* =====================================
+               SPLIT TRAINING SESSIONS
+               INTO GROUPS
+            ===================================== */
+
+            const sessionGroups =
+                [];
+
+
+            for (
+                let i = 0;
+
+                i <
+                report.sessions.length;
+
+                i +=
+                sessionsPerPage
+            ) {
+
+                sessionGroups.push(
+
+                    report.sessions.slice(
+                        i,
+                        i +
+                        sessionsPerPage
+                    )
+
+                );
+
+            }
+
+
+            /* =====================================
+               NO SESSIONS
+            ===================================== */
+
+            if (
+                sessionGroups.length ===
+                0
+            ) {
+
+                sessionGroups.push(
+                    []
+                );
+
+            }
+
+
+            /* =====================================
+               GENERATE PDF PAGES
+            ===================================== */
+
+            sessionGroups.forEach(
+
+                (
+                    sessionGroup,
+                    groupIndex
+                ) => {
+
+                    /* NEW HORIZONTAL DATE PAGE */
+
+                    if (
+                        groupIndex >
+                        0
+                    ) {
+
+                        doc.addPage();
+
+                    }
+
+
+                    let y =
+                        drawPageHeader(
+
+                            sessionGroup,
+
+                            groupIndex +
+                            1,
+
+                            sessionGroups.length
+
+                        );
+
+
+                    /* =================================
+                       PLAYER ROWS
+                    ================================= */
+
+                    report.players.forEach(
+
+                        (
+                            player,
+                            playerIndex
+                        ) => {
+
+                            /* =================================
+                               NEW VERTICAL PAGE
+                               WHEN PAGE IS FULL
+                            ================================= */
+
+                            if (
+                                y +
+                                rowHeight >
+                                pageHeight -
+                                45
+                            ) {
+
+                                drawFooter();
+
+
+                                doc.addPage();
+
+
+                                y =
+                                    drawPageHeader(
+
+                                        sessionGroup,
+
+                                        groupIndex +
+                                        1,
+
+                                        sessionGroups.length
+
+                                    );
+
+                            }
+
+
+                            y =
+                                drawPlayerRow(
+
+                                    player,
+
+                                    playerIndex +
+                                    1,
+
+                                    sessionGroup,
+
+                                    y
+
+                                );
+
+                        }
+
+                    );
+
+
+                    drawFooter();
+
+                }
+
+            );
+
+
+            /* =====================================
+               FINISH PDF
+            ===================================== */
 
             doc.end();
 
@@ -2285,16 +3895,21 @@ app.get(
                 err
             );
 
-            if (!res.headersSent) {
 
-                res.status(500).json({
+            if (
+                !res.headersSent
+            ) {
 
-                    success: false,
+                return res
+                    .status(500)
+                    .json({
 
-                    message:
-                        err.message
+                        success: false,
 
-                });
+                        message:
+                            err.message
+
+                    });
 
             }
 
@@ -2316,30 +3931,35 @@ app.get(
             const {
                 data,
                 error
-            } = await supabase
+            } =
+                await supabase
 
-                .from("settings")
+                    .from("settings")
 
-                .select("*")
+                    .select("*")
 
-                .limit(1)
+                    .limit(1)
 
-                .maybeSingle();
+                    .maybeSingle();
+
 
             if (error) {
 
-                return res.status(500).json({
+                return res
+                    .status(500)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
 
-            res.json({
+
+            return res.json({
 
                 success: true,
 
@@ -2357,19 +3977,23 @@ app.get(
                 err
             );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
     }
 );
+
 
 /* =====================================
    SAVE / UPDATE SETTINGS
@@ -2382,45 +4006,54 @@ app.put(
         try {
 
             const {
-
                 club_name,
                 club_email,
                 club_phone,
                 club_address,
                 training_time,
                 training_days
-
             } = req.body;
+
 
             const {
                 data: existing,
                 error: findError
-            } = await supabase
+            } =
+                await supabase
 
-                .from("settings")
+                    .from("settings")
 
-                .select("id")
+                    .select("id")
 
-                .limit(1)
+                    .limit(1)
 
-                .maybeSingle();
+                    .maybeSingle();
+
 
             if (findError) {
 
-                return res.status(500).json({
+                return res
+                    .status(500)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        findError.message
+                        message:
+                            findError.message
 
-                });
+                    });
 
             }
+
 
             let data;
 
             let error;
+
+
+            /* =====================================
+               UPDATE EXISTING SETTINGS
+            ===================================== */
 
             if (existing) {
 
@@ -2432,10 +4065,15 @@ app.put(
                         .update({
 
                             club_name,
+
                             club_email,
+
                             club_phone,
+
                             club_address,
+
                             training_time,
+
                             training_days
 
                         })
@@ -2446,15 +4084,23 @@ app.put(
                         )
 
                         .select()
+
                         .single();
+
 
                 data =
                     result.data;
+
 
                 error =
                     result.error;
 
             }
+
+
+            /* =====================================
+               CREATE SETTINGS
+            ===================================== */
 
             else {
 
@@ -2466,39 +4112,51 @@ app.put(
                         .insert([{
 
                             club_name,
+
                             club_email,
+
                             club_phone,
+
                             club_address,
+
                             training_time,
+
                             training_days
 
                         }])
 
                         .select()
+
                         .single();
+
 
                 data =
                     result.data;
+
 
                 error =
                     result.error;
 
             }
 
+
             if (error) {
 
-                return res.status(400).json({
+                return res
+                    .status(400)
+                    .json({
 
-                    success: false,
+                        success: false,
 
-                    message:
-                        error.message
+                        message:
+                            error.message
 
-                });
+                    });
 
             }
 
-            res.json({
+
+            return res.json({
 
                 success: true,
 
@@ -2519,19 +4177,151 @@ app.put(
                 err
             );
 
-            res.status(500).json({
 
-                success: false,
+            return res
+                .status(500)
+                .json({
 
-                message:
-                    err.message
+                    success: false,
 
-            });
+                    message:
+                        err.message
+
+                });
 
         }
 
     }
 );
+
+
+/* =====================================
+   HEALTH CHECK
+===================================== */
+
+app.get(
+    "/api/health",
+    (req, res) => {
+
+        return res.json({
+
+            success: true,
+
+            message:
+                "Mafori FC Attendance Register API is running.",
+
+            timestamp:
+                new Date().toISOString()
+
+        });
+
+    }
+);
+
+
+/* =====================================
+   API 404
+===================================== */
+
+app.use(
+    "/api",
+    (req, res) => {
+
+        return res
+            .status(404)
+            .json({
+
+                success: false,
+
+                message:
+                    "API endpoint not found."
+
+            });
+
+    }
+);
+
+
+/* =====================================
+   FRONTEND FALLBACK
+===================================== */
+
+app.use(
+    (req, res) => {
+
+        if (
+            req.method !== "GET"
+        ) {
+
+            return res
+                .status(404)
+                .json({
+
+                    success: false,
+
+                    message:
+                        "Route not found."
+
+                });
+
+        }
+
+
+        return res.sendFile(
+            path.join(
+                __dirname,
+                "public",
+                "index.html"
+            )
+        );
+
+    }
+);
+
+
+/* =====================================
+   GLOBAL ERROR HANDLER
+===================================== */
+
+app.use(
+    (
+        err,
+        req,
+        res,
+        next
+    ) => {
+
+        console.error(
+            "Unhandled server error:",
+            err
+        );
+
+
+        if (
+            res.headersSent
+        ) {
+
+            return next(
+                err
+            );
+
+        }
+
+
+        return res
+            .status(500)
+            .json({
+
+                success: false,
+
+                message:
+                    "An unexpected server error occurred."
+
+            });
+
+    }
+);
+
 
 /* =====================================
    START SERVER
@@ -2540,9 +4330,20 @@ app.put(
 const PORT =
     process.env.PORT || 3000;
 
+
 app.listen(
     PORT,
     () => {
+
+        console.log("");
+
+        console.log(
+            "====================================="
+        );
+
+        console.log(
+            "⚽ MAFORI FC ATTENDANCE REGISTER"
+        );
 
         console.log(
             "====================================="
@@ -2553,8 +4354,26 @@ app.listen(
         );
 
         console.log(
+            "✅ Supabase connected"
+        );
+
+        console.log(
+            "✅ Attendance API loaded"
+        );
+
+        console.log(
+            "✅ Monthly PDF report enabled"
+        );
+
+        console.log(
+            "✅ Mafori FC PDF watermark enabled"
+        );
+
+        console.log(
             "====================================="
         );
+
+        console.log("");
 
     }
 );
