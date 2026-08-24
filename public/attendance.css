@@ -1,333 +1,717 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+/* =====================================================
+   MAFORI FC ATTENDANCE REGISTER
+   ATTENDANCE PAGE
+   MATCH MANAGEMENT STYLE
+===================================================== */
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-body{
 
-    min-height:100vh;
+/* =====================================================
+   BODY
+===================================================== */
 
-    background-image:
-    linear-gradient(rgba(5,15,35,.82),rgba(5,15,35,.82)),
-    url("MAFORI_FC_LOGO.jpeg");
+body {
+    min-height: 100vh;
 
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
+    background:
+        linear-gradient(
+            rgba(245, 247, 250, 0.96),
+            rgba(245, 247, 250, 0.96)
+        ),
+        url("MAFORI_FC_LOGO.jpeg");
 
-    display:flex;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 
+    color: #1e293b;
+
+    display: flex;
 }
 
-/* ===========================
+
+/* =====================================================
    SIDEBAR
-=========================== */
+===================================================== */
 
-.sidebar{
+.sidebar {
+    width: 260px;
+    height: 100vh;
 
-    width:260px;
-    height:100vh;
+    position: fixed;
 
-    position:fixed;
+    left: 0;
+    top: 0;
 
-    left:0;
-    top:0;
+    background:
+        linear-gradient(
+            180deg,
+            #08182f 0%,
+            #0b1f3a 100%
+        );
 
-    background:rgba(0,0,0,.45);
+    padding: 24px 14px;
 
-    backdrop-filter:blur(15px);
+    color: #ffffff;
 
-    border-right:1px solid rgba(255,255,255,.15);
+    box-shadow:
+        8px 0 30px rgba(15, 23, 42, 0.12);
 
-    padding:30px 20px;
+    z-index: 1000;
 
+    overflow-y: auto;
 }
 
-.logo{
 
-    text-align:center;
-    margin-bottom:40px;
+/* =====================================================
+   LOGO
+===================================================== */
 
+.logo {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding-bottom: 24px;
+
+    margin-bottom: 20px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.08);
 }
 
-.logo i{
+.logo i {
+    width: 58px;
+    height: 58px;
 
-    font-size:55px;
-    color:#FFD54F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    font-size: 29px;
+
+    box-shadow:
+        0 12px 25px rgba(255, 106, 0, 0.28);
 }
 
-.logo h2{
+.logo h2 {
+    color: #ffffff;
 
-    color:white;
-    margin-top:10px;
-    font-size:26px;
+    margin-top: 13px;
 
+    font-size: 21px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
 }
 
-.sidebar ul{
 
-    list-style:none;
+/* =====================================================
+   SIDEBAR MENU
+===================================================== */
 
+.sidebar ul {
+    list-style: none;
 }
 
-.sidebar ul li{
-
-    margin-bottom:15px;
-
+.sidebar ul li {
+    margin-bottom: 7px;
 }
 
-.sidebar ul li a{
+.sidebar ul li a {
+    display: flex;
 
-    display:block;
+    align-items: center;
 
-    padding:15px;
+    gap: 12px;
 
-    border-radius:12px;
+    width: 100%;
 
-    text-decoration:none;
+    padding: 13px 15px;
 
-    color:white;
+    border-radius: 10px;
 
-    transition:.3s;
+    text-decoration: none;
 
+    color: #cbd5e1;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
 }
 
-.sidebar ul li a:hover,
-.sidebar ul li.active a{
+.sidebar ul li a i {
+    width: 20px;
 
-    background:#ff9800;
+    text-align: center;
 
-    transform:translateX(5px);
+    font-size: 16px;
 
+    color: #94a3b8;
+
+    transition: color 0.25s ease;
 }
 
-.sidebar ul li i{
+.sidebar ul li a:hover {
+    background: rgba(255, 138, 0, 0.12);
 
-    margin-right:10px;
+    color: #ffffff;
 
+    transform: translateX(3px);
 }
 
-/* ===========================
-   MAIN
-=========================== */
-
-.main-content{
-
-    margin-left:260px;
-
-    width:calc(100% - 260px);
-
-    padding:40px;
-
+.sidebar ul li a:hover i {
+    color: #ff8a00;
 }
 
-.header{
+.sidebar ul li.active a {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 138, 0, 0.18),
+            rgba(255, 106, 0, 0.10)
+        );
 
-    margin-bottom:25px;
+    color: #ffffff;
 
+    border-left: 3px solid #ff8a00;
 }
 
-.header h1{
-
-    color:#FFD54F;
-
-    font-size:40px;
-
+.sidebar ul li.active a i {
+    color: #ff8a00;
 }
 
-.header p{
 
-    color:white;
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
 
-    margin-top:8px;
+.main-content {
+    margin-left: 260px;
 
-    font-size:18px;
+    width: calc(100% - 260px);
 
+    min-height: 100vh;
+
+    padding: 42px 50px 60px;
 }
 
-/* ===========================
-   CARD
-=========================== */
 
-.attendance-card{
+/* =====================================================
+   HEADER
+===================================================== */
 
-    background:rgba(255,255,255,.10);
-
-    backdrop-filter:blur(15px);
-
-    border-radius:20px;
-
-    padding:30px;
-
-    box-shadow:0 20px 40px rgba(0,0,0,.40);
-
-    animation:fadeIn .8s;
-
+.header {
+    margin-bottom: 28px;
 }
 
-@keyframes fadeIn{
+.header h1 {
+    color: #0f172a;
 
-    from{
+    font-size: 34px;
 
-        opacity:0;
-        transform:translateY(40px);
+    font-weight: 800;
 
+    letter-spacing: -0.4px;
+}
+
+.header p {
+    color: #64748b;
+
+    margin-top: 8px;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   ATTENDANCE CARD
+===================================================== */
+
+.attendance-card {
+    position: relative;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border: 1px solid #e8edf3;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 18px 45px rgba(15, 23, 42, 0.08);
+
+    overflow: hidden;
+
+    animation: fadeIn 0.5s ease;
+}
+
+.attendance-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff8a00,
+            #ff6a00
+        );
+}
+
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
 
-    to{
-
-        opacity:1;
-        transform:translateY(0);
-
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-
 }
 
-.search-box{
 
-    margin-bottom:25px;
+/* =====================================================
+   SEARCH BOX
+===================================================== */
 
+.search-box {
+    margin-bottom: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
 }
 
-.search-box input{
+.search-box input {
+    width: 100%;
+    max-width: 380px;
 
-    width:350px;
+    padding: 13px 15px;
 
-    padding:15px;
+    border: 1px solid #dbe3ec;
 
-    border:none;
+    outline: none;
 
-    outline:none;
+    border-radius: 10px;
 
-    border-radius:10px;
+    background: #f8fafc;
 
-    font-size:16px;
+    color: #0f172a;
 
+    font-size: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
 }
 
-/* ===========================
+.search-box input::placeholder {
+    color: #94a3b8;
+}
+
+.search-box input:focus {
+    border-color: #ff8a00;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 138, 0, 0.10);
+}
+
+
+/* =====================================================
+   TABLE WRAPPER
+===================================================== */
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border-radius: 14px;
+
+    border: 1px solid #e5eaf0;
+}
+
+
+/* =====================================================
    TABLE
-=========================== */
+===================================================== */
 
-table{
+table {
+    width: 100%;
 
-    width:100%;
+    border-collapse: collapse;
 
-    border-collapse:collapse;
+    min-width: 760px;
 
-    background:white;
+    background: #ffffff;
+}
 
-    border-radius:15px;
+thead {
+    background: #0b1f3a;
 
-    overflow:hidden;
+    color: #ffffff;
+}
+
+th {
+    padding: 15px 16px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+td {
+    padding: 15px 16px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #334155;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+tbody tr {
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+tbody tr:hover {
+    background: #fff7ed;
+}
+
+
+/* =====================================================
+   RADIO BUTTONS
+===================================================== */
+
+input[type="radio"] {
+    width: 18px;
+    height: 18px;
+
+    cursor: pointer;
+
+    accent-color: #ff8a00;
+}
+
+
+/* =====================================================
+   STATUS CELL SUPPORT
+===================================================== */
+
+.present-status {
+    color: #16a34a;
+
+    font-weight: 700;
+}
+
+.absent-status {
+    color: #dc2626;
+
+    font-weight: 700;
+}
+
+.excused-status {
+    color: #d97706;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   SAVE ATTENDANCE BUTTON
+===================================================== */
+
+#saveAttendance {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 15px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(255, 106, 0, 0.20);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+}
+
+#saveAttendance:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 30px rgba(255, 106, 0, 0.28);
+
+    filter: brightness(1.04);
+}
+
+#saveAttendance:active {
+    transform: translateY(0);
+}
+
+
+/* =====================================================
+   SWEETALERT
+===================================================== */
+
+.swal2-popup {
+    font-family: "Poppins", sans-serif !important;
+
+    border-radius: 16px !important;
+}
+
+
+/* =====================================================
+   RESPONSIVE - TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+
+        width: calc(100% - 220px);
+
+        padding: 35px 28px 50px;
+    }
 
 }
 
-thead{
 
-    background:#ff9800;
+/* =====================================================
+   SMALL SCREEN
+===================================================== */
 
-    color:white;
+@media (max-width: 760px) {
 
-}
+    body {
+        display: block;
+    }
 
-th,td{
+    .sidebar {
+        position: relative;
 
-    padding:16px;
+        width: 100%;
 
-    text-align:center;
+        height: auto;
 
-}
+        padding: 16px 12px;
+    }
 
-tbody tr:nth-child(even){
+    .logo {
+        padding-bottom: 12px;
 
-    background:#f4f4f4;
+        margin-bottom: 12px;
 
-}
+        border-bottom: none;
+    }
 
-tbody tr:hover{
+    .logo i {
+        width: 46px;
+        height: 46px;
 
-    background:#ffe8c2;
+        font-size: 23px;
+    }
 
-}
+    .logo h2 {
+        font-size: 18px;
+    }
 
-input[type="radio"]{
+    .sidebar ul {
+        display: flex;
 
-    transform:scale(1.3);
+        justify-content: center;
 
-    cursor:pointer;
+        flex-wrap: wrap;
 
-}
+        gap: 7px;
+    }
 
-/* ===========================
-   BUTTON
-=========================== */
+    .sidebar ul li {
+        margin: 0;
+    }
 
-#saveAttendance{
+    .sidebar ul li a {
+        width: auto;
 
-    margin-top:25px;
+        padding: 9px 11px;
 
-    width:100%;
+        font-size: 12px;
 
-    padding:18px;
+        gap: 7px;
+    }
 
-    border:none;
+    .sidebar ul li a:hover {
+        transform: none;
+    }
 
-    border-radius:12px;
+    .main-content {
+        margin-left: 0;
 
-    background:#28a745;
+        width: 100%;
 
-    color:white;
+        padding: 28px 18px 40px;
+    }
 
-    font-size:18px;
+    .attendance-card {
+        padding: 24px;
+    }
 
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-}
-
-#saveAttendance:hover{
-
-    background:#1d7f34;
-
-    transform:translateY(-3px);
-
-}
-
-@media(max-width:900px){
-
-.sidebar{
-
-    width:100%;
-    position:relative;
-    height:auto;
-
-}
-
-.main-content{
-
-    margin-left:0;
-    width:100%;
+    .search-box input {
+        max-width: 100%;
+    }
 
 }
 
-table{
 
-    font-size:13px;
+/* =====================================================
+   MOBILE
+===================================================== */
 
-}
+@media (max-width: 480px) {
 
-.search-box input{
+    body {
+        background-attachment: scroll;
+    }
 
-    width:100%;
+    .main-content {
+        padding: 23px 12px 35px;
+    }
 
-}
+    .header h1 {
+        font-size: 27px;
+    }
+
+    .header p {
+        font-size: 13px;
+    }
+
+    .attendance-card {
+        padding: 20px 14px;
+
+        border-radius: 15px;
+    }
+
+    .search-box {
+        margin-bottom: 18px;
+    }
+
+    .search-box input {
+        padding: 12px 13px;
+
+        font-size: 13px;
+    }
+
+    th {
+        padding: 13px 12px;
+
+        font-size: 11px;
+    }
+
+    td {
+        padding: 13px 12px;
+
+        font-size: 12px;
+    }
+
+    #saveAttendance {
+        padding: 13px;
+
+        font-size: 13px;
+    }
 
 }

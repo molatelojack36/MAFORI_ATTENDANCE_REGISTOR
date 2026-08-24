@@ -1,568 +1,688 @@
-/* ==========================================
-   MAFORI FC - PLAYER MANAGEMENT
-========================================== */
+/* =====================================================
+   MAFORI FC ATTENDANCE REGISTER
+   PLAYER MANAGEMENT PAGE
+   MATCH MANAGEMENT STYLE
+===================================================== */
 
 
-/* ==========================================
+/* =====================================================
    RESET
-========================================== */
+===================================================== */
 
 * {
-
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
-
     font-family: "Poppins", sans-serif;
+}
 
+html {
+    scroll-behavior: smooth;
 }
 
 
-/* ==========================================
+/* =====================================================
    BODY
-========================================== */
+===================================================== */
 
 body {
-
     min-height: 100vh;
-
-    background: #edf2f7;
 
     display: flex;
 
+    background:
+        linear-gradient(
+            rgba(245, 247, 250, 0.97),
+            rgba(245, 247, 250, 0.97)
+        ),
+        url("MAFORI_FC_LOGO.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: #1e293b;
 }
 
 
-/* ==========================================
+/* =====================================================
    SIDEBAR
-========================================== */
+===================================================== */
 
 .sidebar {
-
-    width: 260px;
-
-    height: 100vh;
-
     position: fixed;
 
+    top: 0;
     left: 0;
 
-    top: 0;
+    width: 260px;
+    height: 100vh;
 
-    background: #0b1f3a;
+    padding: 24px 14px;
 
-    color: white;
+    background:
+        linear-gradient(
+            180deg,
+            #08182f 0%,
+            #0b1f3a 100%
+        );
 
-    padding: 30px 20px;
+    color: #ffffff;
+
+    box-shadow:
+        8px 0 30px rgba(15, 23, 42, 0.12);
 
     z-index: 1000;
 
+    overflow-y: auto;
 }
 
 
+/* =====================================================
+   SIDEBAR TITLE
+===================================================== */
+
 .sidebar h2 {
+    position: relative;
 
     text-align: center;
 
-    font-size: 22px;
+    color: #ffffff;
 
-    margin-bottom: 40px;
+    margin: 5px 10px 30px;
 
-    color: white;
+    padding-bottom: 24px;
 
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.6px;
 }
 
+.sidebar h2::before {
+    content: "\f1e3";
 
-.sidebar ul {
+    font-family: "Font Awesome 6 Free";
 
-    list-style: none;
+    font-weight: 900;
 
-}
-
-
-.sidebar ul li {
+    width: 54px;
+    height: 54px;
 
     display: flex;
 
     align-items: center;
+    justify-content: center;
 
-    gap: 15px;
+    margin: 0 auto 14px;
 
-    padding: 15px 18px;
+    border-radius: 17px;
 
-    margin-bottom: 10px;
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
 
-    border-radius: 8px;
+    color: #ffffff;
 
-    cursor: pointer;
+    font-size: 25px;
 
-    font-size: 15px;
-
-    transition: all 0.3s ease;
-
+    box-shadow:
+        0 12px 25px rgba(255, 106, 0, 0.28);
 }
 
 
-.sidebar ul li i {
+/* =====================================================
+   SIDEBAR MENU
+===================================================== */
 
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 7px;
+
+    padding: 0;
+}
+
+.sidebar ul li a {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    color: #cbd5e1;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.sidebar ul li i {
     width: 20px;
 
     text-align: center;
 
+    color: #94a3b8;
+
+    font-size: 16px;
+
+    transition: color 0.25s ease;
+}
+
+.sidebar ul li a:hover {
+    background: rgba(255, 138, 0, 0.12);
+
+    color: #ffffff;
+
+    transform: translateX(3px);
+}
+
+.sidebar ul li a:hover i {
+    color: #ff8a00;
 }
 
 
-.sidebar ul li:hover {
+/* ACTIVE MENU ITEM */
 
-    background: rgba(255, 255, 255, 0.12);
-
-    transform: translateX(4px);
-
-}
-
-
+.sidebar ul li.active a,
 .sidebar ul li.active {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 138, 0, 0.18),
+            rgba(255, 106, 0, 0.10)
+        );
 
-    background: #ff6b00;
+    color: #ffffff;
 
-    color: white;
+    border-left: 3px solid #ff8a00;
 
+    border-radius: 10px;
+}
+
+.sidebar ul li.active i {
+    color: #ff8a00;
 }
 
 
-/* ==========================================
+/* =====================================================
    MAIN CONTENT
-========================================== */
+===================================================== */
 
 .main-content {
-
     margin-left: 260px;
 
     width: calc(100% - 260px);
 
     min-height: 100vh;
 
-    padding: 45px;
-
+    padding: 42px 50px 60px;
 }
 
 
-/* ==========================================
+/* =====================================================
    BACK BUTTON
-========================================== */
+===================================================== */
 
 .back-button-container {
-
-    margin-bottom: 25px;
-
+    margin-bottom: 24px;
 }
 
-
 .back-button {
-
     display: inline-flex;
 
     align-items: center;
 
     gap: 9px;
 
-    padding: 11px 20px;
+    padding: 10px 17px;
 
-    border: none;
+    border: 1px solid #e2e8f0;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
-    background: white;
+    background: #ffffff;
 
     color: #0b1f3a;
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 600;
 
     cursor: pointer;
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 5px 18px rgba(15, 23, 42, 0.06);
 
-    transition: all 0.3s ease;
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
 
+.back-button i {
+    font-size: 13px;
+}
+
+.back-button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    border-color: transparent;
+
+    transform: translateX(-3px);
+
+    box-shadow:
+        0 10px 22px rgba(255, 106, 0, 0.20);
 }
 
 
-.back-button i {
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: #0f172a;
+
+    font-size: 34px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
+
+    margin-bottom: 8px;
+}
+
+.header h1 i {
+    color: #ff7a00;
+
+    margin-right: 9px;
+}
+
+.header p {
+    max-width: 720px;
+
+    color: #64748b;
 
     font-size: 14px;
 
+    line-height: 1.7;
 }
 
 
-.back-button:hover {
-
-    background: #ff6b00;
-
-    color: white;
-
-    transform: translateX(-4px);
-
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-
-}
-
-
-/* ==========================================
-   HEADER
-========================================== */
-
-.header {
-
-    margin-bottom: 40px;
-
-}
-
-
-.header h1 {
-
-    font-size: 42px;
-
-    color: #0b1f3a;
-
-    margin-bottom: 10px;
-
-    font-weight: 700;
-
-}
-
-
-.header h1 i {
-
-    color: #ff6b00;
-
-    margin-right: 10px;
-
-}
-
-
-.header p {
-
-    color: #667085;
-
-    font-size: 16px;
-
-}
-
-
-/* ==========================================
-   CARDS
-========================================== */
+/* =====================================================
+   CARDS GRID
+===================================================== */
 
 .cards {
-
     display: grid;
 
     grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(260px, 1fr)
-        );
+        repeat(auto-fit, minmax(240px, 1fr));
 
-    gap: 30px;
-
+    gap: 20px;
 }
 
 
-/* ==========================================
+/* =====================================================
    CARD
-========================================== */
+===================================================== */
 
 .card {
+    position: relative;
 
-    background: white;
-
-    border-radius: 15px;
-
-    padding: 35px 30px;
-
-    text-decoration: none;
-
-    color: inherit;
-
-    min-height: 230px;
+    min-height: 215px;
 
     display: flex;
 
     flex-direction: column;
 
     justify-content: center;
+    align-items: flex-start;
 
-    align-items: center;
+    padding: 28px;
 
-    text-align: center;
+    border-radius: 18px;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border: 1px solid #e8edf3;
 
     box-shadow:
-        0 8px 25px rgba(
-            0,
-            0,
-            0,
-            0.08
-        );
+        0 16px 38px rgba(15, 23, 42, 0.07);
+
+    overflow: hidden;
 
     transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
 
-    animation: fadeIn 0.5s ease;
-
+    animation: fadeIn 0.45s ease;
 }
 
+
+/* TOP ACCENT */
+
+.card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff8a00,
+            #ff6a00
+        );
+}
+
+
+/* =====================================================
+   CARD ICON
+===================================================== */
 
 .card > i {
+    width: 50px;
+    height: 50px;
 
-    font-size: 45px;
+    display: flex;
 
-    color: #ff6b00;
+    align-items: center;
+    justify-content: center;
 
-    margin-bottom: 20px;
+    border-radius: 14px;
 
-}
+    background: #fff7ed;
 
-
-.card h2 {
-
-    color: #0b1f3a;
+    color: #ff7a00;
 
     font-size: 22px;
 
-    margin-bottom: 10px;
-
-}
-
-
-.card p {
-
-    color: #667085;
-
-    font-size: 14px;
-
-    line-height: 1.6;
-
-}
-
-
-/* ==========================================
-   CARD HOVER
-========================================== */
-
-.card:hover {
-
-    transform: translateY(-8px);
+    margin-bottom: 20px;
 
     box-shadow:
-        0 15px 35px rgba(
-            0,
-            0,
-            0,
-            0.14
-        );
+        inset 0 0 0 1px rgba(255, 138, 0, 0.10);
 
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
 }
 
+
+/* =====================================================
+   CARD TITLE
+===================================================== */
+
+.card h2 {
+    color: #0f172a;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    margin-bottom: 9px;
+}
+
+
+/* =====================================================
+   CARD DESCRIPTION
+===================================================== */
+
+.card p {
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   CARD HOVER
+===================================================== */
+
+.card:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(255, 138, 0, 0.24);
+
+    box-shadow:
+        0 22px 48px rgba(15, 23, 42, 0.11);
+}
 
 .card:hover > i {
+    transform: scale(1.06);
 
-    transform: scale(1.1);
-
-    transition: 0.3s ease;
-
+    background: #ffedd5;
 }
 
 
-/* ==========================================
+/* =====================================================
    ANIMATION
-========================================== */
+===================================================== */
 
 @keyframes fadeIn {
-
     from {
-
         opacity: 0;
-
-        transform: translateY(15px);
-
+        transform: translateY(16px);
     }
 
     to {
-
         opacity: 1;
-
         transform: translateY(0);
-
     }
-
 }
 
 
-/* ==========================================
+/* =====================================================
    TABLET
-========================================== */
+===================================================== */
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
 
     .sidebar {
-
         width: 220px;
-
     }
 
-
     .main-content {
-
         margin-left: 220px;
 
         width: calc(100% - 220px);
 
-        padding: 30px;
-
+        padding: 35px 28px 50px;
     }
-
-
-    .header h1 {
-
-        font-size: 34px;
-
-    }
-
 
     .cards {
-
         grid-template-columns:
-            repeat(
-                2,
-                minmax(220px, 1fr)
-            );
-
+            repeat(2, minmax(0, 1fr));
     }
 
 }
 
 
-/* ==========================================
-   MOBILE
-========================================== */
+/* =====================================================
+   SMALL SCREEN
+===================================================== */
 
-@media (max-width: 600px) {
+@media (max-width: 760px) {
 
     body {
-
         display: block;
-
     }
 
-
     .sidebar {
-
         position: relative;
 
         width: 100%;
 
         height: auto;
 
-        padding: 20px;
-
+        padding: 16px 12px;
     }
-
 
     .sidebar h2 {
+        margin-bottom: 13px;
 
-        margin-bottom: 20px;
+        padding-bottom: 13px;
 
+        border-bottom: none;
     }
 
+    .sidebar h2::before {
+        width: 44px;
+        height: 44px;
+
+        font-size: 21px;
+
+        margin-bottom: 10px;
+    }
 
     .sidebar ul {
-
         display: flex;
-
-        flex-wrap: wrap;
 
         justify-content: center;
 
-        gap: 8px;
+        flex-wrap: wrap;
 
+        gap: 7px;
     }
-
 
     .sidebar ul li {
-
-        margin-bottom: 0;
-
-        padding: 10px 12px;
-
-        font-size: 13px;
-
+        margin: 0;
     }
 
+    .sidebar ul li a {
+        width: auto;
 
-    .sidebar ul li i {
+        padding: 9px 11px;
 
-        margin-right: 2px;
+        font-size: 12px;
 
+        gap: 7px;
     }
 
+    .sidebar ul li a:hover {
+        transform: none;
+    }
 
     .main-content {
-
         margin-left: 0;
 
         width: 100%;
 
-        padding: 25px 20px;
-
+        padding: 28px 18px 40px;
     }
-
-
-    .back-button-container {
-
-        margin-bottom: 20px;
-
-    }
-
-
-    .header {
-
-        margin-bottom: 30px;
-
-    }
-
-
-    .header h1 {
-
-        font-size: 28px;
-
-    }
-
-
-    .header p {
-
-        font-size: 14px;
-
-    }
-
 
     .cards {
-
-        grid-template-columns: 1fr;
-
-        gap: 20px;
-
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 520px) {
+
+    body {
+        background-attachment: scroll;
+    }
+
+    .main-content {
+        padding: 23px 13px 35px;
+    }
+
+    .header h1 {
+        font-size: 27px;
+    }
+
+    .header p {
+        font-size: 13px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+    }
 
     .card {
+        min-height: 180px;
 
-        min-height: 200px;
+        padding: 23px;
 
+        border-radius: 15px;
+    }
+
+    .card > i {
+        width: 46px;
+        height: 46px;
+
+        font-size: 20px;
+
+        margin-bottom: 16px;
+    }
+
+    .card h2 {
+        font-size: 18px;
+    }
+
+    .card p {
+        font-size: 13px;
+    }
+
+    .back-button {
+        padding: 9px 13px;
+
+        font-size: 12px;
     }
 
 }

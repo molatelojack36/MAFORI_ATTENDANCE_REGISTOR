@@ -1,3 +1,15 @@
+
+/* =====================================================
+   MAFORI FC ATTENDANCE REGISTER
+   LOGIN PAGE
+   MATCH MANAGEMENT STYLE
+===================================================== */
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
     margin:0;
     padding:0;
@@ -5,155 +17,386 @@
     font-family:'Poppins',sans-serif;
 }
 
+
+/* =====================================================
+   BODY
+===================================================== */
+
 body{
 
     min-height:100vh;
 
-    background-image:
-        linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+    background:
+        linear-gradient(
+            rgba(4,12,28,.88),
+            rgba(4,12,28,.94)
+        ),
         url("MAFORI_FC_LOGO.jpeg");
 
-    background-size:110%;
+    background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
+    background-attachment:fixed;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    animation:zoomBackground 20s ease-in-out infinite alternate;
+    color:#ffffff;
 
+    padding:25px;
 }
+
+
+/* =====================================================
+   OVERLAY
+===================================================== */
 
 .overlay{
 
     width:100%;
+    min-height:100vh;
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
-    padding:20px;
-
-}
-
-.login-card{
-
-    width:430px;
-
-    padding:45px;
-
-    border-radius:25px;
-
-    backdrop-filter:blur(12px);
-
-    background:rgba(255,255,255,.10);
-
-    border:1px solid rgba(255,255,255,.15);
-
-    color:white;
-
-    box-shadow:0 20px 40px rgba(0,0,0,.5);
-
-    animation:
-        fadeIn 1s ease,
-        floating 5s ease-in-out infinite;
-
-}
-
-.login-card h1{
-
-    text-align:center;
-
-    color:#FFD54F;
-
-    margin-bottom:10px;
-
-    font-size:40px;
-
-}
-
-.login-card h3{
-
-    text-align:center;
-
-    margin-bottom:35px;
-
-}
-
-.login-card input{
-
-    width:100%;
-
-    padding:16px;
-
-    border:none;
-
-    border-radius:10px;
-
-    margin-bottom:20px;
-
-    outline:none;
-
-    font-size:16px;
-
-}
-
-.password-box{
 
     position:relative;
 
 }
 
+
+/* SOFT BACKGROUND GLOW */
+
+.overlay::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,145,0,.18),
+            transparent 70%
+        );
+
+    filter:blur(25px);
+
+    pointer-events:none;
+}
+
+
+/* =====================================================
+   LOGIN CARD
+===================================================== */
+
+.login-card{
+
+    position:relative;
+
+    z-index:2;
+
+    width:100%;
+    max-width:440px;
+
+    padding:42px 38px;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(19,31,53,.92),
+            rgba(10,21,39,.90)
+        );
+
+    border:1px solid rgba(255,255,255,.10);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.50),
+        inset 0 1px 0 rgba(255,255,255,.05);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    animation:fadeIn .7s ease;
+}
+
+
+/* TOP ORANGE ACCENT */
+
+.login-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:90px;
+    height:4px;
+
+    border-radius:0 0 20px 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff7a00,
+            #ffad33
+        );
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.login-card h1{
+
+    text-align:center;
+
+    font-size:34px;
+
+    font-weight:800;
+
+    letter-spacing:.5px;
+
+    color:#ffffff;
+
+    margin-bottom:8px;
+}
+
+
+/* ORANGE HIGHLIGHT EFFECT */
+
+.login-card h1::after{
+
+    content:"";
+
+    display:block;
+
+    width:55px;
+    height:3px;
+
+    margin:12px auto 0;
+
+    border-radius:10px;
+
+    background:#ff8a00;
+}
+
+
+/* =====================================================
+   SUBTITLE
+===================================================== */
+
+.login-card h3{
+
+    text-align:center;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    color:#aeb9ca;
+
+    margin-top:18px;
+    margin-bottom:30px;
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.login-card input{
+
+    width:100%;
+
+    padding:15px 16px;
+
+    margin-bottom:18px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,.10);
+
+    outline:none;
+
+    background:#0b1628;
+
+    color:#ffffff;
+
+    font-size:15px;
+
+    transition:
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+}
+
+
+/* PLACEHOLDER */
+
+.login-card input::placeholder{
+
+    color:#78869a;
+}
+
+
+/* INPUT FOCUS */
+
+.login-card input:focus{
+
+    border-color:#ff8a00;
+
+    background:#0d1b31;
+
+    box-shadow:
+        0 0 0 3px rgba(255,138,0,.12);
+}
+
+
+/* =====================================================
+   PASSWORD BOX
+===================================================== */
+
+.password-box{
+
+    position:relative;
+}
+
+
+.password-box input{
+
+    padding-right:52px;
+}
+
+
+/* PASSWORD TOGGLE */
+
 .password-box span{
 
     position:absolute;
 
-    right:18px;
+    right:17px;
+    top:15px;
 
-    top:17px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:25px;
+    height:25px;
 
     cursor:pointer;
 
-    font-size:18px;
+    color:#94a3b8;
 
+    font-size:17px;
+
+    transition:
+        color .3s ease,
+        transform .3s ease;
 }
+
+
+.password-box span:hover{
+
+    color:#ff8a00;
+
+    transform:scale(1.08);
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
 
 button{
 
     width:100%;
 
-    padding:16px;
+    padding:15px;
+
+    margin-top:4px;
 
     border:none;
 
-    border-radius:50px;
+    border-radius:12px;
 
-    background:linear-gradient(45deg,#ff9800,#ff6f00);
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
 
-    color:white;
+    color:#ffffff;
 
-    font-size:18px;
+    font-size:15px;
 
-    font-weight:600;
+    font-weight:700;
+
+    letter-spacing:.2px;
 
     cursor:pointer;
 
-    transition:.4s;
+    box-shadow:
+        0 10px 25px rgba(255,106,0,.24);
 
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        filter .25s ease;
 }
+
+
+/* BUTTON HOVER */
 
 button:hover{
 
-    transform:translateY(-4px);
+    transform:translateY(-2px);
 
-    box-shadow:0 15px 35px rgba(255,152,0,.6);
+    box-shadow:
+        0 14px 30px rgba(255,106,0,.35);
 
+    filter:brightness(1.05);
 }
 
-/* Animations */
+
+/* BUTTON ACTIVE */
+
+button:active{
+
+    transform:translateY(0);
+}
+
+
+/* =====================================================
+   SWEETALERT MATCHING STYLE
+===================================================== */
+
+.swal2-popup{
+
+    font-family:'Poppins',sans-serif !important;
+
+    border-radius:18px !important;
+}
+
+
+/* =====================================================
+   ANIMATION
+===================================================== */
 
 @keyframes fadeIn{
 
@@ -161,7 +404,9 @@ button:hover{
 
         opacity:0;
 
-        transform:translateY(40px);
+        transform:
+            translateY(25px)
+            scale(.98);
 
     }
 
@@ -169,46 +414,118 @@ button:hover{
 
         opacity:1;
 
-        transform:translateY(0);
+        transform:
+            translateY(0)
+            scale(1);
 
     }
 
 }
 
-@keyframes floating{
 
-    0%{
+/* =====================================================
+   TABLET
+===================================================== */
 
-        transform:translateY(0);
+@media(max-width:768px){
 
+    body{
+
+        padding:18px;
     }
 
-    50%{
 
-        transform:translateY(-8px);
+    .login-card{
 
+        max-width:420px;
+
+        padding:38px 30px;
     }
 
-    100%{
 
-        transform:translateY(0);
+    .login-card h1{
 
+        font-size:30px;
     }
 
 }
 
-@keyframes zoomBackground{
 
-    from{
+/* =====================================================
+   MOBILE
+===================================================== */
 
-        background-size:100%;
+@media(max-width:480px){
 
+    body{
+
+        padding:14px;
+
+        background-position:center;
     }
 
-    to{
 
-        background-size:115%;
+    .login-card{
 
+        padding:32px 22px;
+
+        border-radius:18px;
+    }
+
+
+    .login-card h1{
+
+        font-size:27px;
+    }
+
+
+    .login-card h3{
+
+        font-size:13px;
+
+        margin-bottom:25px;
+    }
+
+
+    .login-card input{
+
+        padding:14px 15px;
+
+        font-size:14px;
+    }
+
+
+    button{
+
+        padding:14px;
+
+        font-size:14px;
+    }
+
+
+    .password-box span{
+
+        top:14px;
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL PHONES
+===================================================== */
+
+@media(max-width:360px){
+
+    .login-card{
+
+        padding:28px 18px;
+    }
+
+
+    .login-card h1{
+
+        font-size:24px;
     }
 
 }

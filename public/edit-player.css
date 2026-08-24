@@ -1,11 +1,13 @@
-/* ==========================================
-   MAFORI FC - EDIT PLAYER
-   ========================================== */
+/* =====================================================
+   MAFORI FC ATTENDANCE REGISTER
+   EDIT PLAYER PAGE
+   MATCH MANAGEMENT STYLE
+===================================================== */
 
 
-/* ==========================================
+/* =====================================================
    GLOBAL RESET
-   ========================================== */
+===================================================== */
 
 * {
     margin: 0;
@@ -13,25 +15,39 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
 
-/* ==========================================
+
+/* =====================================================
    BODY
-   ========================================== */
+===================================================== */
 
 body {
     font-family: "Poppins", sans-serif;
 
-    background: #f4f6f9;
-
-    color: #1f2937;
-
     min-height: 100vh;
+
+    background:
+        linear-gradient(
+            rgba(245, 247, 250, 0.97),
+            rgba(245, 247, 250, 0.97)
+        ),
+        url("MAFORI_FC_LOGO.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: #1e293b;
 }
 
 
-/* ==========================================
+/* =====================================================
    MAIN CONTAINER
-   ========================================== */
+===================================================== */
 
 .container {
     min-height: 100vh;
@@ -46,31 +62,61 @@ body {
 }
 
 
-/* ==========================================
+/* =====================================================
    EDIT PLAYER CARD
-   ========================================== */
+===================================================== */
 
 .card {
+    position: relative;
+
     width: 100%;
+    max-width: 680px;
 
-    max-width: 650px;
+    padding: 38px;
 
-    background: #ffffff;
+    border-radius: 18px;
 
-    padding: 40px;
+    background: rgba(255, 255, 255, 0.97);
 
-    border-radius: 15px;
+    border: 1px solid #e8edf3;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 20px 50px rgba(15, 23, 42, 0.09);
+
+    overflow: hidden;
+
+    animation: fadeIn 0.5s ease;
 }
 
 
-/* ==========================================
-   BACK TO PLAYERS BUTTON
-   ========================================== */
+/* TOP ORANGE ACCENT */
+
+.card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff8a00,
+            #ff6a00
+        );
+}
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
 
 .back-button-container {
-    margin-bottom: 25px;
+    margin-bottom: 24px;
 }
 
 .back-button {
@@ -82,110 +128,127 @@ body {
 
     gap: 9px;
 
-    padding: 10px 18px;
+    padding: 10px 16px;
 
-    border: none;
+    border: 1px solid #e2e8f0;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
-    background: #f4f6f9;
+    background: #ffffff;
 
     color: #0b1f3a;
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 600;
 
     cursor: pointer;
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    box-shadow:
+        0 5px 16px rgba(15, 23, 42, 0.05);
 
-    transition: all 0.3s ease;
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .back-button i {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .back-button:hover {
-    background: #ff6b00;
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
 
     color: #ffffff;
 
-    transform: translateX(-4px);
+    border-color: transparent;
 
-    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.20);
+    transform: translateX(-3px);
+
+    box-shadow:
+        0 10px 22px rgba(255, 106, 0, 0.20);
 }
 
 
-/* ==========================================
-   PAGE TITLE
-   ========================================== */
+/* =====================================================
+   TITLE
+===================================================== */
 
 .card h1 {
-    color: #0b1f3a;
+    color: #0f172a;
 
-    font-size: 30px;
+    font-size: 31px;
 
-    font-weight: 700;
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
 
     margin-bottom: 8px;
 }
 
 
-/* ==========================================
-   PAGE DESCRIPTION
-   ========================================== */
+/* =====================================================
+   DESCRIPTION
+===================================================== */
 
 .card > p {
-    color: #6b7280;
+    color: #64748b;
 
     font-size: 14px;
 
-    margin-bottom: 30px;
+    line-height: 1.7;
+
+    margin-bottom: 28px;
 }
 
 
-/* ==========================================
+/* =====================================================
    FORM
-   ========================================== */
+===================================================== */
 
 #editPlayerForm {
     width: 100%;
 }
 
 
-/* ==========================================
+/* =====================================================
    INPUT GROUP
-   ========================================== */
+===================================================== */
 
 .input-group {
-    margin-bottom: 21px;
+    margin-bottom: 20px;
 }
 
 
-/* ==========================================
+/* =====================================================
    LABEL
-   ========================================== */
+===================================================== */
 
 .input-group label {
     display: block;
 
     margin-bottom: 8px;
 
-    color: #0b1f3a;
+    color: #334155;
 
-    font-size: 14px;
+    font-size: 13px;
 
-    font-weight: 600;
+    font-weight: 700;
 }
 
 
-/* ==========================================
-   TEXT INPUTS & SELECTS
-   ========================================== */
+/* =====================================================
+   INPUTS + SELECTS
+===================================================== */
 
 .input-group input,
 .input-group select {
@@ -195,13 +258,13 @@ body {
 
     padding: 0 14px;
 
-    border: 1px solid #d1d5db;
+    border: 1px solid #dbe3ec;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
-    background: #ffffff;
+    background: #f8fafc;
 
-    color: #1f2937;
+    color: #0f172a;
 
     font-family: "Poppins", sans-serif;
 
@@ -209,156 +272,189 @@ body {
 
     outline: none;
 
-    transition: all 0.3s ease;
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 
-/* ==========================================
-   INPUT FOCUS
-   ========================================== */
-
-.input-group input:focus,
-.input-group select:focus {
-    border-color: #ff6b00;
-
-    box-shadow:
-        0 0 0 3px rgba(255, 107, 0, 0.12);
-}
-
-
-/* ==========================================
+/* =====================================================
    INPUT HOVER
-   ========================================== */
+===================================================== */
 
 .input-group input:hover,
 .input-group select:hover {
-    border-color: #9ca3af;
+    border-color: #cbd5e1;
 }
 
 
-/* ==========================================
+/* =====================================================
+   INPUT FOCUS
+===================================================== */
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #ff8a00;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 138, 0, 0.10);
+}
+
+
+/* =====================================================
+   PLACEHOLDER
+===================================================== */
+
+.input-group input::placeholder {
+    color: #94a3b8;
+}
+
+
+/* =====================================================
    SELECT
-   ========================================== */
+===================================================== */
 
 .input-group select {
     cursor: pointer;
 }
 
 
-/* ==========================================
+/* =====================================================
    DATE INPUT
-   ========================================== */
+===================================================== */
 
 .input-group input[type="date"] {
     cursor: pointer;
 }
 
 
-/* ==========================================
-   UPDATE PLAYER BUTTON
-   ========================================== */
+/* =====================================================
+   SUBMIT BUTTON
+===================================================== */
 
 #editPlayerForm button[type="submit"] {
     width: 100%;
 
     height: 50px;
 
-    margin-top: 5px;
+    margin-top: 6px;
 
     border: none;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
-    background: #ff6b00;
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
 
     color: #ffffff;
 
     font-family: "Poppins", sans-serif;
 
-    font-size: 15px;
+    font-size: 14px;
 
-    font-weight: 600;
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
 
     cursor: pointer;
 
-    transition: all 0.3s ease;
+    box-shadow:
+        0 10px 25px rgba(255, 106, 0, 0.20);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
 }
 
-
-/* ==========================================
-   UPDATE BUTTON HOVER
-   ========================================== */
-
 #editPlayerForm button[type="submit"]:hover {
-    background: #e85d00;
-
     transform: translateY(-2px);
 
     box-shadow:
-        0 6px 16px rgba(255, 107, 0, 0.25);
+        0 14px 30px rgba(255, 106, 0, 0.28);
+
+    filter: brightness(1.04);
 }
-
-
-/* ==========================================
-   UPDATE BUTTON ACTIVE
-   ========================================== */
 
 #editPlayerForm button[type="submit"]:active {
     transform: translateY(0);
-
-    box-shadow: none;
 }
-
-
-/* ==========================================
-   UPDATE BUTTON ICON
-   ========================================== */
 
 #editPlayerForm button[type="submit"] i {
     margin-right: 8px;
 }
 
 
-/* ==========================================
+/* =====================================================
    DISABLED BUTTON
-   ========================================== */
+===================================================== */
 
 #editPlayerForm button[type="submit"]:disabled {
-    background: #9ca3af;
+    background: #94a3b8;
 
     cursor: not-allowed;
 
     transform: none;
 
     box-shadow: none;
+
+    filter: none;
 }
 
 
-/* ==========================================
-   PLACEHOLDER
-   ========================================== */
+/* =====================================================
+   SWEETALERT
+===================================================== */
 
-.input-group input::placeholder {
-    color: #9ca3af;
+.swal2-popup {
+    font-family: "Poppins", sans-serif !important;
+
+    border-radius: 16px !important;
 }
 
 
-/* ==========================================
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
    TABLET
-   ========================================== */
+===================================================== */
 
 @media (max-width: 700px) {
 
     .container {
-        padding: 30px 18px;
+        padding: 28px 18px;
 
         align-items: flex-start;
     }
 
     .card {
-        margin-top: 20px;
+        margin-top: 18px;
 
         padding: 30px;
+
+        border-radius: 16px;
     }
 
     .card h1 {
@@ -368,22 +464,26 @@ body {
 }
 
 
-/* ==========================================
+/* =====================================================
    MOBILE
-   ========================================== */
+===================================================== */
 
 @media (max-width: 480px) {
 
+    body {
+        background-attachment: scroll;
+    }
+
     .container {
-        padding: 20px 12px;
+        padding: 18px 12px;
     }
 
     .card {
-        margin-top: 10px;
+        margin-top: 8px;
 
-        padding: 22px 18px;
+        padding: 24px 18px;
 
-        border-radius: 11px;
+        border-radius: 15px;
     }
 
     .card h1 {
@@ -393,13 +493,13 @@ body {
     .card > p {
         font-size: 13px;
 
-        margin-bottom: 25px;
+        margin-bottom: 24px;
     }
 
     .back-button {
-        padding: 9px 14px;
+        padding: 9px 13px;
 
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .input-group {
@@ -420,7 +520,7 @@ body {
     #editPlayerForm button[type="submit"] {
         height: 48px;
 
-        font-size: 14px;
+        font-size: 13px;
     }
 
 }
