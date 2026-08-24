@@ -4,125 +4,480 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Attendance | Mafori FC</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="attendance.css">
+    <title>
+        Attendance | Mafori FC
+    </title>
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- GOOGLE FONT -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- FONT AWESOME -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- SWEETALERT -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
+
+
+    <!-- ATTENDANCE CSS -->
+
+    <link
+        rel="stylesheet"
+        href="attendance.css"
+    >
 
 </head>
 
+
 <body>
 
-<div class="sidebar">
 
-    <div class="logo">
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
 
-        <i class="fa-solid fa-futbol"></i>
+    <aside class="sidebar">
 
-        <h2>MAFORI FC</h2>
 
-    </div>
+        <!-- LOGO -->
 
-    <ul>
+        <div class="logo">
 
-        <li>
-            <a href="dashboard.html">
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </a>
-        </li>
+            <i class="fa-solid fa-futbol"></i>
 
-        <li>
-            <a href="players.html">
-                <i class="fa-solid fa-users"></i>
-                Players
-            </a>
-        </li>
-
-        <li class="active">
-            <a href="attendance.html">
-                <i class="fa-solid fa-calendar-check"></i>
-                Attendance
-            </a>
-        </li>
-
-        <li>
-            <a href="reports.html">
-                <i class="fa-solid fa-chart-column"></i>
-                Reports
-            </a>
-        </li>
-
-        <li>
-            <a href="login.html">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-            </a>
-        </li>
-
-    </ul>
-
-</div>
-
-<div class="main-content">
-
-    <div class="header">
-
-        <h1>Training Attendance Register</h1>
-
-        <p id="todayDate"></p>
-
-    </div>
-
-    <div class="attendance-card">
-
-        <div class="search-box">
-
-            <input
-                type="text"
-                id="searchPlayer"
-                placeholder="Search player...">
+            <h2>
+                MAFORI FC
+            </h2>
 
         </div>
 
-        <table>
 
-            <thead>
+        <!-- NAVIGATION -->
 
-                <tr>
+        <ul>
 
-                    <th>#</th>
-                    <th>Player Name</th>
-                    <th>Position</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                    <th>Excused</th>
+            <li>
 
-                </tr>
+                <a href="dashboard.html">
 
-            </thead>
+                    <i class="fa-solid fa-house"></i>
 
-            <tbody id="attendanceTable">
+                    Dashboard
 
-            </tbody>
+                </a>
 
-        </table>
+            </li>
 
-        <button id="saveAttendance">
 
-            Save Attendance
+            <li>
 
-        </button>
+                <a href="players.html">
 
-    </div>
+                    <i class="fa-solid fa-users"></i>
 
-</div>
+                    Players
 
-<script src="attendance.js"></script>
+                </a>
+
+            </li>
+
+
+            <li class="active">
+
+                <a href="attendance.html">
+
+                    <i class="fa-solid fa-clipboard-check"></i>
+
+                    Attendance
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="reports.html">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    Reports
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="downloads.html">
+
+                    <i class="fa-solid fa-download"></i>
+
+                    Downloads
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a
+                    href="#"
+                    onclick="logout(); return false;"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Logout
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- ==========================================
+             PAGE HEADER
+        =========================================== -->
+
+        <div class="header">
+
+            <h1>
+
+                <i class="fa-solid fa-clipboard-check"></i>
+
+                Player Attendance
+
+            </h1>
+
+
+            <p>
+
+                Mark today's attendance or load a previous
+                register to correct a player's attendance.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             ATTENDANCE CARD
+        =========================================== -->
+
+        <section class="attendance-card">
+
+
+            <!-- ==========================================
+                 DATE TOOLBAR
+            =========================================== -->
+
+            <div class="attendance-toolbar">
+
+
+                <div class="date-control">
+
+                    <label for="attendanceDate">
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                        Attendance Date
+
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="attendanceDate"
+                    >
+
+                </div>
+
+
+                <div class="toolbar-buttons">
+
+
+                    <button
+                        type="button"
+                        id="todayButton"
+                        class="toolbar-btn secondary-btn"
+                    >
+
+                        <i class="fa-solid fa-calendar-day"></i>
+
+                        Today
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="loadAttendance"
+                        class="toolbar-btn load-btn"
+                    >
+
+                        <i class="fa-solid fa-rotate"></i>
+
+                        Load Register
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 REGISTER INFORMATION
+            =========================================== -->
+
+            <div class="register-info">
+
+                <div>
+
+                    <span class="info-label">
+                        Register Date
+                    </span>
+
+                    <strong id="selectedDateText">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span class="info-label">
+                        Register Status
+                    </span>
+
+                    <strong
+                        id="registerStatus"
+                        class="register-status"
+                    >
+                        Not loaded
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 SEARCH
+            =========================================== -->
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="searchPlayer"
+                    placeholder="Search player by name, nickname or position..."
+                >
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 TABLE WRAPPER
+            =========================================== -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+
+                    <!-- ==================================
+                         TABLE HEADER
+                    =================================== -->
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Player
+                            </th>
+
+                            <th>
+                                Position
+                            </th>
+
+                            <th>
+                                Present
+                            </th>
+
+                            <th>
+                                Absent
+                            </th>
+
+                            <th>
+                                Excused
+                            </th>
+
+                            <th>
+                                Current Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <!-- ==================================
+                         TABLE BODY
+                    =================================== -->
+
+                    <tbody id="attendanceTable">
+
+
+                        <!-- JS inserts players here -->
+
+
+                        <tr class="loading-row">
+
+                            <td colspan="8">
+
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                                Loading players...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 LEGEND
+            =========================================== -->
+
+            <div class="attendance-legend">
+
+
+                <div class="legend-item">
+
+                    <span class="legend-dot present-dot"></span>
+
+                    Present
+
+                </div>
+
+
+                <div class="legend-item">
+
+                    <span class="legend-dot absent-dot"></span>
+
+                    Absent
+
+                </div>
+
+
+                <div class="legend-item">
+
+                    <span class="legend-dot excused-dot"></span>
+
+                    Excused
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 SAVE TODAY'S FULL REGISTER
+            =========================================== -->
+
+            <button
+                id="saveAttendance"
+                type="button"
+            >
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                Save Attendance Register
+
+            </button>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ==========================================
+         ATTENDANCE JS
+    =========================================== -->
+
+    <script src="attendance.js"></script>
+
 
 </body>
 
