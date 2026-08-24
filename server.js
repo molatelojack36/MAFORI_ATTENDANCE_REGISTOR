@@ -8,11 +8,94 @@ const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 
+
+/* =====================================
+   MAFORI FC LOGO
+===================================== */
+
 const clubLogoPath = path.join(
     __dirname,
     "public",
     "MAFORI_FC_LOGO.jpeg"
 );
+
+
+/* =====================================
+   SOUTH AFRICA DATE HELPER
+===================================== */
+
+function getSouthAfricaDateParts() {
+
+    const now =
+        new Date();
+
+
+    const parts =
+        new Intl.DateTimeFormat(
+            "en-CA",
+            {
+                timeZone:
+                    "Africa/Johannesburg",
+
+                year:
+                    "numeric",
+
+                month:
+                    "2-digit",
+
+                day:
+                    "2-digit"
+            }
+        )
+            .formatToParts(now);
+
+
+    const getPart =
+        type =>
+            parts.find(
+                part =>
+                    part.type === type
+            )?.value;
+
+
+    const year =
+        Number(
+            getPart("year")
+        );
+
+
+    const month =
+        Number(
+            getPart("month")
+        );
+
+
+    const day =
+        getPart("day");
+
+
+    const date =
+        `${year}-${String(
+            month
+        ).padStart(
+            2,
+            "0"
+        )}-${day}`;
+
+
+    return {
+
+        date,
+
+        year,
+
+        month,
+
+        day
+
+    };
+
+}
 
 
 /* =====================================
@@ -53,1120 +136,20 @@ const supabase = createClient(
    HOME PAGE
 ===================================== */
 
-app.get("/", (req, res) => {
-
-    res.sendFile(
-        path.join(
-            __dirname,
-            "public",
-            "index.html"
-        )
-    );
-
-});
-
-
-/* =====================================
-   LOGIN API
-===================================== */
-
-app.post(
-    "/api/login",
-    async (req, res) => {
-
-        const {
-            username,
-            password
-        } = req.body;
-
-        try {
-
-            if (!username || !password) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            "Username and password are required."
-
-                    });
-
-            }
-
-
-            const {
-                data,
-                error
-            } =
-                await supabase
-
-                    .from("users")
-
-                    .select("*")
-
-                    .eq(
-                        "username",
-                        username
-                    )
-
-                    .eq(
-                        "password",
-                        password
-                    )
-
-                    .maybeSingle();
-
-
-            if (error) {
-
-                console.error(
-                    "Login database error:",
-                    error
-                );
-
-                return res
-                    .status(500)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            "Database error during login."
-
-                    });
-
-            }
-
-
-            if (!data) {
-
-                return res
-                    .status(401)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            "Invalid username or password."
-
-                    });
-
-            }
-
-
-            return res.json({
-
-                success: true,
-
-                message:
-                    "Login Successful",
-
-                user: {
-
-                    id:
-                        data.id,
-
-                    username:
-                        data.username,
-
-                    fullname:
-                        data.fullname || "",
-
-                    role:
-                        data.role || "Admin"
-
-                }
-
-            });
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Login error:",
-                err
-            );
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "Server Error"
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =====================================
-   GET SINGLE USER
-===================================== */
-
 app.get(
-    "/api/users/:id",
-    async (req, res) => {
+    "/",
+    (req, res) => {
 
-        const id =
-            req.params.id;
-
-        try {
-
-            const {
-                data,
-                error
-            } =
-                await supabase
-
-                    .from("users")
-
-                    .select(
-                        "id, username, fullname, role"
-                    )
-
-                    .eq(
-                        "id",
-                        id
-                    )
-
-                    .maybeSingle();
-
-
-            if (error) {
-
-                console.error(
-                    "Get user error:",
-                    error
-                );
-
-                return res
-                    .status(500)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            error.message
-
-                    });
-
-            }
-
-
-            if (!data) {
-
-                return res
-                    .status(404)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            "User not found."
-
-                    });
-
-            }
-
-
-            return res.json({
-
-                success: true,
-
-                user: {
-
-                    id:
-                        data.id,
-
-                    username:
-                        data.username,
-
-                    fullname:
-                        data.fullname || "",
-
-                    role:
-                        data.role || "Admin"
-
-                }
-
-            });
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Get user error:",
-                err
-            );
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "Server Error"
-
-                });
-
-        }
+        res.sendFile(
+            path.join(
+                __dirname,
+                "public",
+                "index.html"
+            )
+        );
 
     }
 );
-
-
-/* =====================================
-   UPDATE USER PROFILE
-===================================== */
-
-app.put(
-    "/api/users/:id",
-    async (req, res) => {
-
-        const id =
-            req.params.id;
-
-        const {
-            fullname,
-            username
-        } = req.body;
-
-
-        if (!fullname || !username) {
-
-            return res
-                .status(400)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "Full name and username are required."
-
-                });
-
-        }
-
-
-        try {
-
-            const {
-                data: existingUser,
-                error: existingError
-            } =
-                await supabase
-
-                    .from("users")
-
-                    .select("id")
-
-                    .eq(
-                        "username",
-                        username
-                    )
-
-                    .neq(
-                        "id",
-                        id
-                    )
-
-                    .maybeSingle();
-
-
-            if (existingError) {
-
-                console.error(
-                    "Username check error:",
-                    existingError
-                );
-
-                return res
-                    .status(500)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            existingError.message
-
-                    });
-
-            }
-
-
-            if (existingUser) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            "That username is already being used."
-
-                    });
-
-            }
-
-
-            const {
-                data,
-                error
-            } =
-                await supabase
-
-                    .from("users")
-
-                    .update({
-
-                        fullname:
-                            fullname,
-
-                        username:
-                            username
-
-                    })
-
-                    .eq(
-                        "id",
-                        id
-                    )
-
-                    .select(
-                        "id, username, fullname, role"
-                    )
-
-                    .single();
-
-
-            if (error) {
-
-                console.error(
-                    "Update profile error:",
-                    error
-                );
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            error.message
-
-                    });
-
-            }
-
-
-            return res.json({
-
-                success: true,
-
-                message:
-                    "Profile updated successfully.",
-
-                user: {
-
-                    id:
-                        data.id,
-
-                    username:
-                        data.username,
-
-                    fullname:
-                        data.fullname || "",
-
-                    role:
-                        data.role || "Admin"
-
-                }
-
-            });
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Profile update error:",
-                err
-            );
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "Server Error"
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =====================================
-   CHANGE USER PASSWORD API
-===================================== */
-
-app.put(
-    "/api/change-password",
-    async (req, res) => {
-
-        const {
-            user_id,
-            current_password,
-            new_password
-        } = req.body;
-
-
-        if (
-            !user_id ||
-            !current_password ||
-            !new_password
-        ) {
-
-            return res
-                .status(400)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "All password fields are required."
-
-                });
-
-        }
-
-
-        if (
-            new_password.length < 6
-        ) {
-
-            return res
-                .status(400)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "New password must be at least 6 characters long."
-
-                });
-
-        }
-
-
-        try {
-
-            /* =================================
-               CHECK CURRENT PASSWORD
-            ================================= */
-
-            const {
-                data: user,
-                error: findError
-            } =
-                await supabase
-
-                    .from("users")
-
-                    .select(
-                        "id, username, password, fullname, role"
-                    )
-
-                    .eq(
-                        "id",
-                        user_id
-                    )
-
-                    .maybeSingle();
-
-
-            if (findError) {
-
-                console.error(
-                    "Find user error:",
-                    findError
-                );
-
-
-                return res
-                    .status(500)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            findError.message
-
-                    });
-
-            }
-
-
-            if (!user) {
-
-                return res
-                    .status(404)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            "User account not found."
-
-                    });
-
-            }
-
-
-            /* =================================
-               VERIFY CURRENT PASSWORD
-            ================================= */
-
-            if (
-                user.password !==
-                current_password
-            ) {
-
-                return res
-                    .status(401)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            "Current password is incorrect."
-
-                    });
-
-            }
-
-
-            /* =================================
-               UPDATE PASSWORD
-            ================================= */
-
-            const {
-                error: updateError
-            } =
-                await supabase
-
-                    .from("users")
-
-                    .update({
-
-                        password:
-                            new_password
-
-                    })
-
-                    .eq(
-                        "id",
-                        user_id
-                    );
-
-
-            if (updateError) {
-
-                console.error(
-                    "Password update error:",
-                    updateError
-                );
-
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            updateError.message
-
-                    });
-
-            }
-
-
-            return res.json({
-
-                success: true,
-
-                message:
-                    "Password changed successfully."
-
-            });
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Password Change Error:",
-                err
-            );
-
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "Server Error"
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =====================================
-   ADD PLAYER API
-===================================== */
-
-app.post(
-    "/api/players",
-    async (req, res) => {
-
-        const {
-            first_name,
-            last_name,
-            nickname,
-            position,
-            date_of_birth,
-            status
-        } = req.body;
-
-
-        try {
-
-            const {
-                data,
-                error
-            } =
-                await supabase
-
-                    .from("players")
-
-                    .insert([{
-
-                        first_name,
-
-                        last_name,
-
-                        nickname,
-
-                        position,
-
-                        date_of_birth,
-
-                        status:
-                            status || "Active"
-
-                    }])
-
-                    .select();
-
-
-            if (error) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            error.message
-
-                    });
-
-            }
-
-
-            return res
-                .status(201)
-                .json({
-
-                    success: true,
-
-                    message:
-                        "Player added successfully.",
-
-                    player:
-                        data[0]
-
-                });
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Add player error:",
-                err
-            );
-
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "Server Error"
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =====================================
-   VIEW ALL PLAYERS API
-===================================== */
-
-app.get(
-    "/api/players",
-    async (req, res) => {
-
-        try {
-
-            const {
-                data,
-                error
-            } =
-                await supabase
-
-                    .from("players")
-
-                    .select("*")
-
-                    .order(
-                        "id",
-                        {
-                            ascending: true
-                        }
-                    );
-
-
-            if (error) {
-
-                return res
-                    .status(500)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            error.message
-
-                    });
-
-            }
-
-
-            return res.json(
-                data || []
-            );
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Get players error:",
-                err
-            );
-
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        err.message
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =====================================
-   GET SINGLE PLAYER
-===================================== */
-
-app.get(
-    "/api/players/:id",
-    async (req, res) => {
-
-        const id =
-            req.params.id;
-
-
-        try {
-
-            const {
-                data,
-                error
-            } =
-                await supabase
-
-                    .from("players")
-
-                    .select("*")
-
-                    .eq(
-                        "id",
-                        id
-                    )
-
-                    .single();
-
-
-            if (error) {
-
-                return res
-                    .status(404)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            error.message
-
-                    });
-
-            }
-
-
-            return res.json(
-                data
-            );
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Get player error:",
-                err
-            );
-
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        err.message
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =====================================
-   UPDATE PLAYER
-===================================== */
-
-app.put(
-    "/api/players/:id",
-    async (req, res) => {
-
-        const id =
-            req.params.id;
-
-
-        try {
-
-            const {
-                error
-            } =
-                await supabase
-
-                    .from("players")
-
-                    .update(
-                        req.body
-                    )
-
-                    .eq(
-                        "id",
-                        id
-                    );
-
-
-            if (error) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            error.message
-
-                    });
-
-            }
-
-
-            return res.json({
-
-                success: true,
-
-                message:
-                    "Player updated successfully."
-
-            });
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Update player error:",
-                err
-            );
-
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        err.message
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =====================================
-   DELETE PLAYER
-===================================== */
-
-app.delete(
-    "/api/players/:id",
-    async (req, res) => {
-
-        const id =
-            req.params.id;
-
-
-        try {
-
-            const {
-                error
-            } =
-                await supabase
-
-                    .from("players")
-
-                    .delete()
-
-                    .eq(
-                        "id",
-                        id
-                    );
-
-
-            if (error) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success: false,
-
-                        message:
-                            error.message
-
-                    });
-
-            }
-
-
-            return res.json({
-
-                success: true,
-
-                message:
-                    "Player deleted successfully."
-
-            });
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Delete player error:",
-                err
-            );
-
-
-            return res
-                .status(500)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "Server Error"
-
-                });
-
-        }
-
-    }
-);
-
 
 /* =====================================
    SAVE ATTENDANCE
@@ -1181,7 +164,7 @@ app.post(
 
 
         if (
-            !attendance ||
+            !Array.isArray(attendance) ||
             attendance.length === 0
         ) {
 
@@ -1201,14 +184,16 @@ app.post(
 
         try {
 
-            const today =
-                new Date();
+            /* =====================================
+               GET SOUTH AFRICA DATE
+            ===================================== */
 
-
-            const todayDate =
-                today
-                    .toISOString()
-                    .split("T")[0];
+            const {
+                date: todayDate,
+                month: localMonth,
+                year: localYear
+            } =
+                getSouthAfricaDateParts();
 
 
             /* =====================================
@@ -1235,6 +220,12 @@ app.post(
 
             if (sessionError) {
 
+                console.error(
+                    "Session lookup error:",
+                    sessionError
+                );
+
+
                 return res
                     .status(500)
                     .json({
@@ -1250,7 +241,7 @@ app.post(
 
 
             /* =====================================
-               CREATE SESSION IF IT DOES NOT EXIST
+               CREATE TODAY'S SESSION IF NEEDED
             ===================================== */
 
             if (!session) {
@@ -1269,10 +260,10 @@ app.post(
                                 todayDate,
 
                             month:
-                                today.getMonth() + 1,
+                                localMonth,
 
                             year:
-                                today.getFullYear()
+                                localYear
 
                         }])
 
@@ -1282,6 +273,12 @@ app.post(
 
 
                 if (error) {
+
+                    console.error(
+                        "Create session error:",
+                        error
+                    );
+
 
                     return res
                         .status(500)
@@ -1304,13 +301,49 @@ app.post(
 
 
             /* =====================================
-               SAVE EACH PLAYER ATTENDANCE
+               SAVE EACH PLAYER'S ATTENDANCE
             ===================================== */
 
             for (
                 const player
                 of attendance
             ) {
+
+                /* =================================
+                   VALIDATE PLAYER RECORD
+                ================================= */
+
+                if (
+                    !player.player_id ||
+                    !player.attendance_status
+                ) {
+
+                    continue;
+
+                }
+
+
+                const allowedStatuses = [
+                    "Present",
+                    "Absent",
+                    "Excused"
+                ];
+
+
+                if (
+                    !allowedStatuses.includes(
+                        player.attendance_status
+                    )
+                ) {
+
+                    continue;
+
+                }
+
+
+                /* =================================
+                   CHECK EXISTING RECORD
+                ================================= */
 
                 const {
                     data: existing,
@@ -1342,6 +375,7 @@ app.post(
                         existingError
                     );
 
+
                     return res
                         .status(500)
                         .json({
@@ -1357,7 +391,7 @@ app.post(
 
 
                 /* =================================
-                   UPDATE EXISTING ATTENDANCE
+                   UPDATE EXISTING RECORD
                 ================================= */
 
                 if (existing) {
@@ -1389,6 +423,7 @@ app.post(
                             updateError
                         );
 
+
                         return res
                             .status(500)
                             .json({
@@ -1406,7 +441,7 @@ app.post(
 
 
                 /* =================================
-                   INSERT NEW ATTENDANCE
+                   INSERT NEW RECORD
                 ================================= */
 
                 else {
@@ -1438,6 +473,7 @@ app.post(
                             "Attendance insert error:",
                             insertError
                         );
+
 
                         return res
                             .status(500)
@@ -1629,7 +665,7 @@ app.post(
 
 
             /* =====================================
-               ATTENDANCE RATE
+               SAFE VALUES
             ===================================== */
 
             const safeTotalPlayers =
@@ -1648,6 +684,10 @@ app.post(
                 excused || 0;
 
 
+            /* =====================================
+               ATTENDANCE RATE
+            ===================================== */
+
             const attendanceRate =
                 safeTotalPlayers > 0
 
@@ -1663,7 +703,7 @@ app.post(
 
 
             /* =====================================
-               RESPONSE
+               SUCCESS RESPONSE
             ===================================== */
 
             return res.json({
@@ -1671,7 +711,17 @@ app.post(
                 success: true,
 
                 message:
-                    "Attendance saved successfully.",
+                    `Attendance saved successfully for ${todayDate}.`,
+
+                session: {
+
+                    id:
+                        session.id,
+
+                    session_date:
+                        todayDate
+
+                },
 
                 statistics: {
 
@@ -1720,7 +770,6 @@ app.post(
     }
 );
 
-
 /* =====================================
    DASHBOARD STATISTICS
 ===================================== */
@@ -1731,10 +780,14 @@ app.get(
 
         try {
 
-            const today =
-                new Date()
-                    .toISOString()
-                    .split("T")[0];
+            /* =====================================
+               GET SOUTH AFRICA DATE
+            ===================================== */
+
+            const {
+                date: todayDate
+            } =
+                getSouthAfricaDateParts();
 
 
             /* =====================================
@@ -1773,6 +826,7 @@ app.get(
                     playersError
                 );
 
+
                 return res
                     .status(500)
                     .json({
@@ -1799,11 +853,11 @@ app.get(
 
                     .from("training_sessions")
 
-                    .select("id")
+                    .select("id, session_date")
 
                     .eq(
                         "session_date",
-                        today
+                        todayDate
                     )
 
                     .maybeSingle();
@@ -1815,6 +869,7 @@ app.get(
                     "Dashboard session error:",
                     sessionError
                 );
+
 
                 return res
                     .status(500)
@@ -1830,11 +885,16 @@ app.get(
             }
 
 
-            let present = 0;
+            let present =
+                0;
 
-            let absent = 0;
 
-            let excused = 0;
+            let absent =
+                0;
+
+
+            let excused =
+                0;
 
 
             /* =====================================
@@ -1842,6 +902,10 @@ app.get(
             ===================================== */
 
             if (session) {
+
+                /* =================================
+                   PRESENT
+                ================================= */
 
                 const {
                     count: presentCount,
@@ -1883,6 +947,10 @@ app.get(
                 }
 
 
+                /* =================================
+                   ABSENT
+                ================================= */
+
                 const {
                     count: absentCount,
                     error: absentError
@@ -1922,6 +990,10 @@ app.get(
 
                 }
 
+
+                /* =================================
+                   EXCUSED
+                ================================= */
 
                 const {
                     count: excusedCount,
@@ -1978,12 +1050,16 @@ app.get(
 
 
             /* =====================================
-               ATTENDANCE RATE
+               SAFE TOTAL PLAYERS
             ===================================== */
 
             const safeTotalPlayers =
                 totalPlayers || 0;
 
+
+            /* =====================================
+               ATTENDANCE RATE
+            ===================================== */
 
             const attendanceRate =
                 safeTotalPlayers > 0
@@ -2006,6 +1082,12 @@ app.get(
             return res.json({
 
                 success: true,
+
+                date:
+                    todayDate,
+
+                sessionExists:
+                    Boolean(session),
 
                 statistics: {
 
@@ -2063,6 +1145,95 @@ async function getMonthlyReportData(
     year
 ) {
 
+    /* =====================================
+       VALIDATE MONTH / YEAR
+    ===================================== */
+
+    const selectedMonth =
+        Number(month);
+
+
+    const selectedYear =
+        Number(year);
+
+
+    if (
+        !selectedMonth ||
+        selectedMonth < 1 ||
+        selectedMonth > 12
+    ) {
+
+        throw new Error(
+            "Invalid month selected."
+        );
+
+    }
+
+
+    if (
+        !selectedYear ||
+        selectedYear < 2000
+    ) {
+
+        throw new Error(
+            "Invalid year selected."
+        );
+
+    }
+
+
+    /* =====================================
+       BUILD FIRST DAY OF MONTH
+    ===================================== */
+
+    const firstDay =
+        `${selectedYear}-${String(
+            selectedMonth
+        ).padStart(
+            2,
+            "0"
+        )}-01`;
+
+
+    /* =====================================
+       FIND LAST DAY OF MONTH
+    ===================================== */
+
+    const lastDayNumber =
+        new Date(
+            selectedYear,
+            selectedMonth,
+            0
+        ).getDate();
+
+
+    const lastDay =
+        `${selectedYear}-${String(
+            selectedMonth
+        ).padStart(
+            2,
+            "0"
+        )}-${String(
+            lastDayNumber
+        ).padStart(
+            2,
+            "0"
+        )}`;
+
+
+    console.log(
+        "Monthly report date range:",
+        firstDay,
+        "to",
+        lastDay
+    );
+
+
+    /* =====================================
+       GET ALL TRAINING SESSIONS
+       USING ACTUAL SESSION DATE
+    ===================================== */
+
     const {
         data: sessions,
         error: sessionError
@@ -2073,14 +1244,14 @@ async function getMonthlyReportData(
 
             .select("*")
 
-            .eq(
-                "month",
-                Number(month)
+            .gte(
+                "session_date",
+                firstDay
             )
 
-            .eq(
-                "year",
-                Number(year)
+            .lte(
+                "session_date",
+                lastDay
             )
 
             .order(
@@ -2093,10 +1264,39 @@ async function getMonthlyReportData(
 
     if (sessionError) {
 
+        console.error(
+            "Monthly sessions error:",
+            sessionError
+        );
+
+
         throw sessionError;
 
     }
 
+
+    /* =====================================
+       SAFE SESSION ARRAY
+    ===================================== */
+
+    const safeSessions =
+        Array.isArray(sessions)
+            ? sessions
+            : [];
+
+
+    console.log(
+        "Training sessions found:",
+        safeSessions.map(
+            session =>
+                session.session_date
+        )
+    );
+
+
+    /* =====================================
+       GET ACTIVE PLAYERS
+    ===================================== */
 
     const {
         data: players,
@@ -2123,18 +1323,30 @@ async function getMonthlyReportData(
 
     if (playerError) {
 
+        console.error(
+            "Monthly players error:",
+            playerError
+        );
+
+
         throw playerError;
 
     }
 
 
-    const safeSessions =
-        sessions || [];
-
+    /* =====================================
+       SAFE PLAYER ARRAY
+    ===================================== */
 
     const safePlayers =
-        players || [];
+        Array.isArray(players)
+            ? players
+            : [];
 
+
+    /* =====================================
+       GET SESSION IDS
+    ===================================== */
 
     const sessionIds =
         safeSessions.map(
@@ -2143,8 +1355,18 @@ async function getMonthlyReportData(
         );
 
 
-    let attendance = [];
+    /* =====================================
+       ATTENDANCE
+    ===================================== */
 
+    let attendance =
+        [];
+
+
+    /* =====================================
+       ONLY QUERY ATTENDANCE
+       IF SESSIONS EXIST
+    ===================================== */
 
     if (
         sessionIds.length > 0
@@ -2163,10 +1385,23 @@ async function getMonthlyReportData(
                 .in(
                     "session_id",
                     sessionIds
+                )
+
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
                 );
 
 
         if (error) {
+
+            console.error(
+                "Monthly attendance error:",
+                error
+            );
+
 
             throw error;
 
@@ -2174,12 +1409,61 @@ async function getMonthlyReportData(
 
 
         attendance =
-            data || [];
+            Array.isArray(data)
+                ? data
+                : [];
 
     }
 
 
+    /* =====================================
+       DEBUG INFORMATION
+    ===================================== */
+
+    console.log(
+        "Monthly report loaded:",
+        {
+            month:
+                selectedMonth,
+
+            year:
+                selectedYear,
+
+            firstDay:
+                firstDay,
+
+            lastDay:
+                lastDay,
+
+            sessions:
+                safeSessions.length,
+
+            players:
+                safePlayers.length,
+
+            attendanceRecords:
+                attendance.length
+        }
+    );
+
+
+    /* =====================================
+       RETURN REPORT DATA
+    ===================================== */
+
     return {
+
+        month:
+            selectedMonth,
+
+        year:
+            selectedYear,
+
+        firstDay:
+            firstDay,
+
+        lastDay:
+            lastDay,
 
         sessions:
             safeSessions,
@@ -2196,7 +1480,7 @@ async function getMonthlyReportData(
 
 
 /* =====================================
-   MONTHLY REPORT JSON
+   MONTHLY REPORT JSON API
 ===================================== */
 
 app.get(
@@ -2211,6 +1495,10 @@ app.get(
             } = req.query;
 
 
+            /* =====================================
+               VALIDATION
+            ===================================== */
+
             if (
                 !month ||
                 !year
@@ -2220,7 +1508,8 @@ app.get(
                     .status(400)
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Month and year are required."
@@ -2230,6 +1519,10 @@ app.get(
             }
 
 
+            /* =====================================
+               LOAD REPORT
+            ===================================== */
+
             const report =
                 await getMonthlyReportData(
                     month,
@@ -2237,9 +1530,14 @@ app.get(
                 );
 
 
+            /* =====================================
+               RETURN DATA
+            ===================================== */
+
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 report:
                     report
@@ -2260,7 +1558,8 @@ app.get(
                 .status(500)
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         err.message
@@ -2272,9 +1571,8 @@ app.get(
     }
 );
 
-
 /* =====================================
-   DOWNLOAD CSV
+   DOWNLOAD MONTHLY CSV
 ===================================== */
 
 app.get(
@@ -2288,6 +1586,10 @@ app.get(
                 year
             } = req.query;
 
+
+            /* =====================================
+               VALIDATION
+            ===================================== */
 
             if (
                 !month ||
@@ -2308,6 +1610,10 @@ app.get(
             }
 
 
+            /* =====================================
+               LOAD REPORT DATA
+            ===================================== */
+
             const report =
                 await getMonthlyReportData(
                     month,
@@ -2323,6 +1629,10 @@ app.get(
                 "Player ID,First Name,Last Name,Position";
 
 
+            /* =====================================
+               ADD ALL SESSION DATES
+            ===================================== */
+
             report.sessions.forEach(
                 session => {
 
@@ -2332,6 +1642,10 @@ app.get(
                 }
             );
 
+
+            /* =====================================
+               SUMMARY COLUMNS
+            ===================================== */
 
             csv +=
                 ",Present,Absent,Excused,Attendance Rate\n";
@@ -2344,34 +1658,51 @@ app.get(
             report.players.forEach(
                 player => {
 
-                    let present = 0;
+                    let present =
+                        0;
 
-                    let absent = 0;
+                    let absent =
+                        0;
 
-                    let excused = 0;
+                    let excused =
+                        0;
 
+
+                    /* =================================
+                       BASIC PLAYER INFO
+                    ================================= */
 
                     let row =
                         `${player.id},` +
+
                         `"${String(
-                            player.first_name || ""
+                            player.first_name ||
+                            ""
                         ).replaceAll(
                             '"',
                             '""'
                         )}",` +
+
                         `"${String(
-                            player.last_name || ""
+                            player.last_name ||
+                            ""
                         ).replaceAll(
                             '"',
                             '""'
                         )}",` +
+
                         `"${String(
-                            player.position || ""
+                            player.position ||
+                            ""
                         ).replaceAll(
                             '"',
                             '""'
                         )}"`;
 
+
+                    /* =================================
+                       ATTENDANCE FOR EACH SESSION
+                    ================================= */
 
                     report.sessions.forEach(
                         session => {
@@ -2379,15 +1710,21 @@ app.get(
                             const record =
                                 report.attendance.find(
                                     item =>
+
                                         Number(
                                             item.player_id
                                         ) ===
+
                                         Number(
                                             player.id
-                                        ) &&
+                                        )
+
+                                        &&
+
                                         Number(
                                             item.session_id
                                         ) ===
+
                                         Number(
                                             session.id
                                         )
@@ -2403,6 +1740,10 @@ app.get(
                             row +=
                                 `,"${status}"`;
 
+
+                            /* =============================
+                               COUNT STATUS
+                            ============================= */
 
                             if (
                                 status ===
@@ -2439,25 +1780,29 @@ app.get(
                        ATTENDANCE RATE
                     ================================= */
 
-                    const total =
+                    const totalMarked =
                         present +
                         absent +
                         excused;
 
 
                     const rate =
-                        total > 0
+                        totalMarked > 0
 
                             ? (
                                 (
                                     present /
-                                    total
+                                    totalMarked
                                 ) *
                                 100
                             ).toFixed(1)
 
                             : "0.0";
 
+
+                    /* =================================
+                       APPEND SUMMARY VALUES
+                    ================================= */
 
                     row +=
                         `,${present}` +
@@ -2466,14 +1811,15 @@ app.get(
                         `,${rate}%\n`;
 
 
-                    csv += row;
+                    csv +=
+                        row;
 
                 }
             );
 
 
             /* =====================================
-               SEND CSV FILE
+               FILE HEADERS
             ===================================== */
 
             res.setHeader(
@@ -2488,14 +1834,13 @@ app.get(
             );
 
 
-            /*
-                UTF-8 BOM helps Excel display
-                names and special characters
-                correctly.
-            */
+            /* =====================================
+               UTF-8 BOM FOR EXCEL
+            ===================================== */
 
             return res.send(
-                "\uFEFF" + csv
+                "\uFEFF" +
+                csv
             );
 
         }
@@ -2540,6 +1885,10 @@ app.get(
             } = req.query;
 
 
+            /* =====================================
+               VALIDATION
+            ===================================== */
+
             if (
                 !month ||
                 !year
@@ -2559,6 +1908,10 @@ app.get(
             }
 
 
+            /* =====================================
+               LOAD REPORT DATA
+            ===================================== */
+
             const report =
                 await getMonthlyReportData(
                     month,
@@ -2566,8 +1919,11 @@ app.get(
                 );
 
 
-            const monthNames = [
+            /* =====================================
+               MONTH NAME
+            ===================================== */
 
+            const monthNames = [
                 "January",
                 "February",
                 "March",
@@ -2580,7 +1936,6 @@ app.get(
                 "October",
                 "November",
                 "December"
-
             ];
 
 
@@ -2597,7 +1952,8 @@ app.get(
             const doc =
                 new PDFDocument({
 
-                    size: "A4",
+                    size:
+                        "A4",
 
                     layout:
                         "landscape",
@@ -2620,11 +1976,13 @@ app.get(
             );
 
 
-            doc.pipe(res);
+            doc.pipe(
+                res
+            );
 
 
             /* =====================================
-               PAGE DIMENSIONS
+               PAGE SIZE
             ===================================== */
 
             const pageWidth =
@@ -2648,7 +2006,7 @@ app.get(
 
 
             /* =====================================
-               TABLE COLUMN WIDTHS
+               TABLE WIDTHS
             ===================================== */
 
             const numberWidth =
@@ -2675,12 +2033,16 @@ app.get(
 
 
             /*
-                Maximum number of training dates
-                displayed on one horizontal page.
+                Maximum of 8 training dates
+                per horizontal PDF section.
 
-                If there are more than 8 sessions,
-                the remaining dates continue on
-                another PDF page.
+                Example:
+
+                Page 1:
+                01 03 05 08 10 12 15 17
+
+                Page 2:
+                19 20 22 24 26 28 30
             */
 
             const sessionsPerPage =
@@ -2697,18 +2059,23 @@ app.get(
 
 
             const headerHeight =
-                32;
+                34;
 
 
             /* =====================================
-               REPORT TOTALS
+               TOTAL REPORT STATISTICS
             ===================================== */
 
-            let totalPresent = 0;
+            let totalPresent =
+                0;
 
-            let totalAbsent = 0;
 
-            let totalExcused = 0;
+            let totalAbsent =
+                0;
+
+
+            let totalExcused =
+                0;
 
 
             report.attendance.forEach(
@@ -2746,7 +2113,7 @@ app.get(
 
 
             /* =====================================
-               ADD LOGO WATERMARK
+               LOGO WATERMARK
             ===================================== */
 
             function addWatermark() {
@@ -2757,15 +2124,16 @@ app.get(
 
 
                     doc.opacity(
-                        0.06
+                        0.055
                     );
 
 
                     const logoSize =
-                        330;
+                        320;
 
 
                     doc.image(
+
                         clubLogoPath,
 
                         (
@@ -2792,6 +2160,7 @@ app.get(
                                 "center"
 
                         }
+
                     );
 
 
@@ -2817,13 +2186,13 @@ app.get(
 
 
             /* =====================================
-               DRAW PAGE HEADER
+               PAGE HEADER
             ===================================== */
 
             function drawPageHeader(
                 sessionGroup,
-                pageGroupNumber,
-                totalGroups
+                datePageNumber,
+                totalDatePages
             ) {
 
                 addWatermark();
@@ -2847,11 +2216,12 @@ app.get(
                     )
 
                     .text(
+
                         "MAFORI FOOTBALL CLUB",
 
                         margin,
 
-                        28,
+                        25,
 
                         {
 
@@ -2862,23 +2232,24 @@ app.get(
                                 "center"
 
                         }
+
                     );
 
 
                 /* =================================
-                   ORANGE DIVIDER
+                   ORANGE LINE
                 ================================= */
 
                 doc
                     .moveTo(
                         margin,
-                        58
+                        56
                     )
 
                     .lineTo(
                         pageWidth -
                         margin,
-                        58
+                        56
                     )
 
                     .lineWidth(
@@ -2898,7 +2269,7 @@ app.get(
 
                 doc
                     .fillColor(
-                        "#333333"
+                        "#1e293b"
                     )
 
                     .font(
@@ -2910,11 +2281,12 @@ app.get(
                     )
 
                     .text(
+
                         "MONTHLY ATTENDANCE REGISTER",
 
                         margin,
 
-                        68,
+                        66,
 
                         {
 
@@ -2925,6 +2297,7 @@ app.get(
                                 "center"
 
                         }
+
                     );
 
 
@@ -2941,12 +2314,17 @@ app.get(
                         11
                     )
 
+                    .fillColor(
+                        "#475569"
+                    )
+
                     .text(
+
                         `${monthName} ${year}`,
 
                         margin,
 
-                        89,
+                        88,
 
                         {
 
@@ -2957,11 +2335,12 @@ app.get(
                                 "center"
 
                         }
+
                     );
 
 
                 /* =================================
-                   REPORT SUMMARY
+                   SUMMARY
                 ================================= */
 
                 doc
@@ -2970,7 +2349,7 @@ app.get(
                     )
 
                     .fillColor(
-                        "#475569"
+                        "#64748b"
                     )
 
                     .text(
@@ -2983,7 +2362,7 @@ app.get(
 
                         margin,
 
-                        110,
+                        108,
 
                         {
 
@@ -3003,7 +2382,8 @@ app.get(
                 ================================= */
 
                 if (
-                    totalGroups > 1
+                    totalDatePages >
+                    1
                 ) {
 
                     doc
@@ -3017,11 +2397,11 @@ app.get(
 
                         .text(
 
-                            `Attendance dates ${pageGroupNumber} of ${totalGroups}`,
+                            `Attendance dates page ${datePageNumber} of ${totalDatePages}`,
 
                             margin,
 
-                            124,
+                            122,
 
                             {
 
@@ -3043,15 +2423,20 @@ app.get(
                 ================================= */
 
                 const tableY =
-                    145;
+                    143;
 
 
                 doc
                     .rect(
+
                         margin,
+
                         tableY,
+
                         usableWidth,
+
                         headerHeight
+
                     )
 
                     .fill(
@@ -3077,7 +2462,9 @@ app.get(
                     );
 
 
-                /* NUMBER */
+                /* =================================
+                   NUMBER
+                ================================= */
 
                 doc.text(
 
@@ -3085,7 +2472,8 @@ app.get(
 
                     x,
 
-                    tableY + 10,
+                    tableY +
+                    11,
 
                     {
 
@@ -3104,15 +2492,19 @@ app.get(
                     numberWidth;
 
 
-                /* PLAYER */
+                /* =================================
+                   PLAYER
+                ================================= */
 
                 doc.text(
 
                     "PLAYER",
 
-                    x + 5,
+                    x +
+                    5,
 
-                    tableY + 10,
+                    tableY +
+                    11,
 
                     {
 
@@ -3129,7 +2521,9 @@ app.get(
                     playerWidth;
 
 
-                /* POSITION */
+                /* =================================
+                   POSITION
+                ================================= */
 
                 doc.text(
 
@@ -3137,7 +2531,8 @@ app.get(
 
                     x,
 
-                    tableY + 10,
+                    tableY +
+                    11,
 
                     {
 
@@ -3157,7 +2552,7 @@ app.get(
 
 
                 /* =================================
-                   TRAINING DATES
+                   SESSION DATES
                 ================================= */
 
                 sessionGroup.forEach(
@@ -3181,7 +2576,7 @@ app.get(
 
                         const shortMonth =
                             date.toLocaleString(
-                                "en-US",
+                                "en-ZA",
                                 {
                                     month:
                                         "short"
@@ -3195,7 +2590,8 @@ app.get(
 
                             x,
 
-                            tableY + 5,
+                            tableY +
+                            6,
 
                             {
 
@@ -3226,7 +2622,7 @@ app.get(
 
 
             /* =====================================
-               DRAW PLAYER ROW
+               PLAYER ROW
             ===================================== */
 
             function drawPlayerRow(
@@ -3241,7 +2637,7 @@ app.get(
 
 
                 /* =================================
-                   ALTERNATING ROW BACKGROUND
+                   ALTERNATING BACKGROUND
                 ================================= */
 
                 if (
@@ -3252,10 +2648,15 @@ app.get(
 
                     doc
                         .rect(
+
                             margin,
+
                             y,
+
                             usableWidth,
+
                             rowHeight
+
                         )
 
                         .fill(
@@ -3266,15 +2667,20 @@ app.get(
 
 
                 /* =================================
-                   ROW BORDER
+                   BORDER
                 ================================= */
 
                 doc
                     .rect(
+
                         margin,
+
                         y,
+
                         usableWidth,
+
                         rowHeight
+
                     )
 
                     .lineWidth(
@@ -3303,7 +2709,7 @@ app.get(
 
 
                 /* =================================
-                   ROW NUMBER
+                   PLAYER NUMBER
                 ================================= */
 
                 doc.text(
@@ -3314,7 +2720,8 @@ app.get(
 
                     x,
 
-                    y + 7,
+                    y +
+                    7,
 
                     {
 
@@ -3351,9 +2758,11 @@ app.get(
 
                         fullName,
 
-                        x + 5,
+                        x +
+                        5,
 
-                        y + 7,
+                        y +
+                        7,
 
                         {
 
@@ -3389,7 +2798,8 @@ app.get(
 
                         x,
 
-                        y + 7,
+                        y +
+                        7,
 
                         {
 
@@ -3412,7 +2822,7 @@ app.get(
 
 
                 /* =================================
-                   ATTENDANCE CELLS
+                   ATTENDANCE STATUS
                 ================================= */
 
                 sessionGroup.forEach(
@@ -3446,9 +2856,7 @@ app.get(
 
                         const status =
                             record
-
                                 ? record.attendance_status
-
                                 : "-";
 
 
@@ -3534,7 +2942,8 @@ app.get(
 
                                 x,
 
-                                y + 7,
+                                y +
+                                7,
 
                                 {
 
@@ -3727,8 +3136,7 @@ app.get(
 
 
             /* =====================================
-               SPLIT TRAINING SESSIONS
-               INTO GROUPS
+               SPLIT SESSION DATES
             ===================================== */
 
             const sessionGroups =
@@ -3759,7 +3167,7 @@ app.get(
 
 
             /* =====================================
-               NO SESSIONS
+               HANDLE NO SESSIONS
             ===================================== */
 
             if (
@@ -3785,7 +3193,9 @@ app.get(
                     groupIndex
                 ) => {
 
-                    /* NEW HORIZONTAL DATE PAGE */
+                    /* =================================
+                       NEW DATE PAGE
+                    ================================= */
 
                     if (
                         groupIndex >
@@ -3821,10 +3231,9 @@ app.get(
                             playerIndex
                         ) => {
 
-                            /* =================================
+                            /* =============================
                                NEW VERTICAL PAGE
-                               WHEN PAGE IS FULL
-                            ================================= */
+                            ============================= */
 
                             if (
                                 y +
@@ -3945,6 +3354,12 @@ app.get(
 
             if (error) {
 
+                console.error(
+                    "Settings GET Error:",
+                    error
+                );
+
+
                 return res
                     .status(500)
                     .json({
@@ -4015,6 +3430,10 @@ app.put(
             } = req.body;
 
 
+            /* =====================================
+               FIND EXISTING SETTINGS
+            ===================================== */
+
             const {
                 data: existing,
                 error: findError
@@ -4031,6 +3450,12 @@ app.put(
 
 
             if (findError) {
+
+                console.error(
+                    "Settings lookup error:",
+                    findError
+                );
+
 
                 return res
                     .status(500)
@@ -4052,7 +3477,7 @@ app.put(
 
 
             /* =====================================
-               UPDATE EXISTING SETTINGS
+               UPDATE SETTINGS
             ===================================== */
 
             if (existing) {
@@ -4142,6 +3567,12 @@ app.put(
 
             if (error) {
 
+                console.error(
+                    "Settings save error:",
+                    error
+                );
+
+
                 return res
                     .status(400)
                     .json({
@@ -4203,12 +3634,22 @@ app.get(
     "/api/health",
     (req, res) => {
 
+        const southAfricaDate =
+            getSouthAfricaDateParts();
+
+
         return res.json({
 
             success: true,
 
             message:
                 "Mafori FC Attendance Register API is running.",
+
+            date:
+                southAfricaDate.date,
+
+            timezone:
+                "Africa/Johannesburg",
 
             timestamp:
                 new Date().toISOString()
@@ -4250,7 +3691,8 @@ app.use(
     (req, res) => {
 
         if (
-            req.method !== "GET"
+            req.method !==
+            "GET"
         ) {
 
             return res
@@ -4335,10 +3777,14 @@ app.listen(
     PORT,
     () => {
 
+        const southAfricaDate =
+            getSouthAfricaDateParts();
+
+
         console.log("");
 
         console.log(
-            "====================================="
+            "========================================"
         );
 
         console.log(
@@ -4346,7 +3792,7 @@ app.listen(
         );
 
         console.log(
-            "====================================="
+            "========================================"
         );
 
         console.log(
@@ -4354,7 +3800,7 @@ app.listen(
         );
 
         console.log(
-            "✅ Supabase connected"
+            "✅ Supabase client loaded"
         );
 
         console.log(
@@ -4362,7 +3808,11 @@ app.listen(
         );
 
         console.log(
-            "✅ Monthly PDF report enabled"
+            "✅ Monthly report API loaded"
+        );
+
+        console.log(
+            "✅ PDF report enabled"
         );
 
         console.log(
@@ -4370,10 +3820,19 @@ app.listen(
         );
 
         console.log(
-            "====================================="
+            "✅ South Africa timezone enabled"
+        );
+
+        console.log(
+            `📅 Johannesburg date: ${southAfricaDate.date}`
+        );
+
+        console.log(
+            "========================================"
         );
 
         console.log("");
 
     }
 );
+
