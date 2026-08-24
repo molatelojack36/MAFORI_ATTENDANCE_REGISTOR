@@ -1,7 +1,11 @@
 /* =====================================================
-   MAFORI FC ATTENDANCE REGISTER
-   DASHBOARD PAGE
+   MAFORI FC
+   POLISHED PAGE STYLE
 ===================================================== */
+
+@import url(
+    "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+);
 
 
 /* =====================================================
@@ -24,16 +28,10 @@ html {
 }
 
 
-/* =====================================================
-   BODY
-===================================================== */
-
 body {
     min-height: 100vh;
 
-    display: flex;
-
-    background: #f4f7fc;
+    background: #071a35;
 
     color: #1e293b;
 
@@ -48,15 +46,13 @@ body {
 .sidebar {
     position: fixed;
 
-    left: 0;
     top: 0;
+    left: 0;
 
     width: 260px;
     height: 100vh;
 
-    padding:
-        24px
-        14px;
+    padding: 24px 14px;
 
     background:
         linear-gradient(
@@ -69,12 +65,7 @@ body {
 
     box-shadow:
         8px 0 30px
-        rgba(
-            15,
-            23,
-            42,
-            0.16
-        );
+        rgba(15, 23, 42, 0.18);
 
     z-index: 1000;
 
@@ -83,7 +74,7 @@ body {
 
 
 /* =====================================================
-   SIDEBAR TITLE
+   SIDEBAR LOGO
 ===================================================== */
 
 .sidebar h2 {
@@ -108,18 +99,9 @@ body {
 
     border-bottom:
         1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.08
-        );
+        rgba(255, 255, 255, 0.08);
 }
 
-
-/* =====================================================
-   FOOTBALL ICON
-===================================================== */
 
 .sidebar h2::before {
     content: "\f1e3";
@@ -132,7 +114,6 @@ body {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     width: 54px;
@@ -157,12 +138,7 @@ body {
 
     box-shadow:
         0 12px 25px
-        rgba(
-            255,
-            111,
-            0,
-            0.28
-        );
+        rgba(255, 111, 0, 0.28);
 }
 
 
@@ -178,19 +154,18 @@ body {
 .sidebar li {
     margin-bottom: 7px;
 
-    padding:
-        13px
-        15px;
-
     border-radius: 10px;
 
-    color: #cbd5e1;
+    overflow: hidden;
 
-    font-size: 14px;
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+}
 
-    font-weight: 500;
 
-    cursor: pointer;
+.sidebar li a {
+    width: 100%;
 
     display: flex;
 
@@ -198,10 +173,20 @@ body {
 
     gap: 12px;
 
+    padding:
+        13px
+        15px;
+
+    color: #cbd5e1;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
     transition:
-        background 0.25s ease,
-        color 0.25s ease,
-        transform 0.25s ease;
+        color 0.25s ease;
 }
 
 
@@ -221,19 +206,15 @@ body {
 
 .sidebar li:hover {
     background:
-        rgba(
-            255,
-            152,
-            0,
-            0.13
-        );
-
-    color: #ffffff;
+        rgba(255, 152, 0, 0.13);
 
     transform:
-        translateX(
-            3px
-        );
+        translateX(3px);
+}
+
+
+.sidebar li:hover a {
+    color: #ffffff;
 }
 
 
@@ -243,7 +224,7 @@ body {
 
 
 /* =====================================================
-   ACTIVE MENU
+   ACTIVE SIDEBAR ITEM
 ===================================================== */
 
 .sidebar li.active {
@@ -254,90 +235,72 @@ body {
             #ff6f00
         );
 
-    color: #ffffff;
-
     box-shadow:
         0 8px 20px
-        rgba(
-            255,
-            111,
-            0,
-            0.22
-        );
+        rgba(255, 111, 0, 0.22);
 }
 
 
+.sidebar li.active a,
 .sidebar li.active i {
     color: #ffffff;
 }
 
 
 /* =====================================================
-   LOGOUT MENU
+   LOGOUT
 ===================================================== */
 
-.logout-menu-item {
-    margin-top:
-        12px !important;
-
-    color:
-        #fca5a5 !important;
+.sidebar .logout-menu-item {
+    margin-top: 12px;
 }
 
 
-.logout-menu-item i {
-    color:
-        #f87171 !important;
+.sidebar .logout-menu-item a {
+    color: #fca5a5;
 }
 
 
-.logout-menu-item:hover {
+.sidebar .logout-menu-item i {
+    color: #f87171;
+}
+
+
+.sidebar .logout-menu-item:hover {
     background:
-        rgba(
-            239,
-            68,
-            68,
-            0.12
-        ) !important;
-
-    color:
-        #ffffff !important;
+        rgba(239, 68, 68, 0.12);
 }
 
 
-.logout-menu-item:hover i {
-    color:
-        #ff9800 !important;
+.sidebar .logout-menu-item:hover a {
+    color: #ffffff;
+}
+
+
+.sidebar .logout-menu-item:hover i {
+    color: #ff9800;
 }
 
 
 /* =====================================================
    MAIN CONTENT
-   MAFORI FC ORIGINAL COLOUR BACKGROUND
 ===================================================== */
 
-.main {
+.main,
+.main-content {
     position: relative;
 
     margin-left: 260px;
 
     width:
-        calc(
-            100% - 260px
-        );
+        calc(100% - 260px);
 
     min-height: 100vh;
 
     padding:
-        42px
-        50px
+        40px
+        48px
         60px;
-
-    /*
-       IMPORTANT:
-       No white gradient is placed directly
-       over the Mafori FC logo anymore.
-    */
 
     background-image:
         url("MAFORI_FC_LOGO.jpeg");
@@ -350,18 +313,18 @@ body {
 
     background-attachment: fixed;
 
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 
 /* =====================================================
-   VERY LIGHT BACKGROUND SHADE
+   LIGHT OVERLAY
 
-   This is intentionally very transparent.
-   It keeps the original logo colours visible.
+   Keeps the original Mafori FC logo colours visible.
 ===================================================== */
 
-.main::before {
+.main::before,
+.main-content::before {
     content: "";
 
     position: absolute;
@@ -369,12 +332,7 @@ body {
     inset: 0;
 
     background:
-        rgba(
-            7,
-            26,
-            53,
-            0.06
-        );
+        rgba(7, 26, 53, 0.12);
 
     pointer-events: none;
 
@@ -382,11 +340,8 @@ body {
 }
 
 
-/* =====================================================
-   KEEP MAIN CONTENT ABOVE BACKGROUND
-===================================================== */
-
-.main > * {
+.main > *,
+.main-content > * {
     position: relative;
 
     z-index: 2;
@@ -394,19 +349,84 @@ body {
 
 
 /* =====================================================
-   HEADER
+   BACK BUTTON
 ===================================================== */
 
-header {
-    position: relative;
+.back-button-container {
+    margin-bottom: 24px;
+}
 
-    z-index: 2;
 
-    display: flex;
-
-    justify-content: space-between;
+.back-button {
+    display: inline-flex;
 
     align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding:
+        11px
+        17px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.75);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    color: #071a35;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 24px
+        rgba(15, 23, 42, 0.13);
+
+    backdrop-filter:
+        blur(7px);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.back-button:hover {
+    background: #ffffff;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(15, 23, 42, 0.18);
+}
+
+
+.back-button i {
+    color: #ff7a00;
+}
+
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.header,
+header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
 
     gap: 20px;
 
@@ -414,117 +434,112 @@ header {
 }
 
 
+.header h1,
 header h1 {
-    color: #071a35;
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: #ffffff;
 
     font-size: 34px;
 
     font-weight: 800;
 
-    letter-spacing: -0.4px;
+    letter-spacing: -0.5px;
 
     text-shadow:
-        0 1px 2px
-        rgba(
-            255,
-            255,
-            255,
-            0.65
-        );
+        0 2px 7px
+        rgba(0, 0, 0, 0.38);
 }
 
 
-header p {
-    color: #475569;
+.header h1 i,
+header h1 i {
+    color: #ff9800;
+}
 
-    margin-top: 6px;
+
+.header p,
+header p {
+    margin-top: 7px;
+
+    color:
+        rgba(255, 255, 255, 0.92);
 
     font-size: 14px;
 
     font-weight: 500;
 
-    line-height: 1.6;
+    line-height: 1.7;
+
+    text-shadow:
+        0 1px 4px
+        rgba(0, 0, 0, 0.32);
 }
 
 
 /* =====================================================
-   DASHBOARD CARDS GRID
+   CARDS GRID
 ===================================================== */
 
 .cards {
-    position: relative;
-
-    z-index: 2;
-
     display: grid;
 
     grid-template-columns:
         repeat(
-            auto-fit,
-            minmax(
-                220px,
-                1fr
-            )
+            3,
+            minmax(0, 1fr)
         );
 
     gap: 20px;
+
+    align-items: stretch;
 }
 
 
 /* =====================================================
-   STAT CARDS
+   CARDS
 ===================================================== */
 
-.stat-card,
-.card {
+.card,
+.stat-card {
     position: relative;
+
+    display: block;
+
+    min-width: 0;
+
+    min-height: 190px;
+
+    padding: 28px;
 
     overflow: hidden;
 
-    min-height: 170px;
-
-    /*
-       Cards stay lightly transparent so some
-       of the logo/background can be seen.
-    */
-
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.91
-        );
+        rgba(255, 255, 255, 0.94);
 
     border:
         1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.75
-        );
+        rgba(255, 255, 255, 0.78);
 
     border-radius: 17px;
 
-    padding: 26px;
+    color: inherit;
 
-    text-align: left;
+    text-decoration: none;
 
     box-shadow:
-        0 14px 35px
-        rgba(
-            15,
-            23,
-            42,
-            0.13
-        );
+        0 15px 38px
+        rgba(15, 23, 42, 0.16);
 
     backdrop-filter:
-        blur(7px);
+        blur(8px);
 
     -webkit-backdrop-filter:
-        blur(7px);
+        blur(8px);
 
     transition:
         transform 0.25s ease,
@@ -532,28 +547,26 @@ header p {
         border-color 0.25s ease;
 
     animation:
-        dashboardFadeIn
-        0.55s
-        ease;
+        cardFadeIn
+        0.5s
+        ease both;
 }
 
 
 /* =====================================================
-   TOP ORANGE ACCENT
+   ORANGE TOP BORDER
 ===================================================== */
 
-.stat-card::before,
-.card::before {
+.card::before,
+.stat-card::before {
     content: "";
 
     position: absolute;
 
     top: 0;
-
     left: 0;
 
     width: 100%;
-
     height: 4px;
 
     background:
@@ -569,75 +582,17 @@ header p {
    CARD HOVER
 ===================================================== */
 
-.stat-card:hover,
-.card:hover {
+.card:hover,
+.stat-card:hover {
     transform:
-        translateY(
-            -4px
-        );
+        translateY(-6px);
 
     border-color:
-        rgba(
-            255,
-            152,
-            0,
-            0.35
-        );
+        rgba(255, 152, 0, 0.40);
 
     box-shadow:
-        0 20px 45px
-        rgba(
-            15,
-            23,
-            42,
-            0.18
-        );
-}
-
-
-/* =====================================================
-   CARD TITLE
-===================================================== */
-
-.stat-card h3 {
-    color: #64748b;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    margin-bottom: 12px;
-}
-
-
-/* =====================================================
-   CARD NUMBER
-===================================================== */
-
-.stat-card h1,
-.card h2 {
-    color: #071a35;
-
-    font-size: 34px;
-
-    font-weight: 800;
-
-    line-height: 1;
-
-    margin-bottom: 9px;
-}
-
-
-/* =====================================================
-   CARD LABEL
-===================================================== */
-
-.card p {
-    color: #64748b;
-
-    font-size: 14px;
-
-    font-weight: 500;
+        0 22px 50px
+        rgba(15, 23, 42, 0.22);
 }
 
 
@@ -645,98 +600,136 @@ header p {
    CARD ICON
 ===================================================== */
 
-.card > i {
-    width: 48px;
-
-    height: 48px;
+.card > i,
+.stat-card > i {
+    width: 50px;
+    height: 50px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
+
+    margin-bottom: 20px;
 
     border-radius: 14px;
 
     background: #fff7ed;
 
-    color: #ff9800;
+    color: #ff7a00;
 
     font-size: 21px;
-
-    margin-bottom: 19px;
 
     box-shadow:
         inset
         0 0 0 1px
-        rgba(
-            255,
-            152,
-            0,
-            0.10
-        );
+        rgba(255, 122, 0, 0.13);
 }
 
 
 /* =====================================================
-   WELCOME CARD
+   CARD TITLE
+===================================================== */
+
+.card h2 {
+    margin-bottom: 10px;
+
+    color: #0f172a;
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    line-height: 1.3;
+
+    text-decoration: none;
+}
+
+
+.stat-card h1 {
+    margin-bottom: 7px;
+
+    color: #071a35;
+
+    font-size: 35px;
+
+    font-weight: 800;
+}
+
+
+.stat-card h3 {
+    color: #64748b;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   CARD DESCRIPTION
+===================================================== */
+
+.card p {
+    color: #64748b;
+
+    font-size: 13px;
+
+    font-weight: 400;
+
+    line-height: 1.7;
+
+    text-decoration: none;
+}
+
+
+/* Prevent browser link styles */
+.card:link,
+.card:visited,
+.card:hover,
+.card:active {
+    text-decoration: none;
+}
+
+
+.card h2,
+.card p {
+    text-decoration: none;
+}
+
+
+/* =====================================================
+   WELCOME / INFORMATION PANEL
 ===================================================== */
 
 .welcome {
     position: relative;
 
-    z-index: 2;
-
     margin-top: 28px;
 
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.91
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.75
-        );
-
-    border-radius: 18px;
-
-    padding: 30px;
-
-    box-shadow:
-        0 16px 40px
-        rgba(
-            15,
-            23,
-            42,
-            0.13
-        );
-
-    backdrop-filter:
-        blur(7px);
-
-    -webkit-backdrop-filter:
-        blur(7px);
+    padding:
+        29px
+        30px;
 
     overflow: hidden;
 
-    animation:
-        dashboardFadeIn
-        0.65s
-        ease;
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.78);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 16px 40px
+        rgba(15, 23, 42, 0.16);
+
+    backdrop-filter:
+        blur(8px);
 }
 
-
-/* =====================================================
-   WELCOME ACCENT
-===================================================== */
 
 .welcome::before {
     content: "";
@@ -744,11 +737,9 @@ header p {
     position: absolute;
 
     top: 0;
-
     left: 0;
 
     width: 5px;
-
     height: 100%;
 
     background:
@@ -761,9 +752,9 @@ header p {
 
 
 .welcome h2 {
-    color: #071a35;
+    margin-bottom: 10px;
 
-    margin-bottom: 12px;
+    color: #071a35;
 
     font-size: 22px;
 
@@ -783,7 +774,297 @@ header p {
 
 
 /* =====================================================
-   SWEETALERT GENERAL
+   SEARCH BOX
+===================================================== */
+
+.search-box,
+.table-header {
+    margin-bottom: 20px;
+
+    padding: 18px;
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.78);
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 12px 32px
+        rgba(15, 23, 42, 0.14);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+.search-box {
+    position: relative;
+}
+
+
+.search-box > i {
+    position: absolute;
+
+    left: 36px;
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    color: #94a3b8;
+}
+
+
+.search-box input,
+.table-header input {
+    width: 100%;
+
+    padding:
+        13px
+        16px;
+
+    border:
+        1px solid #dbe1e8;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: #f8fafc;
+
+    color: #0f172a;
+
+    font-size: 13px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.search-box input {
+    padding-left: 45px;
+}
+
+
+.search-box input:focus,
+.table-header input:focus {
+    border-color: #ff9800;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255, 152, 0, 0.12);
+}
+
+
+/* =====================================================
+   TABLE CONTAINER
+===================================================== */
+
+.table-container,
+.table-card {
+    overflow: hidden;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.78);
+
+    border-radius: 17px;
+
+    box-shadow:
+        0 16px 40px
+        rgba(15, 23, 42, 0.17);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+/* =====================================================
+   SCROLLABLE TABLE
+===================================================== */
+
+.table-scroll,
+.table-container {
+    max-height:
+        calc(100vh - 285px);
+
+    overflow: auto;
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+table {
+    width: 100%;
+
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    background: transparent;
+}
+
+
+thead {
+    background: #071a35;
+
+    color: #ffffff;
+}
+
+
+thead th {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 5;
+
+    padding:
+        16px
+        18px;
+
+    background: #071a35;
+
+    color: #ffffff;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+tbody td {
+    padding:
+        15px
+        18px;
+
+    border-bottom:
+        1px solid #edf0f4;
+
+    color: #475569;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+
+tbody tr {
+    transition:
+        background 0.2s ease;
+}
+
+
+tbody tr:hover {
+    background: #fffaf4;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        6px
+        11px;
+
+    border-radius: 30px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+.active-status {
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+
+.inactive-status {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.action-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    margin-right: 6px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.action-btn:hover {
+    transform:
+        translateY(-2px);
+
+    opacity: 0.88;
+}
+
+
+.action-btn.edit,
+.edit {
+    background: #2563eb;
+}
+
+
+.action-btn.delete,
+.delete {
+    background: #dc2626;
+}
+
+
+/* =====================================================
+   SWEETALERT
 ===================================================== */
 
 .swal2-popup {
@@ -803,12 +1084,7 @@ header p {
 
     box-shadow:
         0 30px 80px
-        rgba(
-            7,
-            26,
-            53,
-            0.24
-        ) !important;
+        rgba(7, 26, 53, 0.25) !important;
 }
 
 
@@ -852,26 +1128,8 @@ header p {
 
     box-shadow:
         none !important;
-
-    transition:
-        transform
-        0.2s
-        ease !important;
 }
 
-
-.swal2-confirm:hover,
-.swal2-cancel:hover {
-    transform:
-        translateY(
-            -2px
-        );
-}
-
-
-/* =====================================================
-   SWEETALERT TIMER
-===================================================== */
 
 .swal2-timer-progress-bar {
     background:
@@ -887,14 +1145,14 @@ header p {
    LOGOUT POPUP
 ===================================================== */
 
-.dashboard-logout-content {
+.dashboard-logout-content,
+.remove-logout-popup {
     text-align: center;
 }
 
 
 .logout-ball {
     width: 58px;
-
     height: 58px;
 
     margin:
@@ -904,7 +1162,6 @@ header p {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border-radius: 18px;
@@ -919,20 +1176,11 @@ header p {
     color: #ff9800;
 
     font-size: 25px;
-
-    box-shadow:
-        inset
-        0 0 0 1px
-        rgba(
-            255,
-            152,
-            0,
-            0.12
-        );
 }
 
 
-.dashboard-logout-content p {
+.dashboard-logout-content p,
+.remove-logout-popup p {
     margin-bottom: 9px;
 
     color: #334155;
@@ -943,12 +1191,9 @@ header p {
 }
 
 
-.dashboard-logout-content span {
+.dashboard-logout-content span,
+.remove-logout-popup span {
     display: block;
-
-    max-width: 340px;
-
-    margin: auto;
 
     color: #94a3b8;
 
@@ -959,19 +1204,17 @@ header p {
 
 
 /* =====================================================
-   LOGGING OUT
+   LOGOUT LOADING
 ===================================================== */
 
-.dashboard-logout-loading {
-    padding-top: 5px;
-
+.dashboard-logout-loading,
+.remove-logout-loading {
     text-align: center;
 }
 
 
 .logout-spinner-ball {
     width: 65px;
-
     height: 65px;
 
     margin:
@@ -981,7 +1224,6 @@ header p {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border-radius: 50%;
@@ -999,177 +1241,37 @@ header p {
 
     box-shadow:
         0 13px 30px
-        rgba(
-            255,
-            111,
-            0,
-            0.28
-        );
+        rgba(255, 111, 0, 0.28);
 
     animation:
-        dashboardBallSpin
+        footballSpin
         0.8s
         linear
         infinite;
 }
 
 
-.dashboard-logout-loading p {
-    color: #64748b;
-
-    font-size: 13px;
-}
-
-
 /* =====================================================
-   PAGE ANIMATION
+   SCROLLBAR
 ===================================================== */
 
-@keyframes dashboardFadeIn {
+.sidebar::-webkit-scrollbar,
+.table-scroll::-webkit-scrollbar,
+.table-container::-webkit-scrollbar {
+    width: 7px;
 
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(
-                18px
-            );
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(
-                0
-            );
-    }
-
-}
-
-
-/* =====================================================
-   POPUP OPEN
-===================================================== */
-
-@keyframes dashboardPopupIn {
-
-    0% {
-        opacity: 0;
-
-        transform:
-            translateY(
-                28px
-            )
-            scale(
-                0.93
-            );
-    }
-
-    65% {
-        opacity: 1;
-
-        transform:
-            translateY(
-                -4px
-            )
-            scale(
-                1.01
-            );
-    }
-
-    100% {
-        opacity: 1;
-
-        transform:
-            translateY(
-                0
-            )
-            scale(
-                1
-            );
-    }
-
-}
-
-
-/* =====================================================
-   POPUP CLOSE
-===================================================== */
-
-@keyframes dashboardPopupOut {
-
-    from {
-        opacity: 1;
-
-        transform:
-            scale(
-                1
-            );
-    }
-
-    to {
-        opacity: 0;
-
-        transform:
-            scale(
-                0.94
-            );
-    }
-
-}
-
-
-/* =====================================================
-   FOOTBALL SPIN
-===================================================== */
-
-@keyframes dashboardBallSpin {
-
-    from {
-        transform:
-            rotate(
-                0deg
-            );
-    }
-
-    to {
-        transform:
-            rotate(
-                360deg
-            );
-    }
-
-}
-
-
-.dashboard-popup-in {
-    animation:
-        dashboardPopupIn
-        0.38s
-        ease-out !important;
-}
-
-
-.dashboard-popup-out {
-    animation:
-        dashboardPopupOut
-        0.24s
-        ease-in !important;
-}
-
-
-/* =====================================================
-   SIDEBAR SCROLLBAR
-===================================================== */
-
-.sidebar::-webkit-scrollbar {
-    width: 6px;
+    height: 7px;
 }
 
 
 .sidebar::-webkit-scrollbar-track {
     background: #071a35;
+}
+
+
+.table-scroll::-webkit-scrollbar-track,
+.table-container::-webkit-scrollbar-track {
+    background: #eef2f7;
 }
 
 
@@ -1180,8 +1282,56 @@ header p {
 }
 
 
-.sidebar::-webkit-scrollbar-thumb:hover {
+.table-scroll::-webkit-scrollbar-thumb,
+.table-container::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+
+    border-radius: 10px;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb:hover,
+.table-scroll::-webkit-scrollbar-thumb:hover,
+.table-container::-webkit-scrollbar-thumb:hover {
     background: #ff9800;
+}
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes cardFadeIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+@keyframes footballSpin {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
 }
 
 
@@ -1190,7 +1340,7 @@ header p {
 ===================================================== */
 
 @media (
-    max-width: 1000px
+    max-width: 1100px
 ) {
 
     .sidebar {
@@ -1198,13 +1348,12 @@ header p {
     }
 
 
-    .main {
+    .main,
+    .main-content {
         margin-left: 220px;
 
         width:
-            calc(
-                100% - 220px
-            );
+            calc(100% - 220px);
 
         padding:
             35px
@@ -1217,10 +1366,7 @@ header p {
         grid-template-columns:
             repeat(
                 2,
-                minmax(
-                    0,
-                    1fr
-                )
+                minmax(0, 1fr)
             );
     }
 
@@ -1228,23 +1374,17 @@ header p {
 
 
 /* =====================================================
-   SMALL SCREEN
+   SMALL TABLET
 ===================================================== */
 
 @media (
     max-width: 760px
 ) {
 
-    body {
-        display: block;
-    }
-
-
     .sidebar {
         position: relative;
 
         width: 100%;
-
         height: auto;
 
         padding:
@@ -1254,7 +1394,7 @@ header p {
 
 
     .sidebar h2 {
-        margin-bottom: 13px;
+        margin-bottom: 14px;
 
         padding-bottom: 13px;
 
@@ -1263,13 +1403,12 @@ header p {
 
 
     .sidebar h2::before {
-        width: 44px;
+        width: 45px;
+        height: 45px;
 
-        height: 44px;
+        margin-bottom: 9px;
 
         font-size: 21px;
-
-        margin-bottom: 10px;
     }
 
 
@@ -1287,9 +1426,14 @@ header p {
     .sidebar li {
         margin: 0;
 
+        transform: none;
+    }
+
+
+    .sidebar li a {
         padding:
-            9px
-            11px;
+            10px
+            12px;
 
         font-size: 12px;
     }
@@ -1300,7 +1444,8 @@ header p {
     }
 
 
-    .main {
+    .main,
+    .main-content {
         margin-left: 0;
 
         width: 100%;
@@ -1312,41 +1457,17 @@ header p {
             18px
             40px;
 
-        /*
-           Keep original Mafori FC
-           background colours on mobile.
-        */
-
-        background-image:
-            url("MAFORI_FC_LOGO.jpeg");
-
-        background-size: cover;
+        background-attachment: scroll;
 
         background-position: center;
 
-        background-repeat: no-repeat;
-
-        background-attachment: scroll;
+        background-size: cover;
     }
 
 
-    /*
-       Very light shade only.
-    */
-
-    .main::before {
-        background:
-            rgba(
-                7,
-                26,
-                53,
-                0.06
-            );
-    }
-
-
+    .header h1,
     header h1 {
-        font-size: 28px;
+        font-size: 29px;
     }
 
 
@@ -1354,11 +1475,15 @@ header p {
         grid-template-columns:
             repeat(
                 2,
-                minmax(
-                    0,
-                    1fr
-                )
+                minmax(0, 1fr)
             );
+    }
+
+
+    .table-container,
+    .table-scroll {
+        max-height:
+            calc(100vh - 260px);
     }
 
 }
@@ -1372,32 +1497,41 @@ header p {
     max-width: 520px
 ) {
 
-    .main {
+    .main,
+    .main-content {
         padding:
-            23px
+            22px
             13px
             35px;
-
-        background-position: center;
-
-        background-size: cover;
     }
 
 
+    .header,
     header {
+        flex-direction: column;
+
         align-items: flex-start;
 
-        flex-direction: column;
+        margin-bottom: 23px;
     }
 
 
+    .header h1,
     header h1 {
-        font-size: 26px;
+        font-size: 25px;
+
+        line-height: 1.25;
     }
 
 
+    .header p,
     header p {
-        font-size: 13px;
+        font-size: 12px;
+    }
+
+
+    .back-button {
+        width: 100%;
     }
 
 
@@ -1409,62 +1543,41 @@ header p {
     }
 
 
-    .stat-card,
-    .card {
-        min-height: 150px;
+    .card,
+    .stat-card {
+        min-height: 165px;
 
         padding: 22px;
 
         border-radius: 15px;
-
-        background:
-            rgba(
-                255,
-                255,
-                255,
-                0.90
-            );
     }
 
 
-    .stat-card h1,
     .card h2 {
-        font-size: 30px;
-    }
-
-
-    .welcome {
-        padding:
-            24px
-            20px;
-
-        border-radius: 15px;
-
-        background:
-            rgba(
-                255,
-                255,
-                255,
-                0.90
-            );
-    }
-
-
-    .welcome h2 {
         font-size: 19px;
     }
 
 
-    .welcome p {
-        font-size: 13px;
+    .card p {
+        font-size: 12px;
+    }
+
+
+    .stat-card h1 {
+        font-size: 30px;
+    }
+
+
+    .table-container,
+    .table-scroll {
+        max-height:
+            calc(100vh - 230px);
     }
 
 
     .swal2-popup {
         width:
-            calc(
-                100% - 24px
-            ) !important;
+            calc(100% - 24px) !important;
 
         padding:
             1.5em !important;
@@ -1474,14 +1587,15 @@ header p {
 
 
 /* =====================================================
-   VERY SMALL PHONES
+   VERY SMALL PHONE
 ===================================================== */
 
 @media (
     max-width: 360px
 ) {
 
-    .main {
+    .main,
+    .main-content {
         padding:
             18px
             10px
@@ -1489,22 +1603,16 @@ header p {
     }
 
 
+    .header h1,
     header h1 {
-        font-size: 23px;
+        font-size: 22px;
     }
 
 
-    .stat-card,
-    .card {
+    .card,
+    .stat-card {
         padding:
             19px
-            16px;
-    }
-
-
-    .welcome {
-        padding:
-            21px
             16px;
     }
 
