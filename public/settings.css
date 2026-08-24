@@ -2,17 +2,47 @@
    MAFORI FC SETTINGS
 ========================================== */
 
+
+/* ==========================================
+   RESET
+========================================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    font-family:
+        "Poppins",
+        sans-serif;
 }
 
+
+/* ==========================================
+   BODY
+========================================== */
+
 body {
-    font-family: 'Poppins', sans-serif;
-    background: #f4f7fb;
-    color: #1f2937;
     min-height: 100vh;
+
+    background:
+
+        linear-gradient(
+            rgba(244, 247, 251, 0.97),
+            rgba(244, 247, 251, 0.97)
+        ),
+
+        url("MAFORI_FC_LOGO.jpeg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    background-attachment: fixed;
+
+    color: #1f2937;
 }
 
 
@@ -22,26 +52,47 @@ body {
 
 .sidebar {
     position: fixed;
+
     left: 0;
     top: 0;
 
     width: 240px;
     height: 100vh;
 
-    background: linear-gradient(
-        180deg,
-        #111827,
-        #1f2937
-    );
+    background:
+
+        linear-gradient(
+            180deg,
+            #111827,
+            #1f2937
+        );
 
     color: white;
 
-    padding: 25px 15px;
+    padding:
+        25px
+        15px;
 
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
+    box-shadow:
+        4px
+        0
+        20px
+        rgba(
+            0,
+            0,
+            0,
+            0.12
+        );
 
     z-index: 1000;
+
+    overflow-y: auto;
 }
+
+
+/* ==========================================
+   SIDEBAR TITLE
+========================================== */
 
 .sidebar h2 {
     text-align: center;
@@ -51,19 +102,30 @@ body {
     margin-bottom: 35px;
 
     color: #f97316;
+
+    font-weight: 800;
 }
+
+
+/* ==========================================
+   SIDEBAR MENU
+========================================== */
 
 .sidebar ul {
     list-style: none;
 }
 
+
 .sidebar li {
     display: flex;
+
     align-items: center;
 
     gap: 14px;
 
-    padding: 14px 18px;
+    padding:
+        14px
+        18px;
 
     margin-bottom: 8px;
 
@@ -71,10 +133,18 @@ body {
 
     cursor: pointer;
 
-    transition: all 0.25s ease;
+    color: #e5e7eb;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
 
     font-size: 14px;
+
+    font-weight: 500;
 }
+
 
 .sidebar li i {
     width: 20px;
@@ -84,25 +154,82 @@ body {
     font-size: 16px;
 }
 
+
 .sidebar li:hover {
-    background: rgba(249, 115, 22, 0.15);
+    background:
+        rgba(
+            249,
+            115,
+            22,
+            0.15
+        );
 
     color: #fb923c;
 
-    transform: translateX(4px);
+    transform:
+        translateX(
+            4px
+        );
 }
 
+
+/* ==========================================
+   ACTIVE
+========================================== */
+
 .sidebar li.active {
-    background: linear-gradient(
-        135deg,
-        #f97316,
-        #ea580c
-    );
+    background:
+
+        linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c
+        );
 
     color: white;
 
     box-shadow:
-        0 6px 15px rgba(249, 115, 22, 0.30);
+        0 6px 15px
+        rgba(
+            249,
+            115,
+            22,
+            0.30
+        );
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+.logout-menu-item {
+    margin-top: 12px;
+
+    color: #fca5a5 !important;
+}
+
+
+.logout-menu-item i {
+    color: #f87171;
+}
+
+
+.logout-menu-item:hover {
+    background:
+        rgba(
+            239,
+            68,
+            68,
+            0.13
+        ) !important;
+
+    color: #ffffff !important;
+}
+
+
+.logout-menu-item:hover i {
+    color: #f97316;
 }
 
 
@@ -115,7 +242,9 @@ body {
 
     min-height: 100vh;
 
-    padding: 35px 40px;
+    padding:
+        35px
+        40px;
 
     overflow-x: auto;
 }
@@ -127,19 +256,30 @@ body {
 
 header {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     margin-bottom: 30px;
 }
 
+
 header h1 {
     font-size: 30px;
 
-    font-weight: 700;
+    font-weight: 800;
 
     color: #111827;
 }
+
+
+header h1 i {
+    color: #f97316;
+
+    margin-right: 8px;
+}
+
 
 header p {
     margin-top: 5px;
@@ -155,11 +295,16 @@ header p {
 ========================================== */
 
 .settings-grid {
-
     display: grid;
 
     grid-template-columns:
-        repeat(4, minmax(230px, 1fr));
+        repeat(
+            4,
+            minmax(
+                230px,
+                1fr
+            )
+        );
 
     gap: 20px;
 
@@ -172,31 +317,78 @@ header p {
 ========================================== */
 
 .settings-card {
+    position: relative;
 
-    background: white;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.98
+        );
 
     border-radius: 16px;
 
     padding: 24px;
 
-    border: 1px solid #e5e7eb;
+    border:
+        1px solid
+        #e5e7eb;
 
     box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.06);
+        0 8px 25px
+        rgba(
+            0,
+            0,
+            0,
+            0.06
+        );
 
     transition:
         transform 0.25s ease,
         box-shadow 0.25s ease;
 
     min-width: 0;
+
+    overflow: hidden;
 }
 
-.settings-card:hover {
 
-    transform: translateY(-5px);
+.settings-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #f97316,
+            #ea580c
+        );
+}
+
+
+.settings-card:hover {
+    transform:
+        translateY(
+            -5px
+        );
 
     box-shadow:
-        0 14px 30px rgba(0, 0, 0, 0.10);
+        0 14px 30px
+        rgba(
+            0,
+            0,
+            0,
+            0.10
+        );
 }
 
 
@@ -205,7 +397,6 @@ header p {
 ========================================== */
 
 .card-header {
-
     display: flex;
 
     align-items: center;
@@ -216,14 +407,23 @@ header p {
 
     padding-bottom: 16px;
 
-    border-bottom: 1px solid #eef0f3;
+    border-bottom:
+        1px solid
+        #eef0f3;
 }
 
-.card-header > i {
+
+/* ==========================================
+   ICON BOX
+========================================== */
+
+.icon-box {
+    flex-shrink: 0;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     width: 45px;
@@ -238,8 +438,8 @@ header p {
     font-size: 20px;
 }
 
-.card-header h2 {
 
+.card-header h2 {
     font-size: 17px;
 
     color: #111827;
@@ -247,8 +447,8 @@ header p {
     margin-bottom: 3px;
 }
 
-.card-header p {
 
+.card-header p {
     font-size: 11px;
 
     color: #9ca3af;
@@ -258,16 +458,47 @@ header p {
 
 
 /* ==========================================
+   CARD COLOURS
+========================================== */
+
+.profile-card .icon-box {
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+
+.password-card .icon-box {
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+
+.club-card .icon-box {
+    background: #fff7ed;
+
+    color: #ea580c;
+}
+
+
+.system-card .icon-box {
+    background: #ecfdf5;
+
+    color: #16a34a;
+}
+
+
+/* ==========================================
    INPUT GROUP
 ========================================== */
 
 .input-group {
-
     margin-bottom: 16px;
 }
 
-.input-group label {
 
+.input-group label {
     display: block;
 
     font-size: 12px;
@@ -279,14 +510,22 @@ header p {
     margin-bottom: 7px;
 }
 
+
+/* ==========================================
+   INPUT
+========================================== */
+
 .input-group input,
 .input-group select {
-
     width: 100%;
 
-    padding: 11px 12px;
+    padding:
+        11px
+        12px;
 
-    border: 1px solid #d1d5db;
+    border:
+        1px solid
+        #d1d5db;
 
     border-radius: 9px;
 
@@ -294,28 +533,41 @@ header p {
 
     color: #111827;
 
-    font-family: 'Poppins', sans-serif;
-
     font-size: 12px;
 
     outline: none;
 
-    transition: all 0.2s ease;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
+
+
+.input-group input:hover,
+.input-group select:hover {
+    border-color: #c4cbd5;
+}
+
 
 .input-group input:focus,
 .input-group select:focus {
-
     border-color: #f97316;
 
     background: white;
 
     box-shadow:
-        0 0 0 3px rgba(249, 115, 22, 0.10);
+        0 0 0 3px
+        rgba(
+            249,
+            115,
+            22,
+            0.10
+        );
 }
 
-.input-group input[readonly] {
 
+.input-group input[readonly] {
     background: #f3f4f6;
 
     color: #6b7280;
@@ -329,24 +581,25 @@ header p {
 ========================================== */
 
 .save-button {
-
     width: 100%;
 
-    padding: 11px 14px;
+    padding:
+        11px
+        14px;
 
     border: none;
 
     border-radius: 9px;
 
-    background: linear-gradient(
-        135deg,
-        #f97316,
-        #ea580c
-    );
+    background:
+
+        linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c
+        );
 
     color: white;
-
-    font-family: 'Poppins', sans-serif;
 
     font-size: 12px;
 
@@ -354,46 +607,72 @@ header p {
 
     cursor: pointer;
 
-    transition: all 0.25s ease;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 
     box-shadow:
-        0 5px 12px rgba(249, 115, 22, 0.20);
+        0 5px 12px
+        rgba(
+            249,
+            115,
+            22,
+            0.20
+        );
 }
 
-.save-button i {
 
+.save-button i {
     margin-right: 7px;
 }
 
-.save-button:hover {
 
-    transform: translateY(-2px);
+.save-button:hover {
+    transform:
+        translateY(
+            -2px
+        );
 
     box-shadow:
-        0 8px 18px rgba(249, 115, 22, 0.30);
+        0 8px 18px
+        rgba(
+            249,
+            115,
+            22,
+            0.30
+        );
 }
 
-.save-button:active {
 
-    transform: translateY(0);
+.save-button:active {
+    transform:
+        translateY(
+            0
+        );
+}
+
+
+.save-button:disabled {
+    background: #9ca3af;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
 }
 
 
 /* ==========================================
-   SYSTEM INFORMATION
+   SYSTEM DETAILS
 ========================================== */
 
-.system-info {
-
-    background: linear-gradient(
-        145deg,
-        #ffffff,
-        #f8fafc
-    );
+.system-details {
+    margin-top: 2px;
 }
 
-.info-row {
 
+.info-row {
     display: flex;
 
     justify-content: space-between;
@@ -402,25 +681,38 @@ header p {
 
     gap: 10px;
 
-    padding: 13px 0;
+    padding:
+        13px
+        0;
 
-    border-bottom: 1px solid #eef0f3;
+    border-bottom:
+        1px solid
+        #eef0f3;
 
     font-size: 12px;
 }
 
-.info-row:last-child {
 
+.info-row:last-child {
     border-bottom: none;
 }
 
-.info-row span {
 
+.info-row span {
     color: #6b7280;
 }
 
-.info-row strong {
 
+.info-row span i {
+    width: 18px;
+
+    margin-right: 3px;
+
+    color: #9ca3af;
+}
+
+
+.info-row strong {
     color: #111827;
 
     text-align: right;
@@ -428,8 +720,8 @@ header p {
     font-size: 11px;
 }
 
-.online {
 
+.online {
     color: #16a34a !important;
 
     display: flex;
@@ -439,8 +731,8 @@ header p {
     gap: 6px;
 }
 
-.online i {
 
+.online i {
     font-size: 7px;
 
     color: #22c55e;
@@ -448,50 +740,525 @@ header p {
 
 
 /* ==========================================
-   COLOUR ACCENTS
+   SYSTEM MESSAGE
 ========================================== */
 
-/* Profile */
+.system-message {
+    display: flex;
 
-.settings-card:nth-child(1)
-.card-header > i {
+    align-items: flex-start;
 
-    background: #eff6ff;
+    gap: 10px;
 
-    color: #2563eb;
+    margin-top: 18px;
+
+    padding:
+        13px;
+
+    border-radius: 10px;
+
+    background: #ecfdf5;
+
+    border:
+        1px solid
+        #d1fae5;
 }
 
 
-/* Password */
+.system-message > i {
+    color: #16a34a;
 
-.settings-card:nth-child(2)
-.card-header > i {
+    margin-top: 2px;
+}
 
+
+.system-message strong {
+    display: block;
+
+    color: #166534;
+
+    font-size: 11px;
+
+    margin-bottom: 3px;
+}
+
+
+.system-message p {
+    color: #4b7b5a;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* ==========================================
+   SWEETALERT
+========================================== */
+
+.swal2-popup {
+    font-family:
+        "Poppins",
+        sans-serif !important;
+
+    border-radius:
+        22px !important;
+
+    padding:
+        2em !important;
+
+    border:
+        1px solid
+        #edf0f4 !important;
+
+    box-shadow:
+        0 30px 80px
+        rgba(
+            15,
+            23,
+            42,
+            0.24
+        ) !important;
+}
+
+
+.swal2-title {
+    color: #111827 !important;
+
+    font-size: 24px !important;
+
+    font-weight: 800 !important;
+}
+
+
+.swal2-html-container {
+    font-family:
+        "Poppins",
+        sans-serif !important;
+}
+
+
+.swal2-confirm,
+.swal2-cancel {
+    border-radius:
+        10px !important;
+
+    padding:
+        11px
+        19px !important;
+
+    font-size:
+        13px !important;
+
+    font-weight:
+        600 !important;
+
+    box-shadow: none !important;
+}
+
+
+.swal2-timer-progress-bar {
+    background:
+
+        linear-gradient(
+            90deg,
+            #f97316,
+            #ea580c
+        ) !important;
+}
+
+
+/* ==========================================
+   MESSAGE POPUP
+========================================== */
+
+.settings-message-popup {
+    text-align: center;
+}
+
+
+.settings-message-popup p {
+    margin-bottom: 7px;
+
+    color: #334155;
+
+    font-size: 14px;
+}
+
+
+.settings-message-popup span {
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* ==========================================
+   CONFIRM POPUP
+========================================== */
+
+.settings-confirm-popup {
+    text-align: center;
+}
+
+
+.settings-popup-icon {
+    width: 58px;
+    height: 58px;
+
+    margin:
+        0 auto
+        16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 17px;
+
+    font-size: 24px;
+}
+
+
+.password-icon {
     background: #fef2f2;
 
     color: #dc2626;
 }
 
 
-/* Club */
+.profile-icon {
+    background: #eff6ff;
 
-.settings-card:nth-child(3)
-.card-header > i {
+    color: #2563eb;
+}
 
+
+.club-icon {
     background: #fff7ed;
 
     color: #ea580c;
 }
 
 
-/* System */
+.settings-confirm-popup p {
+    color: #64748b;
 
-.settings-card:nth-child(4)
-.card-header > i {
+    font-size: 13px;
+
+    margin-bottom: 7px;
+}
+
+
+.settings-confirm-popup strong {
+    display: block;
+
+    color: #111827;
+
+    font-size: 18px;
+}
+
+
+.settings-confirm-popup span {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* ==========================================
+   SUCCESS POPUP
+========================================== */
+
+.settings-success-popup {
+    text-align: center;
+}
+
+
+.settings-success-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        10px
+        15px;
+
+    border-radius: 30px;
+
+    background: #fff7ed;
+
+    color: #ea580c;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.password-success {
+    background: #ecfdf5;
+
+    color: #16a34a;
+}
+
+
+.settings-success-popup p {
+    margin:
+        15px
+        0;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+.settings-success-popup > span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        8px
+        13px;
+
+    border-radius: 30px;
 
     background: #ecfdf5;
 
     color: #16a34a;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   LOGOUT POPUP
+========================================== */
+
+.settings-logout-popup {
+    text-align: center;
+}
+
+
+.logout-ball {
+    width: 58px;
+    height: 58px;
+
+    margin:
+        0 auto
+        18px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 18px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    color: #f97316;
+
+    font-size: 25px;
+}
+
+
+.settings-logout-popup p {
+    margin-bottom: 9px;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.settings-logout-popup span {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* ==========================================
+   LOGOUT LOADING
+========================================== */
+
+.settings-logout-loading {
+    text-align: center;
+}
+
+
+.logout-spinner-ball {
+    width: 64px;
+    height: 64px;
+
+    margin:
+        5px auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c
+        );
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    box-shadow:
+        0 13px 30px
+        rgba(
+            249,
+            115,
+            22,
+            0.28
+        );
+
+    animation:
+        settingsBallSpin
+        0.8s
+        linear
+        infinite;
+}
+
+
+.settings-logout-loading p {
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   POPUP ANIMATIONS
+========================================== */
+
+@keyframes settingsPopupIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(
+                28px
+            )
+            scale(
+                0.93
+            );
+    }
+
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(
+                0
+            )
+            scale(
+                1
+            );
+    }
+
+}
+
+
+@keyframes settingsPopupOut {
+
+    from {
+        opacity: 1;
+    }
+
+
+    to {
+        opacity: 0;
+
+        transform:
+            scale(
+                0.94
+            );
+    }
+
+}
+
+
+@keyframes settingsBallSpin {
+
+    from {
+        transform:
+            rotate(
+                0deg
+            );
+    }
+
+
+    to {
+        transform:
+            rotate(
+                360deg
+            );
+    }
+
+}
+
+
+.settings-popup-in {
+    animation:
+        settingsPopupIn
+        0.38s
+        ease-out !important;
+}
+
+
+.settings-popup-out {
+    animation:
+        settingsPopupOut
+        0.24s
+        ease-in !important;
 }
 
 
@@ -499,41 +1266,67 @@ header p {
    RESPONSIVE
 ========================================== */
 
-@media (max-width: 1250px) {
+@media (
+    max-width: 1250px
+) {
 
     .settings-grid {
-
         grid-template-columns:
-            repeat(2, minmax(280px, 1fr));
+            repeat(
+                2,
+                minmax(
+                    280px,
+                    1fr
+                )
+            );
     }
+
 }
 
 
-@media (max-width: 800px) {
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (
+    max-width: 800px
+) {
 
     .sidebar {
-
         width: 200px;
     }
 
-    .main {
 
+    .main {
         margin-left: 200px;
 
         padding: 25px;
     }
 
-    .settings-grid {
 
-        grid-template-columns: 1fr;
+    .settings-grid {
+        grid-template-columns:
+            1fr;
     }
+
 }
 
 
-@media (max-width: 600px) {
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (
+    max-width: 600px
+) {
+
+    body {
+        background-attachment:
+            scroll;
+    }
+
 
     .sidebar {
-
         position: relative;
 
         width: 100%;
@@ -541,8 +1334,13 @@ header p {
         height: auto;
     }
 
-    .sidebar ul {
 
+    .sidebar h2 {
+        margin-bottom: 18px;
+    }
+
+
+    .sidebar ul {
         display: flex;
 
         flex-wrap: wrap;
@@ -550,22 +1348,57 @@ header p {
         gap: 5px;
     }
 
-    .sidebar li {
 
+    .sidebar li {
         margin: 0;
 
-        flex: 1;
+        flex:
+            1 1
+            130px;
+
+        justify-content: center;
+
+        font-size: 12px;
     }
+
+
+    .sidebar li:hover {
+        transform: none;
+    }
+
 
     .main {
-
         margin-left: 0;
 
-        padding: 20px;
+        padding:
+            20px
+            15px
+            35px;
     }
+
 
     header h1 {
-
         font-size: 24px;
     }
+
+
+    header p {
+        font-size: 12px;
+    }
+
+
+    .settings-card {
+        padding:
+            21px
+            18px;
+    }
+
+
+    .swal2-popup {
+        width:
+            calc(
+                100% - 24px
+            ) !important;
+    }
+
 }

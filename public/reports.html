@@ -5,83 +5,177 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Mafori FC Reports</title>
+    <title>
+        Mafori FC Reports
+    </title>
 
-    <link rel="stylesheet" href="reports.css">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <!-- REPORTS CSS -->
 
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        href="reports.css"
+    >
+
+
+    <!-- GOOGLE FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- FONT AWESOME -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
 
 </head>
 
+
 <body>
 
-    <!-- ================================
+
+    <!-- ==========================================
          SIDEBAR
-    ================================= -->
+    =========================================== -->
 
     <div class="sidebar">
 
-        <h2>⚽ MAFORI FC</h2>
+
+        <h2>
+            ⚽ MAFORI FC
+        </h2>
+
 
         <ul>
 
-            <li onclick="location.href='dashboard.html'">
+
+            <!-- DASHBOARD -->
+
+            <li
+                onclick="location.href='dashboard.html'"
+            >
+
                 <i class="fa-solid fa-house"></i>
+
                 Dashboard
+
             </li>
 
-            <li onclick="location.href='players.html'">
+
+            <!-- PLAYERS -->
+
+            <li
+                onclick="location.href='players.html'"
+            >
+
                 <i class="fa-solid fa-users"></i>
+
                 Players
+
             </li>
 
-            <li onclick="location.href='attendance.html'">
+
+            <!-- ATTENDANCE -->
+
+            <li
+                onclick="location.href='attendance.html'"
+            >
+
                 <i class="fa-solid fa-calendar-check"></i>
+
                 Attendance
+
             </li>
+
+
+            <!-- REPORTS -->
 
             <li class="active">
+
                 <i class="fa-solid fa-chart-column"></i>
+
                 Reports
+
             </li>
 
-            <li onclick="location.href='downloads.html'">
+
+            <!-- DOWNLOADS -->
+
+            <li
+                onclick="location.href='downloads.html'"
+            >
+
                 <i class="fa-solid fa-download"></i>
+
                 Downloads
+
             </li>
 
-            <li onclick="location.href='login.html'">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
+
+            <!-- SETTINGS -->
+
+            <li
+                onclick="location.href='settings.html'"
+            >
+
+                <i class="fa-solid fa-gear"></i>
+
+                Settings
+
             </li>
+
+
+            <!-- LOGOUT -->
+
+            <li
+                class="logout-menu-item"
+                onclick="logout()"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </li>
+
 
         </ul>
 
     </div>
 
 
-    <!-- ================================
+
+    <!-- ==========================================
          MAIN CONTENT
-    ================================= -->
+    =========================================== -->
 
     <div class="main">
+
+
+        <!-- ======================================
+             HEADER
+        ======================================= -->
 
         <header>
 
             <div>
 
-                <h1>Attendance Reports</h1>
+                <h1>
+                    Attendance Reports
+                </h1>
 
                 <p>
-                    Generate monthly attendance reports.
+                    Generate monthly Mafori FC attendance reports.
                 </p>
 
             </div>
@@ -89,55 +183,112 @@
         </header>
 
 
-        <!-- ================================
+
+        <!-- ======================================
              FILTERS
-        ================================= -->
+        ======================================= -->
 
         <div class="filter-box">
+
+
+            <!-- MONTH -->
 
             <div class="filter-group">
 
                 <label for="month">
+
+                    <i class="fa-solid fa-calendar"></i>
+
                     Month
+
                 </label>
+
 
                 <select id="month">
 
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
+                    <option value="1">
+                        January
+                    </option>
+
+                    <option value="2">
+                        February
+                    </option>
+
+                    <option value="3">
+                        March
+                    </option>
+
+                    <option value="4">
+                        April
+                    </option>
+
+                    <option value="5">
+                        May
+                    </option>
+
+                    <option value="6">
+                        June
+                    </option>
+
+                    <option value="7">
+                        July
+                    </option>
+
+                    <option value="8">
+                        August
+                    </option>
+
+                    <option value="9">
+                        September
+                    </option>
+
+                    <option value="10">
+                        October
+                    </option>
+
+                    <option value="11">
+                        November
+                    </option>
+
+                    <option value="12">
+                        December
+                    </option>
 
                 </select>
 
             </div>
 
 
+            <!-- YEAR -->
+
             <div class="filter-group">
 
                 <label for="year">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
                     Year
+
                 </label>
+
 
                 <input
                     type="number"
                     id="year"
                     value="2026"
                     min="2000"
-                    max="2100">
+                    max="2100"
+                >
 
             </div>
 
 
-            <button id="generateReport">
+            <!-- GENERATE -->
+
+            <button
+                id="generateReport"
+                type="button"
+            >
 
                 <i class="fa-solid fa-chart-line"></i>
 
@@ -148,15 +299,25 @@
         </div>
 
 
-        <!-- ================================
+
+        <!-- ======================================
              STATISTICS
-        ================================= -->
+        ======================================= -->
 
         <div class="stats">
 
+
             <div class="stat-card">
 
-                <h3>Total Players</h3>
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+                <h3>
+                    Total Players
+                </h3>
 
                 <h2 id="totalPlayers">
                     0
@@ -167,7 +328,15 @@
 
             <div class="stat-card">
 
-                <h3>Present</h3>
+                <div class="stat-icon present-stat">
+
+                    <i class="fa-solid fa-user-check"></i>
+
+                </div>
+
+                <h3>
+                    Present
+                </h3>
 
                 <h2 id="presentPlayers">
                     0
@@ -178,7 +347,15 @@
 
             <div class="stat-card">
 
-                <h3>Absent</h3>
+                <div class="stat-icon absent-stat">
+
+                    <i class="fa-solid fa-user-xmark"></i>
+
+                </div>
+
+                <h3>
+                    Absent
+                </h3>
 
                 <h2 id="absentPlayers">
                     0
@@ -189,7 +366,15 @@
 
             <div class="stat-card">
 
-                <h3>Excused</h3>
+                <div class="stat-icon excused-stat">
+
+                    <i class="fa-solid fa-user-clock"></i>
+
+                </div>
+
+                <h3>
+                    Excused
+                </h3>
 
                 <h2 id="excusedPlayers">
                     0
@@ -200,7 +385,15 @@
 
             <div class="stat-card">
 
-                <h3>Attendance Rate</h3>
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-percent"></i>
+
+                </div>
+
+                <h3>
+                    Attendance Rate
+                </h3>
 
                 <h2 id="attendanceRate">
                     0%
@@ -208,30 +401,43 @@
 
             </div>
 
+
         </div>
 
 
-        <!-- ================================
-             ATTENDANCE REPORT TABLE
-        ================================= -->
+
+        <!-- ======================================
+             REPORT TABLE
+        ======================================= -->
 
         <div class="table-container">
 
             <table>
 
+
                 <thead>
 
                     <tr>
 
-                        <th>#</th>
+                        <th>
+                            #
+                        </th>
 
-                        <th>Player</th>
+                        <th>
+                            Player
+                        </th>
 
-                        <th>Position</th>
+                        <th>
+                            Position
+                        </th>
 
-                        <th>Status</th>
+                        <th>
+                            Status
+                        </th>
 
-                        <th>Training Date</th>
+                        <th>
+                            Training Date
+                        </th>
 
                     </tr>
 
@@ -240,22 +446,38 @@
 
                 <tbody id="reportTable">
 
-                    <!-- JavaScript will insert report data here -->
+                    <tr>
+
+                        <td colspan="5">
+
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+
+                            Loading report...
+
+                        </td>
+
+                    </tr>
 
                 </tbody>
+
 
             </table>
 
         </div>
 
 
-        <!-- ================================
+
+        <!-- ======================================
              DOWNLOAD BUTTONS
-        ================================= -->
+        ======================================= -->
 
         <div class="buttons">
 
-            <button id="downloadPDF">
+
+            <button
+                id="downloadPDF"
+                type="button"
+            >
 
                 <i class="fa-solid fa-file-pdf"></i>
 
@@ -264,7 +486,10 @@
             </button>
 
 
-            <button id="downloadExcel">
+            <button
+                id="downloadExcel"
+                type="button"
+            >
 
                 <i class="fa-solid fa-file-csv"></i>
 
@@ -272,16 +497,29 @@
 
             </button>
 
+
         </div>
+
 
     </div>
 
 
-    <!-- ================================
-         JAVASCRIPT
-    ================================= -->
+
+    <!-- ==========================================
+         SWEETALERT
+    =========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
+
+
+    <!-- ==========================================
+         REPORTS JS
+    =========================================== -->
 
     <script src="reports.js"></script>
+
 
 </body>
 

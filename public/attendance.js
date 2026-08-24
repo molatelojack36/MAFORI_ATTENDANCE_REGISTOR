@@ -9,67 +9,39 @@
 ========================================== */
 
 const attendanceTable =
-    document.getElementById(
-        "attendanceTable"
-    );
-
+    document.getElementById("attendanceTable");
 
 const attendanceDate =
-    document.getElementById(
-        "attendanceDate"
-    );
-
+    document.getElementById("attendanceDate");
 
 const selectedDateText =
-    document.getElementById(
-        "selectedDateText"
-    );
-
+    document.getElementById("selectedDateText");
 
 const registerStatus =
-    document.getElementById(
-        "registerStatus"
-    );
-
+    document.getElementById("registerStatus");
 
 const searchPlayer =
-    document.getElementById(
-        "searchPlayer"
-    );
-
+    document.getElementById("searchPlayer");
 
 const loadAttendanceButton =
-    document.getElementById(
-        "loadAttendance"
-    );
-
+    document.getElementById("loadAttendance");
 
 const todayButton =
-    document.getElementById(
-        "todayButton"
-    );
-
+    document.getElementById("todayButton");
 
 const saveAttendanceButton =
-    document.getElementById(
-        "saveAttendance"
-    );
+    document.getElementById("saveAttendance");
 
 
 /* ==========================================
    STATE
 ========================================== */
 
-let players =
-    [];
+let players = [];
 
+let currentRegisterDate = null;
 
-let currentRegisterDate =
-    null;
-
-
-let currentSessionExists =
-    false;
+let currentSessionExists = false;
 
 
 /* ==========================================
@@ -81,26 +53,17 @@ function getSouthAfricaDate() {
     const now =
         new Date();
 
-
     const parts =
         new Intl.DateTimeFormat(
             "en-CA",
             {
-                timeZone:
-                    "Africa/Johannesburg",
-
-                year:
-                    "numeric",
-
-                month:
-                    "2-digit",
-
-                day:
-                    "2-digit"
+                timeZone: "Africa/Johannesburg",
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
             }
         )
             .formatToParts(now);
-
 
     const getPart =
         type =>
@@ -109,18 +72,14 @@ function getSouthAfricaDate() {
                     part.type === type
             )?.value;
 
-
     const year =
         getPart("year");
-
 
     const month =
         getPart("month");
 
-
     const day =
         getPart("day");
-
 
     return `${year}-${month}-${day}`;
 
@@ -131,46 +90,31 @@ function getSouthAfricaDate() {
    FORMAT DATE
 ========================================== */
 
-function formatDate(
-    dateValue
-) {
+function formatDate(dateValue) {
 
     if (!dateValue) {
-
         return "-";
-
     }
-
 
     const date =
         new Date(
-            dateValue +
-            "T00:00:00"
+            `${dateValue}T00:00:00`
         );
-
 
     if (
         Number.isNaN(
             date.getTime()
         )
     ) {
-
         return dateValue;
-
     }
-
 
     return date.toLocaleDateString(
         "en-ZA",
         {
-            day:
-                "2-digit",
-
-            month:
-                "long",
-
-            year:
-                "numeric"
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
         }
     );
 
@@ -181,9 +125,7 @@ function formatDate(
    ESCAPE HTML
 ========================================== */
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
     return String(
         value ?? ""
@@ -216,39 +158,25 @@ function escapeHtml(
    STATUS CLASS
 ========================================== */
 
-function getStatusClass(
-    status
-) {
+function getStatusClass(status) {
 
     if (
-        status ===
-        "Present"
+        status === "Present"
     ) {
-
         return "status-present";
-
     }
 
-
     if (
-        status ===
-        "Absent"
+        status === "Absent"
     ) {
-
         return "status-absent";
-
     }
-
 
     if (
-        status ===
-        "Excused"
+        status === "Excused"
     ) {
-
         return "status-excused";
-
     }
-
 
     return "status-unmarked";
 
@@ -262,30 +190,22 @@ function getStatusClass(
 function updateRegisterStatus() {
 
     if (!registerStatus) {
-
         return;
-
     }
 
-
-    if (
-        currentSessionExists
-    ) {
+    if (currentSessionExists) {
 
         registerStatus.textContent =
             "Saved Register";
-
 
         registerStatus.className =
             "register-status saved";
 
     }
-
     else {
 
         registerStatus.textContent =
             "New / Not Saved";
-
 
         registerStatus.className =
             "register-status unsaved";
@@ -299,25 +219,26 @@ function updateRegisterStatus() {
    LOAD REGISTER
 ========================================== */
 
-async function loadAttendanceRegister(
-    date
-) {
+async function loadAttendanceRegister(date) {
 
     if (!date) {
 
         await Swal.fire({
 
-            icon:
-                "warning",
+            icon: "warning",
 
-            title:
-                "Select a Date",
+            title: "Select a Date",
 
             text:
-                "Please select an attendance date."
+                "Please select an attendance date.",
+
+            confirmButtonText:
+                "Okay",
+
+            confirmButtonColor:
+                "#ff9800"
 
         });
-
 
         return;
 
@@ -331,9 +252,7 @@ async function loadAttendanceRegister(
     if (selectedDateText) {
 
         selectedDateText.textContent =
-            formatDate(
-                date
-            );
+            formatDate(date);
 
     }
 
@@ -363,7 +282,6 @@ async function loadAttendanceRegister(
 
         loadAttendanceButton.disabled =
             true;
-
 
         loadAttendanceButton.innerHTML = `
 
@@ -397,7 +315,6 @@ async function loadAttendanceRegister(
                 await response.json();
 
         }
-
         catch (error) {
 
             throw new Error(
@@ -443,13 +360,11 @@ async function loadAttendanceRegister(
 
         updateRegisterStatus();
 
-
         renderPlayers(
             players
         );
 
     }
-
     catch (error) {
 
         console.error(
@@ -483,26 +398,29 @@ async function loadAttendanceRegister(
 
         await Swal.fire({
 
-            icon:
-                "error",
+            icon: "error",
 
             title:
                 "Unable to Load Register",
 
             text:
-                error.message
+                error.message,
+
+            confirmButtonText:
+                "Okay",
+
+            confirmButtonColor:
+                "#ff9800"
 
         });
 
     }
-
     finally {
 
         if (loadAttendanceButton) {
 
             loadAttendanceButton.disabled =
                 false;
-
 
             loadAttendanceButton.innerHTML = `
 
@@ -523,14 +441,10 @@ async function loadAttendanceRegister(
    RENDER PLAYERS
 ========================================== */
 
-function renderPlayers(
-    playerList
-) {
+function renderPlayers(playerList) {
 
     if (!attendanceTable) {
-
         return;
-
     }
 
 
@@ -556,7 +470,6 @@ function renderPlayers(
             </tr>
 
         `;
-
 
         return;
 
@@ -601,9 +514,7 @@ function renderPlayers(
 
 
             const statusClass =
-                getStatusClass(
-                    status
-                );
+                getStatusClass(status);
 
 
             row.innerHTML = `
@@ -611,7 +522,6 @@ function renderPlayers(
                 <td>
                     ${index + 1}
                 </td>
-
 
                 <td>
 
@@ -639,7 +549,6 @@ function renderPlayers(
 
                 </td>
 
-
                 <td>
 
                     ${escapeHtml(
@@ -649,7 +558,6 @@ function renderPlayers(
 
                 </td>
 
-
                 <td>
 
                     <input
@@ -657,15 +565,13 @@ function renderPlayers(
                         name="attendance_${player.id}"
                         value="Present"
                         ${
-                            status ===
-                            "Present"
+                            status === "Present"
                                 ? "checked"
                                 : ""
                         }
                     >
 
                 </td>
-
 
                 <td>
 
@@ -674,15 +580,13 @@ function renderPlayers(
                         name="attendance_${player.id}"
                         value="Absent"
                         ${
-                            status ===
-                            "Absent"
+                            status === "Absent"
                                 ? "checked"
                                 : ""
                         }
                     >
 
                 </td>
-
 
                 <td>
 
@@ -691,15 +595,13 @@ function renderPlayers(
                         name="attendance_${player.id}"
                         value="Excused"
                         ${
-                            status ===
-                            "Excused"
+                            status === "Excused"
                                 ? "checked"
                                 : ""
                         }
                     >
 
                 </td>
-
 
                 <td>
 
@@ -715,7 +617,6 @@ function renderPlayers(
                     </span>
 
                 </td>
-
 
                 <td>
 
@@ -773,7 +674,6 @@ function attachEditButtons() {
                             button.dataset.playerId
                         );
 
-
                     editPlayerAttendance(
                         playerId
                     );
@@ -791,9 +691,7 @@ function attachEditButtons() {
    FIND SELECTED STATUS
 ========================================== */
 
-function getSelectedStatus(
-    playerId
-) {
+function getSelectedStatus(playerId) {
 
     const selected =
         document.querySelector(
@@ -814,26 +712,18 @@ function getSelectedStatus(
    EDIT ONE PLAYER
 ========================================== */
 
-async function editPlayerAttendance(
-    playerId
-) {
+async function editPlayerAttendance(playerId) {
 
     const player =
         players.find(
             item =>
-                Number(
-                    item.id
-                ) ===
-                Number(
-                    playerId
-                )
+                Number(item.id) ===
+                Number(playerId)
         );
 
 
     if (!player) {
-
         return;
-
     }
 
 
@@ -841,17 +731,18 @@ async function editPlayerAttendance(
 
         await Swal.fire({
 
-            icon:
-                "warning",
+            icon: "warning",
 
             title:
                 "Register Date Required",
 
             text:
-                "Please select and load an attendance date first."
+                "Please select and load an attendance date first.",
+
+            confirmButtonColor:
+                "#ff9800"
 
         });
-
 
         return;
 
@@ -874,6 +765,9 @@ async function editPlayerAttendance(
     const result =
         await Swal.fire({
 
+            icon:
+                "question",
+
             title:
                 "Edit Attendance",
 
@@ -881,21 +775,50 @@ async function editPlayerAttendance(
 
                 <div class="attendance-edit-popup">
 
-                    <p>
-                        <strong>
-                            ${escapeHtml(
-                                playerName
-                            )}
-                        </strong>
+                    <p
+                        style="
+                            margin-bottom:6px;
+                            color:#64748b;
+                        "
+                    >
+                        Update attendance for
                     </p>
 
                     <p>
+
+                        <strong
+                            style="
+                                color:#0b1f3a;
+                                font-size:18px;
+                            "
+                        >
+
+                            ${escapeHtml(
+                                playerName
+                            )}
+
+                        </strong>
+
+                    </p>
+
+                    <div
+                        style="
+                            margin-top:10px;
+                            margin-bottom:14px;
+                            color:#ff7a00;
+                            font-weight:600;
+                        "
+                    >
+
+                        <i class="fa-solid fa-calendar-day"></i>
+
                         ${escapeHtml(
                             formatDate(
                                 currentRegisterDate
                             )
                         )}
-                    </p>
+
+                    </div>
 
                     <select
                         id="editAttendanceStatus"
@@ -955,20 +878,23 @@ async function editPlayerAttendance(
 
             `,
 
-            icon:
-                "question",
-
             showCancelButton:
                 true,
 
             confirmButtonText:
-                "Update Attendance",
+                '<i class="fa-solid fa-check"></i> Update Attendance',
 
             cancelButtonText:
                 "Cancel",
 
             confirmButtonColor:
                 "#ff9800",
+
+            cancelButtonColor:
+                "#64748b",
+
+            reverseButtons:
+                true,
 
             preConfirm:
                 () => {
@@ -987,7 +913,6 @@ async function editPlayerAttendance(
                             "Please select an attendance status."
                         );
 
-
                         return false;
 
                     }
@@ -1001,19 +926,13 @@ async function editPlayerAttendance(
 
 
     if (!result.isConfirmed) {
-
         return;
-
     }
-
-
-    const newStatus =
-        result.value;
 
 
     await updatePlayerAttendance(
         player,
-        newStatus
+        result.value
     );
 
 }
@@ -1038,18 +957,30 @@ async function updatePlayerAttendance(
         title:
             "Updating Attendance",
 
-        text:
-            `Updating ${playerName}...`,
+        html: `
+
+            <div class="logout-loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <p>
+                    Updating ${escapeHtml(
+                        playerName
+                    )}...
+                </p>
+
+            </div>
+
+        `,
+
+        showConfirmButton:
+            false,
 
         allowOutsideClick:
             false,
 
-        didOpen:
-            () => {
-
-                Swal.showLoading();
-
-            }
+        allowEscapeKey:
+            false
 
     });
 
@@ -1100,7 +1031,6 @@ async function updatePlayerAttendance(
                 await response.json();
 
         }
-
         catch (error) {
 
             throw new Error(
@@ -1141,10 +1071,6 @@ async function updatePlayerAttendance(
         updateRegisterStatus();
 
 
-        /* ======================================
-           UPDATE RADIO BUTTON
-        ====================================== */
-
         const radio =
             document.querySelector(
 
@@ -1154,16 +1080,9 @@ async function updatePlayerAttendance(
 
 
         if (radio) {
-
-            radio.checked =
-                true;
-
+            radio.checked = true;
         }
 
-
-        /* ======================================
-           UPDATE STATUS LABEL
-        ====================================== */
 
         const statusLabel =
             document.getElementById(
@@ -1175,7 +1094,6 @@ async function updatePlayerAttendance(
 
             statusLabel.textContent =
                 newStatus;
-
 
             statusLabel.className =
                 `current-status ${getStatusClass(
@@ -1191,19 +1109,61 @@ async function updatePlayerAttendance(
                 "success",
 
             title:
-                "Attendance Updated",
+                "Attendance Updated!",
 
-            text:
-                result.message ||
-                `${playerName}'s attendance has been updated.`,
+            html: `
+
+                <div class="attendance-success-popup">
+
+                    <div class="success-date">
+
+                        <i class="fa-solid fa-user-check"></i>
+
+                        ${escapeHtml(
+                            playerName
+                        )}
+
+                    </div>
+
+                    <p>
+
+                        Attendance has been updated to
+
+                        <strong>
+                            ${escapeHtml(
+                                newStatus
+                            )}
+                        </strong>
+
+                        for
+
+                        ${escapeHtml(
+                            formatDate(
+                                currentRegisterDate
+                            )
+                        )}.
+
+                    </p>
+
+                </div>
+
+            `,
+
+            confirmButtonText:
+                "Done",
 
             confirmButtonColor:
-                "#ff9800"
+                "#ff9800",
+
+            timer:
+                2200,
+
+            timerProgressBar:
+                true
 
         });
 
     }
-
     catch (error) {
 
         console.error(
@@ -1221,7 +1181,10 @@ async function updatePlayerAttendance(
                 "Update Failed",
 
             text:
-                error.message
+                error.message,
+
+            confirmButtonColor:
+                "#ff9800"
 
         });
 
@@ -1247,10 +1210,12 @@ async function saveFullRegister() {
                 "Select Attendance Date",
 
             text:
-                "Please select an attendance date."
+                "Please select an attendance date.",
+
+            confirmButtonColor:
+                "#ff9800"
 
         });
-
 
         return;
 
@@ -1262,12 +1227,11 @@ async function saveFullRegister() {
 
 
     /*
-        The existing POST /api/attendance
-        is specifically designed for today's
+        The main save API saves today's
         Johannesburg register.
 
-        Previous registers should be corrected
-        with the Edit button instead.
+        Previous attendance registers
+        must be corrected using Edit.
     */
 
     if (
@@ -1284,10 +1248,12 @@ async function saveFullRegister() {
                 "Previous Register",
 
             text:
-                "Use the Edit button beside a player to correct a previous attendance register."
+                "Use the Edit button beside a player to correct a previous attendance register.",
+
+            confirmButtonColor:
+                "#ff9800"
 
         });
-
 
         return;
 
@@ -1318,7 +1284,6 @@ async function saveFullRegister() {
                         .trim()
                 );
 
-
                 return;
 
             }
@@ -1337,6 +1302,10 @@ async function saveFullRegister() {
         }
     );
 
+
+    /* ======================================
+       CHECK UNMARKED PLAYERS
+    ====================================== */
 
     if (
         unmarkedPlayers.length > 0
@@ -1365,12 +1334,28 @@ async function saveFullRegister() {
             title:
                 "Attendance Incomplete",
 
-            html:
-                `Please mark attendance for:<br><strong>${escapeHtml(
-                    preview
-                )}${escapeHtml(
-                    extra
-                )}</strong>`
+            html: `
+
+                <p>
+                    Please mark attendance for:
+                </p>
+
+                <strong>
+                    ${escapeHtml(
+                        preview
+                    )}
+                    ${escapeHtml(
+                        extra
+                    )}
+                </strong>
+
+            `,
+
+            confirmButtonText:
+                "Okay",
+
+            confirmButtonColor:
+                "#ff9800"
 
         });
 
@@ -1379,6 +1364,38 @@ async function saveFullRegister() {
 
     }
 
+
+    /* ======================================
+       COUNT STATUS VALUES
+    ====================================== */
+
+    const presentCount =
+        attendance.filter(
+            item =>
+                item.attendance_status ===
+                "Present"
+        ).length;
+
+
+    const absentCount =
+        attendance.filter(
+            item =>
+                item.attendance_status ===
+                "Absent"
+        ).length;
+
+
+    const excusedCount =
+        attendance.filter(
+            item =>
+                item.attendance_status ===
+                "Excused"
+        ).length;
+
+
+    /* ======================================
+       CONFIRM SAVE
+    ====================================== */
 
     const confirmation =
         await Swal.fire({
@@ -1387,24 +1404,105 @@ async function saveFullRegister() {
                 "question",
 
             title:
-                "Save Attendance?",
+                "Save Attendance Register?",
 
-            text:
-                `Save the register for ${formatDate(
-                    currentRegisterDate
-                )}?`,
+            html: `
+
+                <div class="attendance-confirm-popup">
+
+                    <div class="success-date">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                        ${escapeHtml(
+                            formatDate(
+                                currentRegisterDate
+                            )
+                        )}
+
+                    </div>
+
+                    <p
+                        style="
+                            margin-top:15px;
+                            margin-bottom:15px;
+                            color:#64748b;
+                        "
+                    >
+                        Please confirm today's attendance.
+                    </p>
+
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:center;
+                            gap:10px;
+                            flex-wrap:wrap;
+                        "
+                    >
+
+                        <span
+                            style="
+                                padding:7px 12px;
+                                border-radius:20px;
+                                background:#eaf8ef;
+                                color:#20863d;
+                                font-size:12px;
+                                font-weight:600;
+                            "
+                        >
+                            Present: ${presentCount}
+                        </span>
+
+                        <span
+                            style="
+                                padding:7px 12px;
+                                border-radius:20px;
+                                background:#fdeaea;
+                                color:#c62828;
+                                font-size:12px;
+                                font-weight:600;
+                            "
+                        >
+                            Absent: ${absentCount}
+                        </span>
+
+                        <span
+                            style="
+                                padding:7px 12px;
+                                border-radius:20px;
+                                background:#fff3df;
+                                color:#d97706;
+                                font-size:12px;
+                                font-weight:600;
+                            "
+                        >
+                            Excused: ${excusedCount}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `,
 
             showCancelButton:
                 true,
 
             confirmButtonText:
-                "Save Register",
+                '<i class="fa-solid fa-floppy-disk"></i> Save Register',
 
             cancelButtonText:
                 "Cancel",
 
             confirmButtonColor:
-                "#ff9800"
+                "#28a745",
+
+            cancelButtonColor:
+                "#64748b",
+
+            reverseButtons:
+                true
 
         });
 
@@ -1412,17 +1510,18 @@ async function saveFullRegister() {
     if (
         !confirmation.isConfirmed
     ) {
-
         return;
-
     }
 
+
+    /* ======================================
+       SAVING STATE
+    ====================================== */
 
     if (saveAttendanceButton) {
 
         saveAttendanceButton.disabled =
             true;
-
 
         saveAttendanceButton.innerHTML = `
 
@@ -1476,7 +1575,6 @@ async function saveFullRegister() {
                 await response.json();
 
         }
-
         catch (error) {
 
             throw new Error(
@@ -1530,25 +1628,137 @@ async function saveFullRegister() {
         );
 
 
+        /* ======================================
+           POLISHED SUCCESS POPUP
+        ====================================== */
+
         await Swal.fire({
 
             icon:
                 "success",
 
             title:
-                "Attendance Saved",
+                "Attendance Saved Successfully!",
 
-            text:
-                result.message ||
-                "Attendance register saved successfully.",
+            html: `
+
+                <div class="attendance-success-popup">
+
+                    <div class="success-date">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                        ${escapeHtml(
+                            formatDate(
+                                currentRegisterDate
+                            )
+                        )}
+
+                    </div>
+
+                    <p>
+
+                        The Mafori FC attendance register
+                        has been saved successfully.
+
+                    </p>
+
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:center;
+                            gap:8px;
+                            flex-wrap:wrap;
+                            margin-top:15px;
+                        "
+                    >
+
+                        <span
+                            style="
+                                background:#eaf8ef;
+                                color:#20863d;
+                                padding:7px 11px;
+                                border-radius:20px;
+                                font-size:12px;
+                                font-weight:600;
+                            "
+                        >
+                            ${presentCount} Present
+                        </span>
+
+                        <span
+                            style="
+                                background:#fdeaea;
+                                color:#c62828;
+                                padding:7px 11px;
+                                border-radius:20px;
+                                font-size:12px;
+                                font-weight:600;
+                            "
+                        >
+                            ${absentCount} Absent
+                        </span>
+
+                        <span
+                            style="
+                                background:#fff3df;
+                                color:#d97706;
+                                padding:7px 11px;
+                                border-radius:20px;
+                                font-size:12px;
+                                font-weight:600;
+                            "
+                        >
+                            ${excusedCount} Excused
+                        </span>
+
+                    </div>
+
+                    <div class="success-summary">
+
+                        <span>
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Register Updated
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `,
+
+            confirmButtonText:
+                "Done",
 
             confirmButtonColor:
-                "#ff9800"
+                "#ff9800",
+
+            timer:
+                2600,
+
+            timerProgressBar:
+                true,
+
+            showClass: {
+
+                popup:
+                    "swal2-show attendance-popup-in"
+
+            },
+
+            hideClass: {
+
+                popup:
+                    "swal2-hide attendance-popup-out"
+
+            }
 
         });
 
     }
-
     catch (error) {
 
         console.error(
@@ -1566,19 +1776,23 @@ async function saveFullRegister() {
                 "Unable to Save",
 
             text:
-                error.message
+                error.message,
+
+            confirmButtonText:
+                "Okay",
+
+            confirmButtonColor:
+                "#ff9800"
 
         });
 
     }
-
     finally {
 
         if (saveAttendanceButton) {
 
             saveAttendanceButton.disabled =
                 false;
-
 
             saveAttendanceButton.innerHTML = `
 
@@ -1602,9 +1816,7 @@ async function saveFullRegister() {
 function filterPlayers() {
 
     if (!searchPlayer) {
-
         return;
-
     }
 
 
@@ -1620,7 +1832,6 @@ function filterPlayers() {
             players
         );
 
-
         return;
 
     }
@@ -1632,15 +1843,10 @@ function filterPlayers() {
 
                 const searchable =
                     [
-
                         player.first_name,
-
                         player.last_name,
-
                         player.nickname,
-
                         player.position
-
                     ]
                         .filter(
                             Boolean
@@ -1665,52 +1871,146 @@ function filterPlayers() {
 
 
 /* ==========================================
-   LOGOUT
+   POLISHED LOGOUT
 ========================================== */
 
-function logout() {
+async function logout() {
+
+    const result =
+        await Swal.fire({
+
+            icon:
+                "question",
+
+            title:
+                "Logout from Mafori FC?",
+
+            html: `
+
+                <div class="logout-popup-content">
+
+                    <p>
+                        Are you sure you want to logout
+                        from the Attendance Register?
+                    </p>
+
+                    <span>
+                        Your saved attendance records
+                        will not be affected.
+                    </span>
+
+                </div>
+
+            `,
+
+            showCancelButton:
+                true,
+
+            confirmButtonText:
+                '<i class="fa-solid fa-right-from-bracket"></i> Yes, Logout',
+
+            cancelButtonText:
+                '<i class="fa-solid fa-xmark"></i> Stay Logged In',
+
+            confirmButtonColor:
+                "#ff6f00",
+
+            cancelButtonColor:
+                "#64748b",
+
+            reverseButtons:
+                true,
+
+            focusCancel:
+                true,
+
+            showClass: {
+
+                popup:
+                    "swal2-show logout-popup-in"
+
+            },
+
+            hideClass: {
+
+                popup:
+                    "swal2-hide logout-popup-out"
+
+            }
+
+        });
+
+
+    if (
+        !result.isConfirmed
+    ) {
+        return;
+    }
+
+
+    /* ======================================
+       LOGGING OUT POPUP
+    ====================================== */
 
     Swal.fire({
 
-        icon:
-            "question",
-
         title:
-            "Logout?",
+            "Logging Out...",
 
-        text:
-            "Are you sure you want to logout?",
+        html: `
 
-        showCancelButton:
-            true,
+            <div class="logout-loading">
 
-        confirmButtonText:
-            "Logout",
+                <i class="fa-solid fa-futbol fa-spin"></i>
 
-        cancelButtonText:
-            "Cancel",
+                <p>
+                    See you soon!
+                </p>
 
-        confirmButtonColor:
-            "#ff9800"
+            </div>
 
-    })
-        .then(
-            result => {
+        `,
 
-                if (
-                    result.isConfirmed
-                ) {
+        showConfirmButton:
+            false,
 
-                    sessionStorage.clear();
+        allowOutsideClick:
+            false,
+
+        allowEscapeKey:
+            false,
+
+        timer:
+            900
+
+    });
 
 
-                    window.location.href =
-                        "login.html";
+    /* ======================================
+       CLEAR LOGIN DATA
+    ====================================== */
 
-                }
+    localStorage.removeItem(
+        "user"
+    );
 
-            }
-        );
+
+    sessionStorage.clear();
+
+
+    /* ======================================
+       REDIRECT
+    ====================================== */
+
+    setTimeout(
+        () => {
+
+            window.location.href =
+                "login.html";
+
+        },
+        900
+    );
 
 }
 
@@ -1798,8 +2098,8 @@ document.addEventListener(
 
 
             /*
-                Prevent choosing a future
-                attendance date.
+                Do not allow future
+                attendance dates.
             */
 
             attendanceDate.max =

@@ -5,25 +5,152 @@
 
 
 /* ==========================================
-   LOGOUT
+   POLISHED LOGOUT
 ========================================== */
 
-function logout() {
+async function logout() {
 
-    const confirmLogout =
-        confirm(
-            "Are you sure you want to logout?"
-        );
+    const result =
+        await Swal.fire({
+
+            icon:
+                "question",
+
+            title:
+                "Logout from Mafori FC?",
+
+            html: `
+
+                <div class="downloads-logout-content">
+
+                    <div class="logout-ball">
+
+                        <i class="fa-solid fa-futbol"></i>
+
+                    </div>
+
+                    <p>
+
+                        Are you sure you want to logout
+                        from the Attendance Register?
+
+                    </p>
+
+                    <span>
+
+                        Your saved attendance records and
+                        downloaded reports will not be affected.
+
+                    </span>
+
+                </div>
+
+            `,
+
+            showCancelButton:
+                true,
+
+            confirmButtonText:
+                '<i class="fa-solid fa-right-from-bracket"></i> Yes, Logout',
+
+            cancelButtonText:
+                '<i class="fa-solid fa-xmark"></i> Stay Logged In',
+
+            confirmButtonColor:
+                "#ff7a00",
+
+            cancelButtonColor:
+                "#64748b",
+
+            reverseButtons:
+                true,
+
+            focusCancel:
+                true,
+
+            showClass: {
+
+                popup:
+                    "downloads-popup-in"
+
+            },
+
+            hideClass: {
+
+                popup:
+                    "downloads-popup-out"
+
+            }
+
+        });
 
 
     if (
-        confirmLogout
+        !result.isConfirmed
     ) {
 
-        window.location.href =
-            "login.html";
+        return;
 
     }
+
+
+    Swal.fire({
+
+        title:
+            "Logging Out...",
+
+        html: `
+
+            <div class="downloads-logout-loading">
+
+                <div class="logout-spinner-ball">
+
+                    <i class="fa-solid fa-futbol"></i>
+
+                </div>
+
+                <p>
+
+                    Signing you out of Mafori FC...
+
+                </p>
+
+            </div>
+
+        `,
+
+        showConfirmButton:
+            false,
+
+        allowOutsideClick:
+            false,
+
+        allowEscapeKey:
+            false,
+
+        timer:
+            1000
+
+    });
+
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    sessionStorage.clear();
+
+
+    setTimeout(
+        () => {
+
+            window.location.href =
+                "login.html";
+
+        },
+        1000
+    );
 
 }
 
@@ -51,11 +178,6 @@ function loadYears() {
         new Date().getFullYear();
 
 
-    /*
-        Clear existing dynamically-added
-        options where necessary.
-    */
-
     const existingValues =
         Array.from(
             yearSelect.options
@@ -66,11 +188,6 @@ function loadYears() {
                 )
         );
 
-
-    /*
-        Current year + next year +
-        previous five years.
-    */
 
     for (
         let year =
@@ -145,6 +262,39 @@ function loadCurrentMonth() {
 
     monthSelect.value =
         currentMonth;
+
+}
+
+
+/* ==========================================
+   GET MONTH NAME
+========================================== */
+
+function getMonthName(
+    month
+) {
+
+    const months = [
+
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+
+    ];
+
+
+    return months[
+        Number(month) - 1
+    ] || "";
 
 }
 
@@ -251,10 +401,25 @@ async function downloadReportFile(
         );
 
 
-        alert(
-            error.message ||
-            defaultErrorMessage
-        );
+        await Swal.fire({
+
+            icon:
+                "error",
+
+            title:
+                "Download Failed",
+
+            text:
+                error.message ||
+                defaultErrorMessage,
+
+            confirmButtonText:
+                "Okay",
+
+            confirmButtonColor:
+                "#ff7a00"
+
+        });
 
 
         return false;
@@ -310,9 +475,25 @@ if (downloadPdfButton) {
 
             if (!month) {
 
-                alert(
-                    "Please select a month."
-                );
+                await Swal.fire({
+
+                    icon:
+                        "warning",
+
+                    title:
+                        "Select a Month",
+
+                    text:
+                        "Please select a month before downloading the report.",
+
+                    confirmButtonText:
+                        "Okay",
+
+                    confirmButtonColor:
+                        "#ff7a00"
+
+                });
+
 
                 return;
 
@@ -325,9 +506,97 @@ if (downloadPdfButton) {
 
             if (!year) {
 
-                alert(
-                    "Please select a year."
+                await Swal.fire({
+
+                    icon:
+                        "warning",
+
+                    title:
+                        "Select a Year",
+
+                    text:
+                        "Please select a year before downloading the report.",
+
+                    confirmButtonText:
+                        "Okay",
+
+                    confirmButtonColor:
+                        "#ff7a00"
+
+                });
+
+
+                return;
+
+            }
+
+
+            const monthName =
+                getMonthName(
+                    month
                 );
+
+
+            const confirmation =
+                await Swal.fire({
+
+                    icon:
+                        "question",
+
+                    title:
+                        "Download PDF?",
+
+                    html: `
+
+                        <div class="download-confirmation">
+
+                            <div class="download-confirm-icon">
+
+                                <i class="fa-solid fa-file-pdf"></i>
+
+                            </div>
+
+                            <p>
+
+                                Download the Mafori FC attendance
+                                register for
+
+                            </p>
+
+                            <strong>
+
+                                ${monthName} ${year}
+
+                            </strong>
+
+                        </div>
+
+                    `,
+
+                    showCancelButton:
+                        true,
+
+                    confirmButtonText:
+                        '<i class="fa-solid fa-download"></i> Download PDF',
+
+                    cancelButtonText:
+                        "Cancel",
+
+                    confirmButtonColor:
+                        "#ff7a00",
+
+                    cancelButtonColor:
+                        "#64748b",
+
+                    reverseButtons:
+                        true
+
+                });
+
+
+            if (
+                !confirmation.isConfirmed
+            ) {
 
                 return;
 
@@ -343,24 +612,28 @@ if (downloadPdfButton) {
 
 
             downloadPdfButton.innerHTML = `
+
                 <i class="fa-solid fa-spinner fa-spin"></i>
+
                 Preparing PDF...
+
             `;
 
 
-            await downloadReportFile(
+            const success =
+                await downloadReportFile(
 
-                `/api/reports/monthly?month=${encodeURIComponent(
-                    month
-                )}&year=${encodeURIComponent(
-                    year
-                )}`,
+                    `/api/reports/monthly?month=${encodeURIComponent(
+                        month
+                    )}&year=${encodeURIComponent(
+                        year
+                    )}`,
 
-                `Mafori_FC_Attendance_${month}_${year}.pdf`,
+                    `Mafori_FC_Attendance_${month}_${year}.pdf`,
 
-                "Failed to download the PDF report."
+                    "Failed to download the PDF report."
 
-            );
+                );
 
 
             downloadPdfButton.disabled =
@@ -369,6 +642,59 @@ if (downloadPdfButton) {
 
             downloadPdfButton.innerHTML =
                 originalHTML;
+
+
+            if (success) {
+
+                await Swal.fire({
+
+                    icon:
+                        "success",
+
+                    title:
+                        "PDF Ready!",
+
+                    html: `
+
+                        <div class="download-success">
+
+                            <p>
+
+                                The Mafori FC attendance register for
+
+                            </p>
+
+                            <strong>
+
+                                ${monthName} ${year}
+
+                            </strong>
+
+                            <p>
+
+                                has been downloaded successfully.
+
+                            </p>
+
+                        </div>
+
+                    `,
+
+                    confirmButtonText:
+                        "Done",
+
+                    confirmButtonColor:
+                        "#ff7a00",
+
+                    timer:
+                        2200,
+
+                    timerProgressBar:
+                        true
+
+                });
+
+            }
 
         }
     );
@@ -422,9 +748,25 @@ if (downloadCsvButton) {
 
             if (!month) {
 
-                alert(
-                    "Please select a month."
-                );
+                await Swal.fire({
+
+                    icon:
+                        "warning",
+
+                    title:
+                        "Select a Month",
+
+                    text:
+                        "Please select a month before downloading the attendance data.",
+
+                    confirmButtonText:
+                        "Okay",
+
+                    confirmButtonColor:
+                        "#ff7a00"
+
+                });
+
 
                 return;
 
@@ -437,9 +779,96 @@ if (downloadCsvButton) {
 
             if (!year) {
 
-                alert(
-                    "Please select a year."
+                await Swal.fire({
+
+                    icon:
+                        "warning",
+
+                    title:
+                        "Select a Year",
+
+                    text:
+                        "Please select a year before downloading the attendance data.",
+
+                    confirmButtonText:
+                        "Okay",
+
+                    confirmButtonColor:
+                        "#ff7a00"
+
+                });
+
+
+                return;
+
+            }
+
+
+            const monthName =
+                getMonthName(
+                    month
                 );
+
+
+            const confirmation =
+                await Swal.fire({
+
+                    icon:
+                        "question",
+
+                    title:
+                        "Download CSV?",
+
+                    html: `
+
+                        <div class="download-confirmation">
+
+                            <div class="download-confirm-icon csv-confirm-icon">
+
+                                <i class="fa-solid fa-file-csv"></i>
+
+                            </div>
+
+                            <p>
+
+                                Download Mafori FC attendance data for
+
+                            </p>
+
+                            <strong>
+
+                                ${monthName} ${year}
+
+                            </strong>
+
+                        </div>
+
+                    `,
+
+                    showCancelButton:
+                        true,
+
+                    confirmButtonText:
+                        '<i class="fa-solid fa-file-arrow-down"></i> Download CSV',
+
+                    cancelButtonText:
+                        "Cancel",
+
+                    confirmButtonColor:
+                        "#ff7a00",
+
+                    cancelButtonColor:
+                        "#64748b",
+
+                    reverseButtons:
+                        true
+
+                });
+
+
+            if (
+                !confirmation.isConfirmed
+            ) {
 
                 return;
 
@@ -455,24 +884,28 @@ if (downloadCsvButton) {
 
 
             downloadCsvButton.innerHTML = `
+
                 <i class="fa-solid fa-spinner fa-spin"></i>
+
                 Preparing File...
+
             `;
 
 
-            await downloadReportFile(
+            const success =
+                await downloadReportFile(
 
-                `/api/reports/monthly/csv?month=${encodeURIComponent(
-                    month
-                )}&year=${encodeURIComponent(
-                    year
-                )}`,
+                    `/api/reports/monthly/csv?month=${encodeURIComponent(
+                        month
+                    )}&year=${encodeURIComponent(
+                        year
+                    )}`,
 
-                `Mafori_FC_Attendance_${month}_${year}.csv`,
+                    `Mafori_FC_Attendance_${month}_${year}.csv`,
 
-                "Failed to download the attendance spreadsheet."
+                    "Failed to download the attendance spreadsheet."
 
-            );
+                );
 
 
             downloadCsvButton.disabled =
@@ -481,6 +914,59 @@ if (downloadCsvButton) {
 
             downloadCsvButton.innerHTML =
                 originalHTML;
+
+
+            if (success) {
+
+                await Swal.fire({
+
+                    icon:
+                        "success",
+
+                    title:
+                        "CSV Ready!",
+
+                    html: `
+
+                        <div class="download-success">
+
+                            <p>
+
+                                Mafori FC attendance data for
+
+                            </p>
+
+                            <strong>
+
+                                ${monthName} ${year}
+
+                            </strong>
+
+                            <p>
+
+                                has been downloaded successfully.
+
+                            </p>
+
+                        </div>
+
+                    `,
+
+                    confirmButtonText:
+                        "Done",
+
+                    confirmButtonColor:
+                        "#ff7a00",
+
+                    timer:
+                        2200,
+
+                    timerProgressBar:
+                        true
+
+                });
+
+            }
 
         }
     );

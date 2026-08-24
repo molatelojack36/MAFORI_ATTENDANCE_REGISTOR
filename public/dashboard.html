@@ -5,23 +5,44 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Mafori FC Dashboard</title>
+    <title>
+        Mafori FC Dashboard
+    </title>
 
-    <link rel="stylesheet" href="dashboard.css">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <!-- DASHBOARD CSS -->
 
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        href="dashboard.css"
+    >
+
+
+    <!-- GOOGLE FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- FONT AWESOME -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
 
 </head>
 
+
 <body>
+
 
     <!-- ==========================================
          SIDEBAR
@@ -29,11 +50,16 @@
 
     <div class="sidebar">
 
-        <h2>⚽ MAFORI FC</h2>
+
+        <h2>
+            ⚽ MAFORI FC
+        </h2>
+
 
         <ul>
 
-            <!-- Dashboard -->
+
+            <!-- DASHBOARD -->
 
             <li class="active">
 
@@ -44,9 +70,11 @@
             </li>
 
 
-            <!-- Players -->
+            <!-- PLAYERS -->
 
-            <li onclick="location.href='players.html'">
+            <li
+                onclick="location.href='players.html'"
+            >
 
                 <i class="fa-solid fa-users"></i>
 
@@ -55,9 +83,11 @@
             </li>
 
 
-            <!-- Attendance -->
+            <!-- ATTENDANCE -->
 
-            <li onclick="location.href='attendance.html'">
+            <li
+                onclick="location.href='attendance.html'"
+            >
 
                 <i class="fa-solid fa-calendar-check"></i>
 
@@ -66,9 +96,11 @@
             </li>
 
 
-            <!-- Reports -->
+            <!-- REPORTS -->
 
-            <li onclick="location.href='reports.html'">
+            <li
+                onclick="location.href='reports.html'"
+            >
 
                 <i class="fa-solid fa-chart-column"></i>
 
@@ -77,9 +109,11 @@
             </li>
 
 
-            <!-- Downloads -->
+            <!-- DOWNLOADS -->
 
-            <li onclick="location.href='downloads.html'">
+            <li
+                onclick="location.href='downloads.html'"
+            >
 
                 <i class="fa-solid fa-download"></i>
 
@@ -88,9 +122,11 @@
             </li>
 
 
-            <!-- Settings -->
+            <!-- SETTINGS -->
 
-            <li onclick="location.href='settings.html'">
+            <li
+                onclick="location.href='settings.html'"
+            >
 
                 <i class="fa-solid fa-gear"></i>
 
@@ -99,9 +135,12 @@
             </li>
 
 
-            <!-- Logout -->
+            <!-- LOGOUT -->
 
-            <li onclick="logout()">
+            <li
+                class="logout-menu-item"
+                onclick="logout()"
+            >
 
                 <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -109,9 +148,11 @@
 
             </li>
 
+
         </ul>
 
     </div>
+
 
 
     <!-- ==========================================
@@ -120,123 +161,138 @@
 
     <div class="main">
 
+
         <!-- ======================================
              HEADER
         ======================================= -->
 
         <header>
 
-            <h1>
-                Admin Dashboard
-            </h1>
+            <div>
 
-            <p id="today"></p>
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p id="today"></p>
+
+            </div>
 
         </header>
 
 
+
         <!-- ======================================
-             TOTAL PLAYERS
+             DASHBOARD CARDS
         ======================================= -->
 
-        <div class="stat-card">
+        <div class="cards">
 
-            <h3>
-                Total Players
-            </h3>
 
-            <h1 id="totalPlayers">
-                0
-            </h1>
+            <!-- TOTAL PLAYERS -->
+
+            <div class="card">
+
+                <i class="fa-solid fa-users"></i>
+
+                <h2 id="totalPlayers">
+                    0
+                </h2>
+
+                <p>
+                    Total Players
+                </p>
+
+            </div>
+
+
+            <!-- PRESENT TODAY -->
+
+            <div class="card">
+
+                <i class="fa-solid fa-user-check"></i>
+
+                <h2 id="presentToday">
+                    0
+                </h2>
+
+                <p>
+                    Present Today
+                </p>
+
+            </div>
+
+
+            <!-- ABSENT TODAY -->
+
+            <div class="card">
+
+                <i class="fa-solid fa-user-xmark"></i>
+
+                <h2 id="absentToday">
+                    0
+                </h2>
+
+                <p>
+                    Absent Today
+                </p>
+
+            </div>
+
+
+            <!-- EXCUSED TODAY -->
+
+            <div class="card">
+
+                <i class="fa-solid fa-user-clock"></i>
+
+                <h2 id="excusedToday">
+                    0
+                </h2>
+
+                <p>
+                    Excused Today
+                </p>
+
+            </div>
+
+
+            <!-- ATTENDANCE RATE -->
+
+            <div class="card">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <h2 id="attendanceRate">
+                    0%
+                </h2>
+
+                <p>
+                    Attendance Rate
+                </p>
+
+            </div>
+
+
+            <!-- MONTHLY REPORTS -->
+
+            <div class="card">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <h2>
+                    12
+                </h2>
+
+                <p>
+                    Monthly Reports
+                </p>
+
+            </div>
+
 
         </div>
 
-
-        <!-- ======================================
-             PRESENT TODAY
-        ======================================= -->
-
-        <div class="stat-card">
-
-            <h3>
-                Present Today
-            </h3>
-
-            <h1 id="presentToday">
-                0
-            </h1>
-
-        </div>
-
-
-        <!-- ======================================
-             ABSENT TODAY
-        ======================================= -->
-
-        <div class="stat-card">
-
-            <h3>
-                Absent Today
-            </h3>
-
-            <h1 id="absentToday">
-                0
-            </h1>
-
-        </div>
-
-
-        <!-- ======================================
-             EXCUSED TODAY
-        ======================================= -->
-
-        <div class="stat-card">
-
-            <h3>
-                Excused Today
-            </h3>
-
-            <h1 id="excusedToday">
-                0
-            </h1>
-
-        </div>
-
-
-        <!-- ======================================
-             ATTENDANCE RATE
-        ======================================= -->
-
-        <div class="stat-card">
-
-            <h3>
-                Attendance Rate
-            </h3>
-
-            <h1 id="attendanceRate">
-                0%
-            </h1>
-
-        </div>
-
-
-        <!-- ======================================
-             MONTHLY REPORTS
-        ======================================= -->
-
-        <div class="card">
-
-            <i class="fa-solid fa-file-lines"></i>
-
-            <h2>
-                12
-            </h2>
-
-            <p>
-                Monthly Reports
-            </p>
-
-        </div>
 
 
         <!-- ======================================
@@ -250,23 +306,34 @@
             </h2>
 
             <p>
+
                 Manage players, record attendance,
                 generate reports and download monthly
                 attendance registers.
+
             </p>
 
         </div>
 
+
     </div>
+
 
 
     <!-- ==========================================
          JAVASCRIPT
     =========================================== -->
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
+
+
     <script src="dashboard.js"></script>
+
+
     <script src="birthdays.js"></script>
+
 
 </body>
 

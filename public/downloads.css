@@ -1,7 +1,6 @@
 /* =====================================================
    MAFORI FC ATTENDANCE REGISTER
    REPORTS / DOWNLOADS PAGE
-   MATCH MANAGEMENT STYLE
 ===================================================== */
 
 
@@ -13,7 +12,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+
+    font-family:
+        "Poppins",
+        sans-serif;
 }
 
 
@@ -55,7 +57,9 @@ body {
     width: 260px;
     height: 100vh;
 
-    padding: 24px 14px;
+    padding:
+        24px
+        14px;
 
     background:
         linear-gradient(
@@ -67,7 +71,13 @@ body {
     color: #ffffff;
 
     box-shadow:
-        8px 0 30px rgba(15, 23, 42, 0.12);
+        8px 0 30px
+        rgba(
+            15,
+            23,
+            42,
+            0.12
+        );
 
     z-index: 1000;
 
@@ -76,7 +86,7 @@ body {
 
 
 /* =====================================================
-   SIDEBAR LOGO / TITLE
+   SIDEBAR TITLE
 ===================================================== */
 
 .sidebar h2 {
@@ -86,12 +96,21 @@ body {
 
     color: #ffffff;
 
-    margin: 5px 10px 30px;
+    margin:
+        5px
+        10px
+        30px;
 
     padding-bottom: 24px;
 
     border-bottom:
-        1px solid rgba(255, 255, 255, 0.08);
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
 
     font-size: 21px;
 
@@ -100,10 +119,12 @@ body {
     letter-spacing: 0.6px;
 }
 
+
 .sidebar h2::before {
     content: "\f1e3";
 
-    font-family: "Font Awesome 6 Free";
+    font-family:
+        "Font Awesome 6 Free";
 
     font-weight: 900;
 
@@ -115,7 +136,9 @@ body {
     align-items: center;
     justify-content: center;
 
-    margin: 0 auto 14px;
+    margin:
+        0 auto
+        14px;
 
     border-radius: 17px;
 
@@ -131,7 +154,13 @@ body {
     font-size: 25px;
 
     box-shadow:
-        0 12px 25px rgba(255, 106, 0, 0.28);
+        0 12px 25px
+        rgba(
+            255,
+            106,
+            0,
+            0.28
+        );
 }
 
 
@@ -146,26 +175,21 @@ body {
     margin: 0;
 }
 
+
 .sidebar li {
     margin-bottom: 7px;
 
-    padding: 0;
-}
+    padding:
+        13px
+        15px;
 
-.sidebar li a {
     display: flex;
 
     align-items: center;
 
     gap: 12px;
 
-    width: 100%;
-
-    padding: 13px 15px;
-
     border-radius: 10px;
-
-    text-decoration: none;
 
     color: #cbd5e1;
 
@@ -173,16 +197,17 @@ body {
 
     font-weight: 500;
 
+    cursor: pointer;
+
     transition:
         background 0.25s ease,
         color 0.25s ease,
         transform 0.25s ease;
 }
 
+
 .sidebar li i {
     width: 20px;
-
-    margin-right: 0;
 
     text-align: center;
 
@@ -190,42 +215,107 @@ body {
 
     font-size: 16px;
 
-    transition: color 0.25s ease;
-}
-
-.sidebar li a:hover {
-    background: rgba(255, 138, 0, 0.12);
-
-    color: #ffffff;
-
-    transform: translateX(3px);
-}
-
-.sidebar li a:hover i {
-    color: #ff8a00;
+    transition:
+        color
+        0.25s
+        ease;
 }
 
 
-/* ACTIVE ITEM */
-
-.sidebar li.active a,
-.sidebar li.active {
+.sidebar li:hover {
     background:
-        linear-gradient(
-            135deg,
-            rgba(255, 138, 0, 0.18),
-            rgba(255, 106, 0, 0.10)
+        rgba(
+            255,
+            138,
+            0,
+            0.12
         );
 
     color: #ffffff;
 
-    border-left: 3px solid #ff8a00;
-
-    border-radius: 10px;
+    transform:
+        translateX(
+            3px
+        );
 }
+
+
+.sidebar li:hover i {
+    color: #ff8a00;
+}
+
+
+/* =====================================================
+   ACTIVE ITEM
+===================================================== */
+
+.sidebar li.active {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(
+                255,
+                138,
+                0,
+                0.18
+            ),
+            rgba(
+                255,
+                106,
+                0,
+                0.10
+            )
+        );
+
+    color: #ffffff;
+
+    border-left:
+        3px solid
+        #ff8a00;
+}
+
 
 .sidebar li.active i {
     color: #ff8a00;
+}
+
+
+/* =====================================================
+   LOGOUT ITEM
+===================================================== */
+
+.logout-menu-item {
+    margin-top:
+        12px !important;
+
+    color:
+        #fca5a5 !important;
+}
+
+
+.logout-menu-item i {
+    color:
+        #f87171 !important;
+}
+
+
+.logout-menu-item:hover {
+    background:
+        rgba(
+            239,
+            68,
+            68,
+            0.12
+        ) !important;
+
+    color:
+        #ffffff !important;
+}
+
+
+.logout-menu-item:hover i {
+    color:
+        #ff8a00 !important;
 }
 
 
@@ -236,11 +326,17 @@ body {
 .main {
     margin-left: 260px;
 
-    width: calc(100% - 260px);
+    width:
+        calc(
+            100% - 260px
+        );
 
     min-height: 100vh;
 
-    padding: 42px 50px 60px;
+    padding:
+        42px
+        50px
+        60px;
 }
 
 
@@ -251,6 +347,7 @@ body {
 header {
     margin-bottom: 30px;
 }
+
 
 header h1 {
     color: #0f172a;
@@ -263,6 +360,7 @@ header h1 {
 
     margin-bottom: 7px;
 }
+
 
 header p {
     max-width: 720px;
@@ -283,7 +381,13 @@ header p {
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fit, minmax(300px, 1fr));
+        repeat(
+            auto-fit,
+            minmax(
+                300px,
+                1fr
+            )
+        );
 
     gap: 22px;
 
@@ -300,27 +404,42 @@ header p {
 
     overflow: hidden;
 
-    background: rgba(255, 255, 255, 0.97);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.97
+        );
 
     padding: 30px;
 
-    border: 1px solid #e8edf3;
+    border:
+        1px solid
+        #e8edf3;
 
     border-radius: 18px;
 
     text-align: left;
 
     box-shadow:
-        0 16px 40px rgba(15, 23, 42, 0.07);
+        0 16px 40px
+        rgba(
+            15,
+            23,
+            42,
+            0.07
+        );
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
+        transform
+        0.25s ease,
+        box-shadow
+        0.25s ease,
+        border-color
+        0.25s ease;
 }
 
-
-/* TOP ACCENT */
 
 .download-card::before {
     content: "";
@@ -341,13 +460,29 @@ header p {
         );
 }
 
-.download-card:hover {
-    transform: translateY(-4px);
 
-    border-color: rgba(255, 138, 0, 0.22);
+.download-card:hover {
+    transform:
+        translateY(
+            -4px
+        );
+
+    border-color:
+        rgba(
+            255,
+            138,
+            0,
+            0.22
+        );
 
     box-shadow:
-        0 22px 48px rgba(15, 23, 42, 0.11);
+        0 22px 48px
+        rgba(
+            15,
+            23,
+            42,
+            0.11
+        );
 }
 
 
@@ -359,7 +494,8 @@ header p {
     width: 54px;
     height: 54px;
 
-    margin: 0 0 20px;
+    margin:
+        0 0 20px;
 
     border-radius: 15px;
 
@@ -371,8 +507,16 @@ header p {
     align-items: center;
 
     box-shadow:
-        inset 0 0 0 1px rgba(255, 138, 0, 0.10);
+        inset
+        0 0 0 1px
+        rgba(
+            255,
+            138,
+            0,
+            0.10
+        );
 }
+
 
 .download-card .icon i {
     font-size: 23px;
@@ -397,7 +541,7 @@ header p {
 
 
 /* =====================================================
-   CARD DESCRIPTION
+   DESCRIPTION
 ===================================================== */
 
 .download-card p {
@@ -421,6 +565,7 @@ header p {
     margin-bottom: 19px;
 }
 
+
 .input-group label {
     display: block;
 
@@ -441,9 +586,13 @@ header p {
 .input-group select {
     width: 100%;
 
-    padding: 13px 14px;
+    padding:
+        13px
+        14px;
 
-    border: 1px solid #dbe3ec;
+    border:
+        1px solid
+        #dbe3ec;
 
     border-radius: 10px;
 
@@ -458,14 +607,19 @@ header p {
     cursor: pointer;
 
     transition:
-        border-color 0.25s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease;
+        border-color
+        0.25s ease,
+        background
+        0.25s ease,
+        box-shadow
+        0.25s ease;
 }
+
 
 .input-group select:hover {
     border-color: #cbd5e1;
 }
+
 
 .input-group select:focus {
     border-color: #ff8a00;
@@ -473,7 +627,13 @@ header p {
     background: #ffffff;
 
     box-shadow:
-        0 0 0 3px rgba(255, 138, 0, 0.10);
+        0 0 0 3px
+        rgba(
+            255,
+            138,
+            0,
+            0.10
+        );
 }
 
 
@@ -484,7 +644,9 @@ header p {
 .download-btn {
     width: 100%;
 
-    padding: 14px 18px;
+    padding:
+        14px
+        18px;
 
     border: none;
 
@@ -508,29 +670,65 @@ header p {
     margin-top: 5px;
 
     box-shadow:
-        0 10px 25px rgba(255, 106, 0, 0.20);
+        0 10px 25px
+        rgba(
+            255,
+            106,
+            0,
+            0.20
+        );
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        filter 0.25s ease;
+        transform
+        0.25s ease,
+        box-shadow
+        0.25s ease,
+        filter
+        0.25s ease;
 }
+
 
 .download-btn i {
     margin-right: 8px;
 }
 
+
 .download-btn:hover {
-    transform: translateY(-2px);
+    transform:
+        translateY(
+            -2px
+        );
 
     box-shadow:
-        0 14px 30px rgba(255, 106, 0, 0.28);
+        0 14px 30px
+        rgba(
+            255,
+            106,
+            0,
+            0.28
+        );
 
-    filter: brightness(1.04);
+    filter:
+        brightness(
+            1.04
+        );
 }
 
+
 .download-btn:active {
-    transform: translateY(0);
+    transform:
+        translateY(
+            0
+        );
+}
+
+
+.download-btn:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
 }
 
 
@@ -543,55 +741,359 @@ header p {
 }
 
 
-/* OPTIONAL ALTERNATIVE CSV LOOK */
-
-.csv-btn.secondary {
-    background: #0b1f3a;
-
-    box-shadow:
-        0 10px 24px rgba(11, 31, 58, 0.18);
-}
-
-.csv-btn.secondary:hover {
-    box-shadow:
-        0 14px 28px rgba(11, 31, 58, 0.24);
-}
-
-
 /* =====================================================
    SWEETALERT
 ===================================================== */
 
 .swal2-popup {
-    font-family: "Poppins", sans-serif !important;
+    font-family:
+        "Poppins",
+        sans-serif !important;
 
-    border-radius: 16px !important;
+    border-radius:
+        22px !important;
+
+    padding:
+        2em !important;
+
+    border:
+        1px solid
+        #edf0f4 !important;
+
+    box-shadow:
+        0 30px 80px
+        rgba(
+            15,
+            23,
+            42,
+            0.24
+        ) !important;
+}
+
+
+.swal2-title {
+    color:
+        #0f172a !important;
+
+    font-size:
+        24px !important;
+
+    font-weight:
+        800 !important;
+}
+
+
+.swal2-html-container {
+    font-family:
+        "Poppins",
+        sans-serif !important;
+}
+
+
+.swal2-confirm,
+.swal2-cancel {
+    border-radius:
+        10px !important;
+
+    padding:
+        11px
+        19px !important;
+
+    font-family:
+        "Poppins",
+        sans-serif !important;
+
+    font-size:
+        13px !important;
+
+    font-weight:
+        600 !important;
+
+    box-shadow:
+        none !important;
+}
+
+
+.swal2-timer-progress-bar {
+    background:
+        linear-gradient(
+            90deg,
+            #ff8a00,
+            #ff6a00
+        ) !important;
 }
 
 
 /* =====================================================
-   RESPONSIVE
+   DOWNLOAD CONFIRMATION
 ===================================================== */
 
-@media (max-width: 1000px) {
+.download-confirmation {
+    text-align: center;
+}
 
-    .sidebar {
-        width: 220px;
+
+.download-confirmation p {
+    margin-bottom: 8px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+.download-confirmation strong {
+    color: #0f172a;
+
+    font-size: 18px;
+}
+
+
+.download-confirm-icon {
+    width: 56px;
+    height: 56px;
+
+    margin:
+        0 auto
+        16px;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: #fff7ed;
+
+    color: #ff7a00;
+
+    font-size: 25px;
+}
+
+
+/* =====================================================
+   DOWNLOAD SUCCESS
+===================================================== */
+
+.download-success {
+    text-align: center;
+}
+
+
+.download-success p {
+    margin:
+        7px
+        0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+.download-success strong {
+    color: #ff7a00;
+
+    font-size: 18px;
+}
+
+
+/* =====================================================
+   LOGOUT POPUP
+===================================================== */
+
+.downloads-logout-content {
+    text-align: center;
+}
+
+
+.logout-ball {
+    width: 58px;
+    height: 58px;
+
+    margin:
+        0 auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    color: #ff7a00;
+
+    font-size: 25px;
+}
+
+
+.downloads-logout-content p {
+    margin-bottom: 9px;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.downloads-logout-content span {
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   LOGGING OUT
+===================================================== */
+
+.downloads-logout-loading {
+    text-align: center;
+}
+
+
+.logout-spinner-ball {
+    width: 64px;
+    height: 64px;
+
+    margin:
+        5px auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    animation:
+        downloadsBallSpin
+        0.8s
+        linear
+        infinite;
+}
+
+
+.downloads-logout-loading p {
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   POPUP ANIMATIONS
+===================================================== */
+
+@keyframes downloadsPopupIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(
+                28px
+            )
+            scale(
+                0.93
+            );
     }
 
-    .main {
-        margin-left: 220px;
+    to {
+        opacity: 1;
 
-        width: calc(100% - 220px);
-
-        padding: 35px 28px 50px;
+        transform:
+            translateY(
+                0
+            )
+            scale(
+                1
+            );
     }
 
-    .download-container {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+}
+
+
+@keyframes downloadsPopupOut {
+
+    from {
+        opacity: 1;
+
+        transform:
+            scale(
+                1
+            );
     }
 
+    to {
+        opacity: 0;
+
+        transform:
+            scale(
+                0.94
+            );
+    }
+
+}
+
+
+@keyframes downloadsBallSpin {
+
+    from {
+        transform:
+            rotate(
+                0deg
+            );
+    }
+
+    to {
+        transform:
+            rotate(
+                360deg
+            );
+    }
+
+}
+
+
+.downloads-popup-in {
+    animation:
+        downloadsPopupIn
+        0.38s
+        ease-out !important;
+}
+
+
+.downloads-popup-out {
+    animation:
+        downloadsPopupOut
+        0.24s
+        ease-in !important;
 }
 
 
@@ -599,21 +1101,68 @@ header p {
    TABLET
 ===================================================== */
 
-@media (max-width: 760px) {
+@media (
+    max-width: 1000px
+) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+
+    .main {
+        margin-left: 220px;
+
+        width:
+            calc(
+                100% - 220px
+            );
+
+        padding:
+            35px
+            28px
+            50px;
+    }
+
+
+    .download-container {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
+    }
+
+}
+
+
+/* =====================================================
+   SMALL SCREEN
+===================================================== */
+
+@media (
+    max-width: 760px
+) {
 
     body {
         display: block;
     }
 
+
     .sidebar {
         position: relative;
 
         width: 100%;
-
         height: auto;
 
-        padding: 16px 12px;
+        padding:
+            16px
+            12px;
     }
+
 
     .sidebar h2 {
         margin-bottom: 13px;
@@ -623,6 +1172,7 @@ header p {
         border-bottom: none;
     }
 
+
     .sidebar h2::before {
         width: 44px;
         height: 44px;
@@ -631,6 +1181,7 @@ header p {
 
         margin-bottom: 10px;
     }
+
 
     .sidebar ul {
         display: flex;
@@ -642,34 +1193,38 @@ header p {
         gap: 7px;
     }
 
+
     .sidebar li {
         margin: 0;
-    }
 
-    .sidebar li a {
-        width: auto;
-
-        padding: 9px 11px;
+        padding:
+            9px
+            11px;
 
         font-size: 12px;
-
-        gap: 7px;
     }
 
-    .sidebar li a:hover {
+
+    .sidebar li:hover {
         transform: none;
     }
+
 
     .main {
         margin-left: 0;
 
         width: 100%;
 
-        padding: 28px 18px 40px;
+        padding:
+            28px
+            18px
+            40px;
     }
 
+
     .download-container {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
     }
 
 }
@@ -679,55 +1234,80 @@ header p {
    MOBILE
 ===================================================== */
 
-@media (max-width: 500px) {
+@media (
+    max-width: 500px
+) {
 
     body {
-        background-attachment: scroll;
+        background-attachment:
+            scroll;
     }
 
+
     .main {
-        padding: 23px 13px 35px;
+        padding:
+            23px
+            13px
+            35px;
     }
+
 
     header h1 {
         font-size: 27px;
     }
 
+
     header p {
         font-size: 13px;
     }
 
+
     .download-card {
-        padding: 24px 18px;
+        padding:
+            24px
+            18px;
 
         border-radius: 15px;
     }
 
+
     .download-card .icon {
         width: 48px;
         height: 48px;
-
-        font-size: 20px;
     }
+
 
     .download-card h2 {
         font-size: 19px;
     }
 
+
     .download-card p {
         font-size: 13px;
     }
 
+
     .input-group select {
-        padding: 12px 13px;
+        padding:
+            12px
+            13px;
 
         font-size: 13px;
     }
+
 
     .download-btn {
         padding: 13px;
 
         font-size: 13px;
+    }
+
+
+    .swal2-popup {
+        width:
+            calc(
+                100% - 24px
+            ) !important;
     }
 
 }

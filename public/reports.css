@@ -2,11 +2,21 @@
    MAFORI FC REPORTS
 ========================================== */
 
+
+/* ==========================================
+   RESET
+========================================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    font-family:
+        "Poppins",
+        sans-serif;
 }
+
 
 html,
 body {
@@ -14,12 +24,31 @@ body {
     height: 100%;
 }
 
+
+/* ==========================================
+   BODY
+========================================== */
+
 body {
-    font-family: "Poppins", sans-serif;
-    background: #f4f6f9;
+    background:
+
+        linear-gradient(
+            rgba(245, 247, 250, 0.97),
+            rgba(245, 247, 250, 0.97)
+        ),
+
+        url("MAFORI_FC_LOGO.jpeg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    background-attachment: fixed;
+
     color: #1f2937;
 
-    /* Prevent the entire page from scrolling */
     overflow: hidden;
 }
 
@@ -34,72 +63,205 @@ body {
     left: 0;
     top: 0;
 
-    width: 250px;
+    width: 260px;
     height: 100vh;
 
-    background: #0b1f3a;
+    background:
+
+        linear-gradient(
+            180deg,
+            #08182f 0%,
+            #0b1f3a 100%
+        );
 
     color: white;
 
-    padding: 25px 0;
+    padding:
+        24px
+        14px;
 
-    box-shadow: 3px 0 12px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        8px 0 30px
+        rgba(
+            15,
+            23,
+            42,
+            0.12
+        );
 
     z-index: 1000;
 }
 
+
+/* ==========================================
+   SIDEBAR TITLE
+========================================== */
+
 .sidebar h2 {
-    padding: 0 25px 30px;
+    text-align: center;
+
+    color: #ffffff;
+
+    margin:
+        5px
+        10px
+        30px;
+
+    padding-bottom: 24px;
+
+    border-bottom:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
 
     font-size: 21px;
 
-    font-weight: 700;
-
-    letter-spacing: 1px;
+    font-weight: 800;
 }
+
+
+/* ==========================================
+   SIDEBAR MENU
+========================================== */
 
 .sidebar ul {
     list-style: none;
-
-    padding: 0;
-
-    margin: 0;
 }
 
-.sidebar ul li {
+
+.sidebar li {
     display: flex;
 
     align-items: center;
 
-    gap: 15px;
+    gap: 12px;
 
-    padding: 15px 25px;
+    padding:
+        13px
+        15px;
+
+    margin-bottom: 7px;
+
+    border-radius: 10px;
 
     cursor: pointer;
+
+    color: #cbd5e1;
 
     font-size: 14px;
 
     font-weight: 500;
 
-    transition: all 0.3s ease;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
 }
 
-.sidebar ul li i {
+
+.sidebar li i {
     width: 20px;
 
     text-align: center;
+
+    color: #94a3b8;
 }
 
-.sidebar ul li:hover {
-    background: rgba(255, 107, 0, 0.15);
 
-    color: #ff6b00;
+.sidebar li:hover {
+    background:
+        rgba(
+            255,
+            138,
+            0,
+            0.12
+        );
+
+    color: #ffffff;
+
+    transform:
+        translateX(
+            3px
+        );
 }
 
-.sidebar ul li.active {
-    background: #ff6b00;
 
-    color: white;
+.sidebar li:hover i {
+    color: #ff8a00;
+}
+
+
+/* ==========================================
+   ACTIVE
+========================================== */
+
+.sidebar li.active {
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(
+                255,
+                138,
+                0,
+                0.18
+            ),
+            rgba(
+                255,
+                106,
+                0,
+                0.10
+            )
+        );
+
+    color: #ffffff;
+
+    border-left:
+        3px solid
+        #ff8a00;
+}
+
+
+.sidebar li.active i {
+    color: #ff8a00;
+}
+
+
+/* ==========================================
+   LOGOUT ITEM
+========================================== */
+
+.logout-menu-item {
+    margin-top: 10px;
+
+    color: #fca5a5 !important;
+}
+
+
+.logout-menu-item i {
+    color: #f87171 !important;
+}
+
+
+.logout-menu-item:hover {
+    background:
+        rgba(
+            239,
+            68,
+            68,
+            0.12
+        ) !important;
+
+    color: #ffffff !important;
+}
+
+
+.logout-menu-item:hover i {
+    color: #ff8a00 !important;
 }
 
 
@@ -108,11 +270,18 @@ body {
 ========================================== */
 
 .main {
-    margin-left: 250px;
+    margin-left: 260px;
+
+    width:
+        calc(
+            100% - 260px
+        );
 
     height: 100vh;
 
-    padding: 30px 40px;
+    padding:
+        30px
+        40px;
 
     display: flex;
 
@@ -132,18 +301,20 @@ header {
     margin-bottom: 20px;
 }
 
+
 header h1 {
-    color: #0b1f3a;
+    color: #0f172a;
 
-    font-size: 28px;
+    font-size: 30px;
 
-    font-weight: 700;
+    font-weight: 800;
 
     margin-bottom: 5px;
 }
 
+
 header p {
-    color: #6b7280;
+    color: #64748b;
 
     font-size: 14px;
 }
@@ -162,16 +333,38 @@ header p {
 
     gap: 20px;
 
-    background: white;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.97
+        );
 
     padding: 20px;
 
-    border-radius: 12px;
+    border-radius: 14px;
 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    border:
+        1px solid
+        #e8edf3;
+
+    box-shadow:
+        0 10px 30px
+        rgba(
+            15,
+            23,
+            42,
+            0.06
+        );
 
     margin-bottom: 20px;
 }
+
+
+/* ==========================================
+   FILTER GROUP
+========================================== */
 
 .filter-group {
     display: flex;
@@ -181,77 +374,130 @@ header p {
     gap: 7px;
 }
 
+
 .filter-group label {
-    color: #0b1f3a;
+    color: #334155;
 
     font-size: 13px;
 
-    font-weight: 600;
+    font-weight: 700;
 }
+
+
+.filter-group label i {
+    color: #ff7a00;
+
+    margin-right: 5px;
+}
+
 
 .filter-group select,
 .filter-group input {
-    height: 42px;
+    height: 43px;
 
     min-width: 160px;
 
-    padding: 0 12px;
+    padding:
+        0
+        12px;
 
-    border: 1px solid #d1d5db;
+    border:
+        1px solid
+        #dbe3ec;
 
-    border-radius: 7px;
+    border-radius: 9px;
 
-    background: white;
+    background: #f8fafc;
 
-    color: #1f2937;
-
-    font-family: "Poppins", sans-serif;
+    color: #0f172a;
 
     outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
+
 
 .filter-group select:focus,
 .filter-group input:focus {
-    border-color: #ff6b00;
+    border-color: #ff8a00;
+
+    background: white;
 
     box-shadow:
-        0 0 0 3px rgba(255, 107, 0, 0.12);
+        0 0 0 3px
+        rgba(
+            255,
+            138,
+            0,
+            0.10
+        );
 }
 
 
 /* ==========================================
-   GENERATE REPORT BUTTON
+   GENERATE BUTTON
 ========================================== */
 
 #generateReport {
-    height: 42px;
+    height: 43px;
 
-    padding: 0 20px;
+    padding:
+        0
+        20px;
 
     border: none;
 
-    border-radius: 7px;
+    border-radius: 9px;
 
-    background: #ff6b00;
+    background:
+
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
 
     color: white;
 
-    font-family: "Poppins", sans-serif;
-
     font-size: 13px;
 
-    font-weight: 600;
+    font-weight: 700;
 
     cursor: pointer;
 
-    transition: all 0.3s ease;
+    box-shadow:
+        0 9px 20px
+        rgba(
+            255,
+            106,
+            0,
+            0.18
+        );
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
+
 
 #generateReport:hover {
-    background: #e85d00;
+    transform:
+        translateY(
+            -2px
+        );
 
-    transform: translateY(-1px);
+    box-shadow:
+        0 13px 26px
+        rgba(
+            255,
+            106,
+            0,
+            0.27
+        );
 }
+
 
 #generateReport:disabled {
     background: #9ca3af;
@@ -259,11 +505,13 @@ header p {
     cursor: not-allowed;
 
     transform: none;
+
+    box-shadow: none;
 }
 
 
 /* ==========================================
-   STATISTICS
+   STATS
 ========================================== */
 
 .stats {
@@ -272,54 +520,114 @@ header p {
     display: grid;
 
     grid-template-columns:
-        repeat(5, 1fr);
+        repeat(
+            5,
+            1fr
+        );
 
     gap: 15px;
 
     margin-bottom: 20px;
 }
 
+
+/* ==========================================
+   STAT CARD
+========================================== */
+
 .stat-card {
+    position: relative;
+
     background: white;
 
-    padding: 17px;
+    padding:
+        16px
+        14px;
 
-    border-radius: 10px;
+    border-radius: 12px;
+
+    border:
+        1px solid
+        #e8edf3;
 
     box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.06);
+        0 8px 22px
+        rgba(
+            15,
+            23,
+            42,
+            0.06
+        );
 
     text-align: center;
 }
 
-.stat-card h3 {
-    color: #6b7280;
 
-    font-size: 12px;
+.stat-icon {
+    width: 34px;
+    height: 34px;
 
-    font-weight: 500;
+    display: flex;
 
-    margin-bottom: 7px;
+    align-items: center;
+    justify-content: center;
+
+    margin:
+        0 auto
+        8px;
+
+    border-radius: 10px;
+
+    background: #fff7ed;
+
+    color: #ff7a00;
 }
 
+
+.present-stat {
+    background: #eaf8ef;
+
+    color: #16a34a;
+}
+
+
+.absent-stat {
+    background: #fdeaea;
+
+    color: #dc2626;
+}
+
+
+.excused-stat {
+    background: #fff3df;
+
+    color: #d97706;
+}
+
+
+.stat-card h3 {
+    color: #64748b;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    margin-bottom: 5px;
+}
+
+
 .stat-card h2 {
-    color: #0b1f3a;
+    color: #0f172a;
 
-    font-size: 23px;
+    font-size: 22px;
 
-    font-weight: 700;
+    font-weight: 800;
 }
 
 
 /* ==========================================
    TABLE CONTAINER
-   ========================================== */
-
-/*
-   THIS IS THE IMPORTANT PART.
-
-   Only this section scrolls.
-*/
+========================================== */
 
 .table-container {
     flex: 1;
@@ -334,8 +642,18 @@ header p {
 
     border-radius: 12px;
 
+    border:
+        1px solid
+        #e8edf3;
+
     box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.06);
+        0 8px 25px
+        rgba(
+            15,
+            23,
+            42,
+            0.06
+        );
 
     position: relative;
 }
@@ -354,10 +672,6 @@ header p {
 }
 
 
-/* ==========================================
-   TABLE HEADER
-========================================== */
-
 .table-container thead {
     position: sticky;
 
@@ -366,39 +680,41 @@ header p {
     z-index: 10;
 }
 
+
 .table-container th {
     background: #0b1f3a;
 
     color: white;
 
-    padding: 14px 15px;
+    padding:
+        14px
+        15px;
 
     text-align: left;
 
     font-size: 13px;
 
     font-weight: 600;
-
-    white-space: nowrap;
 }
 
 
-/* ==========================================
-   TABLE BODY
-========================================== */
-
 .table-container td {
-    padding: 13px 15px;
+    padding:
+        13px
+        15px;
 
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom:
+        1px solid
+        #e5e7eb;
 
     font-size: 13px;
 
     color: #374151;
 }
 
+
 .table-container tbody tr:hover {
-    background: #f9fafb;
+    background: #fff8ef;
 }
 
 
@@ -409,19 +725,21 @@ header p {
 .present {
     color: #16a34a !important;
 
-    font-weight: 600;
+    font-weight: 700;
 }
+
 
 .absent {
     color: #dc2626 !important;
 
-    font-weight: 600;
+    font-weight: 700;
 }
+
 
 .excused {
     color: #d97706 !important;
 
-    font-weight: 600;
+    font-weight: 700;
 }
 
 
@@ -441,50 +759,415 @@ header p {
     margin-top: 18px;
 }
 
+
 .buttons button {
-    padding: 11px 18px;
+    padding:
+        11px
+        18px;
 
     border: none;
 
-    border-radius: 7px;
+    border-radius: 9px;
 
     color: white;
 
-    font-family: "Poppins", sans-serif;
-
     font-size: 13px;
 
-    font-weight: 600;
+    font-weight: 700;
 
     cursor: pointer;
 
-    transition: all 0.3s ease;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 
 /* PDF */
 
 #downloadPDF {
-    background: #dc2626;
+    background:
+
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #b91c1c
+        );
 }
 
-#downloadPDF:hover {
-    background: #b91c1c;
 
-    transform: translateY(-1px);
+#downloadPDF:hover {
+    transform:
+        translateY(
+            -2px
+        );
+
+    box-shadow:
+        0 10px 22px
+        rgba(
+            220,
+            38,
+            38,
+            0.25
+        );
 }
 
 
 /* CSV */
 
 #downloadExcel {
-    background: #16a34a;
+    background:
+
+        linear-gradient(
+            135deg,
+            #22c55e,
+            #15803d
+        );
 }
 
-#downloadExcel:hover {
-    background: #15803d;
 
-    transform: translateY(-1px);
+#downloadExcel:hover {
+    transform:
+        translateY(
+            -2px
+        );
+
+    box-shadow:
+        0 10px 22px
+        rgba(
+            22,
+            163,
+            74,
+            0.24
+        );
+}
+
+
+/* ==========================================
+   SWEETALERT
+========================================== */
+
+.swal2-popup {
+    font-family:
+        "Poppins",
+        sans-serif !important;
+
+    border-radius:
+        22px !important;
+
+    padding:
+        2em !important;
+
+    border:
+        1px solid
+        #edf0f4 !important;
+
+    box-shadow:
+        0 30px 80px
+        rgba(
+            15,
+            23,
+            42,
+            0.24
+        ) !important;
+}
+
+
+.swal2-title {
+    color: #0f172a !important;
+
+    font-size: 24px !important;
+
+    font-weight: 800 !important;
+}
+
+
+.swal2-confirm,
+.swal2-cancel {
+    border-radius: 10px !important;
+
+    padding:
+        11px
+        19px !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
+
+    box-shadow: none !important;
+}
+
+
+.swal2-timer-progress-bar {
+    background:
+
+        linear-gradient(
+            90deg,
+            #ff8a00,
+            #ff6a00
+        ) !important;
+}
+
+
+/* ==========================================
+   LOGOUT POPUP
+========================================== */
+
+.reports-logout-popup {
+    text-align: center;
+}
+
+
+.logout-ball {
+    width: 58px;
+    height: 58px;
+
+    margin:
+        0 auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    color: #ff7a00;
+
+    font-size: 25px;
+}
+
+
+.reports-logout-popup p {
+    margin-bottom: 9px;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.reports-logout-popup span {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+
+/* ==========================================
+   LOGOUT LOADING
+========================================== */
+
+.reports-logout-loading {
+    text-align: center;
+}
+
+
+.logout-spinner-ball {
+    width: 64px;
+    height: 64px;
+
+    margin:
+        5px auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: white;
+
+    font-size: 28px;
+
+    animation:
+        reportsBallSpin
+        0.8s
+        linear
+        infinite;
+}
+
+
+/* ==========================================
+   DOWNLOAD POPUP
+========================================== */
+
+.report-download-popup,
+.report-success-popup {
+    text-align: center;
+}
+
+
+.report-download-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin:
+        0 auto
+        15px;
+
+    border-radius: 17px;
+
+    font-size: 25px;
+}
+
+
+.pdf-icon {
+    background: #fdeaea;
+
+    color: #dc2626;
+}
+
+
+.csv-icon {
+    background: #eaf8ef;
+
+    color: #16a34a;
+}
+
+
+.report-download-popup p {
+    color: #64748b;
+
+    font-size: 13px;
+
+    margin-bottom: 7px;
+}
+
+
+.report-download-popup strong,
+.report-success-popup strong {
+    color: #ff7a00;
+
+    font-size: 18px;
+}
+
+
+.report-success-popup p {
+    margin-top: 10px;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+
+@keyframes reportsBallSpin {
+
+    from {
+        transform:
+            rotate(
+                0deg
+            );
+    }
+
+
+    to {
+        transform:
+            rotate(
+                360deg
+            );
+    }
+
+}
+
+
+@keyframes reportsPopupIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(
+                28px
+            )
+            scale(
+                0.93
+            );
+    }
+
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(
+                0
+            )
+            scale(
+                1
+            );
+    }
+
+}
+
+
+@keyframes reportsPopupOut {
+
+    from {
+        opacity: 1;
+    }
+
+
+    to {
+        opacity: 0;
+
+        transform:
+            scale(
+                0.94
+            );
+    }
+
+}
+
+
+.reports-popup-in {
+    animation:
+        reportsPopupIn
+        0.38s
+        ease-out !important;
+}
+
+
+.reports-popup-out {
+    animation:
+        reportsPopupOut
+        0.24s
+        ease-in !important;
 }
 
 
@@ -498,11 +1181,11 @@ header p {
     height: 9px;
 }
 
+
 .table-container::-webkit-scrollbar-track {
     background: #f1f5f9;
-
-    border-radius: 10px;
 }
+
 
 .table-container::-webkit-scrollbar-thumb {
     background: #9ca3af;
@@ -510,13 +1193,9 @@ header p {
     border-radius: 10px;
 }
 
-.table-container::-webkit-scrollbar-thumb:hover {
-    background: #6b7280;
-}
-
 
 /* ==========================================
-   TABLE EMPTY MESSAGE
+   EMPTY MESSAGE
 ========================================== */
 
 .table-container td[colspan] {
@@ -532,11 +1211,16 @@ header p {
    RESPONSIVE
 ========================================== */
 
-@media (max-width: 1100px) {
+@media (
+    max-width: 1100px
+) {
 
     .stats {
         grid-template-columns:
-            repeat(3, 1fr);
+            repeat(
+                3,
+                1fr
+            );
     }
 
 }
@@ -546,11 +1230,14 @@ header p {
    TABLET
 ========================================== */
 
-@media (max-width: 800px) {
+@media (
+    max-width: 800px
+) {
 
     body {
         overflow: auto;
     }
+
 
     .sidebar {
         position: relative;
@@ -559,14 +1246,18 @@ header p {
 
         height: auto;
 
-        padding: 15px 0;
+        padding:
+            15px
+            10px;
     }
+
 
     .sidebar h2 {
-        text-align: center;
-
         padding-bottom: 15px;
+
+        margin-bottom: 12px;
     }
+
 
     .sidebar ul {
         display: flex;
@@ -576,23 +1267,32 @@ header p {
         justify-content: center;
     }
 
-    .sidebar ul li {
-        padding: 10px 13px;
+
+    .sidebar li {
+        padding:
+            10px
+            13px;
 
         font-size: 12px;
     }
 
+
     .main {
         margin-left: 0;
 
+        width: 100%;
+
         height: auto;
 
-        min-height: calc(100vh - 120px);
+        min-height: 100vh;
 
-        padding: 25px 20px;
+        padding:
+            25px
+            20px;
 
         overflow: visible;
     }
+
 
     .table-container {
         height: 400px;
@@ -600,9 +1300,13 @@ header p {
         flex: none;
     }
 
+
     .stats {
         grid-template-columns:
-            repeat(2, 1fr);
+            repeat(
+                2,
+                1fr
+            );
     }
 
 }
@@ -612,19 +1316,26 @@ header p {
    MOBILE
 ========================================== */
 
-@media (max-width: 500px) {
+@media (
+    max-width: 500px
+) {
 
     .main {
-        padding: 20px 12px;
+        padding:
+            20px
+            12px;
     }
 
+
     header h1 {
-        font-size: 23px;
+        font-size: 24px;
     }
+
 
     header p {
         font-size: 12px;
     }
+
 
     .filter-box {
         flex-direction: column;
@@ -634,6 +1345,7 @@ header p {
         gap: 15px;
     }
 
+
     .filter-group select,
     .filter-group input {
         width: 100%;
@@ -641,43 +1353,53 @@ header p {
         min-width: 0;
     }
 
+
     #generateReport {
         width: 100%;
     }
 
+
     .stats {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+            1fr
+            1fr;
 
         gap: 10px;
     }
 
+
     .stat-card {
-        padding: 14px 8px;
+        padding:
+            13px
+            8px;
     }
 
-    .stat-card h3 {
-        font-size: 11px;
-    }
 
     .stat-card h2 {
         font-size: 20px;
     }
 
-    /*
-       On mobile the table has its own
-       fixed-height scrolling area.
-    */
 
     .table-container {
         height: 350px;
     }
 
+
     .buttons {
         flex-direction: column;
     }
 
+
     .buttons button {
         width: 100%;
+    }
+
+
+    .swal2-popup {
+        width:
+            calc(
+                100% - 24px
+            ) !important;
     }
 
 }

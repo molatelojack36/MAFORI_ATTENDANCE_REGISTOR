@@ -13,7 +13,9 @@
     <title>View Players | Mafori FC</title>
 
 
-    <!-- View Players CSS -->
+    <!-- =====================================
+         VIEW PLAYERS CSS
+    ====================================== -->
 
     <link
         rel="stylesheet"
@@ -21,12 +23,23 @@
     >
 
 
-    <!-- Font Awesome -->
+    <!-- =====================================
+         FONT AWESOME
+    ====================================== -->
 
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
+
+
+    <!-- =====================================
+         SWEETALERT2
+    ====================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
 
 </head>
 
@@ -41,19 +54,25 @@
 <div class="sidebar">
 
 
+    <!-- LOGO -->
+
     <div class="logo">
 
         <i class="fa-solid fa-futbol"></i>
 
-        <h2>MAFORI FC</h2>
+        <h2>
+            MAFORI FC
+        </h2>
 
     </div>
 
 
+    <!-- NAVIGATION -->
+
     <ul>
 
 
-        <!-- Dashboard -->
+        <!-- DASHBOARD -->
 
         <li>
 
@@ -68,7 +87,7 @@
         </li>
 
 
-        <!-- Players -->
+        <!-- PLAYERS -->
 
         <li class="active">
 
@@ -83,7 +102,7 @@
         </li>
 
 
-        <!-- Attendance -->
+        <!-- ATTENDANCE -->
 
         <li>
 
@@ -98,7 +117,7 @@
         </li>
 
 
-        <!-- Reports -->
+        <!-- REPORTS -->
 
         <li>
 
@@ -113,11 +132,14 @@
         </li>
 
 
-        <!-- Logout -->
+        <!-- LOGOUT -->
 
         <li>
 
-            <a href="login.html">
+            <a
+                href="#"
+                onclick="logout(); return false;"
+            >
 
                 <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -162,7 +184,7 @@
         </div>
 
 
-        <!-- Add Player -->
+        <!-- ADD PLAYER -->
 
         <a
             href="add-player.html"
@@ -261,10 +283,26 @@
 
                 <tbody id="playersTable">
 
-                    <!--
-                        Players will be loaded
-                        here by view-players.js
-                    -->
+
+                    <!-- =================================
+                         LOADING MESSAGE
+                    ================================== -->
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="no-data"
+                        >
+
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+
+                            Loading players...
+
+                        </td>
+
+                    </tr>
+
 
                 </tbody>
 

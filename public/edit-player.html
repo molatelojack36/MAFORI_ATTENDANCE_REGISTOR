@@ -5,25 +5,38 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Edit Player | Mafori FC</title>
+    <title>
+        Edit Player | Mafori FC
+    </title>
 
-    <!-- Google Font -->
+
+    <!-- GOOGLE FONT -->
+
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
 
-    <!-- Font Awesome -->
+
+    <!-- FONT AWESOME -->
+
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
-    <!-- CSS -->
+
+    <!-- EDIT PLAYER CSS -->
+
     <link
         rel="stylesheet"
-        href="edit-player.css">
+        href="edit-player.css"
+    >
 
 </head>
 
@@ -31,21 +44,34 @@
 <body>
 
 
+    <!-- ==========================================
+         MAIN CONTAINER
+    =========================================== -->
+
     <div class="container">
+
+
+        <!-- ======================================
+             EDIT PLAYER CARD
+        ======================================= -->
 
         <div class="card">
 
 
-            <!-- =====================================
-                 BACK TO PLAYERS
-            ====================================== -->
+            <!-- ==================================
+                 TOP ACTION BUTTONS
+            =================================== -->
 
             <div class="back-button-container">
+
+
+                <!-- BACK TO PLAYERS -->
 
                 <button
                     type="button"
                     class="back-button"
-                    onclick="location.href='players.html'">
+                    onclick="location.href='players.html'"
+                >
 
                     <i class="fa-solid fa-arrow-left"></i>
 
@@ -53,25 +79,57 @@
 
                 </button>
 
+
+                <!-- LOGOUT -->
+
+                <button
+                    type="button"
+                    class="logout-button"
+                    onclick="logout()"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Logout
+
+                </button>
+
             </div>
 
 
-            <!-- =====================================
+
+            <!-- ==================================
                  PAGE TITLE
-            ====================================== -->
+            =================================== -->
 
-            <h1>
-                Edit Player
-            </h1>
+            <div class="page-heading">
 
-            <p>
-                Update player information.
-            </p>
+                <div class="heading-icon">
+
+                    <i class="fa-solid fa-user-pen"></i>
+
+                </div>
 
 
-            <!-- =====================================
+                <div>
+
+                    <h1>
+                        Edit Player
+                    </h1>
+
+                    <p>
+                        Update player information and save the changes.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================
                  EDIT PLAYER FORM
-            ====================================== -->
+            =================================== -->
 
             <form id="editPlayerForm">
 
@@ -81,13 +139,20 @@
                 <div class="input-group">
 
                     <label for="first_name">
+
+                        <i class="fa-solid fa-user"></i>
+
                         First Name
+
                     </label>
 
                     <input
                         type="text"
                         id="first_name"
-                        required>
+                        placeholder="Enter first name"
+                        autocomplete="off"
+                        required
+                    >
 
                 </div>
 
@@ -97,13 +162,20 @@
                 <div class="input-group">
 
                     <label for="last_name">
+
+                        <i class="fa-solid fa-user"></i>
+
                         Last Name
+
                     </label>
 
                     <input
                         type="text"
                         id="last_name"
-                        required>
+                        placeholder="Enter last name"
+                        autocomplete="off"
+                        required
+                    >
 
                 </div>
 
@@ -113,12 +185,19 @@
                 <div class="input-group">
 
                     <label for="nickname">
+
+                        <i class="fa-solid fa-tag"></i>
+
                         Nickname
+
                     </label>
 
                     <input
                         type="text"
-                        id="nickname">
+                        id="nickname"
+                        placeholder="Enter nickname"
+                        autocomplete="off"
+                    >
 
                 </div>
 
@@ -128,10 +207,17 @@
                 <div class="input-group">
 
                     <label for="position">
+
+                        <i class="fa-solid fa-shirt"></i>
+
                         Position
+
                     </label>
 
-                    <select id="position">
+                    <select
+                        id="position"
+                        required
+                    >
 
                         <option value="Goalkeeper">
                             Goalkeeper
@@ -159,12 +245,17 @@
                 <div class="input-group">
 
                     <label for="date_of_birth">
+
+                        <i class="fa-solid fa-cake-candles"></i>
+
                         Date of Birth
+
                     </label>
 
                     <input
                         type="date"
-                        id="date_of_birth">
+                        id="date_of_birth"
+                    >
 
                 </div>
 
@@ -174,7 +265,11 @@
                 <div class="input-group">
 
                     <label for="status">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
                         Status
+
                     </label>
 
                     <select id="status">
@@ -192,9 +287,15 @@
                 </div>
 
 
-                <!-- UPDATE BUTTON -->
 
-                <button type="submit">
+                <!-- ==================================
+                     UPDATE BUTTON
+                =================================== -->
+
+                <button
+                    type="submit"
+                    class="update-player-button"
+                >
 
                     <i class="fa-solid fa-user-pen"></i>
 
@@ -211,7 +312,19 @@
     </div>
 
 
-    <!-- JAVASCRIPT -->
+
+    <!-- ==========================================
+         SWEETALERT
+    =========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
+
+
+    <!-- ==========================================
+         EDIT PLAYER JS
+    =========================================== -->
 
     <script src="edit-player.js"></script>
 

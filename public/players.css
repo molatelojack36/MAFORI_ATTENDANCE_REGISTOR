@@ -1,7 +1,6 @@
 /* =====================================================
    MAFORI FC ATTENDANCE REGISTER
    PLAYER MANAGEMENT PAGE
-   MATCH MANAGEMENT STYLE
 ===================================================== */
 
 
@@ -13,8 +12,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+
+    font-family:
+        "Poppins",
+        sans-serif;
 }
+
 
 html {
     scroll-behavior: smooth;
@@ -59,7 +62,9 @@ body {
     width: 260px;
     height: 100vh;
 
-    padding: 24px 14px;
+    padding:
+        24px
+        14px;
 
     background:
         linear-gradient(
@@ -71,7 +76,13 @@ body {
     color: #ffffff;
 
     box-shadow:
-        8px 0 30px rgba(15, 23, 42, 0.12);
+        8px 0 30px
+        rgba(
+            15,
+            23,
+            42,
+            0.12
+        );
 
     z-index: 1000;
 
@@ -90,12 +101,21 @@ body {
 
     color: #ffffff;
 
-    margin: 5px 10px 30px;
+    margin:
+        5px
+        10px
+        30px;
 
     padding-bottom: 24px;
 
     border-bottom:
-        1px solid rgba(255, 255, 255, 0.08);
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
 
     font-size: 21px;
 
@@ -104,10 +124,12 @@ body {
     letter-spacing: 0.6px;
 }
 
+
 .sidebar h2::before {
     content: "\f1e3";
 
-    font-family: "Font Awesome 6 Free";
+    font-family:
+        "Font Awesome 6 Free";
 
     font-weight: 900;
 
@@ -119,7 +141,9 @@ body {
     align-items: center;
     justify-content: center;
 
-    margin: 0 auto 14px;
+    margin:
+        0 auto
+        14px;
 
     border-radius: 17px;
 
@@ -135,7 +159,13 @@ body {
     font-size: 25px;
 
     box-shadow:
-        0 12px 25px rgba(255, 106, 0, 0.28);
+        0 12px 25px
+        rgba(
+            255,
+            106,
+            0,
+            0.28
+        );
 }
 
 
@@ -147,11 +177,13 @@ body {
     list-style: none;
 }
 
+
 .sidebar ul li {
     margin-bottom: 7px;
 
     padding: 0;
 }
+
 
 .sidebar ul li a {
     display: flex;
@@ -162,7 +194,9 @@ body {
 
     width: 100%;
 
-    padding: 13px 15px;
+    padding:
+        13px
+        15px;
 
     border-radius: 10px;
 
@@ -180,6 +214,7 @@ body {
         transform 0.25s ease;
 }
 
+
 .sidebar ul li i {
     width: 20px;
 
@@ -189,42 +224,112 @@ body {
 
     font-size: 16px;
 
-    transition: color 0.25s ease;
+    transition:
+        color
+        0.25s
+        ease;
 }
 
+
 .sidebar ul li a:hover {
-    background: rgba(255, 138, 0, 0.12);
+    background:
+        rgba(
+            255,
+            138,
+            0,
+            0.12
+        );
 
     color: #ffffff;
 
-    transform: translateX(3px);
+    transform:
+        translateX(
+            3px
+        );
 }
+
 
 .sidebar ul li a:hover i {
     color: #ff8a00;
 }
 
 
-/* ACTIVE MENU ITEM */
+/* =====================================================
+   ACTIVE MENU ITEM
+===================================================== */
 
-.sidebar ul li.active a,
-.sidebar ul li.active {
+.sidebar ul li.active a {
     background:
         linear-gradient(
             135deg,
-            rgba(255, 138, 0, 0.18),
-            rgba(255, 106, 0, 0.10)
+            rgba(
+                255,
+                138,
+                0,
+                0.18
+            ),
+            rgba(
+                255,
+                106,
+                0,
+                0.10
+            )
         );
 
     color: #ffffff;
 
-    border-left: 3px solid #ff8a00;
+    border-left:
+        3px solid
+        #ff8a00;
 
     border-radius: 10px;
 }
 
+
 .sidebar ul li.active i {
     color: #ff8a00;
+}
+
+
+/* =====================================================
+   LOGOUT MENU ITEM
+===================================================== */
+
+.logout-menu-item {
+    margin-top:
+        12px !important;
+}
+
+
+.logout-menu-item a {
+    color:
+        #fca5a5 !important;
+}
+
+
+.logout-menu-item a i {
+    color:
+        #f87171 !important;
+}
+
+
+.logout-menu-item a:hover {
+    background:
+        rgba(
+            239,
+            68,
+            68,
+            0.12
+        ) !important;
+
+    color:
+        #ffffff !important;
+}
+
+
+.logout-menu-item a:hover i {
+    color:
+        #ff8a00 !important;
 }
 
 
@@ -235,11 +340,17 @@ body {
 .main-content {
     margin-left: 260px;
 
-    width: calc(100% - 260px);
+    width:
+        calc(
+            100% - 260px
+        );
 
     min-height: 100vh;
 
-    padding: 42px 50px 60px;
+    padding:
+        42px
+        50px
+        60px;
 }
 
 
@@ -251,6 +362,7 @@ body {
     margin-bottom: 24px;
 }
 
+
 .back-button {
     display: inline-flex;
 
@@ -258,9 +370,13 @@ body {
 
     gap: 9px;
 
-    padding: 10px 17px;
+    padding:
+        10px
+        17px;
 
-    border: 1px solid #e2e8f0;
+    border:
+        1px solid
+        #e2e8f0;
 
     border-radius: 10px;
 
@@ -275,7 +391,13 @@ body {
     cursor: pointer;
 
     box-shadow:
-        0 5px 18px rgba(15, 23, 42, 0.06);
+        0 5px 18px
+        rgba(
+            15,
+            23,
+            42,
+            0.06
+        );
 
     transition:
         transform 0.25s ease,
@@ -284,9 +406,11 @@ body {
         box-shadow 0.25s ease;
 }
 
+
 .back-button i {
     font-size: 13px;
 }
+
 
 .back-button:hover {
     background:
@@ -298,12 +422,22 @@ body {
 
     color: #ffffff;
 
-    border-color: transparent;
+    border-color:
+        transparent;
 
-    transform: translateX(-3px);
+    transform:
+        translateX(
+            -3px
+        );
 
     box-shadow:
-        0 10px 22px rgba(255, 106, 0, 0.20);
+        0 10px 22px
+        rgba(
+            255,
+            106,
+            0,
+            0.20
+        );
 }
 
 
@@ -315,6 +449,7 @@ body {
     margin-bottom: 30px;
 }
 
+
 .header h1 {
     color: #0f172a;
 
@@ -322,16 +457,19 @@ body {
 
     font-weight: 800;
 
-    letter-spacing: -0.4px;
+    letter-spacing:
+        -0.4px;
 
     margin-bottom: 8px;
 }
+
 
 .header h1 i {
     color: #ff7a00;
 
     margin-right: 9px;
 }
+
 
 .header p {
     max-width: 720px;
@@ -352,7 +490,13 @@ body {
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fit, minmax(240px, 1fr));
+        repeat(
+            auto-fit,
+            minmax(
+                240px,
+                1fr
+            )
+        );
 
     gap: 20px;
 }
@@ -372,6 +516,7 @@ body {
     flex-direction: column;
 
     justify-content: center;
+
     align-items: flex-start;
 
     padding: 28px;
@@ -382,12 +527,26 @@ body {
 
     color: inherit;
 
-    background: rgba(255, 255, 255, 0.97);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.97
+        );
 
-    border: 1px solid #e8edf3;
+    border:
+        1px solid
+        #e8edf3;
 
     box-shadow:
-        0 16px 38px rgba(15, 23, 42, 0.07);
+        0 16px 38px
+        rgba(
+            15,
+            23,
+            42,
+            0.07
+        );
 
     overflow: hidden;
 
@@ -396,11 +555,12 @@ body {
         box-shadow 0.25s ease,
         border-color 0.25s ease;
 
-    animation: fadeIn 0.45s ease;
+    animation:
+        fadeIn
+        0.45s
+        ease;
 }
 
-
-/* TOP ACCENT */
 
 .card::before {
     content: "";
@@ -437,16 +597,25 @@ body {
 
     border-radius: 14px;
 
-    background: #fff7ed;
+    background:
+        #fff7ed;
 
-    color: #ff7a00;
+    color:
+        #ff7a00;
 
     font-size: 22px;
 
     margin-bottom: 20px;
 
     box-shadow:
-        inset 0 0 0 1px rgba(255, 138, 0, 0.10);
+        inset
+        0 0 0 1px
+        rgba(
+            255,
+            138,
+            0,
+            0.10
+        );
 
     transition:
         transform 0.25s ease,
@@ -487,35 +656,387 @@ body {
 ===================================================== */
 
 .card:hover {
-    transform: translateY(-4px);
+    transform:
+        translateY(
+            -4px
+        );
 
-    border-color: rgba(255, 138, 0, 0.24);
+    border-color:
+        rgba(
+            255,
+            138,
+            0,
+            0.24
+        );
 
     box-shadow:
-        0 22px 48px rgba(15, 23, 42, 0.11);
+        0 22px 48px
+        rgba(
+            15,
+            23,
+            42,
+            0.11
+        );
 }
 
-.card:hover > i {
-    transform: scale(1.06);
 
-    background: #ffedd5;
+.card:hover > i {
+    transform:
+        scale(
+            1.06
+        );
+
+    background:
+        #ffedd5;
 }
 
 
 /* =====================================================
-   ANIMATION
+   SWEETALERT
+===================================================== */
+
+.swal2-popup {
+    font-family:
+        "Poppins",
+        sans-serif !important;
+
+    border-radius:
+        22px !important;
+
+    padding:
+        2em !important;
+
+    border:
+        1px solid
+        #edf0f4 !important;
+
+    box-shadow:
+        0 30px 80px
+        rgba(
+            15,
+            23,
+            42,
+            0.24
+        ) !important;
+}
+
+
+.swal2-title {
+    color:
+        #0f172a !important;
+
+    font-size:
+        24px !important;
+
+    font-weight:
+        800 !important;
+}
+
+
+.swal2-html-container {
+    font-family:
+        "Poppins",
+        sans-serif !important;
+}
+
+
+.swal2-confirm,
+.swal2-cancel {
+    border-radius:
+        10px !important;
+
+    padding:
+        11px
+        19px !important;
+
+    font-family:
+        "Poppins",
+        sans-serif !important;
+
+    font-size:
+        13px !important;
+
+    font-weight:
+        600 !important;
+
+    box-shadow:
+        none !important;
+
+    transition:
+        transform
+        0.2s
+        ease !important;
+}
+
+
+.swal2-confirm:hover,
+.swal2-cancel:hover {
+    transform:
+        translateY(
+            -2px
+        );
+}
+
+
+/* =====================================================
+   LOGOUT POPUP
+===================================================== */
+
+.players-logout-popup {
+    text-align: center;
+}
+
+
+.logout-ball {
+    width: 58px;
+    height: 58px;
+
+    margin:
+        0 auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    color: #ff7a00;
+
+    font-size: 25px;
+
+    box-shadow:
+        inset
+        0 0 0 1px
+        rgba(
+            255,
+            138,
+            0,
+            0.12
+        );
+}
+
+
+.players-logout-popup p {
+    margin-bottom: 9px;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.players-logout-popup span {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   LOGGING OUT
+===================================================== */
+
+.players-logout-loading {
+    text-align: center;
+}
+
+
+.logout-spinner-ball {
+    width: 64px;
+    height: 64px;
+
+    margin:
+        5px auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    box-shadow:
+        0 13px 30px
+        rgba(
+            255,
+            106,
+            0,
+            0.28
+        );
+
+    animation:
+        playersBallSpin
+        0.8s
+        linear
+        infinite;
+}
+
+
+.players-logout-loading p {
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   ANIMATIONS
 ===================================================== */
 
 @keyframes fadeIn {
+
     from {
+
         opacity: 0;
-        transform: translateY(16px);
+
+        transform:
+            translateY(
+                16px
+            );
+
     }
 
+
     to {
+
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(
+                0
+            );
+
     }
+
+}
+
+
+@keyframes playersPopupIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(
+                28px
+            )
+            scale(
+                0.93
+            );
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(
+                0
+            )
+            scale(
+                1
+            );
+
+    }
+
+}
+
+
+@keyframes playersPopupOut {
+
+    from {
+
+        opacity: 1;
+
+        transform:
+            scale(
+                1
+            );
+
+    }
+
+
+    to {
+
+        opacity: 0;
+
+        transform:
+            scale(
+                0.94
+            );
+
+    }
+
+}
+
+
+@keyframes playersBallSpin {
+
+    from {
+
+        transform:
+            rotate(
+                0deg
+            );
+
+    }
+
+
+    to {
+
+        transform:
+            rotate(
+                360deg
+            );
+
+    }
+
+}
+
+
+.players-popup-in {
+    animation:
+        playersPopupIn
+        0.38s
+        ease-out !important;
+}
+
+
+.players-popup-out {
+    animation:
+        playersPopupOut
+        0.24s
+        ease-in !important;
 }
 
 
@@ -523,23 +1044,39 @@ body {
    TABLET
 ===================================================== */
 
-@media (max-width: 1000px) {
+@media (
+    max-width: 1000px
+) {
 
     .sidebar {
         width: 220px;
     }
 
+
     .main-content {
         margin-left: 220px;
 
-        width: calc(100% - 220px);
+        width:
+            calc(
+                100% - 220px
+            );
 
-        padding: 35px 28px 50px;
+        padding:
+            35px
+            28px
+            50px;
     }
+
 
     .cards {
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
     }
 
 }
@@ -549,11 +1086,14 @@ body {
    SMALL SCREEN
 ===================================================== */
 
-@media (max-width: 760px) {
+@media (
+    max-width: 760px
+) {
 
     body {
         display: block;
     }
+
 
     .sidebar {
         position: relative;
@@ -562,8 +1102,11 @@ body {
 
         height: auto;
 
-        padding: 16px 12px;
+        padding:
+            16px
+            12px;
     }
+
 
     .sidebar h2 {
         margin-bottom: 13px;
@@ -573,6 +1116,7 @@ body {
         border-bottom: none;
     }
 
+
     .sidebar h2::before {
         width: 44px;
         height: 44px;
@@ -581,6 +1125,7 @@ body {
 
         margin-bottom: 10px;
     }
+
 
     .sidebar ul {
         display: flex;
@@ -592,35 +1137,51 @@ body {
         gap: 7px;
     }
 
+
     .sidebar ul li {
         margin: 0;
     }
 
+
     .sidebar ul li a {
         width: auto;
 
-        padding: 9px 11px;
+        padding:
+            9px
+            11px;
 
         font-size: 12px;
 
         gap: 7px;
     }
 
+
     .sidebar ul li a:hover {
         transform: none;
     }
+
 
     .main-content {
         margin-left: 0;
 
         width: 100%;
 
-        padding: 28px 18px 40px;
+        padding:
+            28px
+            18px
+            40px;
     }
+
 
     .cards {
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
     }
 
 }
@@ -630,29 +1191,41 @@ body {
    MOBILE
 ===================================================== */
 
-@media (max-width: 520px) {
+@media (
+    max-width: 520px
+) {
 
     body {
-        background-attachment: scroll;
+        background-attachment:
+            scroll;
     }
 
+
     .main-content {
-        padding: 23px 13px 35px;
+        padding:
+            23px
+            13px
+            35px;
     }
+
 
     .header h1 {
         font-size: 27px;
     }
 
+
     .header p {
         font-size: 13px;
     }
 
+
     .cards {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
         gap: 14px;
     }
+
 
     .card {
         min-height: 180px;
@@ -661,6 +1234,7 @@ body {
 
         border-radius: 15px;
     }
+
 
     .card > i {
         width: 46px;
@@ -671,18 +1245,31 @@ body {
         margin-bottom: 16px;
     }
 
+
     .card h2 {
         font-size: 18px;
     }
+
 
     .card p {
         font-size: 13px;
     }
 
+
     .back-button {
-        padding: 9px 13px;
+        padding:
+            9px
+            13px;
 
         font-size: 12px;
+    }
+
+
+    .swal2-popup {
+        width:
+            calc(
+                100% - 24px
+            ) !important;
     }
 
 }

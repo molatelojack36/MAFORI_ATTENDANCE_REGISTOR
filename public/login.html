@@ -4,35 +4,189 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width", initial-scale="1.0">
 
-    <title>Admin Login</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="login.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>
+        Admin Login | Mafori FC
+    </title>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- LOGIN CSS -->
+
+    <link
+        rel="stylesheet"
+        href="login.css"
+    >
+
+
+    <!-- GOOGLE FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- FONT AWESOME -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+
+    <!-- SWEETALERT -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
 
 </head>
 
+
 <body>
 
+
     <div class="overlay">
-    <div class="login-card">
 
-        <h1>MAFORI FOOTBALL CLUB</h1>
-        <h3>Admin Login</h3>
 
-        <form id="loginForm">
+        <div class="login-card">
 
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
+
+            <!-- BACK BUTTON -->
+
+            <div class="login-back-container">
+
+                <button
+                    type="button"
+                    class="login-back-button"
+                    onclick="goBack()"
+                >
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Back
+
+                </button>
+
+            </div>
+
+
+            <!-- CLUB ICON -->
+
+            <div class="login-logo-icon">
+
+                <i class="fa-solid fa-futbol"></i>
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <h1>
+                MAFORI FOOTBALL CLUB
+            </h1>
+
+
+            <h3>
+                Administrator Login
+            </h3>
+
+
+            <!-- LOGIN FORM -->
+
+            <form id="loginForm">
+
+
+                <!-- USERNAME -->
+
+                <div class="login-input-box">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="login-input-box password-input-box">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="togglePassword"
+                        aria-label="Show password"
+                    >
+
+                        <i class="fa-solid fa-eye"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-submit-button"
+                >
+
+                    <i class="fa-solid fa-right-to-bracket"></i>
+
+                    Login
+
+                </button>
+
+
+            </form>
+
+
+            <!-- FOOTER -->
+
+            <div class="login-footer">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                Secure administrator access
+
+            </div>
+
+
+        </div>
+
+
     </div>
-    </div>
+
+
+    <!-- LOGIN JS -->
 
     <script src="login.js"></script>
+
+
 </body>
+
 </html>

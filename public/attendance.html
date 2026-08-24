@@ -15,7 +15,9 @@
     </title>
 
 
-    <!-- GOOGLE FONT -->
+    <!-- ==========================================
+         GOOGLE FONT
+    =========================================== -->
 
     <link
         rel="preconnect"
@@ -34,7 +36,9 @@
     >
 
 
-    <!-- FONT AWESOME -->
+    <!-- ==========================================
+         FONT AWESOME
+    =========================================== -->
 
     <link
         rel="stylesheet"
@@ -42,14 +46,18 @@
     >
 
 
-    <!-- SWEETALERT -->
+    <!-- ==========================================
+         SWEETALERT
+    =========================================== -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
     ></script>
 
 
-    <!-- ATTENDANCE CSS -->
+    <!-- ==========================================
+         ATTENDANCE CSS
+    =========================================== -->
 
     <link
         rel="stylesheet"
@@ -82,9 +90,14 @@
         </div>
 
 
-        <!-- NAVIGATION -->
+        <!-- ======================================
+             NAVIGATION
+        ======================================= -->
 
         <ul>
+
+
+            <!-- DASHBOARD -->
 
             <li>
 
@@ -99,6 +112,8 @@
             </li>
 
 
+            <!-- PLAYERS -->
+
             <li>
 
                 <a href="players.html">
@@ -111,6 +126,8 @@
 
             </li>
 
+
+            <!-- ATTENDANCE -->
 
             <li class="active">
 
@@ -125,6 +142,8 @@
             </li>
 
 
+            <!-- REPORTS -->
+
             <li>
 
                 <a href="reports.html">
@@ -138,6 +157,8 @@
             </li>
 
 
+            <!-- DOWNLOADS -->
+
             <li>
 
                 <a href="downloads.html">
@@ -150,6 +171,8 @@
 
             </li>
 
+
+            <!-- LOGOUT -->
 
             <li>
 
@@ -179,9 +202,9 @@
     <main class="main-content">
 
 
-        <!-- ==========================================
+        <!-- ======================================
              PAGE HEADER
-        =========================================== -->
+        ======================================= -->
 
         <div class="header">
 
@@ -205,19 +228,21 @@
 
 
 
-        <!-- ==========================================
+        <!-- ======================================
              ATTENDANCE CARD
-        =========================================== -->
+        ======================================= -->
 
         <section class="attendance-card">
 
 
-            <!-- ==========================================
+            <!-- ==================================
                  DATE TOOLBAR
-            =========================================== -->
+            =================================== -->
 
             <div class="attendance-toolbar">
 
+
+                <!-- DATE -->
 
                 <div class="date-control">
 
@@ -237,6 +262,8 @@
 
                 </div>
 
+
+                <!-- BUTTONS -->
 
                 <div class="toolbar-buttons">
 
@@ -272,11 +299,14 @@
 
 
 
-            <!-- ==========================================
+            <!-- ==================================
                  REGISTER INFORMATION
-            =========================================== -->
+            =================================== -->
 
             <div class="register-info">
+
+
+                <!-- DATE -->
 
                 <div>
 
@@ -290,6 +320,8 @@
 
                 </div>
 
+
+                <!-- STATUS -->
 
                 <div>
 
@@ -310,9 +342,9 @@
 
 
 
-            <!-- ==========================================
-                 SEARCH
-            =========================================== -->
+            <!-- ==================================
+                 SEARCH PLAYER
+            =================================== -->
 
             <div class="search-box">
 
@@ -322,24 +354,23 @@
                     type="text"
                     id="searchPlayer"
                     placeholder="Search player by name, nickname or position..."
+                    autocomplete="off"
                 >
 
             </div>
 
 
 
-            <!-- ==========================================
-                 TABLE WRAPPER
-            =========================================== -->
+            <!-- ==================================
+                 ATTENDANCE TABLE
+            =================================== -->
 
             <div class="table-wrapper">
 
                 <table>
 
 
-                    <!-- ==================================
-                         TABLE HEADER
-                    =================================== -->
+                    <!-- TABLE HEADER -->
 
                     <thead>
 
@@ -382,16 +413,12 @@
                     </thead>
 
 
-
-                    <!-- ==================================
-                         TABLE BODY
-                    =================================== -->
+                    <!-- TABLE BODY -->
 
                     <tbody id="attendanceTable">
 
 
-                        <!-- JS inserts players here -->
-
+                        <!-- JS INSERTS PLAYERS HERE -->
 
                         <tr class="loading-row">
 
@@ -413,34 +440,46 @@
 
 
 
-            <!-- ==========================================
-                 LEGEND
-            =========================================== -->
+            <!-- ==================================
+                 ATTENDANCE LEGEND
+            =================================== -->
 
             <div class="attendance-legend">
 
 
+                <!-- PRESENT -->
+
                 <div class="legend-item">
 
-                    <span class="legend-dot present-dot"></span>
+                    <span
+                        class="legend-dot present-dot"
+                    ></span>
 
                     Present
 
                 </div>
 
 
+                <!-- ABSENT -->
+
                 <div class="legend-item">
 
-                    <span class="legend-dot absent-dot"></span>
+                    <span
+                        class="legend-dot absent-dot"
+                    ></span>
 
                     Absent
 
                 </div>
 
 
+                <!-- EXCUSED -->
+
                 <div class="legend-item">
 
-                    <span class="legend-dot excused-dot"></span>
+                    <span
+                        class="legend-dot excused-dot"
+                    ></span>
 
                     Excused
 
@@ -450,9 +489,9 @@
 
 
 
-            <!-- ==========================================
-                 SAVE TODAY'S FULL REGISTER
-            =========================================== -->
+            <!-- ==================================
+                 SAVE ATTENDANCE
+            =================================== -->
 
             <button
                 id="saveAttendance"
@@ -473,7 +512,7 @@
 
 
     <!-- ==========================================
-         ATTENDANCE JS
+         ATTENDANCE JAVASCRIPT
     =========================================== -->
 
     <script src="attendance.js"></script>

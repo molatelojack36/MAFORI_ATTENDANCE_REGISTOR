@@ -1,424 +1,409 @@
 // ==========================================
-// MAFORI FC - REMOVE PLAYER
+// REMOVE PLAYER
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", () => {
+window.removePlayer = async function(playerId) {
 
-    const playerTable =
-        document.getElementById("playerTable");
-
-    const searchPlayer =
-        document.getElementById("searchPlayer");
-
-    let players = [];
+    const player =
+        players.find(
+            p => Number(p.id) === Number(playerId)
+        );
 
 
-    // ==========================================
-    // LOAD PLAYERS
-    // ==========================================
+    if (!player) {
 
-    async function loadPlayers() {
+        await Swal.fire({
 
-        try {
+            icon: "error",
 
-            const response =
-                await fetch("/api/players");
+            title: "Player Not Found",
 
-            if (!response.ok) {
+            text: "The selected player could not be found.",
 
-                throw new Error(
-                    "Failed to load players."
-                );
+            confirmButtonText: "Okay",
 
-            }
-
-            players =
-                await response.json();
-
-            displayPlayers(players);
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-
-            playerTable.innerHTML = `
-                <tr>
-                    <td colspan="8" class="empty-message">
-                        Unable to load players.
-                    </td>
-                </tr>
-            `;
-
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Unable to load players."
-            });
-
-        }
-
-    }
-
-
-    // ==========================================
-    // DISPLAY PLAYERS
-    // ==========================================
-
-    function displayPlayers(playerList) {
-
-        playerTable.innerHTML = "";
-
-
-        if (playerList.length === 0) {
-
-            playerTable.innerHTML = `
-                <tr>
-                    <td colspan="8" class="empty-message">
-                        No players found.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        playerList.forEach((player, index) => {
-
-            const row =
-                document.createElement("tr");
-
-
-            const statusClass =
-                player.status === "Active"
-                    ? "status-active"
-                    : "status-inactive";
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${index + 1}
-                </td>
-
-                <td>
-                    ${player.id}
-                </td>
-
-                <td>
-                    ${player.first_name || ""}
-                    ${player.last_name || ""}
-                </td>
-
-                <td>
-                    ${player.nickname || "-"}
-                </td>
-
-                <td>
-                    ${player.position || "-"}
-                </td>
-
-                <td>
-                    ${player.date_of_birth || "-"}
-                </td>
-
-                <td class="${statusClass}">
-                    ${player.status || "-"}
-                </td>
-
-                <td>
-
-                    <button
-                        class="remove-button"
-                        onclick="removePlayer(${player.id})"
-                    >
-
-                        <i class="fa-solid fa-trash"></i>
-
-                        Remove
-
-                    </button>
-
-                </td>
-
-            `;
-
-            playerTable.appendChild(row);
+            confirmButtonColor: "#ff7a00"
 
         });
 
+        return;
+
     }
 
 
-    // ==========================================
-    // SEARCH
-    // ==========================================
+    const playerName =
+        `${player.first_name || ""} ${player.last_name || ""}`.trim();
 
-    searchPlayer.addEventListener(
-        "input",
-        () => {
 
-            const search =
-                searchPlayer.value
-                    .toLowerCase()
-                    .trim();
+    // ======================================
+    // POLISHED CONFIRMATION
+    // ======================================
 
+    const confirmation =
+        await Swal.fire({
 
-            const filteredPlayers =
-                players.filter(player => {
+            icon: "warning",
 
-                    const fullName =
-                        `${player.first_name || ""} ${player.last_name || ""}`
-                            .toLowerCase();
+            title: "Remove Player?",
 
-                    const position =
-                        (player.position || "")
-                            .toLowerCase();
+            html: `
 
-                    const nickname =
-                        (player.nickname || "")
-                            .toLowerCase();
+                <div class="remove-player-popup">
 
-                    const id =
-                        String(player.id)
-                            .toLowerCase();
+                    <div class="remove-player-icon">
 
-                    return (
-                        fullName.includes(search) ||
-                        position.includes(search) ||
-                        nickname.includes(search) ||
-                        id.includes(search)
-                    );
+                        <i class="fa-solid fa-user-minus"></i>
 
-                });
+                    </div>
 
+                    <p>
+                        You are about to remove
+                    </p>
 
-            displayPlayers(filteredPlayers);
+                    <strong>
+                        ${escapeRemoveHtml(playerName)}
+                    </strong>
 
-        }
-    );
+                    <span>
+                        This action cannot be undone.
+                    </span>
 
+                </div>
 
-    // ==========================================
-    // REMOVE PLAYER
-    // ==========================================
-
-    window.removePlayer = async function(playerId) {
-
-        const player =
-            players.find(
-                p => Number(p.id) === Number(playerId)
-            );
-
-
-        if (!player) {
-
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Player could not be found."
-            });
-
-            return;
-
-        }
-
-
-        const playerName =
-            `${player.first_name || ""} ${player.last_name || ""}`.trim();
-
-
-        // ======================================
-        // CONFIRMATION
-        // ======================================
-
-        const confirmation =
-            await Swal.fire({
-
-                icon: "warning",
-
-                title: "Remove Player?",
-
-                html: `
-                    Are you sure you want to remove
-                    <strong>${playerName}</strong>?
-                    <br><br>
-                    This action cannot be undone.
-                `,
-
-                showCancelButton: true,
-
-                confirmButtonText:
-                    "Yes, Remove Player",
-
-                cancelButtonText:
-                    "Cancel",
-
-                confirmButtonColor:
-                    "#dc3545",
-
-                cancelButtonColor:
-                    "#081b33"
-
-            });
-
-
-        if (!confirmation.isConfirmed) {
-
-            return;
-
-        }
-
-
-        // ======================================
-        // DELETE PLAYER
-        // ======================================
-
-        try {
-
-            Swal.fire({
-
-                title: "Removing Player...",
-
-                text: "Please wait.",
-
-                allowOutsideClick: false,
-
-                didOpen: () => {
-
-                    Swal.showLoading();
-
-                }
-
-            });
-
-
-            const response =
-                await fetch(
-                    `/api/players/${playerId}`,
-                    {
-                        method: "DELETE"
-                    }
-                );
-
-
-            const result =
-                await response.json();
-
-
-            if (!response.ok || !result.success) {
-
-                throw new Error(
-                    result.message ||
-                    "Failed to remove player."
-                );
-
-            }
-
-
-            // Remove from local array
-
-            players =
-                players.filter(
-                    p =>
-                        Number(p.id) !==
-                        Number(playerId)
-                );
-
-
-            displayPlayers(players);
-
-
-            // ==================================
-            // SUCCESS
-            // ==================================
-
-            Swal.fire({
-
-                icon: "success",
-
-                title: "Player Removed",
-
-                text:
-                    `${playerName} has been removed successfully.`,
-
-                confirmButtonColor:
-                    "#081b33"
-
-            });
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Remove player error:",
-                error
-            );
-
-
-            Swal.fire({
-
-                icon: "error",
-
-                title: "Unable to Remove Player",
-
-                text:
-                    error.message ||
-                    "Something went wrong."
-
-            });
-
-        }
-
-    };
-
-
-    // ==========================================
-    // LOGOUT
-    // ==========================================
-
-    window.logout = function() {
-
-        Swal.fire({
-
-            title: "Logout?",
-
-            text: "Are you sure you want to logout?",
-
-            icon: "question",
+            `,
 
             showCancelButton: true,
 
-            confirmButtonText: "Logout",
+            confirmButtonText:
+                '<i class="fa-solid fa-trash"></i> Yes, Remove',
 
-            cancelButtonText: "Cancel",
+            cancelButtonText:
+                '<i class="fa-solid fa-xmark"></i> Cancel',
 
-            confirmButtonColor: "#dc3545",
+            confirmButtonColor:
+                "#dc3545",
 
-            cancelButtonColor: "#081b33"
+            cancelButtonColor:
+                "#64748b",
 
-        }).then(result => {
+            reverseButtons: true,
 
-            if (result.isConfirmed) {
+            focusCancel: true,
 
-                window.location.href =
-                    "login.html";
+            showClass: {
+                popup: "remove-popup-in"
+            },
 
+            hideClass: {
+                popup: "remove-popup-out"
             }
 
         });
 
-    };
+
+    if (!confirmation.isConfirmed) {
+
+        return;
+
+    }
 
 
-    // ==========================================
-    // INITIAL LOAD
-    // ==========================================
+    // ======================================
+    // REMOVING PLAYER
+    // ======================================
 
-    loadPlayers();
+    Swal.fire({
 
-});
+        title: "Removing Player...",
+
+        html: `
+
+            <div class="remove-loading">
+
+                <div class="remove-spinner">
+
+                    <i class="fa-solid fa-user-minus"></i>
+
+                </div>
+
+                <p>
+                    Removing ${escapeRemoveHtml(playerName)}...
+                </p>
+
+            </div>
+
+        `,
+
+        showConfirmButton: false,
+
+        allowOutsideClick: false,
+
+        allowEscapeKey: false
+
+    });
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/players/${playerId}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !result.success
+        ) {
+
+            throw new Error(
+                result.message ||
+                "Failed to remove player."
+            );
+
+        }
+
+
+        // Remove from local array
+
+        players =
+            players.filter(
+                p =>
+                    Number(p.id) !==
+                    Number(playerId)
+            );
+
+
+        displayPlayers(players);
+
+
+        // ======================================
+        // POLISHED SUCCESS
+        // ======================================
+
+        await Swal.fire({
+
+            icon: "success",
+
+            title: "Player Removed",
+
+            html: `
+
+                <div class="remove-success-popup">
+
+                    <div class="remove-success-name">
+
+                        <i class="fa-solid fa-user-check"></i>
+
+                        ${escapeRemoveHtml(playerName)}
+
+                    </div>
+
+                    <p>
+                        The player has been removed successfully
+                        from the Mafori FC register.
+                    </p>
+
+                    <span>
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        Player Removed
+
+                    </span>
+
+                </div>
+
+            `,
+
+            confirmButtonText: "Done",
+
+            confirmButtonColor: "#ff7a00",
+
+            timer: 2200,
+
+            timerProgressBar: true
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Remove player error:",
+            error
+        );
+
+
+        await Swal.fire({
+
+            icon: "error",
+
+            title: "Unable to Remove Player",
+
+            text:
+                error.message ||
+                "Something went wrong.",
+
+            confirmButtonText: "Okay",
+
+            confirmButtonColor: "#ff7a00"
+
+        });
+
+    }
+
+};
+
+
+// ==========================================
+// POLISHED LOGOUT
+// ==========================================
+
+window.logout = async function() {
+
+    const result =
+        await Swal.fire({
+
+            icon: "question",
+
+            title: "Logout from Mafori FC?",
+
+            html: `
+
+                <div class="remove-logout-popup">
+
+                    <div class="logout-ball">
+
+                        <i class="fa-solid fa-futbol"></i>
+
+                    </div>
+
+                    <p>
+                        Are you sure you want to logout
+                        from the Mafori FC Attendance Register?
+                    </p>
+
+                    <span>
+                        Your saved players and attendance records
+                        will not be affected.
+                    </span>
+
+                </div>
+
+            `,
+
+            showCancelButton: true,
+
+            confirmButtonText:
+                '<i class="fa-solid fa-right-from-bracket"></i> Yes, Logout',
+
+            cancelButtonText:
+                '<i class="fa-solid fa-xmark"></i> Stay Logged In',
+
+            confirmButtonColor:
+                "#ff7a00",
+
+            cancelButtonColor:
+                "#64748b",
+
+            reverseButtons: true,
+
+            focusCancel: true,
+
+            showClass: {
+                popup: "remove-popup-in"
+            },
+
+            hideClass: {
+                popup: "remove-popup-out"
+            }
+
+        });
+
+
+    if (!result.isConfirmed) {
+
+        return;
+
+    }
+
+
+    Swal.fire({
+
+        title: "Logging Out...",
+
+        html: `
+
+            <div class="remove-logout-loading">
+
+                <div class="logout-spinner-ball">
+
+                    <i class="fa-solid fa-futbol"></i>
+
+                </div>
+
+                <p>
+                    Signing you out of Mafori FC...
+                </p>
+
+            </div>
+
+        `,
+
+        showConfirmButton: false,
+
+        allowOutsideClick: false,
+
+        allowEscapeKey: false,
+
+        timer: 1000
+
+    });
+
+
+    localStorage.removeItem("user");
+
+    sessionStorage.clear();
+
+
+    setTimeout(
+        () => {
+
+            window.location.href =
+                "login.html";
+
+        },
+        1000
+    );
+
+};
+
+
+// ==========================================
+// ESCAPE HTML
+// ==========================================
+
+function escapeRemoveHtml(value) {
+
+    return String(value ?? "")
+
+        .replaceAll("&", "&amp;")
+
+        .replaceAll("<", "&lt;")
+
+        .replaceAll(">", "&gt;")
+
+        .replaceAll('"', "&quot;")
+
+        .replaceAll("'", "&#039;");
+
+}

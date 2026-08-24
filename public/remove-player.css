@@ -1,305 +1,408 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+/* ==========================================
+   SWEETALERT GENERAL
+========================================== */
+
+.swal2-popup {
+    font-family: "Poppins", sans-serif !important;
+
+    border-radius: 22px !important;
+
+    padding: 2em !important;
+
+    border: 1px solid #edf0f4 !important;
+
+    box-shadow:
+        0 30px 80px
+        rgba(15, 23, 42, 0.24) !important;
 }
 
-body {
-    display: flex;
-    background: #edf2f7;
-    min-height: 100vh;
+
+.swal2-title {
+    color: #0f172a !important;
+
+    font-size: 24px !important;
+
+    font-weight: 800 !important;
 }
 
 
-/* ===============================
-   SIDEBAR
-================================ */
-
-.sidebar {
-    width: 260px;
-    height: 100vh;
-
-    background: #081b33;
-    color: white;
-
-    position: fixed;
-    left: 0;
-    top: 0;
-
-    padding-top: 30px;
-
-    box-shadow: 5px 0 15px rgba(0, 0, 0, .2);
+.swal2-html-container {
+    font-family: "Poppins", sans-serif !important;
 }
 
-.sidebar h2 {
+
+.swal2-confirm,
+.swal2-cancel {
+    border-radius: 10px !important;
+
+    padding: 11px 19px !important;
+
+    font-family: "Poppins", sans-serif !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
+
+    box-shadow: none !important;
+}
+
+
+.swal2-timer-progress-bar {
+    background:
+        linear-gradient(
+            90deg,
+            #ff8a00,
+            #ff6a00
+        ) !important;
+}
+
+
+/* ==========================================
+   REMOVE PLAYER POPUP
+========================================== */
+
+.remove-player-popup {
     text-align: center;
-    margin-bottom: 40px;
-    color: #FFD54F;
-}
-
-.sidebar ul {
-    list-style: none;
-}
-
-.sidebar li {
-    padding: 18px 30px;
-    cursor: pointer;
-    transition: .3s;
-    font-size: 17px;
-}
-
-.sidebar li i {
-    margin-right: 15px;
-}
-
-.sidebar li:hover {
-    background: #0d3d6e;
-    padding-left: 40px;
 }
 
 
-/* ===============================
-   MAIN
-================================ */
+.remove-player-icon {
+    width: 60px;
+    height: 60px;
 
-.main {
-    margin-left: 260px;
-    width: calc(100% - 260px);
-    padding: 40px;
-}
-
-
-/* ===============================
-   HEADER
-================================ */
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 30px;
-}
-
-header h1 {
-    color: #081b33;
-    font-size: 32px;
-}
-
-header p {
-    color: #666;
-    margin-top: 5px;
-}
-
-
-/* ===============================
-   BACK BUTTON
-================================ */
-
-.back-button {
-    border: none;
-
-    background: #081b33;
-    color: white;
-
-    padding: 12px 20px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    transition: .3s;
-}
-
-.back-button:hover {
-    background: #0d3d6e;
-}
-
-
-/* ===============================
-   SEARCH
-================================ */
-
-.search-box {
-    background: white;
-
-    padding: 15px 20px;
-
-    border-radius: 12px;
-
-    box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+    margin: 0 auto 16px;
 
     display: flex;
 
     align-items: center;
+    justify-content: center;
 
-    margin-bottom: 25px;
-}
+    border-radius: 18px;
 
-.search-box i {
-    color: #777;
-    margin-right: 12px;
-}
+    background: #fff1f2;
 
-.search-box input {
-    border: none;
-    outline: none;
-
-    width: 100%;
-
-    font-size: 15px;
-}
-
-
-/* ===============================
-   TABLE
-================================ */
-
-.table-container {
-    background: white;
-
-    border-radius: 15px;
-
-    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
-
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-thead {
-    background: #081b33;
-    color: white;
-}
-
-th,
-td {
-    padding: 16px;
-
-    text-align: left;
-
-    border-bottom: 1px solid #eee;
-
-    white-space: nowrap;
-}
-
-th {
-    font-size: 14px;
-}
-
-td {
-    font-size: 14px;
-    color: #444;
-}
-
-tbody tr:hover {
-    background: #f7f9fc;
-}
-
-
-/* ===============================
-   STATUS
-================================ */
-
-.status-active {
-    color: #198754;
-    font-weight: 600;
-}
-
-.status-inactive {
     color: #dc3545;
+
+    font-size: 25px;
+}
+
+
+.remove-player-popup p {
+    margin-bottom: 6px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+.remove-player-popup strong {
+    display: block;
+
+    color: #0f172a;
+
+    font-size: 18px;
+
+    margin-bottom: 7px;
+}
+
+
+.remove-player-popup span {
+    display: block;
+
+    color: #ef4444;
+
+    font-size: 12px;
+
     font-weight: 600;
 }
 
 
-/* ===============================
-   REMOVE BUTTON
-================================ */
+/* ==========================================
+   REMOVE LOADING
+========================================== */
 
-.remove-button {
-    background: #dc3545;
+.remove-loading {
+    text-align: center;
+}
 
-    color: white;
 
-    border: none;
+.remove-spinner {
+    width: 64px;
+    height: 64px;
 
-    padding: 9px 15px;
+    margin: 5px auto 18px;
 
-    border-radius: 7px;
+    display: flex;
 
-    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #b91c1c
+        );
+
+    color: #ffffff;
+
+    font-size: 27px;
+
+    animation:
+        removeSpin
+        0.8s
+        linear
+        infinite;
+}
+
+
+.remove-loading p {
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   REMOVE SUCCESS
+========================================== */
+
+.remove-success-popup {
+    text-align: center;
+}
+
+
+.remove-success-name {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 10px 15px;
+
+    border-radius: 30px;
+
+    background: #fff4e5;
+
+    color: #ff7a00;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.remove-success-popup p {
+    margin: 15px 0;
+
+    color: #64748b;
 
     font-size: 13px;
 
-    transition: .3s;
-}
-
-.remove-button:hover {
-    background: #b02a37;
-}
-
-.remove-button i {
-    margin-right: 5px;
+    line-height: 1.7;
 }
 
 
-/* ===============================
-   EMPTY MESSAGE
-================================ */
+.remove-success-popup > span {
+    display: inline-flex;
 
-.empty-message {
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 8px 13px;
+
+    border-radius: 30px;
+
+    background: #eaf8ef;
+
+    color: #20863d;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   LOGOUT POPUP
+========================================== */
+
+.remove-logout-popup {
     text-align: center;
-
-    padding: 40px;
-
-    color: #777;
 }
 
 
-/* ===============================
-   MOBILE
-================================ */
+.logout-ball {
+    width: 58px;
+    height: 58px;
 
-@media (max-width: 900px) {
+    margin: 0 auto 18px;
 
-    .sidebar {
-        width: 210px;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    color: #ff7a00;
+
+    font-size: 25px;
+}
+
+
+.remove-logout-popup p {
+    margin-bottom: 9px;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.remove-logout-popup span {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* ==========================================
+   LOGOUT LOADING
+========================================== */
+
+.remove-logout-loading {
+    text-align: center;
+}
+
+
+.logout-spinner-ball {
+    width: 64px;
+    height: 64px;
+
+    margin: 5px auto 18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    animation:
+        removeSpin
+        0.8s
+        linear
+        infinite;
+}
+
+
+.remove-logout-loading p {
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   POPUP ANIMATION
+========================================== */
+
+@keyframes removePopupIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(28px)
+            scale(0.93);
     }
 
-    .main {
-        margin-left: 210px;
-        width: calc(100% - 210px);
-        padding: 25px;
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
     }
 
 }
 
-@media (max-width: 650px) {
 
-    .sidebar {
-        display: none;
+@keyframes removePopupOut {
+
+    from {
+        opacity: 1;
+
+        transform:
+            scale(1);
     }
 
-    .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 20px;
+    to {
+        opacity: 0;
+
+        transform:
+            scale(0.94);
     }
 
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+}
+
+
+@keyframes removeSpin {
+
+    from {
+        transform:
+            rotate(0deg);
     }
 
-    header h1 {
-        font-size: 25px;
+    to {
+        transform:
+            rotate(360deg);
     }
 
+}
+
+
+.remove-popup-in {
+    animation:
+        removePopupIn
+        0.38s
+        ease-out !important;
+}
+
+
+.remove-popup-out {
+    animation:
+        removePopupOut
+        0.24s
+        ease-in !important;
 }

@@ -5,97 +5,179 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Player Management | Mafori FC</title>
+    <title>
+        Player Management | Mafori FC
+    </title>
 
-    <link rel="stylesheet"
-        href="players.css">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- GOOGLE FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- FONT AWESOME -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+
+    <!-- PLAYERS CSS -->
+
+    <link
+        rel="stylesheet"
+        href="players.css"
+    >
 
 </head>
 
+
 <body>
+
 
     <!-- ==========================================
          SIDEBAR
     =========================================== -->
 
-    <div class="sidebar">
+    <aside class="sidebar">
 
-        <h2>⚽ MAFORI FC</h2>
+
+        <h2>
+            MAFORI FC
+        </h2>
+
 
         <ul>
 
-            <li onclick="location.href='dashboard.html'">
 
-                <i class="fa-solid fa-house"></i>
+            <!-- DASHBOARD -->
 
-                Dashboard
+            <li>
+
+                <a href="dashboard.html">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    Dashboard
+
+                </a>
 
             </li>
+
+
+            <!-- PLAYERS -->
 
             <li class="active">
 
-                <i class="fa-solid fa-users"></i>
+                <a href="players.html">
 
-                Players
+                    <i class="fa-solid fa-users"></i>
 
-            </li>
+                    Players
 
-            <li onclick="location.href='attendance.html'">
-
-                <i class="fa-solid fa-calendar-check"></i>
-
-                Attendance
+                </a>
 
             </li>
 
-            <li onclick="location.href='reports.html'">
 
-                <i class="fa-solid fa-chart-column"></i>
+            <!-- ATTENDANCE -->
 
-                Reports
+            <li>
 
-            </li>
+                <a href="attendance.html">
 
-            <li onclick="location.href='downloads.html'">
+                    <i class="fa-solid fa-calendar-check"></i>
 
-                <i class="fa-solid fa-download"></i>
+                    Attendance
 
-                Downloads
-
-            </li>
-
-            <li onclick="location.href='settings.html'">
-
-                <i class="fa-solid fa-gear"></i>
-
-                Settings
+                </a>
 
             </li>
 
-            <li onclick="location.href='login.html'">
 
-                <i class="fa-solid fa-right-from-bracket"></i>
+            <!-- REPORTS -->
 
-                Logout
+            <li>
+
+                <a href="reports.html">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    Reports
+
+                </a>
 
             </li>
+
+
+            <!-- DOWNLOADS -->
+
+            <li>
+
+                <a href="downloads.html">
+
+                    <i class="fa-solid fa-download"></i>
+
+                    Downloads
+
+                </a>
+
+            </li>
+
+
+            <!-- SETTINGS -->
+
+            <li>
+
+                <a href="settings.html">
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    Settings
+
+                </a>
+
+            </li>
+
+
+            <!-- LOGOUT -->
+
+            <li class="logout-menu-item">
+
+                <a
+                    href="#"
+                    onclick="logout(); return false;"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Logout
+
+                </a>
+
+            </li>
+
 
         </ul>
 
-    </div>
+    </aside>
+
 
 
     <!-- ==========================================
          MAIN CONTENT
     =========================================== -->
 
-    <div class="main-content">
+    <main class="main-content">
 
 
         <!-- ======================================
@@ -105,8 +187,10 @@
         <div class="back-button-container">
 
             <button
+                type="button"
+                class="back-button"
                 onclick="location.href='dashboard.html'"
-                class="back-button">
+            >
 
                 <i class="fa-solid fa-arrow-left"></i>
 
@@ -117,8 +201,9 @@
         </div>
 
 
+
         <!-- ======================================
-             HEADER
+             PAGE HEADER
         ======================================= -->
 
         <div class="header">
@@ -131,15 +216,20 @@
 
             </h1>
 
+
             <p>
-                Manage all Mafori FC players from one place.
+
+                Add, view, edit, search and manage
+                Mafori FC players.
+
             </p>
 
         </div>
 
 
+
         <!-- ======================================
-             PLAYER MANAGEMENT CARDS
+             MANAGEMENT CARDS
         ======================================= -->
 
         <div class="cards">
@@ -149,7 +239,8 @@
 
             <a
                 href="add-player.html"
-                class="card">
+                class="card"
+            >
 
                 <i class="fa-solid fa-user-plus"></i>
 
@@ -158,36 +249,70 @@
                 </h2>
 
                 <p>
-                    Register a new player into the club database.
+
+                    Add a new player to the Mafori FC
+                    squad and save their information.
+
                 </p>
 
             </a>
+
 
 
             <!-- VIEW PLAYERS -->
 
             <a
                 href="view-players.html"
-                class="card">
+                class="card"
+            >
 
-                <i class="fa-solid fa-address-book"></i>
+                <i class="fa-solid fa-users-viewfinder"></i>
 
                 <h2>
                     View Players
                 </h2>
 
                 <p>
-                    View all registered players and search the squad.
+
+                    View all registered players,
+                    their positions and current status.
+
                 </p>
 
             </a>
 
 
-            <!-- EDIT PLAYER -->
+
+            <!-- SEARCH PLAYERS -->
 
             <a
-                href="edit-player.html"
-                class="card">
+                href="view-players.html"
+                class="card"
+            >
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <h2>
+                    Search Player
+                </h2>
+
+                <p>
+
+                    Find a player by name, nickname,
+                    player ID or position.
+
+                </p>
+
+            </a>
+
+
+
+            <!-- EDIT PLAYERS -->
+
+            <a
+                href="view-players.html"
+                class="card"
+            >
 
                 <i class="fa-solid fa-user-pen"></i>
 
@@ -196,17 +321,22 @@
                 </h2>
 
                 <p>
-                    Update player information whenever changes occur.
+
+                    Update player information,
+                    position, date of birth or status.
+
                 </p>
 
             </a>
 
 
+
             <!-- REMOVE PLAYER -->
 
             <a
-                href="remove-player.html"
-                class="card">
+                href="view-players.html"
+                class="card"
+            >
 
                 <i class="fa-solid fa-user-minus"></i>
 
@@ -215,7 +345,10 @@
                 </h2>
 
                 <p>
-                    Remove inactive or released players safely.
+
+                    Remove a player from the
+                    Mafori FC player register.
+
                 </p>
 
             </a>
@@ -223,7 +356,25 @@
 
         </div>
 
-    </div>
+
+    </main>
+
+
+
+    <!-- ==========================================
+         SWEETALERT
+    =========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
+
+
+    <!-- ==========================================
+         PLAYERS JS
+    =========================================== -->
+
+    <script src="players.js"></script>
 
 
 </body>

@@ -5,16 +5,39 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Downloads | Mafori FC</title>
+    <title>
+        Downloads | Mafori FC
+    </title>
 
-    <link rel="stylesheet" href="downloads.css">
+
+    <!-- ==========================================
+         DOWNLOADS CSS
+    =========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="downloads.css"
+    >
+
+
+    <!-- ==========================================
+         FONT AWESOME
+    =========================================== -->
 
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     >
+
+
+    <!-- ==========================================
+         GOOGLE FONT
+    =========================================== -->
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
@@ -23,72 +46,144 @@
 
 </head>
 
+
 <body>
 
-    <!-- ===============================
+
+    <!-- ==========================================
          SIDEBAR
-    ================================ -->
+    =========================================== -->
 
     <div class="sidebar">
 
-        <h2>⚽ MAFORI FC</h2>
+
+        <h2>
+            ⚽ MAFORI FC
+        </h2>
+
 
         <ul>
 
-            <li onclick="location.href='dashboard.html'">
+
+            <!-- DASHBOARD -->
+
+            <li
+                onclick="location.href='dashboard.html'"
+            >
+
                 <i class="fa-solid fa-house"></i>
+
                 Dashboard
+
             </li>
 
-            <li onclick="location.href='players.html'">
+
+            <!-- PLAYERS -->
+
+            <li
+                onclick="location.href='players.html'"
+            >
+
                 <i class="fa-solid fa-users"></i>
+
                 Players
+
             </li>
 
-            <li onclick="location.href='attendance.html'">
+
+            <!-- ATTENDANCE -->
+
+            <li
+                onclick="location.href='attendance.html'"
+            >
+
                 <i class="fa-solid fa-calendar-check"></i>
+
                 Attendance
+
             </li>
 
-            <li onclick="location.href='reports.html'">
+
+            <!-- REPORTS -->
+
+            <li
+                onclick="location.href='reports.html'"
+            >
+
                 <i class="fa-solid fa-chart-column"></i>
+
                 Reports
+
             </li>
+
+
+            <!-- DOWNLOAD -->
 
             <li class="active">
+
                 <i class="fa-solid fa-download"></i>
+
                 Download
+
             </li>
 
-            <li onclick="location.href='settings.html'">
+
+            <!-- SETTINGS -->
+
+            <li
+                onclick="location.href='settings.html'"
+            >
+
                 <i class="fa-solid fa-gear"></i>
+
                 Settings
+
             </li>
 
-            <li onclick="logout()">
+
+            <!-- LOGOUT -->
+
+            <li
+                class="logout-menu-item"
+                onclick="logout()"
+            >
+
                 <i class="fa-solid fa-right-from-bracket"></i>
+
                 Logout
+
             </li>
+
 
         </ul>
 
     </div>
 
 
-    <!-- ===============================
+
+    <!-- ==========================================
          MAIN CONTENT
-    ================================ -->
+    =========================================== -->
 
     <div class="main">
+
+
+        <!-- ======================================
+             HEADER
+        ======================================= -->
 
         <header>
 
             <div>
 
-                <h1>Download Reports</h1>
+                <h1>
+                    Download Reports
+                </h1>
+
 
                 <p>
-                    Download Mafori FC attendance registers and reports.
+                    Download Mafori FC attendance registers
+                    and reports.
                 </p>
 
             </div>
@@ -96,13 +191,20 @@
         </header>
 
 
-        <!-- ===============================
-             DOWNLOAD CARD
-        ================================ -->
+
+        <!-- ======================================
+             DOWNLOAD CONTAINER
+        ======================================= -->
 
         <div class="download-container">
 
+
+            <!-- ==================================
+                 PDF DOWNLOAD
+            =================================== -->
+
             <div class="download-card">
+
 
                 <div class="icon">
 
@@ -110,11 +212,15 @@
 
                 </div>
 
-                <h2>Monthly Attendance Register</h2>
+
+                <h2>
+                    Monthly Attendance Register
+                </h2>
+
 
                 <p>
-                    Select a month and year to download the attendance
-                    register for Mafori FC.
+                    Select a month and year to download
+                    the attendance register for Mafori FC.
                 </p>
 
 
@@ -123,25 +229,65 @@
                 <div class="input-group">
 
                     <label for="month">
+
                         Month
+
                     </label>
+
 
                     <select id="month">
 
-                        <option value="">Select Month</option>
+                        <option value="">
+                            Select Month
+                        </option>
 
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="1">
+                            January
+                        </option>
+
+                        <option value="2">
+                            February
+                        </option>
+
+                        <option value="3">
+                            March
+                        </option>
+
+                        <option value="4">
+                            April
+                        </option>
+
+                        <option value="5">
+                            May
+                        </option>
+
+                        <option value="6">
+                            June
+                        </option>
+
+                        <option value="7">
+                            July
+                        </option>
+
+                        <option value="8">
+                            August
+                        </option>
+
+                        <option value="9">
+                            September
+                        </option>
+
+                        <option value="10">
+                            October
+                        </option>
+
+                        <option value="11">
+                            November
+                        </option>
+
+                        <option value="12">
+                            December
+                        </option>
 
                     </select>
 
@@ -153,23 +299,29 @@
                 <div class="input-group">
 
                     <label for="year">
+
                         Year
+
                     </label>
+
 
                     <select id="year">
 
-                        <option value="">Select Year</option>
+                        <option value="">
+                            Select Year
+                        </option>
 
                     </select>
 
                 </div>
 
 
-                <!-- DOWNLOAD BUTTON -->
+                <!-- PDF BUTTON -->
 
                 <button
                     id="downloadPdf"
                     class="download-btn"
+                    type="button"
                 >
 
                     <i class="fa-solid fa-download"></i>
@@ -178,14 +330,17 @@
 
                 </button>
 
+
             </div>
 
 
-            <!-- ===============================
+
+            <!-- ==================================
                  CSV DOWNLOAD
-            ================================ -->
+            =================================== -->
 
             <div class="download-card">
+
 
                 <div class="icon">
 
@@ -193,16 +348,22 @@
 
                 </div>
 
-                <h2>Attendance Data</h2>
+
+                <h2>
+                    Attendance Data
+                </h2>
+
 
                 <p>
-                    Download the attendance data in CSV format for
-                    further analysis.
+                    Download the attendance data in CSV
+                    format for further analysis.
                 </p>
+
 
                 <button
                     id="downloadCsv"
                     class="download-btn csv-btn"
+                    type="button"
                 >
 
                     <i class="fa-solid fa-file-arrow-down"></i>
@@ -211,14 +372,31 @@
 
                 </button>
 
+
             </div>
+
 
         </div>
 
     </div>
 
 
+
+    <!-- ==========================================
+         SWEETALERT
+    =========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
+
+
+    <!-- ==========================================
+         DOWNLOADS JS
+    =========================================== -->
+
     <script src="downloads.js"></script>
+
 
 </body>
 

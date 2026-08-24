@@ -3,59 +3,75 @@
 // REPORTS.JS
 // ==========================================
 
+
 document.addEventListener(
     "DOMContentLoaded",
     () => {
+
 
         /* ==========================================
            ELEMENTS
         ========================================== */
 
         const monthSelect =
-            document.getElementById("month");
+            document.getElementById(
+                "month"
+            );
+
 
         const yearInput =
-            document.getElementById("year");
+            document.getElementById(
+                "year"
+            );
+
 
         const generateButton =
             document.getElementById(
                 "generateReport"
             );
 
+
         const downloadPDF =
             document.getElementById(
                 "downloadPDF"
             );
+
 
         const downloadCSV =
             document.getElementById(
                 "downloadExcel"
             );
 
+
         const reportTable =
             document.getElementById(
                 "reportTable"
             );
+
 
         const totalPlayers =
             document.getElementById(
                 "totalPlayers"
             );
 
+
         const presentPlayers =
             document.getElementById(
                 "presentPlayers"
             );
+
 
         const absentPlayers =
             document.getElementById(
                 "absentPlayers"
             );
 
+
         const excusedPlayers =
             document.getElementById(
                 "excusedPlayers"
             );
+
 
         const attendanceRate =
             document.getElementById(
@@ -63,11 +79,13 @@ document.addEventListener(
             );
 
 
+
         /* ==========================================
            MONTH NAMES
         ========================================== */
 
         const monthNames = [
+
             "January",
             "February",
             "March",
@@ -80,7 +98,9 @@ document.addEventListener(
             "October",
             "November",
             "December"
+
         ];
+
 
 
         /* ==========================================
@@ -107,8 +127,8 @@ document.addEventListener(
         }
 
 
+
         /* ==========================================
-           HELPER
            FORMAT DATE
         ========================================== */
 
@@ -144,6 +164,7 @@ document.addEventListener(
             return date.toLocaleDateString(
                 "en-ZA",
                 {
+
                     day:
                         "2-digit",
 
@@ -152,15 +173,16 @@ document.addEventListener(
 
                     year:
                         "numeric"
+
                 }
             );
 
         }
 
 
+
         /* ==========================================
-           HELPER
-           GET STATUS CLASS
+           STATUS CLASS
         ========================================== */
 
         function getStatusClass(
@@ -202,9 +224,50 @@ document.addEventListener(
         }
 
 
+
         /* ==========================================
-           HELPER
-           SAFE FILE DOWNLOAD
+           ESCAPE HTML
+        ========================================== */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(
+                value ?? ""
+            )
+
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+
+
+
+        /* ==========================================
+           FILE DOWNLOAD
         ========================================== */
 
         async function downloadFile(
@@ -305,10 +368,25 @@ document.addEventListener(
                 );
 
 
-                alert(
-                    error.message ||
-                    errorMessage
-                );
+                await Swal.fire({
+
+                    icon:
+                        "error",
+
+                    title:
+                        "Download Failed",
+
+                    text:
+                        error.message ||
+                        errorMessage,
+
+                    confirmButtonText:
+                        "Okay",
+
+                    confirmButtonColor:
+                        "#ff7a00"
+
+                });
 
 
                 return false;
@@ -317,19 +395,6 @@ document.addEventListener(
 
         }
 
-
-        /* ==========================================
-           GENERATE REPORT BUTTON
-        ========================================== */
-
-        if (generateButton) {
-
-            generateButton.addEventListener(
-                "click",
-                generateReport
-            );
-
-        }
 
 
         /* ==========================================
@@ -356,9 +421,22 @@ document.addEventListener(
 
             if (!month) {
 
-                alert(
-                    "Please select a month."
-                );
+                await Swal.fire({
+
+                    icon:
+                        "warning",
+
+                    title:
+                        "Select a Month",
+
+                    text:
+                        "Please select a month.",
+
+                    confirmButtonColor:
+                        "#ff7a00"
+
+                });
+
 
                 return;
 
@@ -367,9 +445,22 @@ document.addEventListener(
 
             if (!year) {
 
-                alert(
-                    "Please enter a year."
-                );
+                await Swal.fire({
+
+                    icon:
+                        "warning",
+
+                    title:
+                        "Enter a Year",
+
+                    text:
+                        "Please enter a year.",
+
+                    confirmButtonColor:
+                        "#ff7a00"
+
+                });
+
 
                 return;
 
@@ -383,8 +474,11 @@ document.addEventListener(
 
 
                 generateButton.innerHTML = `
+
                     <i class="fa-solid fa-spinner fa-spin"></i>
+
                     Generating...
+
                 `;
 
             }
@@ -392,24 +486,15 @@ document.addEventListener(
 
             try {
 
-                console.log(
-                    "Generating report:",
-                    month,
-                    year
-                );
-
-
-                /* ======================================
-                   LOAD MONTHLY DATA
-                ====================================== */
-
                 const response =
                     await fetch(
+
                         `/api/reports/monthly/data?month=${encodeURIComponent(
                             month
                         )}&year=${encodeURIComponent(
                             year
                         )}`
+
                     );
 
 
@@ -423,7 +508,7 @@ document.addEventListener(
 
                 }
 
-                catch (parseError) {
+                catch (_) {
 
                     throw new Error(
                         "The server returned an invalid report response."
@@ -432,28 +517,24 @@ document.addEventListener(
                 }
 
 
-                if (!response.ok) {
+                if (
+                    !response.ok ||
+                    !result.success
+                ) {
 
                     throw new Error(
+
                         result.message ||
                         "Unable to generate report."
-                    );
 
-                }
-
-
-                if (!result.success) {
-
-                    throw new Error(
-                        result.message ||
-                        "Unable to generate report."
                     );
 
                 }
 
 
                 const report =
-                    result.report || {};
+                    result.report ||
+                    {};
 
 
                 const players =
@@ -480,6 +561,7 @@ document.addEventListener(
                         : [];
 
 
+
                 /* ======================================
                    TOTAL PLAYERS
                 ====================================== */
@@ -492,26 +574,28 @@ document.addEventListener(
                 }
 
 
+
                 /* ======================================
-                   ATTENDANCE STATISTICS
+                   STATISTICS
                 ====================================== */
 
-                let present = 0;
+                let present =
+                    0;
 
-                let absent = 0;
 
-                let excused = 0;
+                let absent =
+                    0;
+
+
+                let excused =
+                    0;
 
 
                 attendance.forEach(
                     record => {
 
-                        const status =
-                            record.attendance_status;
-
-
                         if (
-                            status ===
+                            record.attendance_status ===
                             "Present"
                         ) {
 
@@ -520,7 +604,7 @@ document.addEventListener(
                         }
 
                         else if (
-                            status ===
+                            record.attendance_status ===
                             "Absent"
                         ) {
 
@@ -529,7 +613,7 @@ document.addEventListener(
                         }
 
                         else if (
-                            status ===
+                            record.attendance_status ===
                             "Excused"
                         ) {
 
@@ -588,9 +672,11 @@ document.addEventListener(
                 if (attendanceRate) {
 
                     attendanceRate.textContent =
-                        rate + "%";
+                        rate +
+                        "%";
 
                 }
+
 
 
                 /* ======================================
@@ -608,6 +694,7 @@ document.addEventListener(
                     "";
 
 
+
                 /* ======================================
                    NO PLAYERS
                 ====================================== */
@@ -618,12 +705,18 @@ document.addEventListener(
                 ) {
 
                     reportTable.innerHTML = `
+
                         <tr>
+
                             <td colspan="5">
+
                                 No active players found
                                 for this report.
+
                             </td>
+
                         </tr>
+
                     `;
 
 
@@ -632,8 +725,9 @@ document.addEventListener(
                 }
 
 
+
                 /* ======================================
-                   CREATE REPORT TABLE
+                   CREATE TABLE
                 ====================================== */
 
                 let rowNumber =
@@ -643,9 +737,11 @@ document.addEventListener(
                 players.forEach(
                     player => {
 
+
                         const playerRecords =
                             attendance.filter(
                                 record =>
+
                                     Number(
                                         record.player_id
                                     ) ===
@@ -655,8 +751,9 @@ document.addEventListener(
                             );
 
 
+
                         /* ==================================
-                           PLAYER HAS NO ATTENDANCE
+                           PLAYER WITHOUT ATTENDANCE
                         ================================== */
 
                         if (
@@ -677,21 +774,21 @@ document.addEventListener(
                                 </td>
 
                                 <td>
-                                    ${
-                                        player.first_name ||
-                                        ""
-                                    }
-                                    ${
-                                        player.last_name ||
-                                        ""
-                                    }
+
+                                    ${escapeHtml(
+                                        `${player.first_name || ""} ${player.last_name || ""}`
+                                            .trim()
+                                    )}
+
                                 </td>
 
                                 <td>
-                                    ${
+
+                                    ${escapeHtml(
                                         player.position ||
                                         "-"
-                                    }
+                                    )}
+
                                 </td>
 
                                 <td>
@@ -715,8 +812,9 @@ document.addEventListener(
                         }
 
 
+
                         /* ==================================
-                           SORT PLAYER RECORDS BY DATE
+                           SORT RECORDS BY SESSION DATE
                         ================================== */
 
                         const sortedRecords =
@@ -727,9 +825,11 @@ document.addEventListener(
                                         recordB
                                     ) => {
 
+
                                         const sessionA =
                                             sessions.find(
                                                 session =>
+
                                                     Number(
                                                         session.id
                                                     ) ===
@@ -742,6 +842,7 @@ document.addEventListener(
                                         const sessionB =
                                             sessions.find(
                                                 session =>
+
                                                     Number(
                                                         session.id
                                                     ) ===
@@ -775,28 +876,25 @@ document.addEventListener(
                                 );
 
 
+
                         /* ==================================
-                           CREATE ATTENDANCE ROWS
+                           CREATE ROWS
                         ================================== */
 
                         sortedRecords.forEach(
                             record => {
 
+
                                 const session =
                                     sessions.find(
                                         session =>
+
                                             Number(
                                                 session.id
                                             ) ===
                                             Number(
                                                 record.session_id
                                             )
-                                    );
-
-
-                                const row =
-                                    document.createElement(
-                                        "tr"
                                     );
 
 
@@ -811,6 +909,12 @@ document.addEventListener(
                                     );
 
 
+                                const row =
+                                    document.createElement(
+                                        "tr"
+                                    );
+
+
                                 row.innerHTML = `
 
                                     <td>
@@ -818,35 +922,43 @@ document.addEventListener(
                                     </td>
 
                                     <td>
-                                        ${
-                                            player.first_name ||
-                                            ""
-                                        }
-                                        ${
-                                            player.last_name ||
-                                            ""
-                                        }
+
+                                        ${escapeHtml(
+                                            `${player.first_name || ""} ${player.last_name || ""}`
+                                                .trim()
+                                        )}
+
                                     </td>
 
                                     <td>
-                                        ${
+
+                                        ${escapeHtml(
                                             player.position ||
                                             "-"
-                                        }
+                                        )}
+
                                     </td>
 
                                     <td class="${statusClass}">
-                                        ${status}
+
+                                        ${escapeHtml(
+                                            status
+                                        )}
+
                                     </td>
 
                                     <td>
+
                                         ${
                                             session
-                                                ? formatDate(
-                                                    session.session_date
+                                                ? escapeHtml(
+                                                    formatDate(
+                                                        session.session_date
+                                                    )
                                                 )
                                                 : "-"
                                         }
+
                                     </td>
 
                                 `;
@@ -866,6 +978,7 @@ document.addEventListener(
                 console.log(
                     "Report generated successfully.",
                     {
+
                         players:
                             players.length,
 
@@ -874,6 +987,7 @@ document.addEventListener(
 
                         records:
                             attendance.length
+
                     }
                 );
 
@@ -887,10 +1001,25 @@ document.addEventListener(
                 );
 
 
-                alert(
-                    "Unable to generate the report.\n\n" +
-                    error.message
-                );
+                await Swal.fire({
+
+                    icon:
+                        "error",
+
+                    title:
+                        "Unable to Generate Report",
+
+                    text:
+                        error.message ||
+                        "Something went wrong while generating the report.",
+
+                    confirmButtonText:
+                        "Okay",
+
+                    confirmButtonColor:
+                        "#ff7a00"
+
+                });
 
             }
 
@@ -903,8 +1032,11 @@ document.addEventListener(
 
 
                     generateButton.innerHTML = `
+
                         <i class="fa-solid fa-chart-line"></i>
+
                         Generate Report
+
                     `;
 
                 }
@@ -912,6 +1044,22 @@ document.addEventListener(
             }
 
         }
+
+
+
+        /* ==========================================
+           GENERATE REPORT BUTTON
+        ========================================== */
+
+        if (generateButton) {
+
+            generateButton.addEventListener(
+                "click",
+                generateReport
+            );
+
+        }
+
 
 
         /* ==========================================
@@ -923,6 +1071,7 @@ document.addEventListener(
             downloadPDF.addEventListener(
                 "click",
                 async () => {
+
 
                     const month =
                         monthSelect
@@ -941,9 +1090,100 @@ document.addEventListener(
                         !year
                     ) {
 
-                        alert(
-                            "Please select a month and year."
-                        );
+                        await Swal.fire({
+
+                            icon:
+                                "warning",
+
+                            title:
+                                "Select Month and Year",
+
+                            text:
+                                "Please select a month and year.",
+
+                            confirmButtonColor:
+                                "#ff7a00"
+
+                        });
+
+
+                        return;
+
+                    }
+
+
+                    const monthName =
+                        monthNames[
+                            Number(month) -
+                            1
+                        ];
+
+
+                    const confirmation =
+                        await Swal.fire({
+
+                            icon:
+                                "question",
+
+                            title:
+                                "Download PDF?",
+
+                            html: `
+
+                                <div class="report-download-popup">
+
+                                    <div class="report-download-icon pdf-icon">
+
+                                        <i class="fa-solid fa-file-pdf"></i>
+
+                                    </div>
+
+                                    <p>
+
+                                        Download the Mafori FC attendance
+                                        report for
+
+                                    </p>
+
+                                    <strong>
+
+                                        ${escapeHtml(
+                                            monthName
+                                        )}
+                                        ${escapeHtml(
+                                            year
+                                        )}
+
+                                    </strong>
+
+                                </div>
+
+                            `,
+
+                            showCancelButton:
+                                true,
+
+                            confirmButtonText:
+                                '<i class="fa-solid fa-download"></i> Download PDF',
+
+                            cancelButtonText:
+                                "Cancel",
+
+                            confirmButtonColor:
+                                "#dc2626",
+
+                            cancelButtonColor:
+                                "#64748b",
+
+                            reverseButtons:
+                                true
+
+                        });
+
+
+                    if (
+                        !confirmation.isConfirmed
+                    ) {
 
                         return;
 
@@ -959,8 +1199,11 @@ document.addEventListener(
 
 
                     downloadPDF.innerHTML = `
+
                         <i class="fa-solid fa-spinner fa-spin"></i>
+
                         Downloading PDF...
+
                     `;
 
 
@@ -990,9 +1233,53 @@ document.addEventListener(
 
                     if (success) {
 
-                        console.log(
-                            "PDF downloaded successfully."
-                        );
+                        await Swal.fire({
+
+                            icon:
+                                "success",
+
+                            title:
+                                "PDF Downloaded!",
+
+                            html: `
+
+                                <div class="report-success-popup">
+
+                                    <strong>
+
+                                        ${escapeHtml(
+                                            monthName
+                                        )}
+                                        ${escapeHtml(
+                                            year
+                                        )}
+
+                                    </strong>
+
+                                    <p>
+
+                                        Your Mafori FC PDF attendance
+                                        report has been downloaded successfully.
+
+                                    </p>
+
+                                </div>
+
+                            `,
+
+                            confirmButtonText:
+                                "Done",
+
+                            confirmButtonColor:
+                                "#ff7a00",
+
+                            timer:
+                                2200,
+
+                            timerProgressBar:
+                                true
+
+                        });
 
                     }
 
@@ -1002,9 +1289,9 @@ document.addEventListener(
         }
 
 
+
         /* ==========================================
            DOWNLOAD CSV
-           CURRENT SERVER STILL RETURNS CSV
         ========================================== */
 
         if (downloadCSV) {
@@ -1012,6 +1299,7 @@ document.addEventListener(
             downloadCSV.addEventListener(
                 "click",
                 async () => {
+
 
                     const month =
                         monthSelect
@@ -1030,9 +1318,100 @@ document.addEventListener(
                         !year
                     ) {
 
-                        alert(
-                            "Please select a month and year."
-                        );
+                        await Swal.fire({
+
+                            icon:
+                                "warning",
+
+                            title:
+                                "Select Month and Year",
+
+                            text:
+                                "Please select a month and year.",
+
+                            confirmButtonColor:
+                                "#ff7a00"
+
+                        });
+
+
+                        return;
+
+                    }
+
+
+                    const monthName =
+                        monthNames[
+                            Number(month) -
+                            1
+                        ];
+
+
+                    const confirmation =
+                        await Swal.fire({
+
+                            icon:
+                                "question",
+
+                            title:
+                                "Download CSV?",
+
+                            html: `
+
+                                <div class="report-download-popup">
+
+                                    <div class="report-download-icon csv-icon">
+
+                                        <i class="fa-solid fa-file-csv"></i>
+
+                                    </div>
+
+                                    <p>
+
+                                        Download Mafori FC attendance
+                                        data for
+
+                                    </p>
+
+                                    <strong>
+
+                                        ${escapeHtml(
+                                            monthName
+                                        )}
+                                        ${escapeHtml(
+                                            year
+                                        )}
+
+                                    </strong>
+
+                                </div>
+
+                            `,
+
+                            showCancelButton:
+                                true,
+
+                            confirmButtonText:
+                                '<i class="fa-solid fa-download"></i> Download CSV',
+
+                            cancelButtonText:
+                                "Cancel",
+
+                            confirmButtonColor:
+                                "#16a34a",
+
+                            cancelButtonColor:
+                                "#64748b",
+
+                            reverseButtons:
+                                true
+
+                        });
+
+
+                    if (
+                        !confirmation.isConfirmed
+                    ) {
 
                         return;
 
@@ -1048,24 +1427,28 @@ document.addEventListener(
 
 
                     downloadCSV.innerHTML = `
+
                         <i class="fa-solid fa-spinner fa-spin"></i>
+
                         Downloading...
+
                     `;
 
 
-                    await downloadFile(
+                    const success =
+                        await downloadFile(
 
-                        `/api/reports/monthly/csv?month=${encodeURIComponent(
-                            month
-                        )}&year=${encodeURIComponent(
-                            year
-                        )}`,
+                            `/api/reports/monthly/csv?month=${encodeURIComponent(
+                                month
+                            )}&year=${encodeURIComponent(
+                                year
+                            )}`,
 
-                        `Mafori_FC_Attendance_${month}_${year}.csv`,
+                            `Mafori_FC_Attendance_${month}_${year}.csv`,
 
-                        "Unable to download the attendance spreadsheet."
+                            "Unable to download the attendance spreadsheet."
 
-                    );
+                        );
 
 
                     downloadCSV.disabled =
@@ -1075,10 +1458,64 @@ document.addEventListener(
                     downloadCSV.innerHTML =
                         originalHTML;
 
+
+                    if (success) {
+
+                        await Swal.fire({
+
+                            icon:
+                                "success",
+
+                            title:
+                                "CSV Downloaded!",
+
+                            html: `
+
+                                <div class="report-success-popup">
+
+                                    <strong>
+
+                                        ${escapeHtml(
+                                            monthName
+                                        )}
+                                        ${escapeHtml(
+                                            year
+                                        )}
+
+                                    </strong>
+
+                                    <p>
+
+                                        Your Mafori FC attendance CSV
+                                        has been downloaded successfully.
+
+                                    </p>
+
+                                </div>
+
+                            `,
+
+                            confirmButtonText:
+                                "Done",
+
+                            confirmButtonColor:
+                                "#ff7a00",
+
+                            timer:
+                                2200,
+
+                            timerProgressBar:
+                                true
+
+                        });
+
+                    }
+
                 }
             );
 
         }
+
 
 
         /* ==========================================
@@ -1089,3 +1526,153 @@ document.addEventListener(
 
     }
 );
+
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+async function logout() {
+
+    const result =
+        await Swal.fire({
+
+            icon:
+                "question",
+
+            title:
+                "Logout from Mafori FC?",
+
+            html: `
+
+                <div class="reports-logout-popup">
+
+                    <div class="logout-ball">
+
+                        <i class="fa-solid fa-futbol"></i>
+
+                    </div>
+
+                    <p>
+
+                        Are you sure you want to logout
+                        from the Mafori FC Attendance Register?
+
+                    </p>
+
+                    <span>
+
+                        Your reports and attendance records
+                        are safely stored.
+
+                    </span>
+
+                </div>
+
+            `,
+
+            showCancelButton:
+                true,
+
+            confirmButtonText:
+                '<i class="fa-solid fa-right-from-bracket"></i> Yes, Logout',
+
+            cancelButtonText:
+                '<i class="fa-solid fa-xmark"></i> Stay Logged In',
+
+            confirmButtonColor:
+                "#ff7a00",
+
+            cancelButtonColor:
+                "#64748b",
+
+            reverseButtons:
+                true,
+
+            focusCancel:
+                true,
+
+            showClass: {
+
+                popup:
+                    "reports-popup-in"
+
+            },
+
+            hideClass: {
+
+                popup:
+                    "reports-popup-out"
+
+            }
+
+        });
+
+
+    if (
+        !result.isConfirmed
+    ) {
+
+        return;
+
+    }
+
+
+    Swal.fire({
+
+        title:
+            "Logging Out...",
+
+        html: `
+
+            <div class="reports-logout-loading">
+
+                <div class="logout-spinner-ball">
+
+                    <i class="fa-solid fa-futbol"></i>
+
+                </div>
+
+                <p>
+                    Signing you out of Mafori FC...
+                </p>
+
+            </div>
+
+        `,
+
+        showConfirmButton:
+            false,
+
+        allowOutsideClick:
+            false,
+
+        allowEscapeKey:
+            false,
+
+        timer:
+            1000
+
+    });
+
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    sessionStorage.clear();
+
+
+    setTimeout(
+        () => {
+
+            window.location.href =
+                "login.html";
+
+        },
+        1000
+    );
+
+}

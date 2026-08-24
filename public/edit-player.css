@@ -1,7 +1,6 @@
 /* =====================================================
    MAFORI FC ATTENDANCE REGISTER
    EDIT PLAYER PAGE
-   MATCH MANAGEMENT STYLE
 ===================================================== */
 
 
@@ -13,7 +12,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    font-family:
+        "Poppins",
+        sans-serif;
 }
+
 
 html {
     scroll-behavior: smooth;
@@ -25,8 +29,6 @@ html {
 ===================================================== */
 
 body {
-    font-family: "Poppins", sans-serif;
-
     min-height: 100vh;
 
     background:
@@ -55,10 +57,11 @@ body {
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
-    padding: 40px 20px;
+    padding:
+        40px
+        20px;
 }
 
 
@@ -70,26 +73,46 @@ body {
     position: relative;
 
     width: 100%;
+
     max-width: 680px;
 
     padding: 38px;
 
     border-radius: 18px;
 
-    background: rgba(255, 255, 255, 0.97);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.97
+        );
 
-    border: 1px solid #e8edf3;
+    border:
+        1px solid
+        #e8edf3;
 
     box-shadow:
-        0 20px 50px rgba(15, 23, 42, 0.09);
+        0 20px 50px
+        rgba(
+            15,
+            23,
+            42,
+            0.09
+        );
 
     overflow: hidden;
 
-    animation: fadeIn 0.5s ease;
+    animation:
+        pageFadeIn
+        0.55s
+        ease;
 }
 
 
-/* TOP ORANGE ACCENT */
+/* =====================================================
+   TOP ORANGE ACCENT
+===================================================== */
 
 .card::before {
     content: "";
@@ -112,33 +135,47 @@ body {
 
 
 /* =====================================================
-   BACK BUTTON
+   TOP ACTION BUTTONS
 ===================================================== */
 
 .back-button-container {
-    margin-bottom: 24px;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 27px;
 }
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
 
 .back-button {
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 9px;
 
-    padding: 10px 16px;
+    padding:
+        10px
+        16px;
 
-    border: 1px solid #e2e8f0;
+    border:
+        1px solid
+        #e2e8f0;
 
     border-radius: 10px;
 
     background: #ffffff;
 
     color: #0b1f3a;
-
-    font-family: "Poppins", sans-serif;
 
     font-size: 13px;
 
@@ -147,7 +184,13 @@ body {
     cursor: pointer;
 
     box-shadow:
-        0 5px 16px rgba(15, 23, 42, 0.05);
+        0 5px 16px
+        rgba(
+            15,
+            23,
+            42,
+            0.05
+        );
 
     transition:
         transform 0.25s ease,
@@ -156,9 +199,11 @@ body {
         box-shadow 0.25s ease;
 }
 
+
 .back-button i {
     font-size: 13px;
 }
+
 
 .back-button:hover {
     background:
@@ -172,10 +217,146 @@ body {
 
     border-color: transparent;
 
-    transform: translateX(-3px);
+    transform:
+        translateX(
+            -3px
+        );
 
     box-shadow:
-        0 10px 22px rgba(255, 106, 0, 0.20);
+        0 10px 22px
+        rgba(
+            255,
+            106,
+            0,
+            0.20
+        );
+}
+
+
+/* =====================================================
+   LOGOUT BUTTON
+===================================================== */
+
+.logout-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding:
+        10px
+        16px;
+
+    border:
+        1px solid
+        #fee2e2;
+
+    border-radius: 10px;
+
+    background:
+        #fff7f7;
+
+    color:
+        #dc2626;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.logout-button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color: #ffffff;
+
+    border-color:
+        transparent;
+
+    transform:
+        translateY(
+            -2px
+        );
+
+    box-shadow:
+        0 10px 22px
+        rgba(
+            255,
+            106,
+            0,
+            0.20
+        );
+}
+
+
+/* =====================================================
+   PAGE HEADING
+===================================================== */
+
+.page-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 30px;
+}
+
+
+/* =====================================================
+   HEADING ICON
+===================================================== */
+
+.heading-icon {
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    color:
+        #ff7a00;
+
+    font-size: 22px;
+
+    box-shadow:
+        inset
+        0 0 0 1px
+        rgba(
+            255,
+            138,
+            0,
+            0.10
+        );
 }
 
 
@@ -183,16 +364,18 @@ body {
    TITLE
 ===================================================== */
 
-.card h1 {
-    color: #0f172a;
+.page-heading h1 {
+    color:
+        #0f172a;
 
     font-size: 31px;
 
     font-weight: 800;
 
-    letter-spacing: -0.4px;
+    letter-spacing:
+        -0.4px;
 
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 
@@ -200,14 +383,13 @@ body {
    DESCRIPTION
 ===================================================== */
 
-.card > p {
-    color: #64748b;
+.page-heading p {
+    color:
+        #64748b;
 
-    font-size: 14px;
+    font-size: 13px;
 
-    line-height: 1.7;
-
-    margin-bottom: 28px;
+    line-height: 1.6;
 }
 
 
@@ -234,15 +416,30 @@ body {
 ===================================================== */
 
 .input-group label {
-    display: block;
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
 
     margin-bottom: 8px;
 
-    color: #334155;
+    color:
+        #334155;
 
     font-size: 13px;
 
     font-weight: 700;
+}
+
+
+.input-group label i {
+    width: 16px;
+
+    color:
+        #ff7a00;
+
+    text-align: center;
 }
 
 
@@ -256,17 +453,21 @@ body {
 
     height: 48px;
 
-    padding: 0 14px;
+    padding:
+        0
+        14px;
 
-    border: 1px solid #dbe3ec;
+    border:
+        1px solid
+        #dbe3ec;
 
     border-radius: 10px;
 
-    background: #f8fafc;
+    background:
+        #f8fafc;
 
-    color: #0f172a;
-
-    font-family: "Poppins", sans-serif;
+    color:
+        #0f172a;
 
     font-size: 14px;
 
@@ -275,7 +476,8 @@ body {
     transition:
         border-color 0.25s ease,
         background 0.25s ease,
-        box-shadow 0.25s ease;
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
 }
 
 
@@ -285,7 +487,8 @@ body {
 
 .input-group input:hover,
 .input-group select:hover {
-    border-color: #cbd5e1;
+    border-color:
+        #cbd5e1;
 }
 
 
@@ -295,12 +498,25 @@ body {
 
 .input-group input:focus,
 .input-group select:focus {
-    border-color: #ff8a00;
+    border-color:
+        #ff8a00;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
     box-shadow:
-        0 0 0 3px rgba(255, 138, 0, 0.10);
+        0 0 0 3px
+        rgba(
+            255,
+            138,
+            0,
+            0.10
+        );
+
+    transform:
+        translateY(
+            -1px
+        );
 }
 
 
@@ -309,7 +525,8 @@ body {
 ===================================================== */
 
 .input-group input::placeholder {
-    color: #94a3b8;
+    color:
+        #94a3b8;
 }
 
 
@@ -332,15 +549,15 @@ body {
 
 
 /* =====================================================
-   SUBMIT BUTTON
+   UPDATE PLAYER BUTTON
 ===================================================== */
 
-#editPlayerForm button[type="submit"] {
+.update-player-button {
     width: 100%;
 
     height: 50px;
 
-    margin-top: 6px;
+    margin-top: 7px;
 
     border: none;
 
@@ -353,20 +570,26 @@ body {
             #ff6a00
         );
 
-    color: #ffffff;
-
-    font-family: "Poppins", sans-serif;
+    color:
+        #ffffff;
 
     font-size: 14px;
 
     font-weight: 700;
 
-    letter-spacing: 0.2px;
+    letter-spacing:
+        0.2px;
 
     cursor: pointer;
 
     box-shadow:
-        0 10px 25px rgba(255, 106, 0, 0.20);
+        0 10px 25px
+        rgba(
+            255,
+            106,
+            0,
+            0.20
+        );
 
     transition:
         transform 0.25s ease,
@@ -374,32 +597,48 @@ body {
         filter 0.25s ease;
 }
 
-#editPlayerForm button[type="submit"]:hover {
-    transform: translateY(-2px);
 
-    box-shadow:
-        0 14px 30px rgba(255, 106, 0, 0.28);
-
-    filter: brightness(1.04);
-}
-
-#editPlayerForm button[type="submit"]:active {
-    transform: translateY(0);
-}
-
-#editPlayerForm button[type="submit"] i {
+.update-player-button i {
     margin-right: 8px;
 }
 
 
-/* =====================================================
-   DISABLED BUTTON
-===================================================== */
+.update-player-button:hover {
+    transform:
+        translateY(
+            -2px
+        );
 
-#editPlayerForm button[type="submit"]:disabled {
-    background: #94a3b8;
+    box-shadow:
+        0 14px 30px
+        rgba(
+            255,
+            106,
+            0,
+            0.28
+        );
 
-    cursor: not-allowed;
+    filter:
+        brightness(
+            1.04
+        );
+}
+
+
+.update-player-button:active {
+    transform:
+        translateY(
+            0
+        );
+}
+
+
+.update-player-button:disabled {
+    background:
+        #94a3b8;
+
+    cursor:
+        not-allowed;
 
     transform: none;
 
@@ -410,30 +649,411 @@ body {
 
 
 /* =====================================================
-   SWEETALERT
+   SWEETALERT GENERAL
 ===================================================== */
 
 .swal2-popup {
-    font-family: "Poppins", sans-serif !important;
+    font-family:
+        "Poppins",
+        sans-serif !important;
 
-    border-radius: 16px !important;
+    border-radius:
+        22px !important;
+
+    padding:
+        2em !important;
+
+    border:
+        1px solid
+        #edf0f4 !important;
+
+    box-shadow:
+        0 30px 80px
+        rgba(
+            15,
+            23,
+            42,
+            0.22
+        ) !important;
+}
+
+
+.swal2-title {
+    color:
+        #0f172a !important;
+
+    font-size:
+        24px !important;
+
+    font-weight:
+        800 !important;
+}
+
+
+.swal2-html-container {
+    font-family:
+        "Poppins",
+        sans-serif !important;
+}
+
+
+.swal2-confirm,
+.swal2-cancel {
+    border-radius:
+        10px !important;
+
+    padding:
+        11px
+        19px !important;
+
+    font-family:
+        "Poppins",
+        sans-serif !important;
+
+    font-size:
+        13px !important;
+
+    font-weight:
+        600 !important;
+
+    box-shadow:
+        none !important;
+
+    transition:
+        transform
+        0.2s
+        ease !important;
+}
+
+
+.swal2-confirm:hover,
+.swal2-cancel:hover {
+    transform:
+        translateY(
+            -2px
+        );
+}
+
+
+.swal2-timer-progress-bar {
+    background:
+        linear-gradient(
+            90deg,
+            #ff8a00,
+            #ff6a00
+        ) !important;
 }
 
 
 /* =====================================================
-   ANIMATION
+   EDIT CONFIRM POPUP
 ===================================================== */
 
-@keyframes fadeIn {
+.edit-confirm-popup {
+    text-align: center;
+}
+
+
+.edit-player-icon {
+    width: 58px;
+    height: 58px;
+
+    margin:
+        0 auto
+        16px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 17px;
+
+    background:
+        #fff7ed;
+
+    color:
+        #ff7a00;
+
+    font-size: 24px;
+}
+
+
+.edit-confirm-popup p {
+    margin-bottom: 6px;
+
+    color:
+        #64748b;
+
+    font-size: 13px;
+}
+
+
+.edit-confirm-popup strong {
+    display: block;
+
+    color:
+        #0f172a;
+
+    font-size: 18px;
+}
+
+
+.edit-confirm-popup span {
+    display: block;
+
+    margin-top: 6px;
+
+    color:
+        #94a3b8;
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   EDIT SUCCESS POPUP
+===================================================== */
+
+.edit-success-popup {
+    text-align: center;
+}
+
+
+.edit-success-name {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        10px
+        15px;
+
+    border-radius: 30px;
+
+    background:
+        #fff4e5;
+
+    color:
+        #ff7a00;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.edit-success-popup p {
+    margin:
+        15px
+        0;
+
+    color:
+        #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+.edit-success-popup > span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        8px
+        13px;
+
+    border-radius: 30px;
+
+    background:
+        #eaf8ef;
+
+    color:
+        #20863d;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   LOGOUT POPUP
+===================================================== */
+
+.edit-logout-popup {
+    text-align: center;
+}
+
+
+.logout-ball {
+    width: 58px;
+    height: 58px;
+
+    margin:
+        0 auto
+        18px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    color:
+        #ff7a00;
+
+    font-size: 25px;
+}
+
+
+.edit-logout-popup p {
+    margin-bottom: 9px;
+
+    color:
+        #334155;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.edit-logout-popup span {
+    color:
+        #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   LOGGING OUT POPUP
+===================================================== */
+
+.edit-logout-loading {
+    text-align: center;
+}
+
+
+.logout-spinner-ball {
+    width: 64px;
+    height: 64px;
+
+    margin:
+        5px auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color:
+        #ffffff;
+
+    font-size: 28px;
+
+    box-shadow:
+        0 13px 30px
+        rgba(
+            255,
+            106,
+            0,
+            0.28
+        );
+
+    animation:
+        editBallSpin
+        0.8s
+        linear
+        infinite;
+}
+
+
+.edit-logout-loading p {
+    color:
+        #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   PAGE ANIMATION
+===================================================== */
+
+@keyframes pageFadeIn {
+
     from {
         opacity: 0;
-        transform: translateY(18px);
+
+        transform:
+            translateY(
+                18px
+            );
     }
+
 
     to {
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(
+                0
+            );
     }
+
+}
+
+
+/* =====================================================
+   BALL ANIMATION
+===================================================== */
+
+@keyframes editBallSpin {
+
+    from {
+        transform:
+            rotate(
+                0deg
+            );
+    }
+
+
+    to {
+        transform:
+            rotate(
+                360deg
+            );
+    }
+
 }
 
 
@@ -441,13 +1061,19 @@ body {
    TABLET
 ===================================================== */
 
-@media (max-width: 700px) {
+@media (
+    max-width: 700px
+) {
 
     .container {
-        padding: 28px 18px;
+        padding:
+            28px
+            18px;
 
-        align-items: flex-start;
+        align-items:
+            flex-start;
     }
+
 
     .card {
         margin-top: 18px;
@@ -457,7 +1083,8 @@ body {
         border-radius: 16px;
     }
 
-    .card h1 {
+
+    .page-heading h1 {
         font-size: 27px;
     }
 
@@ -468,47 +1095,83 @@ body {
    MOBILE
 ===================================================== */
 
-@media (max-width: 480px) {
+@media (
+    max-width: 480px
+) {
 
     body {
-        background-attachment: scroll;
+        background-attachment:
+            scroll;
     }
 
+
     .container {
-        padding: 18px 12px;
+        padding:
+            18px
+            12px;
     }
+
 
     .card {
         margin-top: 8px;
 
-        padding: 24px 18px;
+        padding:
+            24px
+            18px;
 
         border-radius: 15px;
     }
 
-    .card h1 {
+
+    .back-button-container {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .back-button,
+    .logout-button {
+        width: 100%;
+    }
+
+
+    .page-heading {
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+
+    .heading-icon {
+        width: 48px;
+        height: 48px;
+
+        border-radius: 14px;
+
+        font-size: 19px;
+    }
+
+
+    .page-heading h1 {
         font-size: 24px;
     }
 
-    .card > p {
-        font-size: 13px;
 
-        margin-bottom: 24px;
-    }
-
-    .back-button {
-        padding: 9px 13px;
-
+    .page-heading p {
         font-size: 12px;
     }
+
 
     .input-group {
         margin-bottom: 18px;
     }
 
+
     .input-group label {
         font-size: 13px;
     }
+
 
     .input-group input,
     .input-group select {
@@ -517,10 +1180,22 @@ body {
         font-size: 13px;
     }
 
-    #editPlayerForm button[type="submit"] {
+
+    .update-player-button {
         height: 48px;
 
         font-size: 13px;
+    }
+
+
+    .swal2-popup {
+        width:
+            calc(
+                100% - 24px
+            ) !important;
+
+        padding:
+            1.5em !important;
     }
 
 }
