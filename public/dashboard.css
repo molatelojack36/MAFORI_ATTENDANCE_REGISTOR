@@ -1,11 +1,8 @@
 /* =====================================================
-   MAFORI FC
-   POLISHED PAGE STYLE
+   MAFORI FC ATTENDANCE REGISTER
+   DASHBOARD PAGE
+   POLISHED DARK BACKGROUND VERSION
 ===================================================== */
-
-@import url(
-    "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-);
 
 
 /* =====================================================
@@ -27,6 +24,10 @@ html {
     scroll-behavior: smooth;
 }
 
+
+/* =====================================================
+   BODY
+===================================================== */
 
 body {
     min-height: 100vh;
@@ -52,7 +53,9 @@ body {
     width: 260px;
     height: 100vh;
 
-    padding: 24px 14px;
+    padding:
+        24px
+        14px;
 
     background:
         linear-gradient(
@@ -65,7 +68,12 @@ body {
 
     box-shadow:
         8px 0 30px
-        rgba(15, 23, 42, 0.18);
+        rgba(
+            15,
+            23,
+            42,
+            0.20
+        );
 
     z-index: 1000;
 
@@ -74,7 +82,7 @@ body {
 
 
 /* =====================================================
-   SIDEBAR LOGO
+   SIDEBAR TITLE
 ===================================================== */
 
 .sidebar h2 {
@@ -99,9 +107,18 @@ body {
 
     border-bottom:
         1px solid
-        rgba(255, 255, 255, 0.08);
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
 }
 
+
+/* =====================================================
+   SIDEBAR FOOTBALL ICON
+===================================================== */
 
 .sidebar h2::before {
     content: "\f1e3";
@@ -114,6 +131,7 @@ body {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     width: 54px;
@@ -138,7 +156,12 @@ body {
 
     box-shadow:
         0 12px 25px
-        rgba(255, 111, 0, 0.28);
+        rgba(
+            255,
+            111,
+            0,
+            0.28
+        );
 }
 
 
@@ -204,12 +227,23 @@ body {
 }
 
 
+/* =====================================================
+   SIDEBAR HOVER
+===================================================== */
+
 .sidebar li:hover {
     background:
-        rgba(255, 152, 0, 0.13);
+        rgba(
+            255,
+            152,
+            0,
+            0.13
+        );
 
     transform:
-        translateX(3px);
+        translateX(
+            3px
+        );
 }
 
 
@@ -237,7 +271,12 @@ body {
 
     box-shadow:
         0 8px 20px
-        rgba(255, 111, 0, 0.22);
+        rgba(
+            255,
+            111,
+            0,
+            0.22
+        );
 }
 
 
@@ -248,7 +287,7 @@ body {
 
 
 /* =====================================================
-   LOGOUT
+   LOGOUT MENU
 ===================================================== */
 
 .sidebar .logout-menu-item {
@@ -268,7 +307,12 @@ body {
 
 .sidebar .logout-menu-item:hover {
     background:
-        rgba(239, 68, 68, 0.12);
+        rgba(
+            239,
+            68,
+            68,
+            0.12
+        );
 }
 
 
@@ -284,6 +328,7 @@ body {
 
 /* =====================================================
    MAIN CONTENT
+   DARKENED MAFORI FC LOGO
 ===================================================== */
 
 .main,
@@ -293,7 +338,9 @@ body {
     margin-left: 260px;
 
     width:
-        calc(100% - 260px);
+        calc(
+            100% - 260px
+        );
 
     min-height: 100vh;
 
@@ -303,6 +350,20 @@ body {
         60px;
 
     background-image:
+        linear-gradient(
+            rgba(
+                7,
+                26,
+                53,
+                0.68
+            ),
+            rgba(
+                7,
+                26,
+                53,
+                0.72
+            )
+        ),
         url("MAFORI_FC_LOGO.jpeg");
 
     background-size: cover;
@@ -318,9 +379,7 @@ body {
 
 
 /* =====================================================
-   LIGHT OVERLAY
-
-   Keeps the original Mafori FC logo colours visible.
+   SECOND SOFT DARK LAYER
 ===================================================== */
 
 .main::before,
@@ -332,7 +391,27 @@ body {
     inset: 0;
 
     background:
-        rgba(7, 26, 53, 0.12);
+        linear-gradient(
+            135deg,
+            rgba(
+                7,
+                26,
+                53,
+                0.22
+            ) 0%,
+            rgba(
+                7,
+                26,
+                53,
+                0.08
+            ) 50%,
+            rgba(
+                7,
+                26,
+                53,
+                0.28
+            ) 100%
+        );
 
     pointer-events: none;
 
@@ -340,80 +419,15 @@ body {
 }
 
 
+/* =====================================================
+   KEEP CONTENT ABOVE BACKGROUND
+===================================================== */
+
 .main > *,
 .main-content > * {
     position: relative;
 
     z-index: 2;
-}
-
-
-/* =====================================================
-   BACK BUTTON
-===================================================== */
-
-.back-button-container {
-    margin-bottom: 24px;
-}
-
-
-.back-button {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    padding:
-        11px
-        17px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.75);
-
-    border-radius: 10px;
-
-    background:
-        rgba(255, 255, 255, 0.94);
-
-    color: #071a35;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 8px 24px
-        rgba(15, 23, 42, 0.13);
-
-    backdrop-filter:
-        blur(7px);
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
-}
-
-
-.back-button:hover {
-    background: #ffffff;
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 12px 30px
-        rgba(15, 23, 42, 0.18);
-}
-
-
-.back-button i {
-    color: #ff7a00;
 }
 
 
@@ -426,6 +440,7 @@ header {
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     gap: 20px;
@@ -451,8 +466,13 @@ header h1 {
     letter-spacing: -0.5px;
 
     text-shadow:
-        0 2px 7px
-        rgba(0, 0, 0, 0.38);
+        0 3px 12px
+        rgba(
+            0,
+            0,
+            0,
+            0.65
+        );
 }
 
 
@@ -467,7 +487,12 @@ header p {
     margin-top: 7px;
 
     color:
-        rgba(255, 255, 255, 0.92);
+        rgba(
+            255,
+            255,
+            255,
+            0.95
+        );
 
     font-size: 14px;
 
@@ -476,8 +501,13 @@ header p {
     line-height: 1.7;
 
     text-shadow:
-        0 1px 4px
-        rgba(0, 0, 0, 0.32);
+        0 2px 7px
+        rgba(
+            0,
+            0,
+            0,
+            0.60
+        );
 }
 
 
@@ -491,7 +521,10 @@ header p {
     grid-template-columns:
         repeat(
             3,
-            minmax(0, 1fr)
+            minmax(
+                0,
+                1fr
+            )
         );
 
     gap: 20px;
@@ -501,14 +534,12 @@ header p {
 
 
 /* =====================================================
-   CARDS
+   DASHBOARD CARDS
 ===================================================== */
 
 .card,
 .stat-card {
     position: relative;
-
-    display: block;
 
     min-width: 0;
 
@@ -519,11 +550,21 @@ header p {
     overflow: hidden;
 
     background:
-        rgba(255, 255, 255, 0.94);
+        rgba(
+            255,
+            255,
+            255,
+            0.91
+        );
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.78);
+        rgba(
+            255,
+            255,
+            255,
+            0.74
+        );
 
     border-radius: 17px;
 
@@ -533,13 +574,22 @@ header p {
 
     box-shadow:
         0 15px 38px
-        rgba(15, 23, 42, 0.16);
+        rgba(
+            15,
+            23,
+            42,
+            0.20
+        );
 
     backdrop-filter:
-        blur(8px);
+        blur(
+            12px
+        );
 
     -webkit-backdrop-filter:
-        blur(8px);
+        blur(
+            12px
+        );
 
     transition:
         transform 0.25s ease,
@@ -549,12 +599,13 @@ header p {
     animation:
         cardFadeIn
         0.5s
-        ease both;
+        ease
+        both;
 }
 
 
 /* =====================================================
-   ORANGE TOP BORDER
+   CARD ORANGE TOP BORDER
 ===================================================== */
 
 .card::before,
@@ -579,20 +630,62 @@ header p {
 
 
 /* =====================================================
+   CARD SOFT DECORATION
+===================================================== */
+
+.card::after,
+.stat-card::after {
+    content: "";
+
+    position: absolute;
+
+    right: -45px;
+    bottom: -45px;
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            255,
+            152,
+            0,
+            0.05
+        );
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
    CARD HOVER
 ===================================================== */
 
 .card:hover,
 .stat-card:hover {
     transform:
-        translateY(-6px);
+        translateY(
+            -5px
+        );
 
     border-color:
-        rgba(255, 152, 0, 0.40);
+        rgba(
+            255,
+            152,
+            0,
+            0.42
+        );
 
     box-shadow:
         0 22px 50px
-        rgba(15, 23, 42, 0.22);
+        rgba(
+            15,
+            23,
+            42,
+            0.27
+        );
 }
 
 
@@ -602,19 +695,30 @@ header p {
 
 .card > i,
 .stat-card > i {
+    position: relative;
+
+    z-index: 2;
+
     width: 50px;
     height: 50px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     margin-bottom: 20px;
 
     border-radius: 14px;
 
-    background: #fff7ed;
+    background:
+        rgba(
+            255,
+            247,
+            237,
+            0.96
+        );
 
     color: #ff7a00;
 
@@ -623,15 +727,24 @@ header p {
     box-shadow:
         inset
         0 0 0 1px
-        rgba(255, 122, 0, 0.13);
+        rgba(
+            255,
+            122,
+            0,
+            0.13
+        );
 }
 
 
 /* =====================================================
-   CARD TITLE
+   CARD TITLES / NUMBERS
 ===================================================== */
 
 .card h2 {
+    position: relative;
+
+    z-index: 2;
+
     margin-bottom: 10px;
 
     color: #0f172a;
@@ -641,12 +754,14 @@ header p {
     font-weight: 800;
 
     line-height: 1.3;
-
-    text-decoration: none;
 }
 
 
 .stat-card h1 {
+    position: relative;
+
+    z-index: 2;
+
     margin-bottom: 7px;
 
     color: #071a35;
@@ -658,6 +773,10 @@ header p {
 
 
 .stat-card h3 {
+    position: relative;
+
+    z-index: 2;
+
     color: #64748b;
 
     font-size: 13px;
@@ -671,6 +790,10 @@ header p {
 ===================================================== */
 
 .card p {
+    position: relative;
+
+    z-index: 2;
+
     color: #64748b;
 
     font-size: 13px;
@@ -678,28 +801,11 @@ header p {
     font-weight: 400;
 
     line-height: 1.7;
-
-    text-decoration: none;
-}
-
-
-/* Prevent browser link styles */
-.card:link,
-.card:visited,
-.card:hover,
-.card:active {
-    text-decoration: none;
-}
-
-
-.card h2,
-.card p {
-    text-decoration: none;
 }
 
 
 /* =====================================================
-   WELCOME / INFORMATION PANEL
+   WELCOME CARD
 ===================================================== */
 
 .welcome {
@@ -714,22 +820,48 @@ header p {
     overflow: hidden;
 
     background:
-        rgba(255, 255, 255, 0.94);
+        rgba(
+            255,
+            255,
+            255,
+            0.91
+        );
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.78);
+        rgba(
+            255,
+            255,
+            255,
+            0.74
+        );
 
     border-radius: 18px;
 
     box-shadow:
         0 16px 40px
-        rgba(15, 23, 42, 0.16);
+        rgba(
+            15,
+            23,
+            42,
+            0.20
+        );
 
     backdrop-filter:
-        blur(8px);
+        blur(
+            12px
+        );
+
+    -webkit-backdrop-filter:
+        blur(
+            12px
+        );
 }
 
+
+/* =====================================================
+   WELCOME ORANGE STRIPE
+===================================================== */
 
 .welcome::before {
     content: "";
@@ -751,6 +883,10 @@ header p {
 }
 
 
+/* =====================================================
+   WELCOME TITLE
+===================================================== */
+
 .welcome h2 {
     margin-bottom: 10px;
 
@@ -761,6 +897,10 @@ header p {
     font-weight: 800;
 }
 
+
+/* =====================================================
+   WELCOME TEXT
+===================================================== */
 
 .welcome p {
     max-width: 850px;
@@ -784,22 +924,43 @@ header p {
     padding: 18px;
 
     background:
-        rgba(255, 255, 255, 0.94);
+        rgba(
+            255,
+            255,
+            255,
+            0.92
+        );
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.78);
+        rgba(
+            255,
+            255,
+            255,
+            0.74
+        );
 
     border-radius: 15px;
 
     box-shadow:
         0 12px 32px
-        rgba(15, 23, 42, 0.14);
+        rgba(
+            15,
+            23,
+            42,
+            0.17
+        );
 
     backdrop-filter:
-        blur(8px);
+        blur(
+            10px
+        );
 }
 
+
+/* =====================================================
+   SEARCH INPUT
+===================================================== */
 
 .search-box {
     position: relative;
@@ -810,10 +971,13 @@ header p {
     position: absolute;
 
     left: 36px;
+
     top: 50%;
 
     transform:
-        translateY(-50%);
+        translateY(
+            -50%
+        );
 
     color: #94a3b8;
 }
@@ -828,7 +992,8 @@ header p {
         16px;
 
     border:
-        1px solid #dbe1e8;
+        1px solid
+        #dbe1e8;
 
     border-radius: 10px;
 
@@ -860,7 +1025,12 @@ header p {
 
     box-shadow:
         0 0 0 3px
-        rgba(255, 152, 0, 0.12);
+        rgba(
+            255,
+            152,
+            0,
+            0.12
+        );
 }
 
 
@@ -873,31 +1043,55 @@ header p {
     overflow: hidden;
 
     background:
-        rgba(255, 255, 255, 0.96);
+        rgba(
+            255,
+            255,
+            255,
+            0.93
+        );
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.78);
+        rgba(
+            255,
+            255,
+            255,
+            0.74
+        );
 
     border-radius: 17px;
 
     box-shadow:
         0 16px 40px
-        rgba(15, 23, 42, 0.17);
+        rgba(
+            15,
+            23,
+            42,
+            0.20
+        );
 
     backdrop-filter:
-        blur(8px);
+        blur(
+            10px
+        );
+
+    -webkit-backdrop-filter:
+        blur(
+            10px
+        );
 }
 
 
 /* =====================================================
-   SCROLLABLE TABLE
+   TABLE SCROLL
 ===================================================== */
 
 .table-scroll,
 .table-container {
     max-height:
-        calc(100vh - 285px);
+        calc(
+            100vh - 285px
+        );
 
     overflow: auto;
 }
@@ -956,7 +1150,8 @@ tbody td {
         18px;
 
     border-bottom:
-        1px solid #edf0f4;
+        1px solid
+        #edf0f4;
 
     color: #475569;
 
@@ -968,7 +1163,9 @@ tbody td {
 
 tbody tr {
     transition:
-        background 0.2s ease;
+        background
+        0.2s
+        ease;
 }
 
 
@@ -1022,9 +1219,11 @@ tbody tr:hover {
     display: inline-flex;
 
     align-items: center;
+
     justify-content: center;
 
     width: 36px;
+
     height: 36px;
 
     margin-right: 6px;
@@ -1045,7 +1244,9 @@ tbody tr:hover {
 
 .action-btn:hover {
     transform:
-        translateY(-2px);
+        translateY(
+            -2px
+        );
 
     opacity: 0.88;
 }
@@ -1084,7 +1285,12 @@ tbody tr:hover {
 
     box-shadow:
         0 30px 80px
-        rgba(7, 26, 53, 0.25) !important;
+        rgba(
+            7,
+            26,
+            53,
+            0.28
+        ) !important;
 }
 
 
@@ -1153,6 +1359,7 @@ tbody tr:hover {
 
 .logout-ball {
     width: 58px;
+
     height: 58px;
 
     margin:
@@ -1162,6 +1369,7 @@ tbody tr:hover {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     border-radius: 18px;
@@ -1215,6 +1423,7 @@ tbody tr:hover {
 
 .logout-spinner-ball {
     width: 65px;
+
     height: 65px;
 
     margin:
@@ -1224,6 +1433,7 @@ tbody tr:hover {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     border-radius: 50%;
@@ -1241,7 +1451,12 @@ tbody tr:hover {
 
     box-shadow:
         0 13px 30px
-        rgba(255, 111, 0, 0.28);
+        rgba(
+            255,
+            111,
+            0,
+            0.28
+        );
 
     animation:
         footballSpin
@@ -1307,14 +1522,18 @@ tbody tr:hover {
         opacity: 0;
 
         transform:
-            translateY(16px);
+            translateY(
+                16px
+            );
     }
 
     to {
         opacity: 1;
 
         transform:
-            translateY(0);
+            translateY(
+                0
+            );
     }
 
 }
@@ -1324,12 +1543,16 @@ tbody tr:hover {
 
     from {
         transform:
-            rotate(0deg);
+            rotate(
+                0deg
+            );
     }
 
     to {
         transform:
-            rotate(360deg);
+            rotate(
+                360deg
+            );
     }
 
 }
@@ -1353,7 +1576,9 @@ tbody tr:hover {
         margin-left: 220px;
 
         width:
-            calc(100% - 220px);
+            calc(
+                100% - 220px
+            );
 
         padding:
             35px
@@ -1366,7 +1591,10 @@ tbody tr:hover {
         grid-template-columns:
             repeat(
                 2,
-                minmax(0, 1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
     }
 
@@ -1404,6 +1632,7 @@ tbody tr:hover {
 
     .sidebar h2::before {
         width: 45px;
+
         height: 45px;
 
         margin-bottom: 9px;
@@ -1457,11 +1686,30 @@ tbody tr:hover {
             18px
             40px;
 
-        background-attachment: scroll;
+        background-image:
+            linear-gradient(
+                rgba(
+                    7,
+                    26,
+                    53,
+                    0.72
+                ),
+                rgba(
+                    7,
+                    26,
+                    53,
+                    0.78
+                )
+            ),
+            url("MAFORI_FC_LOGO.jpeg");
+
+        background-size: cover;
 
         background-position: center;
 
-        background-size: cover;
+        background-repeat: no-repeat;
+
+        background-attachment: scroll;
     }
 
 
@@ -1475,7 +1723,10 @@ tbody tr:hover {
         grid-template-columns:
             repeat(
                 2,
-                minmax(0, 1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
     }
 
@@ -1483,7 +1734,9 @@ tbody tr:hover {
     .table-container,
     .table-scroll {
         max-height:
-            calc(100vh - 260px);
+            calc(
+                100vh - 260px
+            );
     }
 
 }
@@ -1530,11 +1783,6 @@ tbody tr:hover {
     }
 
 
-    .back-button {
-        width: 100%;
-    }
-
-
     .cards {
         grid-template-columns:
             1fr;
@@ -1550,6 +1798,14 @@ tbody tr:hover {
         padding: 22px;
 
         border-radius: 15px;
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                0.92
+            );
     }
 
 
@@ -1568,16 +1824,31 @@ tbody tr:hover {
     }
 
 
+    .welcome {
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                0.92
+            );
+    }
+
+
     .table-container,
     .table-scroll {
         max-height:
-            calc(100vh - 230px);
+            calc(
+                100vh - 230px
+            );
     }
 
 
     .swal2-popup {
         width:
-            calc(100% - 24px) !important;
+            calc(
+                100% - 24px
+            ) !important;
 
         padding:
             1.5em !important;
