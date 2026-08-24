@@ -1,7 +1,6 @@
 /* =====================================================
    MAFORI FC ATTENDANCE REGISTER
-   DASHBOARD PAGE
-   MATCH PLAYERS PAGE DESIGN
+   PLAYER MANAGEMENT PAGE
 ===================================================== */
 
 
@@ -25,20 +24,30 @@ html {
 }
 
 
-/* =====================================================
-   BODY
-===================================================== */
-
 body {
     min-height: 100vh;
 
-    display: flex;
+    background:
+        #071a35;
 
-    background: #f4f7fc;
+    color:
+        #1e293b;
 
-    color: #1e293b;
+    overflow-x:
+        hidden;
+}
 
-    overflow-x: hidden;
+
+/* =====================================================
+   REMOVE DEFAULT LINK STYLE
+===================================================== */
+
+a {
+    text-decoration:
+        none;
+
+    color:
+        inherit;
 }
 
 
@@ -47,13 +56,23 @@ body {
 ===================================================== */
 
 .sidebar {
-    position: fixed;
+    position:
+        fixed;
 
-    left: 0;
-    top: 0;
+    top:
+        0;
 
-    width: 260px;
-    height: 100vh;
+    left:
+        0;
+
+    bottom:
+        0;
+
+    width:
+        260px;
+
+    height:
+        100vh;
 
     padding:
         24px
@@ -66,20 +85,25 @@ body {
             #0b1f3a 100%
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
     box-shadow:
-        8px 0 30px
+        8px
+        0
+        30px
         rgba(
-            15,
-            23,
-            42,
-            0.12
+            0,
+            0,
+            0,
+            0.18
         );
 
-    z-index: 1000;
+    z-index:
+        1000;
 
-    overflow-y: auto;
+    overflow-y:
+        auto;
 }
 
 
@@ -88,21 +112,26 @@ body {
 ===================================================== */
 
 .sidebar h2 {
-    position: relative;
+    position:
+        relative;
 
-    text-align: center;
+    text-align:
+        center;
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
     margin:
         5px
         10px
         30px;
 
-    padding-bottom: 24px;
+    padding-bottom:
+        24px;
 
     border-bottom:
-        1px solid
+        1px
+        solid
         rgba(
             255,
             255,
@@ -110,40 +139,53 @@ body {
             0.08
         );
 
-    font-size: 21px;
+    font-size:
+        21px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    letter-spacing: 0.6px;
+    letter-spacing:
+        0.6px;
 }
 
 
 /* =====================================================
-   FOOTBALL ICON
+   FOOTBALL ICON ABOVE TITLE
 ===================================================== */
 
 .sidebar h2::before {
-    content: "\f1e3";
+    content:
+        "\f1e3";
 
     font-family:
         "Font Awesome 6 Free";
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    width: 54px;
-    height: 54px;
+    width:
+        54px;
 
-    display: flex;
+    height:
+        54px;
 
-    align-items: center;
+    display:
+        flex;
 
-    justify-content: center;
+    align-items:
+        center;
+
+    justify-content:
+        center;
 
     margin:
-        0 auto
+        0
+        auto
         14px;
 
-    border-radius: 17px;
+    border-radius:
+        17px;
 
     background:
         linear-gradient(
@@ -152,12 +194,16 @@ body {
             #ff6a00
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    font-size: 25px;
+    font-size:
+        25px;
 
     box-shadow:
-        0 12px 25px
+        0
+        12px
+        28px
         rgba(
             255,
             106,
@@ -168,59 +214,104 @@ body {
 
 
 /* =====================================================
-   SIDEBAR MENU
+   SIDEBAR LIST
 ===================================================== */
 
 .sidebar ul {
-    list-style: none;
+    list-style:
+        none;
 }
 
 
 .sidebar li {
-    margin-bottom: 7px;
+    width:
+        100%;
+
+    margin-bottom:
+        7px;
+}
+
+
+/* =====================================================
+   SIDEBAR LINKS
+===================================================== */
+
+.sidebar li a {
+    width:
+        100%;
+
+    min-height:
+        48px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
 
     padding:
         13px
         15px;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
-    color: #cbd5e1;
+    color:
+        #cbd5e1;
 
-    font-size: 14px;
+    text-decoration:
+        none;
 
-    font-weight: 500;
+    font-size:
+        14px;
 
-    cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
+    font-weight:
+        500;
 
     transition:
-        background 0.25s ease,
-        color 0.25s ease,
-        transform 0.25s ease;
+        background
+        0.25s
+        ease,
+        color
+        0.25s
+        ease,
+        transform
+        0.25s
+        ease;
 }
 
 
-.sidebar li i {
-    width: 20px;
+.sidebar li a i {
+    width:
+        20px;
 
-    text-align: center;
+    flex-shrink:
+        0;
 
-    color: #94a3b8;
+    text-align:
+        center;
 
-    font-size: 16px;
+    color:
+        #94a3b8;
+
+    font-size:
+        16px;
 
     transition:
-        color 0.25s ease;
+        color
+        0.25s
+        ease;
 }
 
 
-.sidebar li:hover {
+/* =====================================================
+   SIDEBAR HOVER
+===================================================== */
+
+.sidebar li a:hover {
     background:
         rgba(
             255,
@@ -229,7 +320,8 @@ body {
             0.12
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
     transform:
         translateX(
@@ -238,16 +330,20 @@ body {
 }
 
 
-.sidebar li:hover i {
-    color: #ff8a00;
+.sidebar li a:hover i {
+    color:
+        #ff8a00;
 }
 
 
 /* =====================================================
-   ACTIVE MENU
+   ACTIVE PAGE
 ===================================================== */
 
-.sidebar li.active {
+.sidebar li.active a {
+    position:
+        relative;
+
     background:
         linear-gradient(
             135deg,
@@ -261,49 +357,68 @@ body {
                 255,
                 106,
                 0,
-                0.10
+                0.09
             )
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
     border-left:
-        3px solid
+        3px
+        solid
+        #ff8a00;
+
+    box-shadow:
+        inset
+        0
+        0
+        0
+        1px
+        rgba(
+            255,
+            138,
+            0,
+            0.04
+        );
+}
+
+
+.sidebar li.active a i {
+    color:
         #ff8a00;
 }
 
 
-.sidebar li.active i {
-    color: #ff8a00;
-}
-
-
 /* =====================================================
-   LOGOUT MENU
+   LOGOUT
 ===================================================== */
 
 .logout-menu-item {
     margin-top:
-        12px !important;
+        14px;
+}
 
+
+.logout-menu-item a {
     color:
         #fca5a5 !important;
 }
 
 
-.logout-menu-item i {
+.logout-menu-item a i {
     color:
         #f87171 !important;
 }
 
 
-.logout-menu-item:hover {
+.logout-menu-item a:hover {
     background:
         rgba(
             239,
             68,
             68,
-            0.12
+            0.13
         ) !important;
 
     color:
@@ -311,7 +426,7 @@ body {
 }
 
 
-.logout-menu-item:hover i {
+.logout-menu-item a:hover i {
     color:
         #ff8a00 !important;
 }
@@ -319,25 +434,27 @@ body {
 
 /* =====================================================
    MAIN CONTENT
-   SAME BACKGROUND STYLE AS PLAYERS
 ===================================================== */
 
-.main {
-    position: relative;
+.main-content {
+    position:
+        relative;
 
-    margin-left: 260px;
+    margin-left:
+        260px;
 
     width:
         calc(
             100% - 260px
         );
 
-    min-height: 100vh;
+    min-height:
+        100vh;
 
     padding:
-        42px
+        40px
         50px
-        60px;
+        55px;
 
     background:
         linear-gradient(
@@ -345,83 +462,246 @@ body {
                 7,
                 26,
                 53,
-                0.68
+                0.66
             ),
             rgba(
                 7,
                 26,
                 53,
-                0.78
+                0.80
             )
         ),
-        url("MAFORI_FC_LOGO.jpeg");
+        url(
+            "MAFORI_FC_LOGO.jpeg"
+        );
 
-    background-size: cover;
+    background-size:
+        cover;
 
-    background-position: center;
+    background-position:
+        center;
 
-    background-repeat: no-repeat;
+    background-repeat:
+        no-repeat;
 
-    background-attachment: fixed;
+    background-attachment:
+        fixed;
 
-    overflow-x: hidden;
+    overflow-x:
+        hidden;
 }
 
 
 /* =====================================================
-   HEADER
+   BACK BUTTON AREA
 ===================================================== */
 
-header {
-    position: relative;
-
-    z-index: 2;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 20px;
-
-    margin-bottom: 30px;
+.back-button-container {
+    margin-bottom:
+        24px;
 }
 
 
-header h1 {
-    color: #ffffff;
+/* =====================================================
+   BACK BUTTON
+===================================================== */
 
-    font-size: 34px;
+.back-button {
+    display:
+        inline-flex;
 
-    font-weight: 800;
+    align-items:
+        center;
 
-    letter-spacing: -0.4px;
+    justify-content:
+        center;
 
-    text-shadow:
-        0 3px 12px
+    gap:
+        8px;
+
+    padding:
+        11px
+        17px;
+
+    border:
+        1px
+        solid
+        rgba(
+            255,
+            255,
+            255,
+            0.50
+        );
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.94
+        );
+
+    color:
+        #0b1f3a;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0
+        8px
+        20px
         rgba(
             0,
             0,
             0,
-            0.35
+            0.12
+        );
+
+    transition:
+        transform
+        0.25s
+        ease,
+        background
+        0.25s
+        ease,
+        color
+        0.25s
+        ease,
+        box-shadow
+        0.25s
+        ease;
+}
+
+
+.back-button i {
+    font-size:
+        13px;
+}
+
+
+.back-button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color:
+        #ffffff;
+
+    border-color:
+        transparent;
+
+    transform:
+        translateX(
+            -3px
+        );
+
+    box-shadow:
+        0
+        12px
+        25px
+        rgba(
+            255,
+            106,
+            0,
+            0.25
         );
 }
 
 
-header p {
-    color: #e2e8f0;
+/* =====================================================
+   PAGE HEADER
+===================================================== */
 
-    margin-top: 6px;
+.header {
+    margin-bottom:
+        30px;
+}
 
-    font-size: 14px;
 
-    font-weight: 500;
+.header h1 {
+    display:
+        flex;
 
-    line-height: 1.7;
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    color:
+        #ffffff;
+
+    font-size:
+        36px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.2;
+
+    letter-spacing:
+        -0.5px;
 
     text-shadow:
-        0 2px 8px
+        0
+        3px
+        14px
+        rgba(
+            0,
+            0,
+            0,
+            0.38
+        );
+}
+
+
+.header h1 i {
+    color:
+        #ff8a00;
+
+    font-size:
+        34px;
+}
+
+
+.header p {
+    margin-top:
+        9px;
+
+    color:
+        #e2e8f0;
+
+    font-size:
+        14px;
+
+    font-weight:
+        400;
+
+    line-height:
+        1.7;
+
+    text-shadow:
+        0
+        2px
+        8px
         rgba(
             0,
             0,
@@ -432,71 +712,99 @@ header p {
 
 
 /* =====================================================
-   DASHBOARD CARDS GRID
+   MANAGEMENT CARDS GRID
 ===================================================== */
 
 .cards {
-    position: relative;
-
-    z-index: 2;
-
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(
-            auto-fit,
+            3,
             minmax(
-                220px,
+                0,
                 1fr
             )
         );
 
-    gap: 20px;
+    gap:
+        20px;
+
+    width:
+        100%;
 }
 
 
 /* =====================================================
-   STAT CARD
+   MANAGEMENT CARD
 ===================================================== */
 
-.stat-card,
 .card {
-    position: relative;
+    position:
+        relative;
 
-    overflow: hidden;
+    min-width:
+        0;
 
-    min-height: 180px;
+    min-height:
+        215px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        flex-start;
+
+    padding:
+        28px
+        28px;
+
+    overflow:
+        hidden;
 
     background:
         rgba(
             255,
             255,
             255,
-            0.94
+            0.95
         );
 
     border:
-        1px solid
+        1px
+        solid
         rgba(
             255,
             255,
             255,
-            0.75
+            0.78
         );
 
-    border-radius: 18px;
+    border-radius:
+        18px;
 
-    padding: 26px;
+    color:
+        #0f172a;
 
-    text-align: left;
+    text-decoration:
+        none;
 
     box-shadow:
-        0 18px 42px
+        0
+        18px
+        42px
         rgba(
             0,
             0,
             0,
-            0.16
+            0.17
         );
 
     backdrop-filter:
@@ -510,32 +818,45 @@ header p {
         );
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
+        transform
+        0.25s
+        ease,
+        box-shadow
+        0.25s
+        ease,
+        border-color
+        0.25s
+        ease;
 
     animation:
-        dashboardFadeIn
+        playerCardFade
         0.55s
         ease;
 }
 
 
 /* =====================================================
-   TOP ORANGE ACCENT
+   ORANGE TOP BORDER
 ===================================================== */
 
-.stat-card::before,
 .card::before {
-    content: "";
+    content:
+        "";
 
-    position: absolute;
+    position:
+        absolute;
 
-    top: 0;
-    left: 0;
+    top:
+        0;
 
-    width: 100%;
-    height: 4px;
+    left:
+        0;
+
+    width:
+        100%;
+
+    height:
+        4px;
 
     background:
         linear-gradient(
@@ -547,14 +868,176 @@ header p {
 
 
 /* =====================================================
+   CARD BACKGROUND DECORATION
+===================================================== */
+
+.card::after {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    right:
+        -45px;
+
+    bottom:
+        -50px;
+
+    width:
+        130px;
+
+    height:
+        130px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(
+            255,
+            138,
+            0,
+            0.05
+        );
+
+    pointer-events:
+        none;
+}
+
+
+/* =====================================================
+   CARD ICON
+===================================================== */
+
+.card > i {
+    width:
+        50px;
+
+    height:
+        50px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    margin-bottom:
+        20px;
+
+    border-radius:
+        14px;
+
+    background:
+        #fff7ed;
+
+    color:
+        #ff7a00;
+
+    font-size:
+        21px;
+
+    box-shadow:
+        inset
+        0
+        0
+        0
+        1px
+        rgba(
+            255,
+            138,
+            0,
+            0.12
+        );
+}
+
+
+/* =====================================================
+   CARD TITLE
+===================================================== */
+
+.card h2 {
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    margin-bottom:
+        10px;
+
+    color:
+        #0f172a;
+
+    text-decoration:
+        none;
+
+    font-size:
+        21px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.3;
+}
+
+
+/* =====================================================
+   CARD DESCRIPTION
+===================================================== */
+
+.card p {
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    color:
+        #64748b;
+
+    text-decoration:
+        none;
+
+    font-size:
+        13px;
+
+    font-weight:
+        400;
+
+    line-height:
+        1.7;
+}
+
+
+/* =====================================================
+   REMOVE UNDERLINES INSIDE CARDS
+===================================================== */
+
+.card,
+.card:hover,
+.card:focus,
+.card:visited,
+.card h2,
+.card p {
+    text-decoration:
+        none !important;
+}
+
+
+/* =====================================================
    CARD HOVER
 ===================================================== */
 
-.stat-card:hover,
 .card:hover {
     transform:
         translateY(
-            -4px
+            -6px
         );
 
     border-color:
@@ -566,204 +1049,80 @@ header p {
         );
 
     box-shadow:
-        0 24px 52px
+        0
+        25px
+        55px
         rgba(
             0,
             0,
             0,
-            0.22
+            0.24
+        );
+}
+
+
+.card:hover > i {
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #ff6a00
+        );
+
+    color:
+        #ffffff;
+
+    transform:
+        scale(
+            1.05
         );
 }
 
 
 /* =====================================================
-   CARD TITLE
-===================================================== */
-
-.stat-card h3 {
-    color: #64748b;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    margin-bottom: 12px;
-}
-
-
-/* =====================================================
-   CARD NUMBER
-===================================================== */
-
-.stat-card h1,
-.card h2 {
-    color: #0f172a;
-
-    font-size: 34px;
-
-    font-weight: 800;
-
-    line-height: 1;
-
-    margin-bottom: 9px;
-}
-
-
-/* =====================================================
-   CARD LABEL
-===================================================== */
-
-.card p {
-    color: #64748b;
-
-    font-size: 14px;
-
-    font-weight: 500;
-}
-
-
-/* =====================================================
-   MONTHLY REPORT ICON
+   ICON TRANSITION
 ===================================================== */
 
 .card > i {
-    width: 48px;
-
-    height: 48px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 14px;
-
-    background: #fff7ed;
-
-    color: #ff7a00;
-
-    font-size: 21px;
-
-    margin-bottom: 19px;
-
-    box-shadow:
-        inset
-        0 0 0 1px
-        rgba(
-            255,
-            138,
-            0,
-            0.10
-        );
-}
-
-
-/* =====================================================
-   WELCOME CARD
-===================================================== */
-
-.welcome {
-    position: relative;
-
-    z-index: 2;
-
-    margin-top: 28px;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.94
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            0.75
-        );
-
-    border-radius: 18px;
-
-    padding: 30px;
-
-    box-shadow:
-        0 18px 42px
-        rgba(
-            0,
-            0,
-            0,
-            0.16
-        );
-
-    backdrop-filter:
-        blur(
-            9px
-        );
-
-    -webkit-backdrop-filter:
-        blur(
-            9px
-        );
-
-    overflow: hidden;
-
-    animation:
-        dashboardFadeIn
-        0.65s
+    transition:
+        background
+        0.25s
+        ease,
+        color
+        0.25s
+        ease,
+        transform
+        0.25s
         ease;
 }
 
 
 /* =====================================================
-   WELCOME ACCENT
+   CARD ANIMATION
 ===================================================== */
 
-.welcome::before {
-    content: "";
+@keyframes playerCardFade {
 
-    position: absolute;
+    from {
+        opacity:
+            0;
 
-    top: 0;
+        transform:
+            translateY(
+                18px
+            );
+    }
 
-    left: 0;
+    to {
+        opacity:
+            1;
 
-    width: 5px;
+        transform:
+            translateY(
+                0
+            );
+    }
 
-    height: 100%;
-
-    background:
-        linear-gradient(
-            180deg,
-            #ff8a00,
-            #ff6a00
-        );
-}
-
-
-.welcome h2 {
-    color: #0f172a;
-
-    margin-bottom: 12px;
-
-    font-size: 22px;
-
-    font-weight: 800;
-}
-
-
-.welcome p {
-    max-width: 850px;
-
-    color: #64748b;
-
-    font-size: 14px;
-
-    line-height: 1.8;
 }
 
 
@@ -783,16 +1142,19 @@ header p {
         2em !important;
 
     border:
-        1px solid
+        1px
+        solid
         #edf0f4 !important;
 
     box-shadow:
-        0 30px 80px
+        0
+        30px
+        80px
         rgba(
             15,
             23,
             42,
-            0.24
+            0.26
         ) !important;
 }
 
@@ -872,27 +1234,35 @@ header p {
    LOGOUT POPUP
 ===================================================== */
 
-.dashboard-logout-content {
-    text-align: center;
+.players-logout-popup {
+    text-align:
+        center;
 }
 
 
 .logout-ball {
-    width: 58px;
+    width:
+        60px;
 
-    height: 58px;
+    height:
+        60px;
 
     margin:
-        0 auto
+        0
+        auto
         18px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    border-radius: 18px;
+    border-radius:
+        18px;
 
     background:
         linear-gradient(
@@ -901,13 +1271,18 @@ header p {
             #ffedd5
         );
 
-    color: #ff7a00;
+    color:
+        #ff8a00;
 
-    font-size: 25px;
+    font-size:
+        26px;
 
     box-shadow:
         inset
-        0 0 0 1px
+        0
+        0
+        0
+        1px
         rgba(
             255,
             138,
@@ -917,59 +1292,75 @@ header p {
 }
 
 
-.dashboard-logout-content p {
-    margin-bottom: 9px;
+.players-logout-popup p {
+    margin-bottom:
+        9px;
 
-    color: #334155;
+    color:
+        #334155;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    line-height: 1.7;
+    line-height:
+        1.7;
 }
 
 
-.dashboard-logout-content span {
-    display: block;
+.players-logout-popup span {
+    display:
+        block;
 
-    max-width: 340px;
+    max-width:
+        350px;
 
-    margin: auto;
+    margin:
+        auto;
 
-    color: #94a3b8;
+    color:
+        #94a3b8;
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    line-height: 1.6;
+    line-height:
+        1.6;
 }
 
 
 /* =====================================================
-   LOGGING OUT
+   LOGOUT LOADING
 ===================================================== */
 
-.dashboard-logout-loading {
-    padding-top: 5px;
-
-    text-align: center;
+.players-logout-loading {
+    text-align:
+        center;
 }
 
 
 .logout-spinner-ball {
-    width: 65px;
+    width:
+        65px;
 
-    height: 65px;
+    height:
+        65px;
 
     margin:
-        5px auto
+        5px
+        auto
         18px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     background:
         linear-gradient(
@@ -978,12 +1369,16 @@ header p {
             #ff6a00
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    font-size: 28px;
+    font-size:
+        28px;
 
     box-shadow:
-        0 13px 30px
+        0
+        13px
+        30px
         rgba(
             255,
             106,
@@ -992,116 +1387,19 @@ header p {
         );
 
     animation:
-        dashboardBallSpin
+        playerBallSpin
         0.8s
         linear
         infinite;
 }
 
 
-.dashboard-logout-loading p {
-    color: #64748b;
+.players-logout-loading p {
+    color:
+        #64748b;
 
-    font-size: 13px;
-}
-
-
-/* =====================================================
-   PAGE ANIMATION
-===================================================== */
-
-@keyframes dashboardFadeIn {
-
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(
-                18px
-            );
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(
-                0
-            );
-    }
-
-}
-
-
-/* =====================================================
-   POPUP OPEN
-===================================================== */
-
-@keyframes dashboardPopupIn {
-
-    0% {
-        opacity: 0;
-
-        transform:
-            translateY(
-                28px
-            )
-            scale(
-                0.93
-            );
-    }
-
-    65% {
-        opacity: 1;
-
-        transform:
-            translateY(
-                -4px
-            )
-            scale(
-                1.01
-            );
-    }
-
-    100% {
-        opacity: 1;
-
-        transform:
-            translateY(
-                0
-            )
-            scale(
-                1
-            );
-    }
-
-}
-
-
-/* =====================================================
-   POPUP CLOSE
-===================================================== */
-
-@keyframes dashboardPopupOut {
-
-    from {
-        opacity: 1;
-
-        transform:
-            scale(
-                1
-            );
-    }
-
-    to {
-        opacity: 0;
-
-        transform:
-            scale(
-                0.94
-            );
-    }
-
+    font-size:
+        13px;
 }
 
 
@@ -1109,7 +1407,7 @@ header p {
    FOOTBALL SPIN
 ===================================================== */
 
-@keyframes dashboardBallSpin {
+@keyframes playerBallSpin {
 
     from {
         transform:
@@ -1128,77 +1426,45 @@ header p {
 }
 
 
-.dashboard-popup-in {
-    animation:
-        dashboardPopupIn
-        0.38s
-        ease-out !important;
-}
-
-
-.dashboard-popup-out {
-    animation:
-        dashboardPopupOut
-        0.24s
-        ease-in !important;
-}
-
-
 /* =====================================================
    SIDEBAR SCROLLBAR
 ===================================================== */
 
 .sidebar::-webkit-scrollbar {
-    width: 6px;
+    width:
+        6px;
 }
 
 
 .sidebar::-webkit-scrollbar-track {
-    background: #08182f;
+    background:
+        #08182f;
 }
 
 
 .sidebar::-webkit-scrollbar-thumb {
-    background: #334b6d;
+    background:
+        #334b6d;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 }
 
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #ff8a00;
+    background:
+        #ff8a00;
 }
 
 
 /* =====================================================
-   TABLET
+   LARGE LAPTOP
 ===================================================== */
 
 @media (
-    max-width: 1000px
+    max-width:
+        1200px
 ) {
-
-    .sidebar {
-        width: 220px;
-    }
-
-
-    .main {
-        margin-left: 220px;
-
-        width:
-            calc(
-                100% - 220px
-            );
-
-        padding:
-            35px
-            28px
-            50px;
-
-        background-position: center;
-    }
-
 
     .cards {
         grid-template-columns:
@@ -1215,119 +1481,89 @@ header p {
 
 
 /* =====================================================
-   SMALL SCREEN
+   TABLET
 ===================================================== */
 
 @media (
-    max-width: 760px
+    max-width:
+        900px
 ) {
 
-    body {
-        display: block;
-    }
-
-
     .sidebar {
-        position: relative;
-
-        width: 100%;
-
-        height: auto;
+        width:
+            80px;
 
         padding:
-            16px
-            12px;
+            22px
+            8px;
     }
 
 
     .sidebar h2 {
-        margin-bottom: 13px;
+        font-size:
+            0;
 
-        padding-bottom: 13px;
+        margin-left:
+            0;
 
-        border-bottom: none;
+        margin-right:
+            0;
     }
 
 
     .sidebar h2::before {
-        width: 44px;
-
-        height: 44px;
-
-        font-size: 21px;
-
-        margin-bottom: 10px;
+        margin-bottom:
+            0;
     }
 
 
-    .sidebar ul {
-        display: flex;
-
-        justify-content: center;
-
-        flex-wrap: wrap;
-
-        gap: 7px;
-    }
-
-
-    .sidebar li {
-        margin: 0;
+    .sidebar li a {
+        justify-content:
+            center;
 
         padding:
-            9px
-            11px;
+            15px
+            10px;
 
-        font-size: 12px;
+        font-size:
+            0;
     }
 
 
-    .sidebar li:hover {
-        transform: none;
+    .sidebar li a i {
+        width:
+            auto;
+
+        font-size:
+            20px;
     }
 
 
-    .main {
-        margin-left: 0;
+    .sidebar li a:hover {
+        transform:
+            none;
+    }
 
-        width: 100%;
 
-        min-height: 100vh;
+    .main-content {
+        margin-left:
+            80px;
+
+        width:
+            calc(
+                100% - 80px
+            );
 
         padding:
-            28px
-            18px
-            40px;
-
-        background:
-            linear-gradient(
-                rgba(
-                    7,
-                    26,
-                    53,
-                    0.70
-                ),
-                rgba(
-                    7,
-                    26,
-                    53,
-                    0.80
-                )
-            ),
-            url("MAFORI_FC_LOGO.jpeg");
-
-        background-size: cover;
-
-        background-position: center;
-
-        background-repeat: no-repeat;
-
-        background-attachment: scroll;
+            30px
+            25px
+            45px;
     }
 
 
-    header h1 {
-        font-size: 28px;
+    .header h1 {
+        font-size:
+            30px;
     }
 
 
@@ -1350,34 +1586,174 @@ header p {
 ===================================================== */
 
 @media (
-    max-width: 520px
+    max-width:
+        650px
 ) {
 
-    .main {
+    body {
+        background:
+            #071a35;
+    }
+
+
+    .sidebar {
+        position:
+            relative;
+
+        width:
+            100%;
+
+        height:
+            auto;
+
         padding:
-            23px
-            13px
+            15px
+            12px;
+    }
+
+
+    .sidebar h2 {
+        font-size:
+            20px;
+
+        padding-bottom:
+            12px;
+
+        margin-bottom:
+            10px;
+    }
+
+
+    .sidebar h2::before {
+        width:
+            44px;
+
+        height:
+            44px;
+
+        margin-bottom:
+            9px;
+
+        font-size:
+            21px;
+    }
+
+
+    .sidebar ul {
+        display:
+            flex;
+
+        flex-wrap:
+            wrap;
+
+        justify-content:
+            center;
+
+        gap:
+            6px;
+    }
+
+
+    .sidebar li {
+        width:
+            auto;
+
+        margin:
+            0;
+    }
+
+
+    .sidebar li a {
+        width:
+            auto;
+
+        min-height:
+            40px;
+
+        padding:
+            9px
+            11px;
+
+        font-size:
+            11px;
+    }
+
+
+    .sidebar li a i {
+        font-size:
+            14px;
+    }
+
+
+    .main-content {
+        margin-left:
+            0;
+
+        width:
+            100%;
+
+        min-height:
+            100vh;
+
+        padding:
+            25px
+            15px
             35px;
+
+        background:
+            linear-gradient(
+                rgba(
+                    7,
+                    26,
+                    53,
+                    0.70
+                ),
+                rgba(
+                    7,
+                    26,
+                    53,
+                    0.82
+                )
+            ),
+            url(
+                "MAFORI_FC_LOGO.jpeg"
+            );
+
+        background-size:
+            cover;
 
         background-position:
             center;
+
+        background-repeat:
+            no-repeat;
+
+        background-attachment:
+            scroll;
     }
 
 
-    header {
-        align-items: flex-start;
-
-        flex-direction: column;
+    .back-button {
+        width:
+            100%;
     }
 
 
-    header h1 {
-        font-size: 26px;
+    .header h1 {
+        font-size:
+            27px;
     }
 
 
-    header p {
-        font-size: 13px;
+    .header h1 i {
+        font-size:
+            26px;
+    }
+
+
+    .header p {
+        font-size:
+            13px;
     }
 
 
@@ -1385,69 +1761,18 @@ header p {
         grid-template-columns:
             1fr;
 
-        gap: 14px;
+        gap:
+            15px;
     }
 
 
-    .stat-card,
     .card {
-        min-height: 150px;
+        min-height:
+            195px;
 
-        padding: 22px;
-
-        border-radius: 15px;
-
-        background:
-            rgba(
-                255,
-                255,
-                255,
-                0.95
-            );
-    }
-
-
-    .stat-card h1,
-    .card h2 {
-        font-size: 30px;
-    }
-
-
-    .welcome {
         padding:
             24px
-            20px;
-
-        border-radius: 15px;
-
-        background:
-            rgba(
-                255,
-                255,
-                255,
-                0.95
-            );
-    }
-
-
-    .welcome h2 {
-        font-size: 19px;
-    }
-
-
-    .welcome p {
-        font-size: 13px;
-    }
-
-
-    .swal2-popup {
-        width:
-            calc(
-                100% - 24px
-            ) !important;
-
-        padding:
-            1.5em !important;
+            22px;
     }
 
 }
@@ -1458,34 +1783,34 @@ header p {
 ===================================================== */
 
 @media (
-    max-width: 360px
+    max-width:
+        380px
 ) {
 
-    .main {
+    .main-content {
         padding:
-            18px
-            10px
+            20px
+            11px
             30px;
     }
 
 
-    header h1 {
-        font-size: 23px;
+    .header h1 {
+        font-size:
+            23px;
     }
 
 
-    .stat-card,
     .card {
         padding:
-            19px
-            16px;
+            21px
+            18px;
     }
 
 
-    .welcome {
-        padding:
-            21px
-            16px;
+    .card h2 {
+        font-size:
+            19px;
     }
 
 }
