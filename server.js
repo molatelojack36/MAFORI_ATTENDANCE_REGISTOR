@@ -1,28 +1,71 @@
+/* =====================================================
+   MAFORI FC ATTENDANCE REGISTER
+   SERVER.JS
+===================================================== */
+
+
+/* =====================================================
+   ENVIRONMENT VARIABLES
+===================================================== */
+
 require("dotenv").config();
 
+
+/* =====================================================
+   IMPORTS
+===================================================== */
+
 const express = require("express");
+
 const cors = require("cors");
+
 const path = require("path");
+
 const PDFDocument = require("pdfkit");
-const { createClient } = require("@supabase/supabase-js");
 
-const app = express();
+const bcrypt = require("bcryptjs");
+
+const {
+    createClient
+} = require("@supabase/supabase-js");
 
 
-/* =====================================
+/* =====================================================
+   EXPRESS APP
+===================================================== */
+
+const app =
+    express();
+
+
+/* =====================================================
+   BCRYPT SETTINGS
+===================================================== */
+
+/*
+   12 rounds gives good password protection
+   without making login unnecessarily slow.
+*/
+
+const BCRYPT_ROUNDS =
+    12;
+
+
+/* =====================================================
    MAFORI FC LOGO
-===================================== */
+===================================================== */
 
-const clubLogoPath = path.join(
-    __dirname,
-    "public",
-    "MAFORI_FC_LOGO.jpeg"
-);
+const clubLogoPath =
+    path.join(
+        __dirname,
+        "public",
+        "MAFORI_FC_LOGO.jpeg"
+    );
 
 
-/* =====================================
+/* =====================================================
    SOUTH AFRICA DATE HELPER
-===================================== */
+===================================================== */
 
 function getSouthAfricaDateParts() {
 
@@ -34,6 +77,7 @@ function getSouthAfricaDateParts() {
         new Intl.DateTimeFormat(
             "en-CA",
             {
+
                 timeZone:
                     "Africa/Johannesburg",
 
@@ -45,9 +89,12 @@ function getSouthAfricaDateParts() {
 
                 day:
                     "2-digit"
+
             }
         )
-            .formatToParts(now);
+            .formatToParts(
+                now
+            );
 
 
     const getPart =
@@ -60,18 +107,24 @@ function getSouthAfricaDateParts() {
 
     const year =
         Number(
-            getPart("year")
+            getPart(
+                "year"
+            )
         );
 
 
     const month =
         Number(
-            getPart("month")
+            getPart(
+                "month"
+            )
         );
 
 
     const day =
-        getPart("day");
+        getPart(
+            "day"
+        );
 
 
     const date =
@@ -98,19 +151,125 @@ function getSouthAfricaDateParts() {
 }
 
 
-/* =====================================
+/* =====================================================
+   HELPER: CHECK BCRYPT HASH
+===================================================== */
+
+function isBcryptHash(
+    value
+) {
+
+    const password =
+        String(
+            value || ""
+        );
+
+
+    return (
+        password.startsWith(
+            "$2a$"
+        ) ||
+        password.startsWith(
+            "$2b$"
+        ) ||
+        password.startsWith(
+            "$2y$"
+        )
+    );
+
+}
+
+
+/* =====================================================
+   HELPER: VERIFY PASSWORD
+
+   Supports:
+   1. New bcrypt passwords
+   2. Old plaintext passwords during migration
+===================================================== */
+
+async function verifyPassword(
+    enteredPassword,
+    storedPassword
+) {
+
+    const entered =
+        String(
+            enteredPassword || ""
+        );
+
+
+    const stored =
+        String(
+            storedPassword || ""
+        );
+
+
+    if (
+        !entered ||
+        !stored
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        isBcryptHash(
+            stored
+        )
+    ) {
+
+        return bcrypt.compare(
+            entered,
+            stored
+        );
+
+    }
+
+
+    /*
+       Temporary support for an old
+       plaintext password.
+    */
+
+    return (
+        entered === stored
+    );
+
+}
+
+
+/* =====================================================
    MIDDLEWARE
-===================================== */
+===================================================== */
 
-app.use(cors());
+app.use(
+    cors()
+);
 
-app.use(express.json());
+
+app.use(
+    express.json({
+        limit:
+            "1mb"
+    })
+);
+
 
 app.use(
     express.urlencoded({
-        extended: true
+
+        extended:
+            true,
+
+        limit:
+            "1mb"
+
     })
 );
+
 
 app.use(
     express.static(
@@ -122,25 +281,46 @@ app.use(
 );
 
 
-/* =====================================
+/* =====================================================
+   CHECK REQUIRED ENVIRONMENT VARIABLES
+===================================================== */
+
+if (
+    !process.env.SUPABASE_URL ||
+    !process.env.SUPABASE_ANON_KEY
+) {
+
+    console.error(
+        "❌ Missing SUPABASE_URL or SUPABASE_ANON_KEY in .env"
+    );
+
+}
+
+
+/* =====================================================
    SUPABASE CONNECTION
-===================================== */
+===================================================== */
 
-const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_ANON_KEY
-);
+const supabase =
+    createClient(
+
+        process.env.SUPABASE_URL,
+
+        process.env.SUPABASE_ANON_KEY
+
+    );
 
 
-/* =====================================
+/* =====================================================
    HOME PAGE
-===================================== */
+===================================================== */
 
 app.get(
     "/",
+
     (req, res) => {
 
-        res.sendFile(
+        return res.sendFile(
             path.join(
                 __dirname,
                 "public",
@@ -152,25 +332,36 @@ app.get(
 );
 
 
-/* =====================================
+/* =====================================================
    LOGIN API
-===================================== */
+   BCRYPT PASSWORD HASHING
+===================================================== */
 
 app.post(
     "/api/login",
+
     async (req, res) => {
-
-        const {
-            username,
-            password
-        } = req.body;
-
 
         try {
 
-            /* =====================================
+            const username =
+                String(
+                    req.body.username ||
+                    ""
+                )
+                    .trim();
+
+
+            const password =
+                String(
+                    req.body.password ||
+                    ""
+                );
+
+
+            /* =========================================
                VALIDATION
-            ===================================== */
+            ========================================= */
 
             if (
                 !username ||
@@ -178,7 +369,9 @@ app.post(
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
                         success:
@@ -192,32 +385,39 @@ app.post(
             }
 
 
-            /* =====================================
-               FIND USER
-            ===================================== */
+            /* =========================================
+               FIND USER BY USERNAME ONLY
+            ========================================= */
 
             const {
-                data,
+
+                data:
+                    user,
+
                 error
+
             } =
                 await supabase
 
-                    .from("users")
+                    .from(
+                        "users"
+                    )
 
-                    .select("*")
+                    .select(
+                        "id, username, password, fullname, role"
+                    )
 
                     .eq(
                         "username",
                         username
                     )
 
-                    .eq(
-                        "password",
-                        password
-                    )
-
                     .maybeSingle();
 
+
+            /* =========================================
+               DATABASE ERROR
+            ========================================= */
 
             if (error) {
 
@@ -228,28 +428,32 @@ app.post(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
                         success:
                             false,
 
                         message:
-                            "Database error during login."
+                            "Unable to process login."
 
                     });
 
             }
 
 
-            /* =====================================
-               INVALID LOGIN
-            ===================================== */
+            /* =========================================
+               USER NOT FOUND
+            ========================================= */
 
-            if (!data) {
+            if (!user) {
 
                 return res
-                    .status(401)
+                    .status(
+                        401
+                    )
                     .json({
 
                         success:
@@ -263,9 +467,135 @@ app.post(
             }
 
 
-            /* =====================================
+            /* =========================================
+               VERIFY PASSWORD
+            ========================================= */
+
+            const passwordMatches =
+                await verifyPassword(
+
+                    password,
+
+                    user.password
+
+                );
+
+
+            if (
+                !passwordMatches
+            ) {
+
+                return res
+                    .status(
+                        401
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid username or password."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               MIGRATE OLD PLAINTEXT PASSWORD
+               TO BCRYPT AFTER SUCCESSFUL LOGIN
+            ========================================= */
+
+            if (
+                !isBcryptHash(
+                    user.password
+                )
+            ) {
+
+                try {
+
+                    const hashedPassword =
+                        await bcrypt.hash(
+
+                            password,
+
+                            BCRYPT_ROUNDS
+
+                        );
+
+
+                    const {
+                        error:
+                            migrationError
+                    } =
+                        await supabase
+
+                            .from(
+                                "users"
+                            )
+
+                            .update({
+
+                                password:
+                                    hashedPassword
+
+                            })
+
+                            .eq(
+                                "id",
+                                user.id
+                            );
+
+
+                    if (
+                        migrationError
+                    ) {
+
+                        console.error(
+                            "Password migration error:",
+                            migrationError
+                        );
+
+                    }
+
+                    else {
+
+                        console.log(
+                            `✅ Password secured for user: ${user.username}`
+                        );
+
+                    }
+
+                }
+
+                catch (
+                    migrationException
+                ) {
+
+                    /*
+                       Do not fail the login because
+                       migration failed.
+
+                       The administrator authenticated
+                       successfully.
+                    */
+
+                    console.error(
+                        "Password migration exception:",
+                        migrationException
+                    );
+
+                }
+
+            }
+
+
+            /* =========================================
                LOGIN SUCCESS
-            ===================================== */
+
+               Never send password to browser.
+            ========================================= */
 
             return res.json({
 
@@ -273,29 +603,30 @@ app.post(
                     true,
 
                 message:
-                    "Login Successful",
+                    "Login successful.",
 
                 user: {
 
                     id:
-                        data.id,
+                        user.id,
 
                     username:
-                        data.username,
+                        user.username,
 
                     fullname:
-                        data.fullname ||
+                        user.fullname ||
                         "",
 
                     role:
-                        data.role ||
-                        "Admin"
+                        user.role ||
+                        "Administrator"
 
                 }
 
             });
 
         }
+
 
         catch (err) {
 
@@ -306,14 +637,16 @@ app.post(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
                     success:
                         false,
 
                     message:
-                        "Server Error"
+                        "Server error during login."
 
                 });
 
@@ -323,27 +656,56 @@ app.post(
 );
 
 
-/* =====================================
+/* =====================================================
    GET SINGLE USER
-===================================== */
+===================================================== */
 
 app.get(
     "/api/users/:id",
+
     async (req, res) => {
-
-        const id =
-            req.params.id;
-
 
         try {
 
+            const id =
+                String(
+                    req.params.id ||
+                    ""
+                )
+                    .trim();
+
+
+            if (!id) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "User ID is required."
+
+                    });
+
+            }
+
+
             const {
+
                 data,
+
                 error
+
             } =
                 await supabase
 
-                    .from("users")
+                    .from(
+                        "users"
+                    )
 
                     .select(
                         "id, username, fullname, role"
@@ -366,14 +728,16 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
                         success:
                             false,
 
                         message:
-                            error.message
+                            "Unable to load user."
 
                     });
 
@@ -383,7 +747,9 @@ app.get(
             if (!data) {
 
                 return res
-                    .status(404)
+                    .status(
+                        404
+                    )
                     .json({
 
                         success:
@@ -416,13 +782,14 @@ app.get(
 
                     role:
                         data.role ||
-                        "Admin"
+                        "Administrator"
 
                 }
 
             });
 
         }
+
 
         catch (err) {
 
@@ -433,14 +800,16 @@ app.get(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
                     success:
                         false,
 
                     message:
-                        "Server Error"
+                        "Server error while loading user."
 
                 });
 
@@ -450,63 +819,207 @@ app.get(
 );
 
 
-/* =====================================
+/* =====================================================
    UPDATE USER PROFILE
-===================================== */
+===================================================== */
 
 app.put(
     "/api/users/:id",
+
     async (req, res) => {
-
-        const id =
-            req.params.id;
-
-
-        const {
-            fullname,
-            username
-        } = req.body;
-
-
-        /* =====================================
-           VALIDATION
-        ===================================== */
-
-        if (
-            !fullname ||
-            !username
-        ) {
-
-            return res
-                .status(400)
-                .json({
-
-                    success:
-                        false,
-
-                    message:
-                        "Full name and username are required."
-
-                });
-
-        }
-
 
         try {
 
-            /* =====================================
-               CHECK USERNAME
-            ===================================== */
+            const id =
+                String(
+                    req.params.id ||
+                    ""
+                )
+                    .trim();
+
+
+            const fullname =
+                String(
+                    req.body.fullname ||
+                    ""
+                )
+                    .trim();
+
+
+            const username =
+                String(
+                    req.body.username ||
+                    ""
+                )
+                    .trim();
+
+
+            /* =========================================
+               VALIDATION
+            ========================================= */
+
+            if (!id) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "User ID is required."
+
+                    });
+
+            }
+
+
+            if (
+                !fullname ||
+                !username
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Full name and username are required."
+
+                    });
+
+            }
+
+
+            if (
+                username.length <
+                3
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Username must contain at least 3 characters."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               CHECK WHETHER USER EXISTS
+            ========================================= */
 
             const {
-                data: existingUser,
-                error: existingError
+
+                data:
+                    currentUser,
+
+                error:
+                    currentUserError
+
             } =
                 await supabase
 
-                    .from("users")
+                    .from(
+                        "users"
+                    )
 
-                    .select("id")
+                    .select(
+                        "id"
+                    )
+
+                    .eq(
+                        "id",
+                        id
+                    )
+
+                    .maybeSingle();
+
+
+            if (
+                currentUserError
+            ) {
+
+                console.error(
+                    "User lookup error:",
+                    currentUserError
+                );
+
+
+                return res
+                    .status(
+                        500
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Unable to verify user."
+
+                    });
+
+            }
+
+
+            if (!currentUser) {
+
+                return res
+                    .status(
+                        404
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "User not found."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               CHECK DUPLICATE USERNAME
+            ========================================= */
+
+            const {
+
+                data:
+                    existingUser,
+
+                error:
+                    existingError
+
+            } =
+                await supabase
+
+                    .from(
+                        "users"
+                    )
+
+                    .select(
+                        "id"
+                    )
 
                     .eq(
                         "username",
@@ -521,7 +1034,9 @@ app.put(
                     .maybeSingle();
 
 
-            if (existingError) {
+            if (
+                existingError
+            ) {
 
                 console.error(
                     "Username check error:",
@@ -530,24 +1045,30 @@ app.put(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
                         success:
                             false,
 
                         message:
-                            existingError.message
+                            "Unable to check username."
 
                     });
 
             }
 
 
-            if (existingUser) {
+            if (
+                existingUser
+            ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        409
+                    )
                     .json({
 
                         success:
@@ -561,25 +1082,28 @@ app.put(
             }
 
 
-            /* =====================================
-               UPDATE USER
-            ===================================== */
+            /* =========================================
+               UPDATE PROFILE
+            ========================================= */
 
             const {
+
                 data,
+
                 error
+
             } =
                 await supabase
 
-                    .from("users")
+                    .from(
+                        "users"
+                    )
 
                     .update({
 
-                        fullname:
-                            fullname,
+                        fullname,
 
-                        username:
-                            username
+                        username
 
                     })
 
@@ -592,7 +1116,7 @@ app.put(
                         "id, username, fullname, role"
                     )
 
-                    .single();
+                    .maybeSingle();
 
 
             if (error) {
@@ -604,14 +1128,35 @@ app.put(
 
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
                         success:
                             false,
 
                         message:
-                            error.message
+                            "Unable to update profile."
+
+                    });
+
+            }
+
+
+            if (!data) {
+
+                return res
+                    .status(
+                        404
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "User not found."
 
                     });
 
@@ -640,13 +1185,14 @@ app.put(
 
                     role:
                         data.role ||
-                        "Admin"
+                        "Administrator"
 
                 }
 
             });
 
         }
+
 
         catch (err) {
 
@@ -657,14 +1203,16 @@ app.put(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
                     success:
                         false,
 
                     message:
-                        "Server Error"
+                        "Server error while updating profile."
 
                 });
 
@@ -674,93 +1222,156 @@ app.put(
 );
 
 
-/* =====================================
+/* =====================================================
    CHANGE USER PASSWORD
-===================================== */
+   BCRYPT SECURED
+===================================================== */
 
 app.put(
     "/api/change-password",
+
     async (req, res) => {
-
-        const {
-            user_id,
-            current_password,
-            new_password
-        } = req.body;
-
-
-        /* =====================================
-           VALIDATION
-        ===================================== */
-
-        if (
-            !user_id ||
-            !current_password ||
-            !new_password
-        ) {
-
-            return res
-                .status(400)
-                .json({
-
-                    success:
-                        false,
-
-                    message:
-                        "All password fields are required."
-
-                });
-
-        }
-
-
-        if (
-            new_password.length <
-            6
-        ) {
-
-            return res
-                .status(400)
-                .json({
-
-                    success:
-                        false,
-
-                    message:
-                        "New password must contain at least 6 characters."
-
-                });
-
-        }
-
 
         try {
 
-            /* =====================================
+            const userId =
+                String(
+                    req.body.user_id ||
+                    ""
+                )
+                    .trim();
+
+
+            /*
+               Do NOT trim passwords.
+
+               Spaces may intentionally be
+               part of a password.
+            */
+
+            const currentPassword =
+                String(
+                    req.body.current_password ||
+                    ""
+                );
+
+
+            const newPassword =
+                String(
+                    req.body.new_password ||
+                    ""
+                );
+
+
+            /* =========================================
+               REQUIRED FIELDS
+            ========================================= */
+
+            if (
+                !userId ||
+                !currentPassword ||
+                !newPassword
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "All password fields are required."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               PASSWORD LENGTH
+            ========================================= */
+
+            if (
+                newPassword.length <
+                8
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "New password must contain at least 8 characters."
+
+                    });
+
+            }
+
+
+            if (
+                newPassword.length >
+                128
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "New password is too long."
+
+                    });
+
+            }
+
+
+            /* =========================================
                FIND USER
-            ===================================== */
+            ========================================= */
 
             const {
-                data: user,
-                error: userError
+
+                data:
+                    user,
+
+                error:
+                    userError
+
             } =
                 await supabase
 
-                    .from("users")
+                    .from(
+                        "users"
+                    )
 
                     .select(
-                        "id, password"
+                        "id, username, password"
                     )
 
                     .eq(
                         "id",
-                        user_id
+                        userId
                     )
 
                     .maybeSingle();
 
 
-            if (userError) {
+            if (
+                userError
+            ) {
 
                 console.error(
                     "Password user lookup error:",
@@ -769,14 +1380,16 @@ app.put(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
                         success:
                             false,
 
                         message:
-                            userError.message
+                            "Unable to verify your account."
 
                     });
 
@@ -786,7 +1399,9 @@ app.put(
             if (!user) {
 
                 return res
-                    .status(404)
+                    .status(
+                        404
+                    )
                     .json({
 
                         success:
@@ -800,17 +1415,28 @@ app.put(
             }
 
 
-            /* =====================================
+            /* =========================================
                VERIFY CURRENT PASSWORD
-            ===================================== */
+            ========================================= */
+
+            const currentPasswordCorrect =
+                await verifyPassword(
+
+                    currentPassword,
+
+                    user.password
+
+                );
+
 
             if (
-                user.password !==
-                current_password
+                !currentPasswordCorrect
             ) {
 
                 return res
-                    .status(401)
+                    .status(
+                        401
+                    )
                     .json({
 
                         success:
@@ -824,31 +1450,82 @@ app.put(
             }
 
 
-            /* =====================================
+            /* =========================================
+               PREVENT REUSING CURRENT PASSWORD
+            ========================================= */
+
+            const samePassword =
+                currentPassword ===
+                newPassword;
+
+
+            if (
+                samePassword
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Your new password must be different from your current password."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               CREATE BCRYPT HASH
+            ========================================= */
+
+            const hashedPassword =
+                await bcrypt.hash(
+
+                    newPassword,
+
+                    BCRYPT_ROUNDS
+
+                );
+
+
+            /* =========================================
                UPDATE PASSWORD
-            ===================================== */
+            ========================================= */
 
             const {
-                error: updateError
+
+                error:
+                    updateError
+
             } =
                 await supabase
 
-                    .from("users")
+                    .from(
+                        "users"
+                    )
 
                     .update({
 
                         password:
-                            new_password
+                            hashedPassword
 
                     })
 
                     .eq(
                         "id",
-                        user_id
+                        userId
                     );
 
 
-            if (updateError) {
+            if (
+                updateError
+            ) {
 
                 console.error(
                     "Password update error:",
@@ -857,19 +1534,30 @@ app.put(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
                         success:
                             false,
 
                         message:
-                            updateError.message
+                            "Unable to change password."
 
                     });
 
             }
 
+
+            console.log(
+                `✅ Password changed securely for user: ${user.username}`
+            );
+
+
+            /* =========================================
+               SUCCESS
+            ========================================= */
 
             return res.json({
 
@@ -883,6 +1571,7 @@ app.put(
 
         }
 
+
         catch (err) {
 
             console.error(
@@ -892,14 +1581,16 @@ app.put(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
                     success:
                         false,
 
                     message:
-                        "Server Error"
+                        "Server error while changing password."
 
                 });
 
@@ -908,33 +1599,115 @@ app.put(
     }
 );
 
-/* =====================================
+
+/* =====================================================
+   PART 2 CONTINUES WITH:
    GET ALL PLAYERS
-===================================== */
+===================================================== */
+
+/* =====================================================
+   PART 2
+   PLAYER MANAGEMENT APIs
+===================================================== */
+
+
+/* =====================================================
+   ALLOWED PLAYER VALUES
+===================================================== */
+
+const allowedPlayerPositions = [
+
+    "Goalkeeper",
+
+    "Defender",
+
+    "Midfielder",
+
+    "Forward"
+
+];
+
+
+const allowedPlayerStatuses = [
+
+    "Active",
+
+    "Inactive"
+
+];
+
+
+/* =====================================================
+   HELPER: CLEAN PLAYER ID
+===================================================== */
+
+function getValidPlayerId(
+    value
+) {
+
+    const id =
+        Number(
+            value
+        );
+
+
+    if (
+        !Number.isInteger(
+            id
+        ) ||
+        id <= 0
+    ) {
+
+        return null;
+
+    }
+
+
+    return id;
+
+}
+
+
+/* =====================================================
+   GET ALL PLAYERS
+===================================================== */
 
 app.get(
     "/api/players",
+
     async (req, res) => {
 
         try {
 
             const {
+
                 data,
+
                 error
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
-                    .select("*")
+                    .select(
+                        "*"
+                    )
 
                     .order(
                         "id",
                         {
-                            ascending: true
+                            ascending:
+                                true
                         }
                     );
 
+
+            /* =========================================
+               DATABASE ERROR
+            ========================================= */
 
             if (error) {
 
@@ -945,24 +1718,38 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            "Unable to load players."
 
                     });
 
             }
 
 
+            /* =========================================
+               SUCCESS
+
+               Frontend expects an array directly.
+            ========================================= */
+
             return res.json(
-                data || []
+                Array.isArray(
+                    data
+                )
+                    ? data
+                    : []
             );
 
         }
+
 
         catch (err) {
 
@@ -973,10 +1760,13 @@ app.get(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Failed to load players."
@@ -989,38 +1779,78 @@ app.get(
 );
 
 
-/* =====================================
+/* =====================================================
    GET SINGLE PLAYER
-===================================== */
+===================================================== */
 
 app.get(
     "/api/players/:id",
+
     async (req, res) => {
-
-        const {
-            id
-        } = req.params;
-
 
         try {
 
+            const playerId =
+                getValidPlayerId(
+                    req.params.id
+                );
+
+
+            /* =========================================
+               VALIDATE ID
+            ========================================= */
+
+            if (!playerId) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid player ID."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               LOAD PLAYER
+            ========================================= */
+
             const {
+
                 data,
+
                 error
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
-                    .select("*")
+                    .select(
+                        "*"
+                    )
 
                     .eq(
                         "id",
-                        id
+                        playerId
                     )
 
                     .maybeSingle();
 
+
+            /* =========================================
+               DATABASE ERROR
+            ========================================= */
 
             if (error) {
 
@@ -1031,26 +1861,36 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            "Unable to load player."
 
                     });
 
             }
 
 
+            /* =========================================
+               PLAYER NOT FOUND
+            ========================================= */
+
             if (!data) {
 
                 return res
-                    .status(404)
+                    .status(
+                        404
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Player not found."
@@ -1060,11 +1900,18 @@ app.get(
             }
 
 
+            /* =========================================
+               SUCCESS
+
+               Edit-player.js expects player directly.
+            ========================================= */
+
             return res.json(
                 data
             );
 
         }
+
 
         catch (err) {
 
@@ -1075,10 +1922,13 @@ app.get(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Failed to load player."
@@ -1091,48 +1941,87 @@ app.get(
 );
 
 
-/* =====================================
+/* =====================================================
    ADD PLAYER
-===================================== */
+===================================================== */
 
 app.post(
     "/api/players",
+
     async (req, res) => {
 
         try {
 
-            const {
+            /* =========================================
+               CLEAN INPUT
+            ========================================= */
 
-                first_name,
-
-                last_name,
-
-                nickname,
-
-                position,
-
-                date_of_birth,
-
-                status
-
-            } = req.body;
+            const firstName =
+                String(
+                    req.body.first_name ||
+                    ""
+                )
+                    .trim();
 
 
-            /* =====================================
-               VALIDATION
-            ===================================== */
+            const lastName =
+                String(
+                    req.body.last_name ||
+                    ""
+                )
+                    .trim();
+
+
+            const nickname =
+                String(
+                    req.body.nickname ||
+                    ""
+                )
+                    .trim();
+
+
+            const position =
+                String(
+                    req.body.position ||
+                    ""
+                )
+                    .trim();
+
+
+            const dateOfBirth =
+                String(
+                    req.body.date_of_birth ||
+                    ""
+                )
+                    .trim();
+
+
+            const status =
+                String(
+                    req.body.status ||
+                    "Active"
+                )
+                    .trim();
+
+
+            /* =========================================
+               REQUIRED FIELDS
+            ========================================= */
 
             if (
-                !first_name ||
-                !last_name ||
+                !firstName ||
+                !lastName ||
                 !position
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "First name, last name and position are required."
@@ -1142,48 +2031,252 @@ app.post(
             }
 
 
-            /* =====================================
+            /* =========================================
+               NAME LENGTH
+            ========================================= */
+
+            if (
+                firstName.length >
+                100
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "First name is too long."
+
+                    });
+
+            }
+
+
+            if (
+                lastName.length >
+                100
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Last name is too long."
+
+                    });
+
+            }
+
+
+            if (
+                nickname.length >
+                100
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Nickname is too long."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               VALIDATE POSITION
+            ========================================= */
+
+            if (
+                !allowedPlayerPositions.includes(
+                    position
+                )
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid player position."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               VALIDATE STATUS
+            ========================================= */
+
+            if (
+                !allowedPlayerStatuses.includes(
+                    status
+                )
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid player status."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               VALIDATE DATE FORMAT
+            ========================================= */
+
+            if (
+                dateOfBirth &&
+                !/^\d{4}-\d{2}-\d{2}$/.test(
+                    dateOfBirth
+                )
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid date of birth."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               PREVENT FUTURE DATE OF BIRTH
+            ========================================= */
+
+            if (
+                dateOfBirth
+            ) {
+
+                const {
+
+                    date:
+                        todayDate
+
+                } =
+                    getSouthAfricaDateParts();
+
+
+                if (
+                    dateOfBirth >
+                    todayDate
+                ) {
+
+                    return res
+                        .status(
+                            400
+                        )
+                        .json({
+
+                            success:
+                                false,
+
+                            message:
+                                "Date of birth cannot be in the future."
+
+                        });
+
+                }
+
+            }
+
+
+            /* =========================================
                CREATE PLAYER
-            ===================================== */
+            ========================================= */
 
             const {
+
                 data,
+
                 error
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
-                    .insert([{
+                    .insert([
 
-                        first_name:
-                            first_name.trim(),
+                        {
 
-                        last_name:
-                            last_name.trim(),
+                            first_name:
+                                firstName,
 
-                        nickname:
-                            nickname
-                                ? nickname.trim()
-                                : null,
+                            last_name:
+                                lastName,
 
-                        position:
-                            position,
+                            nickname:
+                                nickname ||
+                                null,
 
-                        date_of_birth:
-                            date_of_birth ||
-                            null,
+                            position:
+                                position,
 
-                        status:
-                            status ||
-                            "Active"
+                            date_of_birth:
+                                dateOfBirth ||
+                                null,
 
-                    }])
+                            status:
+                                status
+
+                        }
+
+                    ])
 
                     .select()
 
                     .single();
 
+
+            /* =========================================
+               DATABASE ERROR
+            ========================================= */
 
             if (error) {
 
@@ -1194,24 +2287,35 @@ app.post(
 
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            error.message ||
+                            "Unable to add player."
 
                     });
 
             }
 
 
+            /* =========================================
+               SUCCESS
+            ========================================= */
+
             return res
-                .status(201)
+                .status(
+                    201
+                )
                 .json({
 
-                    success: true,
+                    success:
+                        true,
 
                     message:
                         "Player added successfully.",
@@ -1223,6 +2327,7 @@ app.post(
 
         }
 
+
         catch (err) {
 
             console.error(
@@ -1232,10 +2337,13 @@ app.post(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Failed to add player."
@@ -1248,53 +2356,116 @@ app.post(
 );
 
 
-/* =====================================
+/* =====================================================
    UPDATE PLAYER
-===================================== */
+===================================================== */
 
 app.put(
     "/api/players/:id",
+
     async (req, res) => {
-
-        const {
-            id
-        } = req.params;
-
 
         try {
 
-            const {
-
-                first_name,
-
-                last_name,
-
-                nickname,
-
-                position,
-
-                date_of_birth,
-
-                status
-
-            } = req.body;
+            const playerId =
+                getValidPlayerId(
+                    req.params.id
+                );
 
 
-            /* =====================================
-               VALIDATION
-            ===================================== */
+            /* =========================================
+               VALIDATE ID
+            ========================================= */
+
+            if (!playerId) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid player ID."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               CLEAN INPUT
+            ========================================= */
+
+            const firstName =
+                String(
+                    req.body.first_name ||
+                    ""
+                )
+                    .trim();
+
+
+            const lastName =
+                String(
+                    req.body.last_name ||
+                    ""
+                )
+                    .trim();
+
+
+            const nickname =
+                String(
+                    req.body.nickname ||
+                    ""
+                )
+                    .trim();
+
+
+            const position =
+                String(
+                    req.body.position ||
+                    ""
+                )
+                    .trim();
+
+
+            const dateOfBirth =
+                String(
+                    req.body.date_of_birth ||
+                    ""
+                )
+                    .trim();
+
+
+            const status =
+                String(
+                    req.body.status ||
+                    "Active"
+                )
+                    .trim();
+
+
+            /* =========================================
+               REQUIRED FIELDS
+            ========================================= */
 
             if (
-                !first_name ||
-                !last_name ||
+                !firstName ||
+                !lastName ||
                 !position
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "First name, last name and position are required."
@@ -1304,53 +2475,292 @@ app.put(
             }
 
 
-            /* =====================================
-               UPDATE PLAYER
-            ===================================== */
+            /* =========================================
+               FIELD LENGTH
+            ========================================= */
+
+            if (
+                firstName.length >
+                100 ||
+                lastName.length >
+                100 ||
+                nickname.length >
+                100
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Player name or nickname is too long."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               POSITION
+            ========================================= */
+
+            if (
+                !allowedPlayerPositions.includes(
+                    position
+                )
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid player position."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               STATUS
+            ========================================= */
+
+            if (
+                !allowedPlayerStatuses.includes(
+                    status
+                )
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid player status."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               DATE FORMAT
+            ========================================= */
+
+            if (
+                dateOfBirth &&
+                !/^\d{4}-\d{2}-\d{2}$/.test(
+                    dateOfBirth
+                )
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid date of birth."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               FUTURE DATE CHECK
+            ========================================= */
+
+            if (
+                dateOfBirth
+            ) {
+
+                const {
+
+                    date:
+                        todayDate
+
+                } =
+                    getSouthAfricaDateParts();
+
+
+                if (
+                    dateOfBirth >
+                    todayDate
+                ) {
+
+                    return res
+                        .status(
+                            400
+                        )
+                        .json({
+
+                            success:
+                                false,
+
+                            message:
+                                "Date of birth cannot be in the future."
+
+                        });
+
+                }
+
+            }
+
+
+            /* =========================================
+               CHECK PLAYER EXISTS
+            ========================================= */
 
             const {
-                data,
-                error
+
+                data:
+                    existingPlayer,
+
+                error:
+                    existingPlayerError
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
+
+                    .select(
+                        "id"
+                    )
+
+                    .eq(
+                        "id",
+                        playerId
+                    )
+
+                    .maybeSingle();
+
+
+            if (
+                existingPlayerError
+            ) {
+
+                console.error(
+                    "Player lookup error:",
+                    existingPlayerError
+                );
+
+
+                return res
+                    .status(
+                        500
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Unable to verify player."
+
+                    });
+
+            }
+
+
+            if (
+                !existingPlayer
+            ) {
+
+                return res
+                    .status(
+                        404
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Player not found."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               UPDATE PLAYER
+            ========================================= */
+
+            const {
+
+                data,
+
+                error
+
+            } =
+                await supabase
+
+                    .from(
+                        "players"
+                    )
 
                     .update({
 
                         first_name:
-                            first_name.trim(),
+                            firstName,
 
                         last_name:
-                            last_name.trim(),
+                            lastName,
 
                         nickname:
-                            nickname
-                                ? nickname.trim()
-                                : null,
+                            nickname ||
+                            null,
 
                         position:
                             position,
 
                         date_of_birth:
-                            date_of_birth ||
+                            dateOfBirth ||
                             null,
 
                         status:
-                            status ||
-                            "Active"
+                            status
 
                     })
 
                     .eq(
                         "id",
-                        id
+                        playerId
                     )
 
                     .select()
 
                     .maybeSingle();
 
+
+            /* =========================================
+               UPDATE ERROR
+            ========================================= */
 
             if (error) {
 
@@ -1361,13 +2771,17 @@ app.put(
 
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            error.message ||
+                            "Unable to update player."
 
                     });
 
@@ -1377,10 +2791,13 @@ app.put(
             if (!data) {
 
                 return res
-                    .status(404)
+                    .status(
+                        404
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Player not found."
@@ -1390,9 +2807,14 @@ app.put(
             }
 
 
+            /* =========================================
+               SUCCESS
+            ========================================= */
+
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Player updated successfully.",
@@ -1404,6 +2826,7 @@ app.put(
 
         }
 
+
         catch (err) {
 
             console.error(
@@ -1413,10 +2836,13 @@ app.put(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Failed to update player."
@@ -1429,44 +2855,80 @@ app.put(
 );
 
 
-/* =====================================
+/* =====================================================
    DELETE PLAYER
-===================================== */
+===================================================== */
 
 app.delete(
     "/api/players/:id",
+
     async (req, res) => {
-
-        const {
-            id
-        } = req.params;
-
 
         try {
 
-            /* =====================================
+            const playerId =
+                getValidPlayerId(
+                    req.params.id
+                );
+
+
+            /* =========================================
+               VALIDATE PLAYER ID
+            ========================================= */
+
+            if (!playerId) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Invalid player ID."
+
+                    });
+
+            }
+
+
+            /* =========================================
                CHECK PLAYER EXISTS
-            ===================================== */
+            ========================================= */
 
             const {
-                data: player,
-                error: playerError
+
+                data:
+                    player,
+
+                error:
+                    playerError
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
-                    .select("id")
+                    .select(
+                        "id, first_name, last_name"
+                    )
 
                     .eq(
                         "id",
-                        id
+                        playerId
                     )
 
                     .maybeSingle();
 
 
-            if (playerError) {
+            if (
+                playerError
+            ) {
 
                 console.error(
                     "Player lookup error:",
@@ -1475,13 +2937,16 @@ app.delete(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            playerError.message
+                            "Unable to verify player."
 
                     });
 
@@ -1491,10 +2956,13 @@ app.delete(
             if (!player) {
 
                 return res
-                    .status(404)
+                    .status(
+                        404
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Player not found."
@@ -1504,22 +2972,31 @@ app.delete(
             }
 
 
-            /* =====================================
+            /* =========================================
                DELETE PLAYER
-            ===================================== */
+
+               Attendance records should also be
+               removed automatically because the
+               attendance.player_id foreign key uses
+               ON DELETE CASCADE.
+            ========================================= */
 
             const {
+
                 error
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
                     .delete()
 
                     .eq(
                         "id",
-                        id
+                        playerId
                     );
 
 
@@ -1532,29 +3009,52 @@ app.delete(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            error.message ||
+                            "Unable to remove player."
 
                     });
 
             }
 
 
+            /* =========================================
+               PLAYER NAME
+            ========================================= */
+
+            const playerName =
+                `${player.first_name || ""} ${player.last_name || ""}`
+                    .trim();
+
+
+            /* =========================================
+               SUCCESS
+            ========================================= */
+
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
-                    "Player deleted successfully."
+                    playerName
+
+                        ? `${playerName} was removed successfully.`
+
+                        : "Player removed successfully."
 
             });
 
         }
+
 
         catch (err) {
 
@@ -1565,10 +3065,13 @@ app.delete(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Failed to delete player."
@@ -1581,22 +3084,28 @@ app.delete(
 );
 
 
-/* =====================================
+/* =====================================================
    SEARCH PLAYERS
-===================================== */
+===================================================== */
 
 app.get(
     "/api/players-search",
+
     async (req, res) => {
 
         try {
 
             const search =
                 String(
-                    req.query.q || ""
+                    req.query.q ||
+                    ""
                 )
                     .trim();
 
+
+            /* =========================================
+               EMPTY SEARCH
+            ========================================= */
 
             if (!search) {
 
@@ -1607,20 +3116,61 @@ app.get(
             }
 
 
+            /* =========================================
+               SEARCH LENGTH
+            ========================================= */
+
+            if (
+                search.length >
+                100
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Search text is too long."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               LOAD PLAYERS
+
+               Filtering locally preserves the same
+               behavior as your existing implementation.
+            ========================================= */
+
             const {
+
                 data,
+
                 error
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
-                    .select("*")
+                    .select(
+                        "*"
+                    )
 
                     .order(
                         "id",
                         {
-                            ascending: true
+                            ascending:
+                                true
                         }
                     );
 
@@ -1634,25 +3184,41 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            "Unable to search players."
 
                     });
 
             }
 
 
+            const players =
+                Array.isArray(
+                    data
+                )
+                    ? data
+                    : [];
+
+
             const searchLower =
-                search.toLowerCase();
+                search
+                    .toLowerCase();
 
 
-            const filtered =
-                (data || []).filter(
+            /* =========================================
+               FILTER PLAYERS
+            ========================================= */
+
+            const filteredPlayers =
+                players.filter(
                     player => {
 
                         const firstName =
@@ -1687,8 +3253,22 @@ app.get(
                                 .toLowerCase();
 
 
+                        const status =
+                            String(
+                                player.status ||
+                                ""
+                            )
+                                .toLowerCase();
+
+
                         const fullName =
-                            `${firstName} ${lastName}`;
+                            `${firstName} ${lastName}`
+                                .trim();
+
+
+                        const reversedName =
+                            `${lastName} ${firstName}`
+                                .trim();
 
 
                         const id =
@@ -1712,6 +3292,18 @@ app.get(
 
                             ||
 
+                            fullName.includes(
+                                searchLower
+                            )
+
+                            ||
+
+                            reversedName.includes(
+                                searchLower
+                            )
+
+                            ||
+
                             nickname.includes(
                                 searchLower
                             )
@@ -1724,13 +3316,14 @@ app.get(
 
                             ||
 
-                            fullName.includes(
+                            status.includes(
                                 searchLower
                             )
 
                             ||
 
-                            id === search
+                            id ===
+                            search
 
                         );
 
@@ -1738,11 +3331,16 @@ app.get(
                 );
 
 
+            /* =========================================
+               SUCCESS
+            ========================================= */
+
             return res.json(
-                filtered
+                filteredPlayers
             );
 
         }
+
 
         catch (err) {
 
@@ -1753,10 +3351,13 @@ app.get(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Failed to search players."
@@ -1768,208 +3369,656 @@ app.get(
     }
 );
 
-/* =====================================
+
+/* =====================================================
+   END OF PART 2
+
+   PART 3 STARTS WITH:
    SAVE ATTENDANCE
-===================================== */
+===================================================== */
+
+/* =====================================================
+   PART 3
+   ATTENDANCE MANAGEMENT APIs
+===================================================== */
+
+
+/* =====================================================
+   ALLOWED ATTENDANCE STATUSES
+===================================================== */
+
+const allowedAttendanceStatuses = [
+
+    "Present",
+
+    "Absent",
+
+    "Excused"
+
+];
+
+
+/* =====================================================
+   HELPER: VALIDATE YYYY-MM-DD DATE
+===================================================== */
+
+function isValidAttendanceDate(
+    value
+) {
+
+    const date =
+        String(
+            value || ""
+        )
+            .trim();
+
+
+    /* =========================================
+       FORMAT CHECK
+    ========================================= */
+
+    if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(
+            date
+        )
+    ) {
+
+        return false;
+
+    }
+
+
+    const [
+        yearText,
+        monthText,
+        dayText
+    ] =
+        date.split("-");
+
+
+    const year =
+        Number(
+            yearText
+        );
+
+
+    const month =
+        Number(
+            monthText
+        );
+
+
+    const day =
+        Number(
+            dayText
+        );
+
+
+    /* =========================================
+       BASIC RANGE CHECK
+    ========================================= */
+
+    if (
+        year < 2000 ||
+        year > 2100 ||
+        month < 1 ||
+        month > 12 ||
+        day < 1 ||
+        day > 31
+    ) {
+
+        return false;
+
+    }
+
+
+    /* =========================================
+       REAL CALENDAR DATE CHECK
+
+       Prevents invalid values such as:
+       2026-02-31
+    ========================================= */
+
+    const parsedDate =
+        new Date(
+            Date.UTC(
+                year,
+                month - 1,
+                day
+            )
+        );
+
+
+    return (
+
+        parsedDate.getUTCFullYear() ===
+        year
+
+        &&
+
+        parsedDate.getUTCMonth() ===
+        month - 1
+
+        &&
+
+        parsedDate.getUTCDate() ===
+        day
+
+    );
+
+}
+
+
+/* =====================================================
+   HELPER: GET OR CREATE TRAINING SESSION
+===================================================== */
+
+async function getOrCreateTrainingSession(
+    sessionDate
+) {
+
+    /* =========================================
+       LOOK FOR EXISTING SESSION
+    ========================================= */
+
+    const {
+
+        data:
+            existingSession,
+
+        error:
+            lookupError
+
+    } =
+        await supabase
+
+            .from(
+                "training_sessions"
+            )
+
+            .select(
+                "*"
+            )
+
+            .eq(
+                "session_date",
+                sessionDate
+            )
+
+            .maybeSingle();
+
+
+    if (
+        lookupError
+    ) {
+
+        throw new Error(
+            lookupError.message ||
+            "Unable to find training session."
+        );
+
+    }
+
+
+    if (
+        existingSession
+    ) {
+
+        return existingSession;
+
+    }
+
+
+    /* =========================================
+       EXTRACT YEAR + MONTH
+    ========================================= */
+
+    const [
+        yearText,
+        monthText
+    ] =
+        sessionDate.split("-");
+
+
+    const sessionYear =
+        Number(
+            yearText
+        );
+
+
+    const sessionMonth =
+        Number(
+            monthText
+        );
+
+
+    /* =========================================
+       CREATE SESSION
+    ========================================= */
+
+    const {
+
+        data:
+            newSession,
+
+        error:
+            createError
+
+    } =
+        await supabase
+
+            .from(
+                "training_sessions"
+            )
+
+            .insert([
+
+                {
+
+                    session_date:
+                        sessionDate,
+
+                    month:
+                        sessionMonth,
+
+                    year:
+                        sessionYear
+
+                }
+
+            ])
+
+            .select()
+
+            .single();
+
+
+    if (
+        createError
+    ) {
+
+        throw new Error(
+            createError.message ||
+            "Unable to create training session."
+        );
+
+    }
+
+
+    return newSession;
+
+}
+
+
+/* =====================================================
+   SAVE TODAY'S ATTENDANCE
+===================================================== */
 
 app.post(
     "/api/attendance",
+
     async (req, res) => {
-
-        const attendance =
-            req.body.attendance;
-
-
-        if (
-            !Array.isArray(attendance) ||
-            attendance.length === 0
-        ) {
-
-            return res
-                .status(400)
-                .json({
-
-                    success: false,
-
-                    message:
-                        "No attendance data received."
-
-                });
-
-        }
-
 
         try {
 
-            /* =====================================
-               GET SOUTH AFRICA DATE
-            ===================================== */
-
-            const {
-                date: todayDate,
-                month: localMonth,
-                year: localYear
-            } =
-                getSouthAfricaDateParts();
+            const attendance =
+                req.body.attendance;
 
 
-            /* =====================================
-               FIND TODAY'S TRAINING SESSION
-            ===================================== */
+            /* =========================================
+               VALIDATE ATTENDANCE ARRAY
+            ========================================= */
 
-            let {
-                data: session,
-                error: sessionError
-            } =
-                await supabase
-
-                    .from("training_sessions")
-
-                    .select("*")
-
-                    .eq(
-                        "session_date",
-                        todayDate
-                    )
-
-                    .maybeSingle();
-
-
-            if (sessionError) {
-
-                console.error(
-                    "Session lookup error:",
-                    sessionError
-                );
-
+            if (
+                !Array.isArray(
+                    attendance
+                ) ||
+                attendance.length === 0
+            ) {
 
                 return res
-                    .status(500)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            sessionError.message
+                            "No attendance data received."
 
                     });
 
             }
 
 
-            /* =====================================
-               CREATE TODAY'S SESSION IF NEEDED
-            ===================================== */
+            /* =========================================
+               GET SOUTH AFRICA DATE
+            ========================================= */
 
-            if (!session) {
+            const {
 
-                const {
-                    data,
-                    error
-                } =
-                    await supabase
+                date:
+                    todayDate
 
-                        .from("training_sessions")
-
-                        .insert([{
-
-                            session_date:
-                                todayDate,
-
-                            month:
-                                localMonth,
-
-                            year:
-                                localYear
-
-                        }])
-
-                        .select()
-
-                        .single();
+            } =
+                getSouthAfricaDateParts();
 
 
-                if (error) {
+            /* =========================================
+               CLEAN + VALIDATE RECORDS
+            ========================================= */
 
-                    console.error(
-                        "Create session error:",
-                        error
+            const cleanedAttendance =
+                [];
+
+
+            const seenPlayerIds =
+                new Set();
+
+
+            for (
+                const record of attendance
+            ) {
+
+                const playerId =
+                    getValidPlayerId(
+                        record.player_id
                     );
 
 
+                const attendanceStatus =
+                    String(
+                        record.attendance_status ||
+                        ""
+                    )
+                        .trim();
+
+
+                /* =====================================
+                   INVALID PLAYER
+                ===================================== */
+
+                if (
+                    !playerId
+                ) {
+
                     return res
-                        .status(500)
+                        .status(
+                            400
+                        )
                         .json({
 
-                            success: false,
+                            success:
+                                false,
 
                             message:
-                                error.message
+                                "Attendance contains an invalid player ID."
 
                         });
 
                 }
 
 
-                session =
-                    data;
+                /* =====================================
+                   INVALID STATUS
+                ===================================== */
+
+                if (
+                    !allowedAttendanceStatuses.includes(
+                        attendanceStatus
+                    )
+                ) {
+
+                    return res
+                        .status(
+                            400
+                        )
+                        .json({
+
+                            success:
+                                false,
+
+                            message:
+                                "Attendance status must be Present, Absent or Excused."
+
+                        });
+
+                }
+
+
+                /* =====================================
+                   PREVENT DUPLICATE PLAYER ENTRIES
+                ===================================== */
+
+                if (
+                    seenPlayerIds.has(
+                        playerId
+                    )
+                ) {
+
+                    return res
+                        .status(
+                            400
+                        )
+                        .json({
+
+                            success:
+                                false,
+
+                            message:
+                                `Player ID ${playerId} appears more than once in the attendance request.`
+
+                        });
+
+                }
+
+
+                seenPlayerIds.add(
+                    playerId
+                );
+
+
+                cleanedAttendance.push({
+
+                    player_id:
+                        playerId,
+
+                    attendance_status:
+                        attendanceStatus
+
+                });
 
             }
 
 
-            /* =====================================
-               SAVE EACH PLAYER'S ATTENDANCE
-            ===================================== */
+            /* =========================================
+               GET ACTIVE PLAYERS
+            ========================================= */
+
+            const {
+
+                data:
+                    activePlayers,
+
+                error:
+                    playersError
+
+            } =
+                await supabase
+
+                    .from(
+                        "players"
+                    )
+
+                    .select(
+                        "id"
+                    )
+
+                    .eq(
+                        "status",
+                        "Active"
+                    );
+
+
+            if (
+                playersError
+            ) {
+
+                console.error(
+                    "Attendance active players error:",
+                    playersError
+                );
+
+
+                return res
+                    .status(
+                        500
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Unable to verify active players."
+
+                    });
+
+            }
+
+
+            const safeActivePlayers =
+                Array.isArray(
+                    activePlayers
+                )
+                    ? activePlayers
+                    : [];
+
+
+            const activePlayerIds =
+                new Set(
+                    safeActivePlayers.map(
+                        player =>
+                            Number(
+                                player.id
+                            )
+                    )
+                );
+
+
+            /* =========================================
+               VERIFY EVERY SUBMITTED PLAYER EXISTS
+               AND IS ACTIVE
+            ========================================= */
 
             for (
-                const player of attendance
+                const record of cleanedAttendance
             ) {
 
                 if (
-                    !player.player_id ||
-                    !player.attendance_status
-                ) {
-
-                    continue;
-
-                }
-
-
-                const allowedStatuses = [
-                    "Present",
-                    "Absent",
-                    "Excused"
-                ];
-
-
-                if (
-                    !allowedStatuses.includes(
-                        player.attendance_status
+                    !activePlayerIds.has(
+                        record.player_id
                     )
                 ) {
 
-                    continue;
+                    return res
+                        .status(
+                            400
+                        )
+                        .json({
+
+                            success:
+                                false,
+
+                            message:
+                                `Player ID ${record.player_id} is not an active Mafori FC player.`
+
+                        });
 
                 }
 
+            }
 
-                /* =================================
-                   CHECK EXISTING RECORD
-                ================================= */
+
+            /* =========================================
+               GET / CREATE TODAY'S SESSION
+            ========================================= */
+
+            let session;
+
+
+            try {
+
+                session =
+                    await getOrCreateTrainingSession(
+                        todayDate
+                    );
+
+            }
+
+            catch (
+                sessionError
+            ) {
+
+                console.error(
+                    "Attendance session error:",
+                    sessionError
+                );
+
+
+                return res
+                    .status(
+                        500
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            sessionError.message ||
+                            "Unable to prepare today's training session."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               SAVE EACH PLAYER
+
+               Existing attendance is updated.
+               Missing attendance is inserted.
+            ========================================= */
+
+            for (
+                const record of cleanedAttendance
+            ) {
 
                 const {
-                    data: existing,
-                    error: existingError
+
+                    data:
+                        existingAttendance,
+
+                    error:
+                        existingError
+
                 } =
                     await supabase
 
-                        .from("attendance")
+                        .from(
+                            "attendance"
+                        )
 
-                        .select("id")
+                        .select(
+                            "id"
+                        )
 
                         .eq(
                             "player_id",
-                            player.player_id
+                            record.player_id
                         )
 
                         .eq(
@@ -1980,7 +4029,9 @@ app.post(
                         .maybeSingle();
 
 
-                if (existingError) {
+                if (
+                    existingError
+                ) {
 
                     console.error(
                         "Attendance lookup error:",
@@ -1989,46 +4040,58 @@ app.post(
 
 
                     return res
-                        .status(500)
+                        .status(
+                            500
+                        )
                         .json({
 
-                            success: false,
+                            success:
+                                false,
 
                             message:
-                                existingError.message
+                                "Unable to check existing attendance."
 
                         });
 
                 }
 
 
-                /* =================================
-                   UPDATE EXISTING RECORD
-                ================================= */
+                /* =====================================
+                   UPDATE
+                ===================================== */
 
-                if (existing) {
+                if (
+                    existingAttendance
+                ) {
 
                     const {
-                        error: updateError
+
+                        error:
+                            updateError
+
                     } =
                         await supabase
 
-                            .from("attendance")
+                            .from(
+                                "attendance"
+                            )
 
                             .update({
 
                                 attendance_status:
-                                    player.attendance_status
+                                    record.attendance_status
 
                             })
 
                             .eq(
                                 "id",
-                                existing.id
+                                existingAttendance.id
                             );
 
 
-                    if (updateError) {
+                    if (
+                        updateError
+                    ) {
 
                         console.error(
                             "Attendance update error:",
@@ -2037,13 +4100,16 @@ app.post(
 
 
                         return res
-                            .status(500)
+                            .status(
+                                500
+                            )
                             .json({
 
-                                success: false,
+                                success:
+                                    false,
 
                                 message:
-                                    updateError.message
+                                    "Unable to update attendance."
 
                             });
 
@@ -2052,34 +4118,45 @@ app.post(
                 }
 
 
-                /* =================================
-                   INSERT NEW RECORD
-                ================================= */
+                /* =====================================
+                   INSERT
+                ===================================== */
 
                 else {
 
                     const {
-                        error: insertError
+
+                        error:
+                            insertError
+
                     } =
                         await supabase
 
-                            .from("attendance")
+                            .from(
+                                "attendance"
+                            )
 
-                            .insert([{
+                            .insert([
 
-                                player_id:
-                                    player.player_id,
+                                {
 
-                                session_id:
-                                    session.id,
+                                    player_id:
+                                        record.player_id,
 
-                                attendance_status:
-                                    player.attendance_status
+                                    session_id:
+                                        session.id,
 
-                            }]);
+                                    attendance_status:
+                                        record.attendance_status
+
+                                }
+
+                            ]);
 
 
-                    if (insertError) {
+                    if (
+                        insertError
+                    ) {
 
                         console.error(
                             "Attendance insert error:",
@@ -2088,13 +4165,16 @@ app.post(
 
 
                         return res
-                            .status(500)
+                            .status(
+                                500
+                            )
                             .json({
 
-                                success: false,
+                                success:
+                                    false,
 
                                 message:
-                                    insertError.message
+                                    "Unable to save attendance."
 
                             });
 
@@ -2105,210 +4185,142 @@ app.post(
             }
 
 
-            /* =====================================
-               TOTAL ACTIVE PLAYERS
-            ===================================== */
+            /* =========================================
+               LOAD SAVED ATTENDANCE FOR TODAY
+            ========================================= */
 
             const {
-                count: totalPlayers,
-                error: totalPlayersError
+
+                data:
+                    savedRecords,
+
+                error:
+                    savedRecordsError
+
             } =
                 await supabase
 
-                    .from("players")
-
-                    .select(
-                        "*",
-                        {
-                            count:
-                                "exact",
-
-                            head:
-                                true
-                        }
+                    .from(
+                        "attendance"
                     )
 
-                    .eq(
-                        "status",
-                        "Active"
-                    );
-
-
-            if (totalPlayersError) {
-
-                console.error(
-                    "Total players error:",
-                    totalPlayersError
-                );
-
-            }
-
-
-            /* =====================================
-               PRESENT COUNT
-            ===================================== */
-
-            const {
-                count: present,
-                error: presentError
-            } =
-                await supabase
-
-                    .from("attendance")
-
                     .select(
-                        "*",
-                        {
-                            count:
-                                "exact",
-
-                            head:
-                                true
-                        }
+                        "player_id, attendance_status"
                     )
 
                     .eq(
                         "session_id",
                         session.id
-                    )
+                    );
 
-                    .eq(
-                        "attendance_status",
+
+            if (
+                savedRecordsError
+            ) {
+
+                console.error(
+                    "Attendance statistics error:",
+                    savedRecordsError
+                );
+
+
+                return res
+                    .status(
+                        500
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Attendance was saved, but statistics could not be calculated."
+
+                    });
+
+            }
+
+
+            const safeSavedRecords =
+                Array.isArray(
+                    savedRecords
+                )
+                    ? savedRecords
+                    : [];
+
+
+            /*
+               Only active players are included
+               in today's dashboard statistics.
+            */
+
+            const activeAttendance =
+                safeSavedRecords.filter(
+                    record =>
+                        activePlayerIds.has(
+                            Number(
+                                record.player_id
+                            )
+                        )
+                );
+
+
+            /* =========================================
+               CALCULATE STATISTICS
+            ========================================= */
+
+            const present =
+                activeAttendance.filter(
+                    record =>
+                        record.attendance_status ===
                         "Present"
-                    );
+                ).length;
 
 
-            if (presentError) {
-
-                console.error(
-                    "Present count error:",
-                    presentError
-                );
-
-            }
-
-
-            /* =====================================
-               ABSENT COUNT
-            ===================================== */
-
-            const {
-                count: absent,
-                error: absentError
-            } =
-                await supabase
-
-                    .from("attendance")
-
-                    .select(
-                        "*",
-                        {
-                            count:
-                                "exact",
-
-                            head:
-                                true
-                        }
-                    )
-
-                    .eq(
-                        "session_id",
-                        session.id
-                    )
-
-                    .eq(
-                        "attendance_status",
+            const absent =
+                activeAttendance.filter(
+                    record =>
+                        record.attendance_status ===
                         "Absent"
-                    );
+                ).length;
 
 
-            if (absentError) {
-
-                console.error(
-                    "Absent count error:",
-                    absentError
-                );
-
-            }
-
-
-            /* =====================================
-               EXCUSED COUNT
-            ===================================== */
-
-            const {
-                count: excused,
-                error: excusedError
-            } =
-                await supabase
-
-                    .from("attendance")
-
-                    .select(
-                        "*",
-                        {
-                            count:
-                                "exact",
-
-                            head:
-                                true
-                        }
-                    )
-
-                    .eq(
-                        "session_id",
-                        session.id
-                    )
-
-                    .eq(
-                        "attendance_status",
+            const excused =
+                activeAttendance.filter(
+                    record =>
+                        record.attendance_status ===
                         "Excused"
-                    );
+                ).length;
 
 
-            if (excusedError) {
-
-                console.error(
-                    "Excused count error:",
-                    excusedError
-                );
-
-            }
-
-
-            const safeTotalPlayers =
-                totalPlayers || 0;
-
-
-            const safePresent =
-                present || 0;
-
-
-            const safeAbsent =
-                absent || 0;
-
-
-            const safeExcused =
-                excused || 0;
+            const totalPlayers =
+                safeActivePlayers.length;
 
 
             const attendanceRate =
-                safeTotalPlayers > 0
+                totalPlayers > 0
 
                     ? (
                         (
-                            safePresent /
-                            safeTotalPlayers
+                            present /
+                            totalPlayers
                         ) *
                         100
-                    ).toFixed(1)
+                    ).toFixed(
+                        1
+                    )
 
                     : "0.0";
 
 
+            /* =========================================
+               SUCCESS
+            ========================================= */
+
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     `Attendance saved successfully for ${todayDate}.`,
@@ -2326,16 +4338,16 @@ app.post(
                 statistics: {
 
                     totalPlayers:
-                        safeTotalPlayers,
+                        totalPlayers,
 
                     present:
-                        safePresent,
+                        present,
 
                     absent:
-                        safeAbsent,
+                        absent,
 
                     excused:
-                        safeExcused,
+                        excused,
 
                     attendanceRate:
                         attendanceRate
@@ -2346,6 +4358,7 @@ app.post(
 
         }
 
+
         catch (err) {
 
             console.error(
@@ -2355,13 +4368,17 @@ app.post(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        err.message
+                        err.message ||
+                        "Unable to save attendance."
 
                 });
 
@@ -2371,35 +4388,43 @@ app.post(
 );
 
 
-/* =====================================
+/* =====================================================
    GET ATTENDANCE REGISTER BY DATE
-===================================== */
+===================================================== */
 
 app.get(
     "/api/attendance/date/:date",
+
     async (req, res) => {
 
         try {
 
             const date =
                 String(
-                    req.params.date || ""
-                ).trim();
+                    req.params.date ||
+                    ""
+                )
+                    .trim();
 
 
-            /* =====================================
+            /* =========================================
                VALIDATE DATE
-            ===================================== */
+            ========================================= */
 
             if (
-                !/^\d{4}-\d{2}-\d{2}$/.test(date)
+                !isValidAttendanceDate(
+                    date
+                )
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Invalid attendance date."
@@ -2409,19 +4434,28 @@ app.get(
             }
 
 
-            /* =====================================
+            /* =========================================
                FIND TRAINING SESSION
-            ===================================== */
+            ========================================= */
 
             const {
-                data: session,
-                error: sessionError
+
+                data:
+                    session,
+
+                error:
+                    sessionError
+
             } =
                 await supabase
 
-                    .from("training_sessions")
+                    .from(
+                        "training_sessions"
+                    )
 
-                    .select("*")
+                    .select(
+                        "*"
+                    )
 
                     .eq(
                         "session_date",
@@ -2431,7 +4465,9 @@ app.get(
                     .maybeSingle();
 
 
-            if (sessionError) {
+            if (
+                sessionError
+            ) {
 
                 console.error(
                     "Attendance session lookup error:",
@@ -2440,30 +4476,40 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            sessionError.message
+                            "Unable to load the training session."
 
                     });
 
             }
 
 
-            /* =====================================
+            /* =========================================
                GET ACTIVE PLAYERS
-            ===================================== */
+            ========================================= */
 
             const {
-                data: players,
-                error: playersError
+
+                data:
+                    players,
+
+                error:
+                    playersError
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
                     .select(
                         "id, first_name, last_name, nickname, position, date_of_birth, status"
@@ -2477,12 +4523,15 @@ app.get(
                     .order(
                         "id",
                         {
-                            ascending: true
+                            ascending:
+                                true
                         }
                     );
 
 
-            if (playersError) {
+            if (
+                playersError
+            ) {
 
                 console.error(
                     "Attendance players error:",
@@ -2491,13 +4540,16 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            playersError.message
+                            "Unable to load players."
 
                     });
 
@@ -2505,20 +4557,25 @@ app.get(
 
 
             const safePlayers =
-                Array.isArray(players)
+                Array.isArray(
+                    players
+                )
                     ? players
                     : [];
 
 
-            /* =====================================
-               NO SESSION YET
-            ===================================== */
+            /* =========================================
+               NO TRAINING SESSION FOR DATE
+            ========================================= */
 
-            if (!session) {
+            if (
+                !session
+            ) {
 
                 return res.json({
 
-                    success: true,
+                    success:
+                        true,
 
                     date:
                         date,
@@ -2549,17 +4606,24 @@ app.get(
             }
 
 
-            /* =====================================
+            /* =========================================
                LOAD ATTENDANCE RECORDS
-            ===================================== */
+            ========================================= */
 
             const {
-                data: attendanceRecords,
-                error: attendanceError
+
+                data:
+                    attendanceRecords,
+
+                error:
+                    attendanceError
+
             } =
                 await supabase
 
-                    .from("attendance")
+                    .from(
+                        "attendance"
+                    )
 
                     .select(
                         "id, player_id, session_id, attendance_status"
@@ -2571,7 +4635,9 @@ app.get(
                     );
 
 
-            if (attendanceError) {
+            if (
+                attendanceError
+            ) {
 
                 console.error(
                     "Attendance records error:",
@@ -2580,13 +4646,16 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            attendanceError.message
+                            "Unable to load attendance records."
 
                     });
 
@@ -2601,23 +4670,47 @@ app.get(
                     : [];
 
 
-            /* =====================================
-               MERGE PLAYERS + ATTENDANCE
-            ===================================== */
+            /* =========================================
+               CREATE ATTENDANCE LOOKUP MAP
+
+               This is faster and cleaner than
+               repeatedly searching the array.
+            ========================================= */
+
+            const attendanceByPlayer =
+                new Map();
+
+
+            safeAttendance.forEach(
+                record => {
+
+                    attendanceByPlayer.set(
+
+                        Number(
+                            record.player_id
+                        ),
+
+                        record
+
+                    );
+
+                }
+            );
+
+
+            /* =========================================
+               MERGE PLAYER + ATTENDANCE
+            ========================================= */
 
             const result =
                 safePlayers.map(
                     player => {
 
                         const record =
-                            safeAttendance.find(
-                                item =>
-                                    Number(
-                                        item.player_id
-                                    ) ===
-                                    Number(
-                                        player.id
-                                    )
+                            attendanceByPlayer.get(
+                                Number(
+                                    player.id
+                                )
                             );
 
 
@@ -2641,9 +4734,14 @@ app.get(
                 );
 
 
+            /* =========================================
+               SUCCESS
+            ========================================= */
+
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 date:
                     date,
@@ -2661,6 +4759,7 @@ app.get(
 
         }
 
+
         catch (err) {
 
             console.error(
@@ -2670,10 +4769,13 @@ app.get(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         err.message ||
@@ -2687,49 +4789,55 @@ app.get(
 );
 
 
-/* =====================================
+/* =====================================================
    EDIT / UPDATE ONE PLAYER'S ATTENDANCE
-===================================== */
+===================================================== */
 
 app.put(
     "/api/attendance/player/:playerId",
+
     async (req, res) => {
 
         try {
 
             const playerId =
-                Number(
+                getValidPlayerId(
                     req.params.playerId
                 );
 
 
             const date =
                 String(
-                    req.body.date || ""
-                ).trim();
+                    req.body.date ||
+                    ""
+                )
+                    .trim();
 
 
             const attendanceStatus =
                 String(
                     req.body.attendance_status ||
                     ""
-                ).trim();
+                )
+                    .trim();
 
 
-            /* =====================================
-               VALIDATE PLAYER ID
-            ===================================== */
+            /* =========================================
+               VALIDATE PLAYER
+            ========================================= */
 
             if (
-                !Number.isInteger(playerId) ||
-                playerId <= 0
+                !playerId
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Invalid player."
@@ -2739,19 +4847,24 @@ app.put(
             }
 
 
-            /* =====================================
+            /* =========================================
                VALIDATE DATE
-            ===================================== */
+            ========================================= */
 
             if (
-                !/^\d{4}-\d{2}-\d{2}$/.test(date)
+                !isValidAttendanceDate(
+                    date
+                )
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Invalid attendance date."
@@ -2761,28 +4874,24 @@ app.put(
             }
 
 
-            /* =====================================
+            /* =========================================
                VALIDATE STATUS
-            ===================================== */
-
-            const allowedStatuses = [
-                "Present",
-                "Absent",
-                "Excused"
-            ];
-
+            ========================================= */
 
             if (
-                !allowedStatuses.includes(
+                !allowedAttendanceStatuses.includes(
                     attendanceStatus
                 )
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Attendance must be Present, Absent or Excused."
@@ -2792,20 +4901,27 @@ app.put(
             }
 
 
-            /* =====================================
+            /* =========================================
                FIND PLAYER
-            ===================================== */
+            ========================================= */
 
             const {
-                data: player,
-                error: playerError
+
+                data:
+                    player,
+
+                error:
+                    playerError
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
                     .select(
-                        "id, first_name, last_name"
+                        "id, first_name, last_name, status"
                     )
 
                     .eq(
@@ -2816,7 +4932,9 @@ app.put(
                     .maybeSingle();
 
 
-            if (playerError) {
+            if (
+                playerError
+            ) {
 
                 console.error(
                     "Attendance player lookup error:",
@@ -2825,26 +4943,34 @@ app.put(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            playerError.message
+                            "Unable to verify player."
 
                     });
 
             }
 
 
-            if (!player) {
+            if (
+                !player
+            ) {
 
                 return res
-                    .status(404)
+                    .status(
+                        404
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Player not found."
@@ -2854,142 +4980,72 @@ app.put(
             }
 
 
-            /* =====================================
-               FIND SESSION
-            ===================================== */
+            /* =========================================
+               GET OR CREATE SESSION
+            ========================================= */
 
-            let {
-                data: session,
-                error: sessionError
-            } =
-                await supabase
+            let session;
 
-                    .from("training_sessions")
 
-                    .select("*")
+            try {
 
-                    .eq(
-                        "session_date",
+                session =
+                    await getOrCreateTrainingSession(
                         date
-                    )
+                    );
 
-                    .maybeSingle();
+            }
 
-
-            if (sessionError) {
+            catch (
+                sessionError
+            ) {
 
                 console.error(
-                    "Attendance session lookup error:",
+                    "Individual attendance session error:",
                     sessionError
                 );
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            sessionError.message
+                            sessionError.message ||
+                            "Unable to prepare training session."
 
                     });
 
             }
 
 
-            /* =====================================
-               CREATE SESSION IF NEEDED
-            ===================================== */
-
-            if (!session) {
-
-                const [
-                    yearText,
-                    monthText
-                ] =
-                    date.split("-");
-
-
-                const sessionYear =
-                    Number(
-                        yearText
-                    );
-
-
-                const sessionMonth =
-                    Number(
-                        monthText
-                    );
-
-
-                const {
-                    data: createdSession,
-                    error: createSessionError
-                } =
-                    await supabase
-
-                        .from("training_sessions")
-
-                        .insert([{
-
-                            session_date:
-                                date,
-
-                            month:
-                                sessionMonth,
-
-                            year:
-                                sessionYear
-
-                        }])
-
-                        .select()
-
-                        .single();
-
-
-                if (createSessionError) {
-
-                    console.error(
-                        "Create attendance session error:",
-                        createSessionError
-                    );
-
-
-                    return res
-                        .status(500)
-                        .json({
-
-                            success: false,
-
-                            message:
-                                createSessionError.message
-
-                        });
-
-                }
-
-
-                session =
-                    createdSession;
-
-            }
-
-
-            /* =====================================
+            /* =========================================
                FIND EXISTING ATTENDANCE
-            ===================================== */
+            ========================================= */
 
             const {
-                data: existingAttendance,
-                error: existingError
+
+                data:
+                    existingAttendance,
+
+                error:
+                    existingError
+
             } =
                 await supabase
 
-                    .from("attendance")
+                    .from(
+                        "attendance"
+                    )
 
-                    .select("*")
+                    .select(
+                        "id"
+                    )
 
                     .eq(
                         "player_id",
@@ -3004,7 +5060,9 @@ app.put(
                     .maybeSingle();
 
 
-            if (existingError) {
+            if (
+                existingError
+            ) {
 
                 console.error(
                     "Existing attendance lookup error:",
@@ -3013,13 +5071,16 @@ app.put(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            existingError.message
+                            "Unable to check existing attendance."
 
                     });
 
@@ -3029,19 +5090,26 @@ app.put(
             let savedAttendance;
 
 
-            /* =====================================
+            /* =========================================
                UPDATE EXISTING RECORD
-            ===================================== */
+            ========================================= */
 
-            if (existingAttendance) {
+            if (
+                existingAttendance
+            ) {
 
                 const {
+
                     data,
+
                     error
+
                 } =
                     await supabase
 
-                        .from("attendance")
+                        .from(
+                            "attendance"
+                        )
 
                         .update({
 
@@ -3060,7 +5128,9 @@ app.put(
                         .single();
 
 
-                if (error) {
+                if (
+                    error
+                ) {
 
                     console.error(
                         "Update attendance error:",
@@ -3069,13 +5139,16 @@ app.put(
 
 
                     return res
-                        .status(500)
+                        .status(
+                            500
+                        )
                         .json({
 
-                            success: false,
+                            success:
+                                false,
 
                             message:
-                                error.message
+                                "Unable to update attendance."
 
                         });
 
@@ -3088,39 +5161,50 @@ app.put(
             }
 
 
-            /* =====================================
-               CREATE NEW RECORD
-            ===================================== */
+            /* =========================================
+               CREATE NEW ATTENDANCE RECORD
+            ========================================= */
 
             else {
 
                 const {
+
                     data,
+
                     error
+
                 } =
                     await supabase
 
-                        .from("attendance")
+                        .from(
+                            "attendance"
+                        )
 
-                        .insert([{
+                        .insert([
 
-                            player_id:
-                                playerId,
+                            {
 
-                            session_id:
-                                session.id,
+                                player_id:
+                                    playerId,
 
-                            attendance_status:
-                                attendanceStatus
+                                session_id:
+                                    session.id,
 
-                        }])
+                                attendance_status:
+                                    attendanceStatus
+
+                            }
+
+                        ])
 
                         .select()
 
                         .single();
 
 
-                if (error) {
+                if (
+                    error
+                ) {
 
                     console.error(
                         "Create attendance error:",
@@ -3129,13 +5213,16 @@ app.put(
 
 
                     return res
-                        .status(500)
+                        .status(
+                            500
+                        )
                         .json({
 
-                            success: false,
+                            success:
+                                false,
 
                             message:
-                                error.message
+                                "Unable to create attendance record."
 
                         });
 
@@ -3148,19 +5235,39 @@ app.put(
             }
 
 
-            /* =====================================
+            /* =========================================
+               PLAYER DISPLAY NAME
+            ========================================= */
+
+            const playerName =
+                `${player.first_name || ""} ${player.last_name || ""}`
+                    .trim();
+
+
+            /* =========================================
                SUCCESS
-            ===================================== */
+            ========================================= */
 
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
-                    `${player.first_name} ${player.last_name}'s attendance has been updated.`,
+                    `${playerName}'s attendance has been updated.`,
 
                 date:
                     date,
+
+                session: {
+
+                    id:
+                        session.id,
+
+                    session_date:
+                        session.session_date
+
+                },
 
                 attendance:
                     savedAttendance
@@ -3168,6 +5275,7 @@ app.put(
             });
 
         }
+
 
         catch (err) {
 
@@ -3178,10 +5286,13 @@ app.put(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         err.message ||
@@ -3194,40 +5305,70 @@ app.put(
     }
 );
 
-/* =====================================
+
+/* =====================================================
+   END OF PART 3
+
+   PART 4 STARTS WITH:
    TODAY'S PLAYER BIRTHDAYS
-===================================== */
+===================================================== */
+
+/* =====================================================
+   PART 4
+   BIRTHDAYS + DASHBOARD STATISTICS
+===================================================== */
+
+
+/* =====================================================
+   TODAY'S PLAYER BIRTHDAYS
+===================================================== */
 
 app.get(
     "/api/birthdays/today",
+
     async (req, res) => {
 
         try {
 
-            /* =====================================
-               GET JOHANNESBURG DATE
-            ===================================== */
+            /* =========================================
+               GET SOUTH AFRICA DATE
+            ========================================= */
 
             const {
-                date: todayDate,
-                year: currentYear,
-                month: currentMonth,
-                day: currentDay
+
+                date:
+                    todayDate,
+
+                year:
+                    currentYear,
+
+                month:
+                    currentMonth,
+
+                day:
+                    currentDay
+
             } =
                 getSouthAfricaDateParts();
 
 
-            /* =====================================
+            /* =========================================
                LOAD ACTIVE PLAYERS WITH DOB
-            ===================================== */
+            ========================================= */
 
             const {
-                data: players,
+
+                data:
+                    players,
+
                 error
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
                     .select(
                         "id, first_name, last_name, nickname, date_of_birth, position"
@@ -3247,12 +5388,19 @@ app.get(
                     .order(
                         "first_name",
                         {
-                            ascending: true
+                            ascending:
+                                true
                         }
                     );
 
 
-            if (error) {
+            /* =========================================
+               DATABASE ERROR
+            ========================================= */
+
+            if (
+                error
+            ) {
 
                 console.error(
                     "Birthday lookup error:",
@@ -3261,13 +5409,16 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            "Unable to check today's birthdays."
 
                     });
 
@@ -3275,17 +5426,20 @@ app.get(
 
 
             const safePlayers =
-                Array.isArray(players)
+                Array.isArray(
+                    players
+                )
                     ? players
                     : [];
 
 
-            /* =====================================
-               MATCH BIRTH MONTH + DAY
-            ===================================== */
+            /* =========================================
+               FIND TODAY'S BIRTHDAYS
+            ========================================= */
 
             const birthdays =
                 safePlayers
+
                     .filter(
                         player => {
 
@@ -3298,15 +5452,21 @@ app.get(
                             }
 
 
-                            const parts =
+                            const birthDate =
                                 String(
                                     player.date_of_birth
-                                )
-                                    .split("-");
+                                );
 
+
+                            /*
+                               Supabase DATE fields normally
+                               return YYYY-MM-DD.
+                            */
 
                             if (
-                                parts.length !== 3
+                                !isValidAttendanceDate(
+                                    birthDate
+                                )
                             ) {
 
                                 return false;
@@ -3314,31 +5474,39 @@ app.get(
                             }
 
 
+                            const [
+                                birthYearText,
+                                birthMonthText,
+                                birthDayText
+                            ] =
+                                birthDate.split("-");
+
+
                             const birthMonth =
                                 Number(
-                                    parts[1]
+                                    birthMonthText
                                 );
 
 
                             const birthDay =
                                 Number(
-                                    parts[2]
+                                    birthDayText
                                 );
 
 
                             return (
 
                                 birthMonth ===
-                                    Number(
-                                        currentMonth
-                                    )
+                                Number(
+                                    currentMonth
+                                )
 
                                 &&
 
                                 birthDay ===
-                                    Number(
-                                        currentDay
-                                    )
+                                Number(
+                                    currentDay
+                                )
 
                             );
 
@@ -3358,14 +5526,21 @@ app.get(
 
 
                             const age =
-                                Number.isFinite(
+                                Number.isInteger(
                                     birthYear
                                 )
 
-                                    ? currentYear -
-                                      birthYear
+                                    ? (
+                                        currentYear -
+                                        birthYear
+                                    )
 
                                     : null;
+
+
+                            const fullName =
+                                `${player.first_name || ""} ${player.last_name || ""}`
+                                    .trim();
 
 
                             return {
@@ -3379,8 +5554,12 @@ app.get(
                                 last_name:
                                     player.last_name,
 
+                                full_name:
+                                    fullName,
+
                                 nickname:
-                                    player.nickname,
+                                    player.nickname ||
+                                    null,
 
                                 position:
                                     player.position,
@@ -3397,13 +5576,14 @@ app.get(
                     );
 
 
-            /* =====================================
-               RESPONSE
-            ===================================== */
+            /* =========================================
+               SUCCESS
+            ========================================= */
 
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 date:
                     todayDate,
@@ -3418,6 +5598,7 @@ app.get(
 
         }
 
+
         catch (err) {
 
             console.error(
@@ -3427,10 +5608,13 @@ app.get(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         err.message ||
@@ -3444,47 +5628,54 @@ app.get(
 );
 
 
-/* =====================================
+/* =====================================================
    DASHBOARD STATISTICS
-===================================== */
+===================================================== */
 
 app.get(
     "/api/dashboard/statistics",
+
     async (req, res) => {
 
         try {
 
-            /* =====================================
+            /* =========================================
                GET SOUTH AFRICA DATE
-            ===================================== */
+            ========================================= */
 
             const {
-                date: todayDate
+
+                date:
+                    todayDate
+
             } =
                 getSouthAfricaDateParts();
 
 
-            /* =====================================
-               TOTAL ACTIVE PLAYERS
-            ===================================== */
+            /* =========================================
+               LOAD ACTIVE PLAYERS
+
+               Loading IDs lets us make sure dashboard
+               attendance only counts active players.
+            ========================================= */
 
             const {
-                count: totalPlayers,
-                error: playersError
+
+                data:
+                    activePlayers,
+
+                error:
+                    playersError
+
             } =
                 await supabase
 
-                    .from("players")
+                    .from(
+                        "players"
+                    )
 
                     .select(
-                        "*",
-                        {
-                            count:
-                                "exact",
-
-                            head:
-                                true
-                        }
+                        "id"
                     )
 
                     .eq(
@@ -3493,7 +5684,9 @@ app.get(
                     );
 
 
-            if (playersError) {
+            if (
+                playersError
+            ) {
 
                 console.error(
                     "Dashboard players error:",
@@ -3502,30 +5695,63 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            playersError.message
+                            "Unable to load dashboard players."
 
                     });
 
             }
 
 
-            /* =====================================
+            const safeActivePlayers =
+                Array.isArray(
+                    activePlayers
+                )
+                    ? activePlayers
+                    : [];
+
+
+            const totalPlayers =
+                safeActivePlayers.length;
+
+
+            const activePlayerIds =
+                new Set(
+                    safeActivePlayers.map(
+                        player =>
+                            Number(
+                                player.id
+                            )
+                    )
+                );
+
+
+            /* =========================================
                FIND TODAY'S TRAINING SESSION
-            ===================================== */
+            ========================================= */
 
             const {
-                data: session,
-                error: sessionError
+
+                data:
+                    session,
+
+                error:
+                    sessionError
+
             } =
                 await supabase
 
-                    .from("training_sessions")
+                    .from(
+                        "training_sessions"
+                    )
 
                     .select(
                         "id, session_date"
@@ -3539,7 +5765,9 @@ app.get(
                     .maybeSingle();
 
 
-            if (sessionError) {
+            if (
+                sessionError
+            ) {
 
                 console.error(
                     "Dashboard session error:",
@@ -3548,18 +5776,28 @@ app.get(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            sessionError.message
+                            "Unable to load today's training session."
 
                     });
 
             }
 
+
+            /* =========================================
+               DEFAULT VALUES
+
+               If there is no training session today,
+               dashboard stays at zero.
+            ========================================= */
 
             let present =
                 0;
@@ -3573,198 +5811,203 @@ app.get(
                 0;
 
 
-            /* =====================================
-               LOAD TODAY'S ATTENDANCE COUNTS
-            ===================================== */
+            let markedPlayers =
+                0;
 
-            if (session) {
 
-                /* =================================
-                   PRESENT
-                ================================= */
+            /* =========================================
+               LOAD TODAY'S ATTENDANCE
+            ========================================= */
+
+            if (
+                session
+            ) {
 
                 const {
-                    count: presentCount,
-                    error: presentError
+
+                    data:
+                        attendanceRecords,
+
+                    error:
+                        attendanceError
+
                 } =
                     await supabase
 
-                        .from("attendance")
+                        .from(
+                            "attendance"
+                        )
 
                         .select(
-                            "*",
-                            {
-                                count:
-                                    "exact",
-
-                                head:
-                                    true
-                            }
+                            "player_id, attendance_status"
                         )
 
                         .eq(
                             "session_id",
                             session.id
-                        )
-
-                        .eq(
-                            "attendance_status",
-                            "Present"
                         );
 
 
-                if (presentError) {
+                if (
+                    attendanceError
+                ) {
 
                     console.error(
-                        "Dashboard present error:",
-                        presentError
+                        "Dashboard attendance error:",
+                        attendanceError
                     );
+
+
+                    return res
+                        .status(
+                            500
+                        )
+                        .json({
+
+                            success:
+                                false,
+
+                            message:
+                                "Unable to load today's attendance."
+
+                        });
 
                 }
 
 
-                /* =================================
-                   ABSENT
-                ================================= */
-
-                const {
-                    count: absentCount,
-                    error: absentError
-                } =
-                    await supabase
-
-                        .from("attendance")
-
-                        .select(
-                            "*",
-                            {
-                                count:
-                                    "exact",
-
-                                head:
-                                    true
-                            }
-                        )
-
-                        .eq(
-                            "session_id",
-                            session.id
-                        )
-
-                        .eq(
-                            "attendance_status",
-                            "Absent"
-                        );
+                const safeAttendance =
+                    Array.isArray(
+                        attendanceRecords
+                    )
+                        ? attendanceRecords
+                        : [];
 
 
-                if (absentError) {
+                /*
+                   Ignore attendance belonging to a
+                   player who is no longer Active.
+                */
 
-                    console.error(
-                        "Dashboard absent error:",
-                        absentError
+                const activeAttendance =
+                    safeAttendance.filter(
+                        record =>
+                            activePlayerIds.has(
+                                Number(
+                                    record.player_id
+                                )
+                            )
                     );
 
-                }
 
-
-                /* =================================
-                   EXCUSED
-                ================================= */
-
-                const {
-                    count: excusedCount,
-                    error: excusedError
-                } =
-                    await supabase
-
-                        .from("attendance")
-
-                        .select(
-                            "*",
-                            {
-                                count:
-                                    "exact",
-
-                                head:
-                                    true
-                            }
-                        )
-
-                        .eq(
-                            "session_id",
-                            session.id
-                        )
-
-                        .eq(
-                            "attendance_status",
-                            "Excused"
-                        );
-
-
-                if (excusedError) {
-
-                    console.error(
-                        "Dashboard excused error:",
-                        excusedError
-                    );
-
-                }
+                markedPlayers =
+                    activeAttendance.length;
 
 
                 present =
-                    presentCount || 0;
+                    activeAttendance.filter(
+                        record =>
+                            record.attendance_status ===
+                            "Present"
+                    ).length;
 
 
                 absent =
-                    absentCount || 0;
+                    activeAttendance.filter(
+                        record =>
+                            record.attendance_status ===
+                            "Absent"
+                    ).length;
 
 
                 excused =
-                    excusedCount || 0;
+                    activeAttendance.filter(
+                        record =>
+                            record.attendance_status ===
+                            "Excused"
+                    ).length;
 
             }
 
 
-            /* =====================================
+            /* =========================================
                ATTENDANCE RATE
-            ===================================== */
 
-            const safeTotalPlayers =
-                totalPlayers || 0;
+               Mafori FC dashboard currently defines
+               attendance rate as:
 
+               Present / Total Active Players × 100
+            ========================================= */
 
             const attendanceRate =
-                safeTotalPlayers > 0
+                totalPlayers > 0
 
                     ? (
                         (
                             present /
-                            safeTotalPlayers
+                            totalPlayers
                         ) *
                         100
-                    ).toFixed(1)
+                    ).toFixed(
+                        1
+                    )
 
                     : "0.0";
 
 
-            /* =====================================
+            /* =========================================
+               UNMARKED PLAYERS
+            ========================================= */
+
+            const unmarked =
+                Math.max(
+                    totalPlayers -
+                    markedPlayers,
+                    0
+                );
+
+
+            /* =========================================
                RESPONSE
-            ===================================== */
+
+               Keep existing field names because
+               dashboard.js uses:
+               stats.totalPlayers
+               stats.present
+               stats.absent
+               stats.excused
+               stats.attendanceRate
+            ========================================= */
 
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 date:
                     todayDate,
 
                 sessionExists:
-                    Boolean(session),
+                    Boolean(
+                        session
+                    ),
+
+                session:
+                    session
+                        ? {
+
+                            id:
+                                session.id,
+
+                            session_date:
+                                session.session_date
+
+                        }
+                        : null,
 
                 statistics: {
 
                     totalPlayers:
-                        safeTotalPlayers,
+                        totalPlayers,
 
                     present:
                         present,
@@ -3775,6 +6018,12 @@ app.get(
                     excused:
                         excused,
 
+                    markedPlayers:
+                        markedPlayers,
+
+                    unmarked:
+                        unmarked,
+
                     attendanceRate:
                         attendanceRate
 
@@ -3783,6 +6032,7 @@ app.get(
             });
 
         }
+
 
         catch (err) {
 
@@ -3793,13 +6043,17 @@ app.get(
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        err.message
+                        err.message ||
+                        "Unable to load dashboard statistics."
 
                 });
 
@@ -3808,31 +6062,176 @@ app.get(
     }
 );
 
-/* =====================================
+
+/* =====================================================
+   END OF PART 4
+
+   PART 5 STARTS WITH:
    MONTHLY REPORT DATA
-===================================== */
+===================================================== */
+
+/* =====================================================
+   PART 5
+   MONTHLY REPORTS + CSV + PDF
+===================================================== */
+
+
+/* =====================================================
+   MONTH NAMES
+===================================================== */
+
+const monthNames = [
+
+    "January",
+
+    "February",
+
+    "March",
+
+    "April",
+
+    "May",
+
+    "June",
+
+    "July",
+
+    "August",
+
+    "September",
+
+    "October",
+
+    "November",
+
+    "December"
+
+];
+
+
+/* =====================================================
+   HELPER: VALIDATE REPORT MONTH
+===================================================== */
+
+function getValidReportMonth(
+    value
+) {
+
+    const month =
+        Number(
+            value
+        );
+
+
+    if (
+        !Number.isInteger(
+            month
+        ) ||
+        month < 1 ||
+        month > 12
+    ) {
+
+        return null;
+
+    }
+
+
+    return month;
+
+}
+
+
+/* =====================================================
+   HELPER: VALIDATE REPORT YEAR
+===================================================== */
+
+function getValidReportYear(
+    value
+) {
+
+    const year =
+        Number(
+            value
+        );
+
+
+    if (
+        !Number.isInteger(
+            year
+        ) ||
+        year < 2000 ||
+        year > 2100
+    ) {
+
+        return null;
+
+    }
+
+
+    return year;
+
+}
+
+
+/* =====================================================
+   HELPER: CSV VALUE
+===================================================== */
+
+function escapeCsvValue(
+    value
+) {
+
+    const text =
+        String(
+            value ?? ""
+        );
+
+
+    return `"${text.replaceAll(
+        '"',
+        '""'
+    )}"`;
+
+}
+
+
+/* =====================================================
+   HELPER: BUILD ATTENDANCE LOOKUP KEY
+===================================================== */
+
+function attendanceLookupKey(
+    playerId,
+    sessionId
+) {
+
+    return (
+        `${Number(playerId)}:${Number(sessionId)}`
+    );
+
+}
+
+
+/* =====================================================
+   MONTHLY REPORT DATA
+===================================================== */
 
 async function getMonthlyReportData(
     month,
     year
 ) {
 
-    /* =====================================
-       VALIDATE MONTH / YEAR
-    ===================================== */
+    /* =========================================
+       VALIDATE MONTH
+    ========================================= */
 
     const selectedMonth =
-        Number(month);
-
-
-    const selectedYear =
-        Number(year);
+        getValidReportMonth(
+            month
+        );
 
 
     if (
-        !selectedMonth ||
-        selectedMonth < 1 ||
-        selectedMonth > 12
+        !selectedMonth
     ) {
 
         throw new Error(
@@ -3842,9 +6241,18 @@ async function getMonthlyReportData(
     }
 
 
+    /* =========================================
+       VALIDATE YEAR
+    ========================================= */
+
+    const selectedYear =
+        getValidReportYear(
+            year
+        );
+
+
     if (
-        !selectedYear ||
-        selectedYear < 2000
+        !selectedYear
     ) {
 
         throw new Error(
@@ -3854,9 +6262,9 @@ async function getMonthlyReportData(
     }
 
 
-    /* =====================================
-       FIRST DAY OF MONTH
-    ===================================== */
+    /* =========================================
+       FIRST DAY
+    ========================================= */
 
     const firstDay =
         `${selectedYear}-${String(
@@ -3867,16 +6275,17 @@ async function getMonthlyReportData(
         )}-01`;
 
 
-    /* =====================================
-       LAST DAY OF MONTH
-    ===================================== */
+    /* =========================================
+       LAST DAY
+    ========================================= */
 
     const lastDayNumber =
         new Date(
             selectedYear,
             selectedMonth,
             0
-        ).getDate();
+        )
+            .getDate();
 
 
     const lastDay =
@@ -3893,28 +6302,28 @@ async function getMonthlyReportData(
         )}`;
 
 
-    console.log(
-        "Monthly report date range:",
-        firstDay,
-        "to",
-        lastDay
-    );
-
-
-    /* =====================================
-       GET ALL TRAINING SESSIONS
-       BY ACTUAL SESSION DATE
-    ===================================== */
+    /* =========================================
+       LOAD TRAINING SESSIONS
+    ========================================= */
 
     const {
-        data: sessions,
-        error: sessionError
+
+        data:
+            sessions,
+
+        error:
+            sessionsError
+
     } =
         await supabase
 
-            .from("training_sessions")
+            .from(
+                "training_sessions"
+            )
 
-            .select("*")
+            .select(
+                "id, session_date, month, year"
+            )
 
             .gte(
                 "session_date",
@@ -3929,52 +6338,60 @@ async function getMonthlyReportData(
             .order(
                 "session_date",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
 
-    if (sessionError) {
+    if (
+        sessionsError
+    ) {
 
         console.error(
             "Monthly sessions error:",
-            sessionError
+            sessionsError
         );
 
 
-        throw sessionError;
+        throw new Error(
+            sessionsError.message ||
+            "Unable to load training sessions."
+        );
 
     }
 
 
     const safeSessions =
-        Array.isArray(sessions)
+        Array.isArray(
+            sessions
+        )
             ? sessions
             : [];
 
 
-    console.log(
-        "Training sessions found:",
-        safeSessions.map(
-            session =>
-                session.session_date
-        )
-    );
-
-
-    /* =====================================
-       GET ACTIVE PLAYERS
-    ===================================== */
+    /* =========================================
+       LOAD ACTIVE PLAYERS
+    ========================================= */
 
     const {
-        data: players,
-        error: playerError
+
+        data:
+            players,
+
+        error:
+            playersError
+
     } =
         await supabase
 
-            .from("players")
+            .from(
+                "players"
+            )
 
-            .select("*")
+            .select(
+                "id, first_name, last_name, nickname, position, date_of_birth, status"
+            )
 
             .eq(
                 "status",
@@ -3984,33 +6401,41 @@ async function getMonthlyReportData(
             .order(
                 "id",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
 
-    if (playerError) {
+    if (
+        playersError
+    ) {
 
         console.error(
             "Monthly players error:",
-            playerError
+            playersError
         );
 
 
-        throw playerError;
+        throw new Error(
+            playersError.message ||
+            "Unable to load players."
+        );
 
     }
 
 
     const safePlayers =
-        Array.isArray(players)
+        Array.isArray(
+            players
+        )
             ? players
             : [];
 
 
-    /* =====================================
-       GET SESSION IDS
-    ===================================== */
+    /* =========================================
+       SESSION IDS
+    ========================================= */
 
     const sessionIds =
         safeSessions.map(
@@ -4019,9 +6444,9 @@ async function getMonthlyReportData(
         );
 
 
-    /* =====================================
-       GET ATTENDANCE RECORDS
-    ===================================== */
+    /* =========================================
+       LOAD ATTENDANCE
+    ========================================= */
 
     let attendance =
         [];
@@ -4032,14 +6457,21 @@ async function getMonthlyReportData(
     ) {
 
         const {
+
             data,
+
             error
+
         } =
             await supabase
 
-                .from("attendance")
+                .from(
+                    "attendance"
+                )
 
-                .select("*")
+                .select(
+                    "id, player_id, session_id, attendance_status"
+                )
 
                 .in(
                     "session_id",
@@ -4049,12 +6481,15 @@ async function getMonthlyReportData(
                 .order(
                     "id",
                     {
-                        ascending: true
+                        ascending:
+                            true
                     }
                 );
 
 
-        if (error) {
+        if (
+            error
+        ) {
 
             console.error(
                 "Monthly attendance error:",
@@ -4062,60 +6497,113 @@ async function getMonthlyReportData(
             );
 
 
-            throw error;
+            throw new Error(
+                error.message ||
+                "Unable to load monthly attendance."
+            );
 
         }
 
 
         attendance =
-            Array.isArray(data)
+            Array.isArray(
+                data
+            )
                 ? data
                 : [];
 
     }
 
 
-    /* =====================================
-       DEBUG INFORMATION
-    ===================================== */
+    /* =========================================
+       FILTER TO ACTIVE PLAYERS ONLY
+    ========================================= */
 
-    console.log(
-        "Monthly report loaded:",
-        {
-
-            month:
-                selectedMonth,
-
-            year:
-                selectedYear,
-
-            firstDay:
-                firstDay,
-
-            lastDay:
-                lastDay,
-
-            sessions:
-                safeSessions.length,
-
-            players:
-                safePlayers.length,
-
-            attendanceRecords:
-                attendance.length
-
-        }
-    );
+    const activePlayerIds =
+        new Set(
+            safePlayers.map(
+                player =>
+                    Number(
+                        player.id
+                    )
+            )
+        );
 
 
-    /* =====================================
-       RETURN REPORT DATA
-    ===================================== */
+    attendance =
+        attendance.filter(
+            record =>
+                activePlayerIds.has(
+                    Number(
+                        record.player_id
+                    )
+                )
+        );
+
+
+    /* =========================================
+       CALCULATE REPORT TOTALS
+    ========================================= */
+
+    const totalPresent =
+        attendance.filter(
+            record =>
+                record.attendance_status ===
+                "Present"
+        ).length;
+
+
+    const totalAbsent =
+        attendance.filter(
+            record =>
+                record.attendance_status ===
+                "Absent"
+        ).length;
+
+
+    const totalExcused =
+        attendance.filter(
+            record =>
+                record.attendance_status ===
+                "Excused"
+        ).length;
+
+
+    const totalMarked =
+        totalPresent +
+        totalAbsent +
+        totalExcused;
+
+
+    const overallAttendanceRate =
+        totalMarked > 0
+
+            ? (
+                (
+                    totalPresent /
+                    totalMarked
+                ) *
+                100
+            ).toFixed(
+                1
+            )
+
+            : "0.0";
+
+
+    /* =========================================
+       RESPONSE OBJECT
+    ========================================= */
 
     return {
 
         month:
             selectedMonth,
+
+        monthName:
+            monthNames[
+                selectedMonth - 1
+            ],
 
         year:
             selectedYear,
@@ -4133,43 +6621,76 @@ async function getMonthlyReportData(
             safePlayers,
 
         attendance:
-            attendance
+            attendance,
+
+        summary: {
+
+            totalPlayers:
+                safePlayers.length,
+
+            totalSessions:
+                safeSessions.length,
+
+            present:
+                totalPresent,
+
+            absent:
+                totalAbsent,
+
+            excused:
+                totalExcused,
+
+            totalMarked:
+                totalMarked,
+
+            attendanceRate:
+                overallAttendanceRate
+
+        }
 
     };
 
 }
 
 
-/* =====================================
+/* =====================================================
    MONTHLY REPORT JSON API
-===================================== */
+===================================================== */
 
 app.get(
     "/api/reports/monthly/data",
+
     async (req, res) => {
 
         try {
 
             const {
+
                 month,
+
                 year
-            } = req.query;
+
+            } =
+                req.query;
 
 
-            /* =====================================
-               VALIDATION
-            ===================================== */
+            /* =========================================
+               REQUIRED VALUES
+            ========================================= */
 
             if (
-                !month ||
-                !year
+                month === undefined ||
+                year === undefined
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Month and year are required."
@@ -4179,24 +6700,28 @@ app.get(
             }
 
 
-            /* =====================================
+            /* =========================================
                LOAD REPORT
-            ===================================== */
+            ========================================= */
 
             const report =
                 await getMonthlyReportData(
+
                     month,
+
                     year
+
                 );
 
 
-            /* =====================================
-               RESPONSE
-            ===================================== */
+            /* =========================================
+               SUCCESS
+            ========================================= */
 
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 report:
                     report
@@ -4205,22 +6730,27 @@ app.get(
 
         }
 
+
         catch (err) {
 
             console.error(
-                "Monthly Report Data Error:",
+                "Monthly report data error:",
                 err
             );
 
 
             return res
-                .status(500)
+                .status(
+                    400
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        err.message
+                        err.message ||
+                        "Unable to generate monthly report."
 
                 });
 
@@ -4229,36 +6759,45 @@ app.get(
     }
 );
 
-/* =====================================
+
+/* =====================================================
    DOWNLOAD MONTHLY CSV
-===================================== */
+===================================================== */
 
 app.get(
     "/api/reports/monthly/csv",
+
     async (req, res) => {
 
         try {
 
             const {
+
                 month,
+
                 year
-            } = req.query;
+
+            } =
+                req.query;
 
 
-            /* =====================================
+            /* =========================================
                VALIDATION
-            ===================================== */
+            ========================================= */
 
             if (
-                !month ||
-                !year
+                month === undefined ||
+                year === undefined
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Month and year are required."
@@ -4268,50 +6807,105 @@ app.get(
             }
 
 
-            /* =====================================
-               LOAD REPORT DATA
-            ===================================== */
+            /* =========================================
+               LOAD REPORT
+            ========================================= */
 
             const report =
                 await getMonthlyReportData(
+
                     month,
+
                     year
+
                 );
 
 
-            /* =====================================
-               CSV HEADER
-            ===================================== */
+            /* =========================================
+               ATTENDANCE LOOKUP MAP
+            ========================================= */
 
-            let csv =
-                "Player ID,First Name,Last Name,Position";
+            const attendanceMap =
+                new Map();
 
 
-            /* =====================================
-               ADD ALL SESSION DATES
-            ===================================== */
+            report.attendance.forEach(
+                record => {
 
-            report.sessions.forEach(
-                session => {
+                    attendanceMap.set(
 
-                    csv +=
-                        `,${session.session_date}`;
+                        attendanceLookupKey(
+                            record.player_id,
+                            record.session_id
+                        ),
+
+                        record.attendance_status
+
+                    );
 
                 }
             );
 
 
-            /* =====================================
-               SUMMARY COLUMNS
-            ===================================== */
+            /* =========================================
+               CSV HEADERS
+            ========================================= */
 
-            csv +=
-                ",Present,Absent,Excused,Attendance Rate\n";
+            const headerColumns = [
+
+                "Player ID",
+
+                "First Name",
+
+                "Last Name",
+
+                "Nickname",
+
+                "Position"
+
+            ];
 
 
-            /* =====================================
+            report.sessions.forEach(
+                session => {
+
+                    headerColumns.push(
+                        session.session_date
+                    );
+
+                }
+            );
+
+
+            headerColumns.push(
+
+                "Present",
+
+                "Absent",
+
+                "Excused",
+
+                "Marked Sessions",
+
+                "Attendance Rate"
+
+            );
+
+
+            let csv =
+                headerColumns
+                    .map(
+                        escapeCsvValue
+                    )
+                    .join(
+                        ","
+                    ) +
+                "\n";
+
+
+            /* =========================================
                PLAYER ROWS
-            ===================================== */
+            ========================================= */
 
             report.players.forEach(
                 player => {
@@ -4319,82 +6913,56 @@ app.get(
                     let present =
                         0;
 
+
                     let absent =
                         0;
+
 
                     let excused =
                         0;
 
 
-                    /* =================================
-                       PLAYER DETAILS
-                    ================================= */
+                    const row = [
 
-                    let row =
-                        `${player.id},` +
+                        player.id,
 
-                        `"${String(
-                            player.first_name ||
-                            ""
-                        ).replaceAll(
-                            '"',
-                            '""'
-                        )}",` +
+                        player.first_name ||
+                        "",
 
-                        `"${String(
-                            player.last_name ||
-                            ""
-                        ).replaceAll(
-                            '"',
-                            '""'
-                        )}",` +
+                        player.last_name ||
+                        "",
 
-                        `"${String(
-                            player.position ||
-                            ""
-                        ).replaceAll(
-                            '"',
-                            '""'
-                        )}"`;
+                        player.nickname ||
+                        "",
+
+                        player.position ||
+                        ""
+
+                    ];
 
 
                     /* =================================
-                       ATTENDANCE FOR EACH SESSION
+                       SESSION ATTENDANCE
                     ================================= */
 
                     report.sessions.forEach(
                         session => {
 
-                            const record =
-                                report.attendance.find(
-                                    item =>
-
-                                        Number(
-                                            item.player_id
-                                        ) ===
-                                        Number(
-                                            player.id
-                                        )
-
-                                        &&
-
-                                        Number(
-                                            item.session_id
-                                        ) ===
-                                        Number(
-                                            session.id
-                                        )
-                                );
-
-
                             const status =
-                                record
-                                    ? record.attendance_status
-                                    : "-";
+                                attendanceMap.get(
+
+                                    attendanceLookupKey(
+                                        player.id,
+                                        session.id
+                                    )
+
+                                ) ||
+                                "-";
 
 
-                            row +=
-                                `,"${status}"`;
+                            row.push(
+                                status
+                            );
 
 
                             if (
@@ -4429,66 +6997,96 @@ app.get(
 
 
                     /* =================================
-                       ATTENDANCE RATE
+                       PLAYER ATTENDANCE RATE
                     ================================= */
 
-                    const totalMarked =
+                    const markedSessions =
                         present +
                         absent +
                         excused;
 
 
-                    const rate =
-                        totalMarked > 0
+                    const attendanceRate =
+                        markedSessions > 0
 
                             ? (
                                 (
                                     present /
-                                    totalMarked
+                                    markedSessions
                                 ) *
                                 100
-                            ).toFixed(1)
+                            ).toFixed(
+                                1
+                            )
 
                             : "0.0";
 
 
-                    /* =================================
-                       SUMMARY VALUES
-                    ================================= */
+                    row.push(
 
-                    row +=
-                        `,${present}` +
-                        `,${absent}` +
-                        `,${excused}` +
-                        `,${rate}%\n`;
+                        present,
+
+                        absent,
+
+                        excused,
+
+                        markedSessions,
+
+                        `${attendanceRate}%`
+
+                    );
 
 
                     csv +=
-                        row;
+                        row
+                            .map(
+                                escapeCsvValue
+                            )
+                            .join(
+                                ","
+                            ) +
+                        "\n";
 
                 }
             );
 
 
-            /* =====================================
-               FILE HEADERS
-            ===================================== */
+            /* =========================================
+               SAFE FILE NAME
+            ========================================= */
+
+            const fileName =
+                `Mafori_FC_Attendance_${report.monthName}_${report.year}.csv`;
+
+
+            /* =========================================
+               RESPONSE HEADERS
+            ========================================= */
 
             res.setHeader(
+
                 "Content-Type",
+
                 "text/csv; charset=utf-8"
+
             );
 
 
             res.setHeader(
+
                 "Content-Disposition",
-                `attachment; filename="Mafori_FC_Attendance_${month}_${year}.csv"`
+
+                `attachment; filename="${fileName}"`
+
             );
 
 
-            /* =====================================
-               UTF-8 BOM FOR EXCEL
-            ===================================== */
+            /* =========================================
+               UTF-8 BOM
+
+               Helps Microsoft Excel correctly
+               open the file.
+            ========================================= */
 
             return res.send(
                 "\uFEFF" +
@@ -4497,22 +7095,27 @@ app.get(
 
         }
 
+
         catch (err) {
 
             console.error(
-                "CSV Report Error:",
+                "CSV report error:",
                 err
             );
 
 
             return res
-                .status(500)
+                .status(
+                    400
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        err.message
+                        err.message ||
+                        "Unable to create CSV report."
 
                 });
 
@@ -4521,36 +7124,45 @@ app.get(
     }
 );
 
-/* =====================================
+
+/* =====================================================
    DOWNLOAD MONTHLY PDF
-===================================== */
+===================================================== */
 
 app.get(
     "/api/reports/monthly",
+
     async (req, res) => {
 
         try {
 
             const {
+
                 month,
+
                 year
-            } = req.query;
+
+            } =
+                req.query;
 
 
-            /* =====================================
+            /* =========================================
                VALIDATION
-            ===================================== */
+            ========================================= */
 
             if (
-                !month ||
-                !year
+                month === undefined ||
+                year === undefined
             ) {
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
                             "Month and year are required."
@@ -4560,46 +7172,49 @@ app.get(
             }
 
 
-            /* =====================================
-               LOAD REPORT DATA
-            ===================================== */
+            /* =========================================
+               LOAD REPORT
+            ========================================= */
 
             const report =
                 await getMonthlyReportData(
+
                     month,
+
                     year
+
                 );
 
 
-            /* =====================================
-               MONTH NAME
-            ===================================== */
+            /* =========================================
+               ATTENDANCE LOOKUP
+            ========================================= */
 
-            const monthNames = [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ];
+            const attendanceMap =
+                new Map();
 
 
-            const monthName =
-                monthNames[
-                    Number(month) - 1
-                ];
+            report.attendance.forEach(
+                record => {
+
+                    attendanceMap.set(
+
+                        attendanceLookupKey(
+                            record.player_id,
+                            record.session_id
+                        ),
+
+                        record.attendance_status
+
+                    );
+
+                }
+            );
 
 
-            /* =====================================
+            /* =========================================
                CREATE PDF
-            ===================================== */
+            ========================================= */
 
             const doc =
                 new PDFDocument({
@@ -4616,15 +7231,29 @@ app.get(
                 });
 
 
+            const fileName =
+                `Mafori_FC_Attendance_${report.monthName}_${report.year}.pdf`;
+
+
+            /* =========================================
+               RESPONSE HEADERS
+            ========================================= */
+
             res.setHeader(
+
                 "Content-Type",
+
                 "application/pdf"
+
             );
 
 
             res.setHeader(
+
                 "Content-Disposition",
-                `attachment; filename="Mafori_FC_Attendance_${month}_${year}.pdf"`
+
+                `attachment; filename="${fileName}"`
+
             );
 
 
@@ -4633,9 +7262,9 @@ app.get(
             );
 
 
-            /* =====================================
-               PAGE SIZE
-            ===================================== */
+            /* =========================================
+               PDF DIMENSIONS
+            ========================================= */
 
             const pageWidth =
                 doc.page.width;
@@ -4657,9 +7286,9 @@ app.get(
                 );
 
 
-            /* =====================================
-               TABLE WIDTHS
-            ===================================== */
+            /* =========================================
+               TABLE DIMENSIONS
+            ========================================= */
 
             const numberWidth =
                 28;
@@ -4670,7 +7299,7 @@ app.get(
 
 
             const positionWidth =
-                80;
+                82;
 
 
             const fixedWidth =
@@ -4679,17 +7308,13 @@ app.get(
                 positionWidth;
 
 
+            const sessionsPerPage =
+                8;
+
+
             const availableSessionWidth =
                 usableWidth -
                 fixedWidth;
-
-
-            /* =====================================
-               DATES PER PAGE
-            ===================================== */
-
-            const sessionsPerPage =
-                8;
 
 
             const sessionWidth =
@@ -4705,59 +7330,9 @@ app.get(
                 34;
 
 
-            /* =====================================
-               REPORT TOTALS
-            ===================================== */
-
-            let totalPresent =
-                0;
-
-
-            let totalAbsent =
-                0;
-
-
-            let totalExcused =
-                0;
-
-
-            report.attendance.forEach(
-                record => {
-
-                    if (
-                        record.attendance_status ===
-                        "Present"
-                    ) {
-
-                        totalPresent++;
-
-                    }
-
-                    else if (
-                        record.attendance_status ===
-                        "Absent"
-                    ) {
-
-                        totalAbsent++;
-
-                    }
-
-                    else if (
-                        record.attendance_status ===
-                        "Excused"
-                    ) {
-
-                        totalExcused++;
-
-                    }
-
-                }
-            );
-
-
-            /* =====================================
-               ADD LOGO WATERMARK
-            ===================================== */
+            /* =========================================
+               WATERMARK
+            ========================================= */
 
             function addWatermark() {
 
@@ -4767,12 +7342,12 @@ app.get(
 
 
                     doc.opacity(
-                        0.055
+                        0.045
                     );
 
 
                     const logoSize =
-                        320;
+                        300;
 
 
                     doc.image(
@@ -4782,18 +7357,23 @@ app.get(
                         (
                             pageWidth -
                             logoSize
-                        ) / 2,
+                        ) /
+                        2,
 
                         (
                             pageHeight -
                             logoSize
-                        ) / 2,
+                        ) /
+                        2,
 
                         {
 
                             fit: [
+
                                 logoSize,
+
                                 logoSize
+
                             ],
 
                             align:
@@ -4816,10 +7396,11 @@ app.get(
 
                 }
 
+
                 catch (error) {
 
                     console.log(
-                        "Logo watermark could not be loaded:",
+                        "PDF watermark could not be loaded:",
                         error.message
                     );
 
@@ -4828,9 +7409,9 @@ app.get(
             }
 
 
-            /* =====================================
-               DRAW PAGE HEADER
-            ===================================== */
+            /* =========================================
+               PAGE HEADER
+            ========================================= */
 
             function drawPageHeader(
                 sessionGroup,
@@ -4841,9 +7422,9 @@ app.get(
                 addWatermark();
 
 
-                /* =================================
+                /* =====================================
                    CLUB NAME
-                ================================= */
+                ===================================== */
 
                 doc
                     .fillColor(
@@ -4864,7 +7445,7 @@ app.get(
 
                         margin,
 
-                        25,
+                        24,
 
                         {
 
@@ -4879,9 +7460,9 @@ app.get(
                     );
 
 
-                /* =================================
+                /* =====================================
                    ORANGE LINE
-                ================================= */
+                ===================================== */
 
                 doc
                     .moveTo(
@@ -4906,9 +7487,9 @@ app.get(
                     .stroke();
 
 
-                /* =================================
+                /* =====================================
                    REPORT TITLE
-                ================================= */
+                ===================================== */
 
                 doc
                     .fillColor(
@@ -4944,9 +7525,9 @@ app.get(
                     );
 
 
-                /* =================================
-                   MONTH + YEAR
-                ================================= */
+                /* =====================================
+                   MONTH
+                ===================================== */
 
                 doc
                     .font(
@@ -4963,7 +7544,7 @@ app.get(
 
                     .text(
 
-                        `${monthName} ${year}`,
+                        `${report.monthName} ${report.year}`,
 
                         margin,
 
@@ -4982,9 +7563,9 @@ app.get(
                     );
 
 
-                /* =================================
+                /* =====================================
                    REPORT SUMMARY
-                ================================= */
+                ===================================== */
 
                 doc
                     .fontSize(
@@ -4997,11 +7578,11 @@ app.get(
 
                     .text(
 
-                        `Players: ${report.players.length}     ` +
-                        `Sessions: ${report.sessions.length}     ` +
-                        `Present: ${totalPresent}     ` +
-                        `Absent: ${totalAbsent}     ` +
-                        `Excused: ${totalExcused}`,
+                        `Players: ${report.summary.totalPlayers}     ` +
+                        `Sessions: ${report.summary.totalSessions}     ` +
+                        `Present: ${report.summary.present}     ` +
+                        `Absent: ${report.summary.absent}     ` +
+                        `Excused: ${report.summary.excused}`,
 
                         margin,
 
@@ -5020,9 +7601,9 @@ app.get(
                     );
 
 
-                /* =================================
-                   DATE PAGE NUMBER
-                ================================= */
+                /* =====================================
+                   DATE GROUP NUMBER
+                ===================================== */
 
                 if (
                     totalDatePages >
@@ -5061,9 +7642,9 @@ app.get(
                 }
 
 
-                /* =================================
+                /* =====================================
                    TABLE HEADER
-                ================================= */
+                ===================================== */
 
                 const tableY =
                     143;
@@ -5105,7 +7686,9 @@ app.get(
                     );
 
 
-                /* NUMBER */
+                /* =====================================
+                   NUMBER
+                ===================================== */
 
                 doc.text(
 
@@ -5113,7 +7696,8 @@ app.get(
 
                     x,
 
-                    tableY + 11,
+                    tableY +
+                    11,
 
                     {
 
@@ -5132,20 +7716,25 @@ app.get(
                     numberWidth;
 
 
-                /* PLAYER */
+                /* =====================================
+                   PLAYER
+                ===================================== */
 
                 doc.text(
 
                     "PLAYER",
 
-                    x + 5,
+                    x +
+                    5,
 
-                    tableY + 11,
+                    tableY +
+                    11,
 
                     {
 
                         width:
-                            playerWidth - 10
+                            playerWidth -
+                            10
 
                     }
 
@@ -5156,7 +7745,9 @@ app.get(
                     playerWidth;
 
 
-                /* POSITION */
+                /* =====================================
+                   POSITION
+                ===================================== */
 
                 doc.text(
 
@@ -5164,7 +7755,8 @@ app.get(
 
                     x,
 
-                    tableY + 11,
+                    tableY +
+                    11,
 
                     {
 
@@ -5183,46 +7775,48 @@ app.get(
                     positionWidth;
 
 
-                /* =================================
+                /* =====================================
                    SESSION DATES
-                ================================= */
+                ===================================== */
 
                 sessionGroup.forEach(
                     session => {
 
-                        const date =
-                            new Date(
-                                session.session_date +
-                                "T00:00:00"
-                            );
-
-
-                        const day =
+                        const dateText =
                             String(
-                                date.getDate()
-                            ).padStart(
-                                2,
-                                "0"
+                                session.session_date
                             );
+
+
+                        const [
+                            dateYear,
+                            dateMonth,
+                            dateDay
+                        ] =
+                            dateText.split("-");
 
 
                         const shortMonth =
-                            date.toLocaleString(
-                                "en-ZA",
-                                {
-                                    month:
-                                        "short"
-                                }
-                            );
+                            monthNames[
+                                Number(
+                                    dateMonth
+                                ) -
+                                1
+                            ]
+                                .slice(
+                                    0,
+                                    3
+                                );
 
 
                         doc.text(
 
-                            `${day}\n${shortMonth}`,
+                            `${dateDay}\n${shortMonth}`,
 
                             x,
 
-                            tableY + 6,
+                            tableY +
+                            6,
 
                             {
 
@@ -5252,9 +7846,9 @@ app.get(
             }
 
 
-            /* =====================================
+            /* =========================================
                DRAW PLAYER ROW
-            ===================================== */
+            ========================================= */
 
             function drawPlayerRow(
                 player,
@@ -5267,9 +7861,9 @@ app.get(
                     margin;
 
 
-                /* =================================
-                   ALTERNATING BACKGROUND
-                ================================= */
+                /* =====================================
+                   ALTERNATING ROW
+                ===================================== */
 
                 if (
                     playerNumber %
@@ -5297,9 +7891,9 @@ app.get(
                 }
 
 
-                /* =================================
+                /* =====================================
                    ROW BORDER
-                ================================= */
+                ===================================== */
 
                 doc
                     .rect(
@@ -5339,7 +7933,9 @@ app.get(
                     );
 
 
-                /* NUMBER */
+                /* =====================================
+                   NUMBER
+                ===================================== */
 
                 doc.text(
 
@@ -5349,7 +7945,8 @@ app.get(
 
                     x,
 
-                    y + 7,
+                    y +
+                    7,
 
                     {
 
@@ -5368,9 +7965,9 @@ app.get(
                     numberWidth;
 
 
-                /* =================================
+                /* =====================================
                    PLAYER NAME
-                ================================= */
+                ===================================== */
 
                 const fullName =
                     `${player.first_name || ""} ${player.last_name || ""}`
@@ -5382,18 +7979,25 @@ app.get(
                         "Helvetica-Bold"
                     )
 
+                    .fillColor(
+                        "#1e293b"
+                    )
+
                     .text(
 
                         fullName,
 
-                        x + 5,
+                        x +
+                        5,
 
-                        y + 7,
+                        y +
+                        7,
 
                         {
 
                             width:
-                                playerWidth - 10,
+                                playerWidth -
+                                10,
 
                             ellipsis:
                                 true
@@ -5407,9 +8011,9 @@ app.get(
                     playerWidth;
 
 
-                /* =================================
+                /* =====================================
                    POSITION
-                ================================= */
+                ===================================== */
 
                 doc
                     .font(
@@ -5423,7 +8027,8 @@ app.get(
 
                         x,
 
-                        y + 7,
+                        y +
+                        7,
 
                         {
 
@@ -5445,41 +8050,23 @@ app.get(
                     positionWidth;
 
 
-                /* =================================
+                /* =====================================
                    ATTENDANCE CELLS
-                ================================= */
+                ===================================== */
 
                 sessionGroup.forEach(
                     session => {
 
-                        const record =
-                            report.attendance.find(
-
-                                item =>
-
-                                    Number(
-                                        item.player_id
-                                    ) ===
-                                    Number(
-                                        player.id
-                                    )
-
-                                    &&
-
-                                    Number(
-                                        item.session_id
-                                    ) ===
-                                    Number(
-                                        session.id
-                                    )
-
-                            );
-
-
                         const status =
-                            record
-                                ? record.attendance_status
-                                : "-";
+                            attendanceMap.get(
+
+                                attendanceLookupKey(
+                                    player.id,
+                                    session.id
+                                )
+
+                            ) ||
+                            "-";
 
 
                         let shortStatus =
@@ -5555,7 +8142,8 @@ app.get(
 
                                 x,
 
-                                y + 7,
+                                y +
+                                7,
 
                                 {
 
@@ -5577,9 +8165,9 @@ app.get(
                 );
 
 
-                /* =================================
-                   COLUMN DIVIDERS
-                ================================= */
+                /* =====================================
+                   VERTICAL DIVIDERS
+                ===================================== */
 
                 let lineX =
                     margin +
@@ -5651,9 +8239,9 @@ app.get(
             }
 
 
-            /* =====================================
-               DRAW FOOTER
-            ===================================== */
+            /* =========================================
+               FOOTER
+            ========================================= */
 
             function drawFooter() {
 
@@ -5665,13 +8253,15 @@ app.get(
                 doc
                     .moveTo(
                         margin,
-                        footerY - 7
+                        footerY -
+                        7
                     )
 
                     .lineTo(
                         pageWidth -
                         margin,
-                        footerY - 7
+                        footerY -
+                        7
                     )
 
                     .lineWidth(
@@ -5709,7 +8299,8 @@ app.get(
                         {
 
                             width:
-                                usableWidth / 2
+                                usableWidth /
+                                2
 
                         }
 
@@ -5722,7 +8313,8 @@ app.get(
 
                     margin +
                     (
-                        usableWidth / 2
+                        usableWidth /
+                        2
                     ),
 
                     footerY,
@@ -5730,7 +8322,8 @@ app.get(
                     {
 
                         width:
-                            usableWidth / 2,
+                            usableWidth /
+                            2,
 
                         align:
                             "right"
@@ -5742,30 +8335,33 @@ app.get(
             }
 
 
-            /* =====================================
-               SPLIT SESSION DATES INTO GROUPS
-            ===================================== */
+            /* =========================================
+               SPLIT DATES INTO GROUPS
+            ========================================= */
 
             const sessionGroups =
                 [];
 
 
             for (
-                let i = 0;
+                let index = 0;
 
-                i <
+                index <
                 report.sessions.length;
 
-                i +=
+                index +=
                 sessionsPerPage
             ) {
 
                 sessionGroups.push(
 
                     report.sessions.slice(
-                        i,
-                        i +
+
+                        index,
+
+                        index +
                         sessionsPerPage
+
                     )
 
                 );
@@ -5773,9 +8369,10 @@ app.get(
             }
 
 
-            /* =====================================
-               HANDLE NO TRAINING SESSIONS
-            ===================================== */
+            /*
+               Still generate one PDF page if
+               the selected month has no sessions.
+            */
 
             if (
                 sessionGroups.length ===
@@ -5789,9 +8386,9 @@ app.get(
             }
 
 
-            /* =====================================
+            /* =========================================
                GENERATE PDF PAGES
-            ===================================== */
+            ========================================= */
 
             sessionGroups.forEach(
 
@@ -5801,7 +8398,7 @@ app.get(
                 ) => {
 
                     /* =================================
-                       NEXT DATE GROUP
+                       ADD NEXT PAGE
                     ================================= */
 
                     if (
@@ -5828,6 +8425,52 @@ app.get(
 
 
                     /* =================================
+                       NO PLAYERS
+                    ================================= */
+
+                    if (
+                        report.players.length ===
+                        0
+                    ) {
+
+                        doc
+                            .fillColor(
+                                "#64748b"
+                            )
+
+                            .font(
+                                "Helvetica"
+                            )
+
+                            .fontSize(
+                                11
+                            )
+
+                            .text(
+
+                                "No active players were found.",
+
+                                margin,
+
+                                y +
+                                25,
+
+                                {
+
+                                    width:
+                                        usableWidth,
+
+                                    align:
+                                        "center"
+
+                                }
+
+                            );
+
+                    }
+
+
+                    /* =================================
                        PLAYER ROWS
                     ================================= */
 
@@ -5838,9 +8481,9 @@ app.get(
                             playerIndex
                         ) => {
 
-                            /* =================================
-                               ADD NEW PAGE IF TABLE IS FULL
-                            ================================= */
+                            /* =============================
+                               PAGE FULL
+                            ============================= */
 
                             if (
                                 y +
@@ -5896,34 +8539,44 @@ app.get(
             );
 
 
-            /* =====================================
+            /* =========================================
                FINISH PDF
-            ===================================== */
+            ========================================= */
 
             doc.end();
 
         }
 
+
         catch (err) {
 
             console.error(
-                "PDF Report Error:",
+                "PDF report error:",
                 err
             );
 
+
+            /*
+               If the PDF stream has already started,
+               Express cannot switch back to JSON.
+            */
 
             if (
                 !res.headersSent
             ) {
 
                 return res
-                    .status(500)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            err.message
+                            err.message ||
+                            "Unable to create PDF report."
 
                     });
 
@@ -5934,80 +8587,124 @@ app.get(
     }
 );
 
-/* =====================================
+
+/* =====================================================
+   END OF PART 5
+
+   PART 6 STARTS WITH:
    GET SETTINGS
-===================================== */
+===================================================== */
+
+/* =====================================================
+   PART 6
+   SETTINGS + HEALTH + ERROR HANDLING + SERVER START
+===================================================== */
+
+
+/* =====================================================
+   GET SETTINGS
+===================================================== */
 
 app.get(
     "/api/settings",
+
     async (req, res) => {
 
         try {
 
             const {
+
                 data,
+
                 error
+
             } =
                 await supabase
 
-                    .from("settings")
+                    .from(
+                        "settings"
+                    )
 
-                    .select("*")
+                    .select(
+                        "*"
+                    )
 
-                    .limit(1)
+                    .limit(
+                        1
+                    )
 
                     .maybeSingle();
 
 
-            if (error) {
+            /* =========================================
+               DATABASE ERROR
+            ========================================= */
+
+            if (
+                error
+            ) {
 
                 console.error(
-                    "Settings GET Error:",
+                    "Settings GET error:",
                     error
                 );
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            "Unable to load settings."
 
                     });
 
             }
 
 
+            /* =========================================
+               SUCCESS
+            ========================================= */
+
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 settings:
-                    data || {}
+                    data ||
+                    {}
 
             });
 
         }
 
+
         catch (err) {
 
             console.error(
-                "Settings GET Error:",
+                "Settings GET error:",
                 err
             );
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        err.message
+                        err.message ||
+                        "Unable to load settings."
 
                 });
 
@@ -6017,53 +8714,299 @@ app.get(
 );
 
 
-/* =====================================
+/* =====================================================
    SAVE / UPDATE SETTINGS
-===================================== */
+===================================================== */
 
 app.put(
     "/api/settings",
+
     async (req, res) => {
 
         try {
 
-            const {
+            /* =========================================
+               CLEAN INPUT
+            ========================================= */
 
-                club_name,
-
-                club_email,
-
-                club_phone,
-
-                club_address,
-
-                training_time,
-
-                training_days
-
-            } = req.body;
+            const clubName =
+                String(
+                    req.body.club_name ||
+                    ""
+                )
+                    .trim();
 
 
-            /* =====================================
+            const clubEmail =
+                String(
+                    req.body.club_email ||
+                    ""
+                )
+                    .trim();
+
+
+            const clubPhone =
+                String(
+                    req.body.club_phone ||
+                    ""
+                )
+                    .trim();
+
+
+            const clubAddress =
+                String(
+                    req.body.club_address ||
+                    ""
+                )
+                    .trim();
+
+
+            const trainingTime =
+                String(
+                    req.body.training_time ||
+                    ""
+                )
+                    .trim();
+
+
+            const trainingDays =
+                String(
+                    req.body.training_days ||
+                    ""
+                )
+                    .trim();
+
+
+            /* =========================================
+               BASIC VALIDATION
+            ========================================= */
+
+            if (
+                clubName.length >
+                150
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Club name is too long."
+
+                    });
+
+            }
+
+
+            if (
+                clubEmail.length >
+                150
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Club email is too long."
+
+                    });
+
+            }
+
+
+            if (
+                clubPhone.length >
+                50
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Club phone number is too long."
+
+                    });
+
+            }
+
+
+            if (
+                clubAddress.length >
+                300
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Club address is too long."
+
+                    });
+
+            }
+
+
+            if (
+                trainingTime.length >
+                50
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Training time is too long."
+
+                    });
+
+            }
+
+
+            if (
+                trainingDays.length >
+                150
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Training days value is too long."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               OPTIONAL EMAIL FORMAT CHECK
+            ========================================= */
+
+            if (
+                clubEmail &&
+                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                    clubEmail
+                )
+            ) {
+
+                return res
+                    .status(
+                        400
+                    )
+                    .json({
+
+                        success:
+                            false,
+
+                        message:
+                            "Please enter a valid club email address."
+
+                    });
+
+            }
+
+
+            /* =========================================
+               SETTINGS DATA
+            ========================================= */
+
+            const settingsData = {
+
+                club_name:
+                    clubName ||
+                    null,
+
+                club_email:
+                    clubEmail ||
+                    null,
+
+                club_phone:
+                    clubPhone ||
+                    null,
+
+                club_address:
+                    clubAddress ||
+                    null,
+
+                training_time:
+                    trainingTime ||
+                    null,
+
+                training_days:
+                    trainingDays ||
+                    null
+
+            };
+
+
+            /* =========================================
                FIND EXISTING SETTINGS
-            ===================================== */
+            ========================================= */
 
             const {
-                data: existing,
-                error: findError
+
+                data:
+                    existing,
+
+                error:
+                    findError
+
             } =
                 await supabase
 
-                    .from("settings")
+                    .from(
+                        "settings"
+                    )
 
-                    .select("id")
+                    .select(
+                        "id"
+                    )
 
-                    .limit(1)
+                    .limit(
+                        1
+                    )
 
                     .maybeSingle();
 
 
-            if (findError) {
+            if (
+                findError
+            ) {
 
                 console.error(
                     "Settings lookup error:",
@@ -6072,13 +9015,16 @@ app.put(
 
 
                 return res
-                    .status(500)
+                    .status(
+                        500
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            findError.message
+                            "Unable to check existing settings."
 
                     });
 
@@ -6090,32 +9036,24 @@ app.put(
             let error;
 
 
-            /* =====================================
+            /* =========================================
                UPDATE EXISTING SETTINGS
-            ===================================== */
+            ========================================= */
 
-            if (existing) {
+            if (
+                existing
+            ) {
 
                 const result =
                     await supabase
 
-                        .from("settings")
+                        .from(
+                            "settings"
+                        )
 
-                        .update({
-
-                            club_name,
-
-                            club_email,
-
-                            club_phone,
-
-                            club_address,
-
-                            training_time,
-
-                            training_days
-
-                        })
+                        .update(
+                            settingsData
+                        )
 
                         .eq(
                             "id",
@@ -6137,32 +9075,22 @@ app.put(
             }
 
 
-            /* =====================================
+            /* =========================================
                CREATE SETTINGS
-            ===================================== */
+            ========================================= */
 
             else {
 
                 const result =
                     await supabase
 
-                        .from("settings")
+                        .from(
+                            "settings"
+                        )
 
-                        .insert([{
-
-                            club_name,
-
-                            club_email,
-
-                            club_phone,
-
-                            club_address,
-
-                            training_time,
-
-                            training_days
-
-                        }])
+                        .insert([
+                            settingsData
+                        ])
 
                         .select()
 
@@ -6179,7 +9107,13 @@ app.put(
             }
 
 
-            if (error) {
+            /* =========================================
+               SAVE ERROR
+            ========================================= */
+
+            if (
+                error
+            ) {
 
                 console.error(
                     "Settings save error:",
@@ -6188,22 +9122,31 @@ app.put(
 
 
                 return res
-                    .status(400)
+                    .status(
+                        400
+                    )
                     .json({
 
-                        success: false,
+                        success:
+                            false,
 
                         message:
-                            error.message
+                            error.message ||
+                            "Unable to save settings."
 
                     });
 
             }
 
 
+            /* =========================================
+               SUCCESS
+            ========================================= */
+
             return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Settings saved successfully.",
@@ -6215,22 +9158,27 @@ app.put(
 
         }
 
+
         catch (err) {
 
             console.error(
-                "Settings SAVE Error:",
+                "Settings SAVE error:",
                 err
             );
 
 
             return res
-                .status(500)
+                .status(
+                    500
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        err.message
+                        err.message ||
+                        "Unable to save settings."
 
                 });
 
@@ -6240,12 +9188,13 @@ app.put(
 );
 
 
-/* =====================================
+/* =====================================================
    HEALTH CHECK
-===================================== */
+===================================================== */
 
 app.get(
     "/api/health",
+
     (req, res) => {
 
         const southAfricaDate =
@@ -6254,7 +9203,8 @@ app.get(
 
         return res.json({
 
-            success: true,
+            success:
+                true,
 
             message:
                 "Mafori FC Attendance Register API is running.",
@@ -6266,11 +9216,15 @@ app.get(
                 "Africa/Johannesburg",
 
             timestamp:
-                new Date().toISOString(),
+                new Date()
+                    .toISOString(),
 
             features: {
 
                 login:
+                    true,
+
+                bcryptPasswords:
                     true,
 
                 players:
@@ -6295,6 +9249,9 @@ app.get(
                     true,
 
                 pdf:
+                    true,
+
+                settings:
                     true
 
             }
@@ -6305,16 +9262,20 @@ app.get(
 );
 
 
-/* =====================================
+/* =====================================================
    API 404
 
    IMPORTANT:
    KEEP THIS BELOW EVERY /api ROUTE
-===================================== */
+===================================================== */
 
 app.use(
     "/api",
-    (req, res) => {
+
+    (
+        req,
+        res
+    ) => {
 
         console.log(
             "Unknown API request:",
@@ -6324,10 +9285,13 @@ app.use(
 
 
         return res
-            .status(404)
+            .status(
+                404
+            )
             .json({
 
-                success: false,
+                success:
+                    false,
 
                 message:
                     `API endpoint not found: ${req.method} ${req.originalUrl}`
@@ -6338,16 +9302,22 @@ app.use(
 );
 
 
-/* =====================================
+/* =====================================================
    FRONTEND FALLBACK
-===================================== */
+
+   IMPORTANT:
+   This must remain BELOW all API routes.
+===================================================== */
 
 app.use(
-    (req, res) => {
+    (
+        req,
+        res
+    ) => {
 
-        /* =================================
+        /* =========================================
            ONLY ALLOW GET FALLBACK
-        ================================= */
+        ========================================= */
 
         if (
             req.method !==
@@ -6355,10 +9325,13 @@ app.use(
         ) {
 
             return res
-                .status(404)
+                .status(
+                    404
+                )
                 .json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Route not found."
@@ -6368,9 +9341,9 @@ app.use(
         }
 
 
-        /* =================================
-           SERVE INDEX.HTML
-        ================================= */
+        /* =========================================
+           SERVE HOME PAGE
+        ========================================= */
 
         return res.sendFile(
             path.join(
@@ -6384,9 +9357,12 @@ app.use(
 );
 
 
-/* =====================================
+/* =====================================================
    GLOBAL ERROR HANDLER
-===================================== */
+
+   IMPORTANT:
+   KEEP THIS AFTER ALL ROUTES.
+===================================================== */
 
 app.use(
     (
@@ -6402,6 +9378,10 @@ app.use(
         );
 
 
+        /* =========================================
+           RESPONSE ALREADY STARTED
+        ========================================= */
+
         if (
             res.headersSent
         ) {
@@ -6413,11 +9393,74 @@ app.use(
         }
 
 
+        /* =========================================
+           JSON BODY TOO LARGE
+        ========================================= */
+
+        if (
+            err &&
+            err.type ===
+            "entity.too.large"
+        ) {
+
+            return res
+                .status(
+                    413
+                )
+                .json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Request data is too large."
+
+                });
+
+        }
+
+
+        /* =========================================
+           INVALID JSON
+        ========================================= */
+
+        if (
+            err instanceof
+            SyntaxError &&
+            err.status ===
+            400 &&
+            "body" in err
+        ) {
+
+            return res
+                .status(
+                    400
+                )
+                .json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Invalid JSON request."
+
+                });
+
+        }
+
+
+        /* =========================================
+           DEFAULT SERVER ERROR
+        ========================================= */
+
         return res
-            .status(500)
+            .status(
+                500
+            )
             .json({
 
-                success: false,
+                success:
+                    false,
 
                 message:
                     "An unexpected server error occurred."
@@ -6428,102 +9471,157 @@ app.use(
 );
 
 
-/* =====================================
+/* =====================================================
    START SERVER
-===================================== */
+===================================================== */
 
 const PORT =
-    process.env.PORT ||
+    Number(
+        process.env.PORT
+    ) ||
     3000;
 
 
-app.listen(
-    PORT,
+/* =====================================================
+   SERVER INSTANCE
+===================================================== */
+
+const server =
+    app.listen(
+        PORT,
+        () => {
+
+            const southAfricaDate =
+                getSouthAfricaDateParts();
+
+
+            console.log("");
+
+            console.log(
+                "========================================"
+            );
+
+            console.log(
+                "⚽ MAFORI FC ATTENDANCE REGISTER"
+            );
+
+            console.log(
+                "========================================"
+            );
+
+
+            console.log(
+                `🚀 Server running on port ${PORT}`
+            );
+
+
+            console.log(
+                "✅ Supabase client loaded"
+            );
+
+
+            console.log(
+                "🔐 bcrypt password hashing enabled"
+            );
+
+
+            console.log(
+                `📅 South Africa date: ${southAfricaDate.date}`
+            );
+
+
+            console.log(
+                "🌍 Timezone: Africa/Johannesburg"
+            );
+
+
+            console.log(
+                "========================================"
+            );
+
+            console.log("");
+
+        }
+    );
+
+
+/* =====================================================
+   GRACEFUL SERVER SHUTDOWN
+===================================================== */
+
+function shutdownServer(
+    signal
+) {
+
+    console.log(
+        `\n${signal} received. Shutting down Mafori FC server...`
+    );
+
+
+    server.close(
+        () => {
+
+            console.log(
+                "✅ Mafori FC server stopped safely."
+            );
+
+
+            process.exit(
+                0
+            );
+
+        }
+    );
+
+
+    /*
+       Safety fallback if an open connection
+       prevents graceful shutdown.
+    */
+
+    setTimeout(
+        () => {
+
+            console.error(
+                "❌ Server could not close gracefully. Forcing shutdown."
+            );
+
+
+            process.exit(
+                1
+            );
+
+        },
+
+        10000
+    ).unref();
+
+}
+
+
+/* =====================================================
+   WINDOWS / RENDER / LINUX SHUTDOWN SIGNALS
+===================================================== */
+
+process.on(
+    "SIGTERM",
     () => {
 
-        const southAfricaDate =
-            getSouthAfricaDateParts();
-
-
-        console.log("");
-
-        console.log(
-            "========================================"
+        shutdownServer(
+            "SIGTERM"
         );
 
-        console.log(
-            "⚽ MAFORI FC ATTENDANCE REGISTER"
-        );
+    }
+);
 
-        console.log(
-            "========================================"
-        );
 
-        console.log(
-            `🚀 Server running on port ${PORT}`
-        );
+process.on(
+    "SIGINT",
+    () => {
 
-        console.log(
-            "✅ Supabase client loaded"
+        shutdownServer(
+            "SIGINT"
         );
-
-        console.log(
-            "✅ Login API loaded"
-        );
-
-        console.log(
-            "✅ User APIs loaded"
-        );
-
-        console.log(
-            "✅ Player APIs loaded"
-        );
-
-        console.log(
-            "✅ Attendance API loaded"
-        );
-
-        console.log(
-            "✅ Attendance editing API loaded"
-        );
-
-        console.log(
-            "✅ Birthday alert API loaded"
-        );
-
-        console.log(
-            "✅ Dashboard API loaded"
-        );
-
-        console.log(
-            "✅ Monthly report API loaded"
-        );
-
-        console.log(
-            "✅ CSV download enabled"
-        );
-
-        console.log(
-            "✅ PDF download enabled"
-        );
-
-        console.log(
-            "✅ Mafori FC PDF watermark enabled"
-        );
-
-        console.log(
-            "✅ South Africa timezone enabled"
-        );
-
-        console.log(
-            `📅 Johannesburg date: ${southAfricaDate.date}`
-        );
-
-        console.log(
-            "========================================"
-        );
-
-        console.log("");
 
     }
 );
